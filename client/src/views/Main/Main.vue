@@ -1,11 +1,13 @@
 <template>
-	<div @click="$router.push('/admin')">to admin</div>
+	<MainComponent />
 </template>
 
 <script>
-import user from '../../mixins/user';
+import MainComponent from '@/components/Main/MainComponent'
 export default {
-	mixins: [user],
+	components:{
+		MainComponent
+	}
 };
 </script>
 

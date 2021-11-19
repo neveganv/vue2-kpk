@@ -1,11 +1,11 @@
 <template>
-  <div>
-      Адмінка
-  </div>
+	<div>Адмінка</div>
 </template>
 
 <script>
-export default {
+import user from '../../mixins/user';
 
-}
+export default {
+	mixins: [user],
+};
 </script>
