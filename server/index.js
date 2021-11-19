@@ -22,18 +22,17 @@ app.get("*", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
 
-// //DB
+//DB
 function start() {
-    //   const db = require("./models");
-    //   db.mongoose.connect(db.url, {
-    //        useNewUrlParser: true,
-    // }).then(() => {
-    //   console.log("Connected to the database!");
-    // })
-    // .catch(err => {
-    //   console.log("Cannot connect to the database!", err);
-    //   process.exit();
-    // });
+    const db = require("./models");
+    db.mongoose.connect(db.url, {
+        useNewUrlParser: true,
+    }).then(() => {
+        console.log("Connected to the database!");
+    }).catch(err => {
+        console.log("Cannot connect to the database!", err);
+        process.exit();
+    });
 
     //Port
     app.listen(8000, () => {
@@ -41,4 +40,4 @@ function start() {
     });
 }
 
-start() 
+start()
