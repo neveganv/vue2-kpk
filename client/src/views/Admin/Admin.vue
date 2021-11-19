@@ -1,13 +1,17 @@
 <template>
-  <div>admin</div>
+	<div>
+		<AdminComponent />
+	</div>
 </template>
 
 <script>
-export default {
+import AdminComponent from '@/components/Admin/AdminComponent';
 
-}
+export default {
+	components: {
+		AdminComponent,
+	},
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

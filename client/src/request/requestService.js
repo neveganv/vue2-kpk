@@ -2,12 +2,7 @@ import axios from 'axios';
 
 export default {
     get(url, params = {}, headers = {}) {
-      return axios.get(
-        {
-          params,
-          headers,
-        },
-      );
+      return axios.get(`${url}`);
     },
     post(url, body = {}, config = {}) {
       return axios.post(

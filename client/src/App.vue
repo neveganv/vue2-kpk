@@ -11,5 +11,11 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import '@/assets/scss/common.scss';
+body{
+	font-weight: 600;
+	
+	
+}
 </style>
