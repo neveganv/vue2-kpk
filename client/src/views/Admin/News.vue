@@ -1,16 +1,16 @@
 <template>
 	<AdminWrapper>
-		<AdminComponent />
+		 <NewsComponent />
 	</AdminWrapper>
 </template>
 
 <script>
-import AdminComponent from '@/components/Admin/AdminComponent';
 import AdminWrapper from '@/components/Admin/Layout/AdminWrapper.vue';
+import NewsComponent from '@/components/Admin/news/NewsComponent';
 
 export default {
 	components: {
-		AdminComponent,
+		NewsComponent,
 		AdminWrapper,
 	},
 };
