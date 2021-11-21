@@ -5,11 +5,13 @@
 			<v-tab href="#simpleNews">Круті новини (треба норм назви)</v-tab>
 		</v-tabs>
 		<v-tabs-items v-model="tabs">
-			<v-tab-item :value="'recentNews'" class="p-3">
+			<v-tab-item :value="'recentNews'">
+				<VDivider />
 				<SimpleNewComponent />
 			</v-tab-item>
 			<v-tab-item :value="'simpleNews'">
 				<v-card flat>
+					<VDivider />
 					<v-card-text> Нещодавна новина </v-card-text>
 				</v-card>
 			</v-tab-item>

@@ -158,7 +158,7 @@ export default {
 	&-card{
 		min-height: calc(100vh - 94px);
 		height: auto;
-		padding: 10px;
+
 	}
 }
 </style>

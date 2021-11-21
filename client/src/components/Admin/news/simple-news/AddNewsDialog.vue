@@ -8,7 +8,7 @@
 						<v-select
 							prepend-icon="mdi-shape"
 							:items="Object.values(categories)"
-							item-value="'id'"
+							:item-value="'value'"
 							:item-text="'name'"
 							v-model="news.category"
 							label="Категорія"
@@ -36,6 +36,7 @@
 							outlined
 							dense
 							hide-details
+							v-model="news.title"
 						>
 						</VTextField>
 					</VCol>
@@ -43,14 +44,16 @@
 				<VRow>
 					<VCol>
 						<v-file-input
-							v-model="files"
 							dense
 							counter
-							label="File input"
+							label="Головна картинка"
 							placeholder="Головна картинка"
 							prepend-icon="mdi-camera"
 							outlined
+							accept="image/png, image/jpeg, image/svg"
 							:show-size="1000"
+							:rules="rules"
+							v-model="news.main_img"
 						>
 							<template v-slot:selection="{ index, text }">
 								<v-chip v-if="index < 2" label small>
@@ -61,7 +64,7 @@
 									v-else-if="index === 2"
 									class="text-overline grey--text text--darken-3 mx-2"
 								>
-									+{{ files.length - 2 }} File(s)
+									+{{ news.main_img.length - 2 }} File(s)
 								</span>
 							</template>
 						</v-file-input>
@@ -82,22 +85,19 @@
 <script>
 export default {
 	data: () => ({
-		files: [],
+		rules: [
+			value =>
+				!value ||
+				value.size < 3000000 ||
+				'Зображення повинне бути менше 3 MB!',
+		],
 		categories: [
 			{ id: 1, name: 'Категорія 1', value: 'first1' },
 			{ id: 2, name: 'Категорія 12', value: 'first2' },
 			{ id: 3, name: 'Категорія 13', value: 'first3' },
 		],
-		news: {},
+		news: [],
 	}),
-	watch: {
-		files(e) {
-			console.log(e);
-		},
-		news(e) {
-			console.log(e);
-		},
-	},
 	props: {
 		visible: {
 			require: true,
@@ -105,10 +105,12 @@ export default {
 	},
 	methods: {
 		onCancel() {
+			this.news = [];
 			this.$emit('close');
 		},
 		onCreate() {
-			this.$emit('close');
+			console.log(this.news);
+			// this.$emit('close');
 		},
 	},
 	computed: {
