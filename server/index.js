@@ -21,6 +21,9 @@ app.use(cors())
 app.get("*", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
+//routes
+app.use('/api/optionsList', require('./routes/api/optionsList'))
+app.use('/api/news', require('./routes/api/news'))
 
 //DB
 function start() {

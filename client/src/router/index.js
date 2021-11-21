@@ -15,9 +15,19 @@ const routes = [
 		component: () => import('@/views/Admin/Admin.vue'),
 	},
 	{
+		path:'/admin/new',
+		name: 'new',
+		component: () => import('@/components/Admin/Layout/AddNewOptions.vue')
+	},
+	{
 		path: '/news',
 		name: 'admin-page-news',
 		component: () => import('@/views/Admin/News.vue'),
+	},
+	{
+        path: '/news/add-new',
+		name: 'add-new-news',
+		component: () => import('@/components/Admin/news/AddNews.vue'),
 	},
 ];
 const router = new VueRouter({

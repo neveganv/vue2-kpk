@@ -64,7 +64,7 @@
 						<VListItemTitle>Додати</VListItemTitle>
 					</VListItem>
 				</VListGroup>
-				<VListItem :to="{ path: '/add' }">
+				<VListItem :to="{ path: '/admin/new' }">
 					<VListItemIcon>
 						<VIcon>mdi-playlist-plus</VIcon>
 					</VListItemIcon>
