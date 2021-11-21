@@ -1,7 +1,7 @@
 <template>
 	<VApp>
 		<div>
-			<v-app-bar color="white" style="height: 65px">
+			<v-app-bar color="white" style="height: 65px; top:0; z-index:1"  >
 				<VAppBarNavIcon @click="mini = !mini"></VAppBarNavIcon>
 				<div class="admin-logo ml-4">
 					<img :src="require('@/assets/img/logo-admin.svg')" alt="" />
@@ -21,6 +21,7 @@
 			style="top: 65px; height: calc(100vh - 65px)"
 			v-model="mini"
 			:mini-variant="!mini"
+			:class="{ fixed: fixed }"
 		>
 			<VList nav dense>
 				<VListItemGroup color="primary">
@@ -45,35 +46,36 @@
 						<VListItemTitle>Спеціальності</VListItemTitle>
 					</template>
 					<VListItem :to="{ path: '/2' }">
-                    <VListItemIcon>
+						<VListItemIcon>
 							<VIcon>mdi-folder-account</VIcon>
 						</VListItemIcon>
 						<VListItemTitle>Крута спеціальність</VListItemTitle>
 					</VListItem>
 					<VListItem :to="{ path: '/3' }">
-                    <VListItemIcon>
+						<VListItemIcon>
 							<VIcon>mdi-folder-account</VIcon>
 						</VListItemIcon>
 						<VListItemTitle>Не крута спеціальність</VListItemTitle>
 					</VListItem>
-                    	<VListItem :to="{ path: '/add' }">
+					<VListItem :to="{ path: '/add' }">
 						<VListItemIcon>
 							<VIcon>mdi-folder-account</VIcon>
 						</VListItemIcon>
 						<VListItemTitle>Додати</VListItemTitle>
 					</VListItem>
 				</VListGroup>
-                	<VListItem :to="{ path: '/add' }">
-						<VListItemIcon>
-							<VIcon>mdi-playlist-plus</VIcon>
-						</VListItemIcon>
-						<VListItemTitle>Додати</VListItemTitle>
-					</VListItem>
+				<VListItem :to="{ path: '/add' }">
+					<VListItemIcon>
+						<VIcon>mdi-playlist-plus</VIcon>
+					</VListItemIcon>
+					<VListItemTitle>Додати</VListItemTitle>
+				</VListItem>
 			</VList>
 		</v-navigation-drawer>
 		<v-main>
 			<!-- Provides the application the proper gutter -->
 			<v-container
+			class="content-block_wrap"
 				fluid
 				:style="mini ? 'padding-left: 276px;' : 'padding-left: 76px;'"
 			>
@@ -89,10 +91,24 @@ export default {
 	components: {
 		UserDropDown,
 	},
+	  created() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
+    clearInterval(this.intervalFetchData);
+    console.log("destroyed");
+  },
 	data: () => ({
 		mini: true,
 		specialitiesSelector: false,
+		fixed: false,
 	}),
+	methods: {
+		handleScroll() {
+			this.fixed = window.pageYOffset > 55;
+		},
+	},
 };
 </script>
 
@@ -116,7 +132,7 @@ export default {
 	height: 45px;
 	width: 45px;
 	border-radius: 25px;
-	padding: 10px;
+	padding: 5px;
 	box-shadow: 0px 1px 4px rgba(25, 118, 210, 0.2);
 
 	img {
@@ -124,5 +140,16 @@ export default {
 		width: 100%;
 		object-fit: contain;
 	}
+}
+.fixed {
+	position: fixed;
+	top: 0 !important;
+}
+.content-block_wrap {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(100vh - 64px);
+  min-height: calc(100vh - 64px);
 }
 </style>
