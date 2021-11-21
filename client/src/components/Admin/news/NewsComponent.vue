@@ -5,10 +5,8 @@
 			<v-tab href="#simpleNews">Нещодавні новини</v-tab>
 		</v-tabs>
 		<v-tabs-items v-model="tabs">
-			<v-tab-item :value="'recentNews'">
-				<v-card flat>
-					<v-card-text>Проста крута новина</v-card-text>
-				</v-card>
+			<v-tab-item :value="'recentNews'" class="p-3">
+				<SimpleNewComponent />
 			</v-tab-item>
 			<v-tab-item :value="'simpleNews'">
 				<v-card flat>
@@ -20,8 +18,11 @@
 </template>
 
 <script>
+import SimpleNewComponent from './simple-news/SimpleNewComponent.vue';
 export default {
-	components: {},
+	components: {
+		SimpleNewComponent,
+	},
 	data: () => ({
 		tabs: null,
 	}),
