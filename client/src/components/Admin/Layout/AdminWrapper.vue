@@ -1,7 +1,7 @@
 <template>
 	<VApp>
 		<div>
-			<v-app-bar color="white" style="height: 65px; top:0; z-index:1"  >
+			<v-app-bar color="white" style="height: 65px; top: 0; z-index: 1">
 				<VAppBarNavIcon @click="mini = !mini"></VAppBarNavIcon>
 				<div class="admin-logo ml-4">
 					<img :src="require('@/assets/img/logo-admin.svg')" alt="" />
@@ -75,11 +75,14 @@
 		<v-main>
 			<!-- Provides the application the proper gutter -->
 			<v-container
-			class="content-block_wrap"
+				class="content-block_wrap"
 				fluid
 				:style="mini ? 'padding-left: 276px;' : 'padding-left: 76px;'"
 			>
-				<slot></slot>
+				<VCard class="content-block_wrap-card">
+
+					<slot></slot>
+				</VCard>
 			</v-container>
 		</v-main>
 	</VApp>
@@ -91,14 +94,14 @@ export default {
 	components: {
 		UserDropDown,
 	},
-	  created() {
-    window.addEventListener("scroll", this.handleScroll);
-  },
-  destroyed() {
-    window.removeEventListener("scroll", this.handleScroll);
-    clearInterval(this.intervalFetchData);
-    console.log("destroyed");
-  },
+	created() {
+		window.addEventListener('scroll', this.handleScroll);
+	},
+	destroyed() {
+		window.removeEventListener('scroll', this.handleScroll);
+		clearInterval(this.intervalFetchData);
+		console.log('destroyed');
+	},
 	data: () => ({
 		mini: true,
 		specialitiesSelector: false,
@@ -146,10 +149,16 @@ export default {
 	top: 0 !important;
 }
 .content-block_wrap {
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
-  max-height: calc(100vh - 64px);
-  min-height: calc(100vh - 64px);
+	position: relative;
+	overflow-x: hidden;
+	overflow-y: auto;
+	max-height: calc(100vh - 64px);
+	min-height: calc(100vh - 64px);
+	margin-top: 5px;
+	&-card{
+		min-height: calc(100vh - 94px);
+		height: auto;
+		padding: 10px;
+	}
 }
 </style>

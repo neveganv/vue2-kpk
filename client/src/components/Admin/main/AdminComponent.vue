@@ -1,7 +1,7 @@
 <template>
-	<VCard style="height:100vh">
-		123
-	</VCard>
+	<div style="height:200vh">
+		тут головна сторінка
+	</div>
 </template>
 
 <script>
