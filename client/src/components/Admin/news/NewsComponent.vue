@@ -2,7 +2,7 @@
 	<div>
 		<v-tabs v-model="tabs">
 			<v-tab href="#recentNews">Новини</v-tab>
-			<v-tab href="#simpleNews">Нещодавні новини</v-tab>
+			<v-tab href="#simpleNews">Круті новини (треба норм назви)</v-tab>
 		</v-tabs>
 		<v-tabs-items v-model="tabs">
 			<v-tab-item :value="'recentNews'" class="p-3">

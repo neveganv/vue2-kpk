@@ -1,7 +1,5 @@
 <template>
-	<div style="height:200vh">
-		тут головна сторінка
-	</div>
+	<div>тут головна сторінка</div>
 </template>
 
 <script>

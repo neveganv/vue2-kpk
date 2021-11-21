@@ -16,7 +16,7 @@
 
 <script>
 import NewsList from './NewsList.vue';
-import AddNewDialog from './AddNewDialog.vue';
+import AddNewDialog from './AddNewsDialog.vue';
 export default {
 	components: { NewsList, AddNewDialog },
 	data: () => ({
