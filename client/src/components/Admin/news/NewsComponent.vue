@@ -12,7 +12,21 @@
 			<v-tab-item :value="'simpleNews'">
 				<v-card flat>
 					<VDivider />
-					<v-card-text> Нещодавна новина </v-card-text>
+					<div class="simple-new">
+		<VRow justify="end" class="p-1">
+
+			<VBtn outlined color="primary" @click="visible = true">
+				<v-icon left> mdi-newspaper-plus </v-icon>Створити новину
+			</VBtn>
+
+		</VRow>
+		<VRow>
+			<VCol>
+				<NewsList />
+			</VCol>
+		</VRow>
+		<AddNewDialog :visible="visible"  @close="visible = false"/>
+	</div>
 				</v-card>
 			</v-tab-item>
 		</v-tabs-items>
@@ -21,9 +35,13 @@
 
 <script>
 import SimpleNewComponent from './simple-news/SimpleNewComponent.vue';
+import NewsList from './simple-news/NewsList.vue';
+import AddNewDialog from './simple-news/AddNewsDialog.vue';
 export default {
 	components: {
 		SimpleNewComponent,
+		NewsList,
+		AddNewDialog
 	},
 	data: () => ({
 		tabs: null,
