@@ -3,7 +3,7 @@
 		<template v-slot:activator="{ on, attrs }">
 			<span v-bind="attrs" v-on="on">
 				<span class="d-flex align-center">
-					<Avatar :name="tmpUserName" />
+					<Avatar :name="tmpUserName"  size="40"/>
 					<VIcon v-if="attrs['aria-expanded'] === 'false'">mdi-menu-down</VIcon>
 					<VIcon v-else>mdi-menu-up</VIcon>
 				</span>
@@ -16,7 +16,7 @@
 						<Avatar :name="tmpUserName" size="50" />
 					</VListItemAvatar>
 					<VListItemContent>
-						<VListItemTitle>Rostyslavkoo</VListItemTitle>
+						<VListItemTitle>Ростик Урдейчук</VListItemTitle>
 						<VListItemSubtitle>admin@gmail.com</VListItemSubtitle>
 					</VListItemContent>
 				</VListItem>

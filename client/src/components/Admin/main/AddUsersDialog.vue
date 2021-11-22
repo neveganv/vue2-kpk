@@ -1,7 +1,8 @@
 <template>
-	<VDialog v-model="visibility">
+	<VDialog v-model="visibility" :persistent="edit">
 		<VCard width="700">
-			<VCardTitle> Додати користувача </VCardTitle>
+			<VCardTitle v-if="edit"> Редагувати користувача </VCardTitle>
+			<VCardTitle v-else> Додати користувача </VCardTitle>
 			<VCardText>
 				<VRow>
 					<VCol cols="6">
@@ -91,7 +92,27 @@
 <script>
 export default {
 	name: 'add-users-dialog',
-	props: ['visible'],
+	props: {
+		visible: {
+			require: true,
+		},
+		edit: {
+			require: false,
+		},
+		chosenUser: {
+			require: false,
+		},
+	},
+	watch: {
+		chosenUser: {
+			deep: true,
+			handler(e) {
+				if (e) {
+					this.user = this.chosenUser;
+				}
+			},
+		},
+	},
 	data: () => ({
 		categories: [{ id: 1, name: 'Адмін', value: 'admin' }],
 		user: [],

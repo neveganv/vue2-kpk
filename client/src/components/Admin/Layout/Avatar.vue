@@ -21,8 +21,9 @@ export default {
   },
   computed: {
     firstLetter() {
-        console.log(this.name?.charAt(0)?.toUpperCase())
-      return this.name?.charAt(0)?.toUpperCase();
+        const Innitial = Array.prototype.map.call(this.name.split(" "), function(x){ return x.substring(0,1).toUpperCase();}).join('');
+
+        return Innitial
     },
   },
 };
