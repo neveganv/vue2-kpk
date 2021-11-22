@@ -1,5 +1,5 @@
 <template>
-	<VDialog v-model="visibility">
+	<VDialog v-model="visibility"  >
 		<VCard width="700">
 			<VCardTitle> Створити Новину </VCardTitle>
 			<VCardText>
@@ -22,7 +22,7 @@
 						>
 					</VCol>
 					<VCol cols="6">
-						<VBtn text color="primary">
+						<VBtn text color="primary" @click="visibleAdd = true">
 							<VIcon left>mdi-plus</VIcon>Додати нову категорію</VBtn
 						>
 					</VCol>
@@ -79,17 +79,23 @@
 				<VBtn color="primary" @click="onCreate"> Створити </VBtn>
 			</VCardActions>
 		</VCard>
+		<add-new-category-dialog
+			:visibleAdd="visibleAdd"
+			@close="visibleAdd = false"
+		/>
 	</VDialog>
 </template>
 
 <script>
+import AddNewCategoryDialog from './AddNewCategoryDialog.vue';
 export default {
+	components: {
+		AddNewCategoryDialog,
+	},
 	data: () => ({
 		rules: [
 			value =>
-				!value ||
-				value.size < 3000000 ||
-				'Зображення повинне бути менше 3 MB!',
+				!value || value.size < 3000000 || 'Зображення повинне бути менше 3 MB!',
 		],
 		categories: [
 			{ id: 1, name: 'Категорія 1', value: 'first1' },
@@ -97,6 +103,7 @@ export default {
 			{ id: 3, name: 'Категорія 13', value: 'first3' },
 		],
 		news: [],
+		visibleAdd: false,
 	}),
 	props: {
 		visible: {
