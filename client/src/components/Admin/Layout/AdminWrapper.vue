@@ -66,7 +66,7 @@
 						<VListItemTitle>Додати</VListItemTitle>
 					</VListItem>
 				</VListGroup>
-				<VListItem :to="{ path: '/admin/new' }">
+				<VListItem @click="visible = true">
 					<VListItemIcon>
 						<VIcon>mdi-playlist-plus</VIcon>
 					</VListItemIcon>
@@ -86,14 +86,18 @@
 				</VCard>
 			</v-container>
 		</v-main>
+		<AddNewPageDialog :visible="visible" @close="visible = false"/>
 	</VApp>
 </template>
 
 <script>
 import UserDropDown from './UserDropDown';
+import AddNewPageDialog from './AddNewPageDialog';
+
 export default {
 	components: {
 		UserDropDown,
+		AddNewPageDialog
 	},
 	created() {
 		window.addEventListener('scroll', this.handleScroll);
@@ -108,11 +112,15 @@ export default {
 		specialitiesSelector: false,
 		fixed: false,
 		tmpUserName: 'Ростик Урдейчук',
+		visible:false
 	}),
 	methods: {
 		handleScroll() {
 			this.fixed = window.pageYOffset > 55;
 		},
+		addNewPage(){
+			console.log(e)
+		}
 	},
 };
 </script>
