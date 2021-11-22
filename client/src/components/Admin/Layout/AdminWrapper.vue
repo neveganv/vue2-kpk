@@ -12,9 +12,10 @@
 						<VIcon>mdi-bell</VIcon>
 					</v-badge>
 				</VBtn>
-				<UserDropDown />
+				<UserDropDown :tmpUserName="tmpUserName" />
 			</v-app-bar>
 		</div>
+
 		<v-navigation-drawer
 			permanent
 			absolute
@@ -23,6 +24,7 @@
 			:mini-variant="!mini"
 			:class="{ fixed: fixed }"
 		>
+				<VDivider />
 			<VList nav dense>
 				<VListItemGroup color="primary">
 					<VListItem :to="{ path: '/admin' }">
@@ -80,7 +82,6 @@
 				:style="mini ? 'padding-left: 276px;' : 'padding-left: 76px;'"
 			>
 				<VCard class="content-block_wrap-card">
-
 					<slot></slot>
 				</VCard>
 			</v-container>
@@ -106,6 +107,7 @@ export default {
 		mini: true,
 		specialitiesSelector: false,
 		fixed: false,
+		tmpUserName: 'Ростик Урдейчук',
 	}),
 	methods: {
 		handleScroll() {
@@ -155,10 +157,9 @@ export default {
 	max-height: calc(100vh - 64px);
 	min-height: calc(100vh - 64px);
 	margin-top: 5px;
-	&-card{
+	&-card {
 		min-height: calc(100vh - 94px);
 		height: auto;
-
 	}
 }
 </style>
