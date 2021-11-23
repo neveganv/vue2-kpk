@@ -1,5 +1,5 @@
 <template>
-	<VDialog v-model="visibility"  >
+	<VDialog v-model="visibility">
 		<VCard width="700">
 			<VCardTitle> Створити Новину </VCardTitle>
 			<VCardText>
@@ -8,7 +8,7 @@
 						<v-select
 							prepend-icon="mdi-shape"
 							:items="Object.values(categories)"
-							:item-value="'value'"
+							:item-value="'_id'"
 							:item-text="'name'"
 							v-model="news.category"
 							label="Категорія"
@@ -80,6 +80,7 @@
 			</VCardActions>
 		</VCard>
 		<add-new-category-dialog
+			@addCategory="addCategory"
 			:visibleAdd="visibleAdd"
 			@close="visibleAdd = false"
 		/>
@@ -88,7 +89,8 @@
 
 <script>
 import AddNewCategoryDialog from './AddNewCategoryDialog.vue';
-import axios from 'axios';
+import newsService from '@/request/news/newsService';
+
 export default {
 	components: {
 		AddNewCategoryDialog,
@@ -98,11 +100,7 @@ export default {
 			value =>
 				!value || value.size < 3000000 || 'Зображення повинне бути менше 3 MB!',
 		],
-		categories: [
-			{ id: 1, name: 'Категорія 1', value: 'first1' },
-			{ id: 2, name: 'Категорія 12', value: 'first2' },
-			{ id: 3, name: 'Категорія 13', value: 'first3' },
-		],
+		categories: [],
 		news: [],
 		visibleAdd: false,
 	}),
@@ -111,21 +109,39 @@ export default {
 			require: true,
 		},
 	},
+	mounted() {
+		this.getCategories();
+	},
 	methods: {
+		addCategory() {
+			this.visibleAdd = false;
+			this.getCategories();
+		},
+
 		onCancel() {
 			this.news = [];
 			this.$emit('close');
 		},
-		onCreate() {
-			console.log(this.news);
-		    this.$emit('close');
-			axios.post("/api/news",{
-              categoryId: this.news.category,
-			  title: this.news.title,
-			  main_img: this.news.main_img.name,
-			 // content: this.content
-			})
+		async onCreate() {
+			try {
+				const params = [];
 
+				params.title = this.news.title;
+				params.categoryId = this.news.category;
+				params.main_img = this.news.main_img.name;
+				await newsService.addSimpleNew({ ...params });
+				this.news = [];
+				this.$emit('addNews',params);
+			} catch (e) {
+				alert(e);
+			}
+		},
+		async getCategories() {
+			try {
+				this.categories = await newsService.getSimpleNewsCategories();
+			} catch (e) {
+				alert(e);
+			}
 		},
 	},
 	computed: {

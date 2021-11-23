@@ -3,6 +3,7 @@
 		<template v-slot:default>
 			<thead>
 				<tr>
+					<th class="text-left">#</th>
 					<th class="text-left">Назва</th>
 					<th class="text-left">Телефон</th>
 					<th class="text-left">Пошта</th>
@@ -11,7 +12,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="user in users" :key="user.id">
+				<tr v-for="(user, key) in users" :key="user.id">
+					<td>{{ key + 1 }}</td>
 					<td>{{ user.name || '--' }} {{ user.surname || '--' }}</td>
 					<td>{{ user.phone || '--' }}</td>
 					<td>{{ user.email || '--' }}</td>

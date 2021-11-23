@@ -1,7 +1,7 @@
 <template>
 	<div class="h-auto">
 		<div class="d-flex justify-space-between p-1 align-center">
-			<VBtn text color="primary">Головна сторінка</VBtn>
+			<VBtn text color="primary">Список користувачів</VBtn>
 			<VBtn color="primary" outlined @click="visible = true">
 				<VIcon left>mdi-account-plus</VIcon>Додати нового користувача</VBtn
 			>
@@ -12,10 +12,12 @@
 			:visible="visible"
 			@close="visible = false"
 			v-if="visible"
+			@addUser="addUser"
 		/>
 		<add-users-dialog
 			:visible="visibleEdit"
 			@close="visibleEdit = false"
+			
 			:edit="true"
 			:chosenUser="chosenUser"
 			v-if="visibleEdit"
@@ -35,6 +37,10 @@ export default {
 		this.getUser();
 	},
 	methods: {
+		addUser(){
+		this.getUser();
+		this.visible = false
+		},
 		async getUser() {
 			try {
 				this.users = await usersService.getAll();

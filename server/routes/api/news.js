@@ -4,12 +4,12 @@ const router = express.Router()
 const news = require("../../controller/news.controller");
 
 //Create new Mews
-router.post("/", news.create);
+router.post("/add", news.create);
 
 //Find news at category
 router.post("/getByCategory", news.findByCategory);
 
 //Find all News
-router.post("/getAll", news.findAll);
+router.post("/getAllNews", news.findAll);
 
 module.exports = router

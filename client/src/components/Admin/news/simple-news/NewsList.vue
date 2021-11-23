@@ -3,18 +3,19 @@
 		<VCol>
 			<v-item-group>
 				<v-row>
-					<v-col v-for="n in 8" :key="n" cols="12" md="3">
-						<v-item v-slot="{ active, toggle }">
+					<v-col v-for="newItem in news" :key="newItem._id" cols="12" md="3" >
+						<v-item v-slot="{ active }" >
 							<v-card
 								width="auto"
 								:color="active ? '' : ''"
-								@click="toggle"
 								class="align-end"
+								@click="detailNew(newItem)"
 							>
 								<v-img
+									v-if="newItem.main_img"
 									height="140"
-									:lazy-src="`https://picsum.photos/350/165?random`"
-									src="https://picsum.photos/350/165?random"
+									:lazy-src="newItem.main_img"
+									:src="newItem.main_img"
 								>
 									<template v-slot:placeholder>
 										<v-row
@@ -29,9 +30,12 @@
 										</v-row>
 									</template>
 								</v-img>
+								<v-img v-else height="140" :src="'https://picsum.photos/350/165?random'">
+								</v-img>
+
 								<v-card-actions>
 									<div class="new-title">
-										<span>Заголовок новини {{ n }}</span>
+										<span>{{ newItem.title || "--"}}</span>
 									</div>
 									<v-spacer></v-spacer>
 
@@ -49,26 +53,18 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
-    data:() => ({
-     newsList:[]
-	}),
+	props: {
+		news: {
+			require: true,
+		},
+	},
 	mounted() {
-		this.getNews();
-		console.log("Новини", this.newsList)
+		console.log('Новини', this.news);
 	},
 	methods:{
-        getNews(){
-			axios.post("/api/news/getByCategory",{id: "Категорія 12"})
-			.then((response) => {
-				this.newsList = response.data
-			})
-			.catch(function(error){
-				if (error.response) {
-              alert(error.toString());
-            }
-			});
+		detailNew(e){
+			console.log(e)
 		}
 	}
 };

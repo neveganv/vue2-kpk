@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import newsService from '@/request/news/newsService';
 export default {
 	props: {
 		visibleAdd: {
@@ -37,11 +37,18 @@ export default {
 		category: '',
 	}),
 	methods: {
-		onCreate() {
+		async onCreate() {
 			console.log(this.category);
-			axios.post("/api/newsCategory",{
-				name: this.category,
-			});
+			// });
+			try {
+				const params = [];
+				params.name = this.category;
+				await newsService.addSimpleNewCategory({ ...params });
+				this.$emit('addCategory',params)
+				this.category = ''
+			} catch (e) {
+				alert(e);
+			}
 		},
 	},
 	computed: {

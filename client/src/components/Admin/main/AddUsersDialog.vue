@@ -135,8 +135,10 @@ export default {
 				await usersService.addNewUser({
 					...params,
 				});
-				this.user = [];
-				this.$emit('close');
+							this.user = [];
+				this.$emit('addUser',params);
+	
+		
 			} catch (e) {
 				alert(e);
 			}
