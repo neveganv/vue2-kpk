@@ -27,17 +27,23 @@
 				<VDivider />
 			<VList nav dense>
 				<VListItemGroup color="primary">
-					<VListItem :to="{ path: '/admin' }">
+					<VListItem :to="{ path: '/admin' }" >
 						<VListItemIcon>
 							<VIcon>mdi-view-dashboard</VIcon>
 						</VListItemIcon>
 						<VListItemTitle>Головна</VListItemTitle>
 					</VListItem>
-					<VListItem :to="{ path: '/news' }">
+					<VListItem :to="{ path: '/admin-news' }">
 						<VListItemIcon>
 							<VIcon>mdi-newspaper-variant</VIcon>
 						</VListItemIcon>
 						<VListItemTitle>Новини</VListItemTitle>
+					</VListItem>
+					<VListItem :to="{ path: '/admin-shedule' }">
+						<VListItemIcon>
+							<VIcon>mdi-calendar</VIcon>
+						</VListItemIcon>
+						<VListItemTitle>Календарик(тестово)</VListItemTitle>
 					</VListItem>
 				</VListItemGroup>
 				<VListGroup class="listGroupMenu" :value="specialitiesSelector">

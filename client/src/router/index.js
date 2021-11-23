@@ -15,14 +15,14 @@ const routes = [
 		component: () => import('@/views/Admin/Admin.vue'),
 	},
 	{
-		path: '/news',
+		path: '/admin-news',
 		name: 'admin-page-news',
 		component: () => import('@/views/Admin/News.vue'),
 	},
 	{
-        path: '/news/add-new',
-		name: 'add-new-news',
-		component: () => import('@/components/Admin/news/AddNews.vue'),
+		path: '/admin-shedule',
+		name: 'admin-page-shedule',
+		component: () => import('@/views/Admin/Shedule.vue'),
 	},
 ];
 const router = new VueRouter({
