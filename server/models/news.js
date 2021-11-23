@@ -12,7 +12,6 @@ module.exports = mongoose =>{
             },
             content:{
                 type:String,
-                require:true
             },
             main_img:{
                 type:String

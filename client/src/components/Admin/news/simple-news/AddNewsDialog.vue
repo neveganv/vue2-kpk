@@ -122,7 +122,7 @@ export default {
 			axios.post("/api/news",{
               categoryId: this.news.category,
 			  title: this.news.title,
-			  main_img: "1323232",
+			  main_img: this.news.main_img.name,
 			 // content: this.content
 			})
 
