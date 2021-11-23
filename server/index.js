@@ -24,6 +24,7 @@ app.get("*", (req, res) => {
 //routes
 app.use('/api/optionsList', require('./routes/api/optionsList'))
 app.use('/api/news', require('./routes/api/news'))
+app.use('/api/user', require('./routes/api/user')) 
 
 //DB
 function start() {

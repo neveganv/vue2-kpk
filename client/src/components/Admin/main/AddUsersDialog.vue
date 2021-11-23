@@ -90,6 +90,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
 	name: 'add-users-dialog',
 	props: {
@@ -125,6 +126,13 @@ export default {
 		onCreate() {
 			console.log(this.user);
 			// this.$emit('close');
+			axios.post("/api/user", {
+				type: this.user.type,
+				name: this.user.name,
+				surname: this.user.surname,
+				email: this.user.email,
+				phone: this.user.phone,
+			});
 		},
 	},
 	computed: {
