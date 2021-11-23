@@ -3,7 +3,7 @@
 		тут я тестую календарик, закрий цю сторінку пліз
 		<v-row>
 			<v-col>
-				<v-sheet>
+				<v-sheet height="750">
 					<v-calendar
 						ref="calendar"
 						:now="today"
