@@ -6,7 +6,7 @@
 					<v-col v-for="n in 8" :key="n" cols="12" md="3">
 						<v-item v-slot="{ active, toggle }">
 							<v-card
-								width="400"
+								width="auto"
 								:color="active ? '' : ''"
 								@click="toggle"
 								class="align-end"

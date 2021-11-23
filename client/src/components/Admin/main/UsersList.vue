@@ -1,5 +1,5 @@
 <template>
-	<v-simple-table class="p-1" >
+	<v-simple-table class="p-1">
 		<template v-slot:default>
 			<thead>
 				<tr>
@@ -12,10 +12,10 @@
 			</thead>
 			<tbody>
 				<tr v-for="user in users" :key="user.id">
-					<td>{{ user.name }}</td>
-					<td>{{ user.phone }}</td>
-					<td>{{ user.email }}</td>
-					<td>{{ user.username }}</td>
+					<td>{{ user.name || '--' }} {{ user.surname || '--' }}</td>
+					<td>{{ user.phone || '--' }}</td>
+					<td>{{ user.email || '--' }}</td>
+					<td>{{ user.type || '--' }}</td>
 					<td>
 						<VBtn small color="primary" @click="editUser(user)">
 							<VIcon> mdi-account-edit</VIcon></VBtn
@@ -24,24 +24,21 @@
 				</tr>
 			</tbody>
 		</template>
-
 	</v-simple-table>
-	
 </template>
 
 <script>
-
 export default {
-
 	props: {
 		users: {
 			type: Array,
 			require: false,
 		},
 	},
+
 	methods: {
 		editUser(e) {
-			this.$emit('showEdit',e)
+			this.$emit('showEdit', e);
 		},
 	},
 };

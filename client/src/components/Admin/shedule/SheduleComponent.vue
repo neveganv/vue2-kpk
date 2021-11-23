@@ -13,7 +13,7 @@
 						color="primary"
 						type="week"
 						:short-weekdays="true"
-						first-time="7:01"
+						first-time="7:30"
 						last-time="19:30"
 						locale="uk-UA"
 						:weekdays="[1, 2, 3, 4, 5, 6, 7]"

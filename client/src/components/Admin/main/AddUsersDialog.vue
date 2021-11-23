@@ -83,14 +83,15 @@
 			<VCardActions>
 				<VSpacer />
 				<VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
-				<VBtn color="primary" @click="onCreate"> Створити </VBtn>
+				<VBtn color="primary" @click="onUpdate" v-if="edit"> Оновити </VBtn>
+				<VBtn color="primary" @click="onCreate" v-else> Створити </VBtn>
 			</VCardActions>
 		</VCard>
 	</VDialog>
 </template>
 
 <script>
-import axios from 'axios';
+import usersService from '@/request/users/usersService';
 export default {
 	name: 'add-users-dialog',
 	props: {
@@ -104,35 +105,48 @@ export default {
 			require: false,
 		},
 	},
-	watch: {
-		chosenUser: {
-			deep: true,
-			handler(e) {
-				if (e) {
-					this.user = this.chosenUser;
-				}
-			},
-		},
-	},
+
 	data: () => ({
 		categories: [{ id: 1, name: 'Адмін', value: 'admin' }],
 		user: [],
 	}),
+	mounted() {
+		this.getChosenUser();
+	},
 	methods: {
+		getChosenUser() {
+			if (this.chosenUser) {
+				this.user = this.chosenUser;
+			}
+		},
 		onCancel() {
 			this.user = [];
 			this.$emit('close');
 		},
-		onCreate() {
-			console.log(this.user);
-			// this.$emit('close');
-			axios.post("/api/user", {
-				type: this.user.type,
-				name: this.user.name,
-				surname: this.user.surname,
-				email: this.user.email,
-				phone: this.user.phone,
-			});
+		async onCreate() {
+			try {
+				const params = [];
+				params.name = this.user.name;
+				params.surname = this.user.surname;
+				params.email = this.user.email;
+				params.phone = this.user.phone;
+				params.type = this.user.permission;
+
+				await usersService.addNewUser({
+					...params,
+				});
+				this.user = [];
+				this.$emit('close');
+			} catch (e) {
+				alert(e);
+			}
+		},
+		async onUpdate() {
+			try {
+				console.log(this.user);
+			} catch (e) {
+				alert(e);
+			}
 		},
 	},
 	computed: {

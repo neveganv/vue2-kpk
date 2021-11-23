@@ -8,8 +8,18 @@
 		</div>
 		<VDivider />
 		<UsersList :users="users" @showEdit="showEdit" />
-		<add-users-dialog :visible="visible" @close="visible = false" />
-		<add-users-dialog :visible="visibleEdit" @close="visibleEdit = false" :edit="true" :chosenUser="chosenUser" />
+		<add-users-dialog
+			:visible="visible"
+			@close="visible = false"
+			v-if="visible"
+		/>
+		<add-users-dialog
+			:visible="visibleEdit"
+			@close="visibleEdit = false"
+			:edit="true"
+			:chosenUser="chosenUser"
+			v-if="visibleEdit"
+		/>
 	</div>
 </template>
 
@@ -26,18 +36,21 @@ export default {
 	},
 	methods: {
 		async getUser() {
-			this.users = await usersService.getClientsList(10);
-			console.log(this.users);
+			try {
+				this.users = await usersService.getAll();
+			} catch (e) {
+				alert(e);
+			}
 		},
 		showEdit(e) {
-			this.chosenUser = e
+			this.chosenUser = e;
 			this.visibleEdit = true;
 		},
 	},
 	data: () => ({
 		visible: false,
 		visibleEdit: false,
-		chosenUser:[],
+		chosenUser: [],
 		users: [],
 	}),
 };

@@ -6,6 +6,7 @@ export default {
     },
     post(url, body = {}, config = {}) {
       return axios.post(
+        url,
         body,
         config,
       );
