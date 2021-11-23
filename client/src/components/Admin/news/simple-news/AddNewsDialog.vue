@@ -1,5 +1,5 @@
 <template>
-	<VDialog v-model="visibility">
+	<VDialog v-model="visibility" @click:outside="$v.$reset()">
 		<VCard width="700">
 			<VCardTitle> Створити Новину </VCardTitle>
 			<VCardText>
@@ -12,8 +12,10 @@
 							:item-text="'name'"
 							v-model="news.category"
 							label="Категорія"
-							hide-details
+							:error-messages="CategoryError"
+							:hide-details="!CategoryError.length"
 							outlined
+							clearable
 							dense
 						>
 							<template #selection="{ item }">
@@ -35,8 +37,9 @@
 							prepend-icon="mdi-clipboard-text"
 							outlined
 							dense
-							hide-details
+							:hide-details="!TitleError.length"
 							v-model="news.title"
+							:error-messages="TitleError"
 						>
 						</VTextField>
 					</VCol>
@@ -54,6 +57,10 @@
 							:show-size="1000"
 							:rules="rules"
 							v-model="news.main_img"
+							:error-messages="MainImageError"
+							:hide-details="!MainImageError.length"
+							
+
 						>
 							<template v-slot:selection="{ index, text }">
 								<v-chip v-if="index < 2" label small>
@@ -90,11 +97,15 @@
 <script>
 import AddNewCategoryDialog from './AddNewCategoryDialog.vue';
 import newsService from '@/request/news/newsService';
+import { validationMixin } from 'vuelidate';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
+	mixins: [validationMixin],
 	components: {
 		AddNewCategoryDialog,
 	},
+
 	data: () => ({
 		rules: [
 			value =>
@@ -104,6 +115,19 @@ export default {
 		news: [],
 		visibleAdd: false,
 	}),
+	validations: {
+		news: {
+			title: {
+				required,
+			},
+			main_img: {
+				required,
+			},
+			category: {
+				required,
+			},
+		},
+	},
 	props: {
 		visible: {
 			require: true,
@@ -120,20 +144,24 @@ export default {
 
 		onCancel() {
 			this.news = [];
+			this.$v.$reset();
 			this.$emit('close');
 		},
 		async onCreate() {
-			try {
-				const params = [];
-
-				params.title = this.news.title;
-				params.categoryId = this.news.category;
-				params.main_img = this.news.main_img.name;
-				await newsService.addSimpleNew({ ...params });
-				this.news = [];
-				this.$emit('addNews',params);
-			} catch (e) {
-				alert(e);
+			this.$v.$touch();
+			if (!this.$v.$invalid) {
+				try {
+					const params = [];
+					params.title = this.news.title;
+					params.categoryId = this.news.category;
+					params.main_img = this.news.main_img.name;
+					await newsService.addSimpleNew({ ...params });
+					this.news = [];
+					this.$emit('addNews', params);
+					this.$v.$reset();
+				} catch (e) {
+					alert(e);
+				}
 			}
 		},
 		async getCategories() {
@@ -152,6 +180,33 @@ export default {
 			set() {
 				this.$emit('close');
 			},
+		},
+		CategoryError() {
+			const errors = [];
+			if (!this.$v.news.category.$dirty) {
+				return errors;
+			}
+			!this.$v.news.category.required &&
+				errors.push('Категорія обов`язкове поле для заповнення');
+			return errors;
+		},
+		TitleError() {
+			const errors = [];
+			if (!this.$v.news.title.$dirty) {
+				return errors;
+			}
+			!this.$v.news.title.required &&
+				errors.push('Заголовок обов`язкове поле для заповнення');
+			return errors;
+		},
+		MainImageError() {
+			const errors = [];
+			if (!this.$v.news.main_img.$dirty) {
+				return errors;
+			}
+			!this.$v.news.main_img.required &&
+				errors.push('Головна картинка обов`язкове поле для заповнення');
+			return errors;
 		},
 	},
 };
