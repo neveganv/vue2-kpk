@@ -2,6 +2,10 @@ module.exports = mongoose =>{
     const news = mongoose.model(
         "news",
         mongoose.Schema({
+            categoryId:{
+                type:String,
+                require:true
+            },
             title:{
                 type:String,
                 require:true
@@ -10,7 +14,7 @@ module.exports = mongoose =>{
                 type:String,
                 require:true
             },
-            icon:{
+            main_img:{
                 type:String
             },
 

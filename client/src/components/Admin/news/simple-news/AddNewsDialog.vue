@@ -88,6 +88,7 @@
 
 <script>
 import AddNewCategoryDialog from './AddNewCategoryDialog.vue';
+import axios from 'axios';
 export default {
 	components: {
 		AddNewCategoryDialog,
@@ -117,7 +118,14 @@ export default {
 		},
 		onCreate() {
 			console.log(this.news);
-			// this.$emit('close');
+		    this.$emit('close');
+			axios.post("/api/news",{
+              categoryId: this.news.category,
+			  title: this.news.title,
+			  main_img: "1323232",
+			 // content: this.content
+			})
+
 		},
 	},
 	computed: {

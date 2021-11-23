@@ -49,7 +49,29 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+    data:() => ({
+     newsList:[]
+	}),
+	mounted() {
+		this.getNews();
+		console.log("Новини", this.newsList)
+	},
+	methods:{
+        getNews(){
+			axios.post("/api/news/getByCategory",{id: "Категорія 12"})
+			.then((response) => {
+				this.newsList = response.data
+			})
+			.catch(function(error){
+				if (error.response) {
+              alert(error.toString());
+            }
+			});
+		}
+	}
+};
 </script>
 
 <style lang="scss" scoped>

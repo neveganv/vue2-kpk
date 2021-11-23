@@ -7,4 +7,5 @@ db.url = 'mongodb+srv://snakes:4321ytrewq@kpk-website.lxw28.mongodb.net/myFirstD
 db.optionsList = require("./optionsList")(mongoose);
 db.news = require("./news")(mongoose);
 db.user = require("./user")(mongoose);
+db.newsCategory = require("./newsCategory")(mongoose);
 module.exports = db;

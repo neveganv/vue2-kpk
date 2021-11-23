@@ -5,11 +5,11 @@ const News = db.news
 // Create a new optionsList
 exports.create = (req, res) => {
       const news = new News({
+          categoryId: req.body.categoryId,
           title: req.body.title,
-          content: req.body.content
+         // content: req.body.content,
+          main_img: req.body.main_img
       });
-    console.log("title: ",req.body.title)
-    // Save optionsList in the database
     news
         .save(news)
         .then(data => {
@@ -18,11 +18,27 @@ exports.create = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the order."
+                    err.message || "Some error occurred while creating the news."
             });
         });
 
 };
+
+exports.findByCategory = (req, res) => {
+  News.find({
+      idCategory: req.params.id
+  })
+      .then(data => {
+          res.send(data);
+      })
+      .catch(err => {
+          res.status(500).send({
+              message:
+                  "Не вдалось отримати новини за вибраною категорією."
+          });
+      });
+};
+  
 
 exports.findAll = (req,res) => {
     News.find()

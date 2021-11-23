@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
 	props: {
 		visibleAdd: {
@@ -38,6 +39,9 @@ export default {
 	methods: {
 		onCreate() {
 			console.log(this.category);
+			axios.post("/api/newsCategory",{
+				name: this.category,
+			});
 		},
 	},
 	computed: {
