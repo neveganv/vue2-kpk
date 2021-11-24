@@ -58,10 +58,10 @@ export default {
           const params = [];
           params.title = this.permission;
 
-          await positionService.createPosition({
+          let position = await positionService.createPosition({
             ...params,
           });
-          this.$emit("close");
+          this.$emit("added", position);
         } catch (e) {
           alert(e);
         }
