@@ -15,5 +15,9 @@ export default {
 	async getAll(){
 		const response = await requestService.post(`${prefix}/getAll`)
 		return response?.data
-	}
+	},
+	async login(params){
+		const response = await requestService.post(`${prefix}/login`,params)
+		return response?.data
+	},
 };

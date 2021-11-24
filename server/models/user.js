@@ -31,6 +31,10 @@ module.exports = mongoose => {
                 type: String,
                 require: true,
             },
+            token: {
+                type: String,
+                default: null,
+            },
             position: {
                 type: Schema.Types.ObjectId,
                 ref: 'position'

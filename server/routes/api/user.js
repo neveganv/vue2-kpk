@@ -9,4 +9,7 @@ router.post("/add", user.create);
 //Find all News
 router.post("/getAll", user.findAll);
 
+//login user
+router.post("/login", user.login);
+
 module.exports = router

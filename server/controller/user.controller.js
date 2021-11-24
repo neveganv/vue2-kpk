@@ -3,6 +3,7 @@ const User = db.user
 const email = require("../email/email.send");
 const password = require("../generator/passwordGenerator");
 const crypto = require('crypto');
+const jwt = require("jsonwebtoken");
 
 
 // Create a new optionsList
@@ -46,6 +47,41 @@ exports.create = (req, res) => {
         });
 
 };
+
+// login user
+exports.login = (req, res) => {
+    User.findOne({ email: req.body.email }, function (err, user) {
+        if (user === null) {
+            return res.status(400).send({
+                message: "Користувача не знайдено."
+            });
+        }
+        else {
+            var hash = crypto.pbkdf2Sync(req.body.password,
+                user.salt, 1000, 64, `sha512`).toString(`hex`);
+            if (user.hash == hash) {
+                const token = jwt.sign(
+                    {
+                        userId: user.id,
+                        position: user.position,
+                    },
+                    'https://jwt.io/#debugger-io?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+                );
+                user.token = token
+                user.save()
+
+                return res.status(201).send(
+                    user.token,
+                )
+            }
+            else {
+                return res.status(400).send({
+                    message: "Неправильний пароль"
+                });
+            }
+        }
+    });
+}
 
 exports.findAll = (req, res) => {
     User.find().populate('position')
