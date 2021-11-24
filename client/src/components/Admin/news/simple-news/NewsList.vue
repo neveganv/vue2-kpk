@@ -3,14 +3,17 @@
 		<VCol>
 			<v-item-group>
 				<v-row>
-					<v-col v-for="newItem in news" :key="newItem._id" cols="12" md="3" >
-						<v-item v-slot="{ active }" >
+					<v-col v-for="newItem in news" :key="newItem._id" cols="12" md="3">
+						<v-item v-slot="{ active }">
 							<v-card
 								width="auto"
 								:color="active ? '' : ''"
 								class="align-end"
 								@click="detailNew(newItem)"
 							>
+								<v-btn absolute top left  color="primary" tile class="category">
+									{{ newItem.categoryId }}
+								</v-btn>
 								<v-img
 									v-if="newItem.main_img"
 									height="140"
@@ -30,12 +33,16 @@
 										</v-row>
 									</template>
 								</v-img>
-								<v-img v-else height="140" :src="'https://picsum.photos/350/165?random'">
+								<v-img
+									v-else
+									height="140"
+									:src="'https://picsum.photos/350/165?random'"
+								>
 								</v-img>
 
 								<v-card-actions>
 									<div class="new-title">
-										<span>{{ newItem.title || "--"}}</span>
+										<span>{{ newItem.title || '--' }}</span>
 									</div>
 									<v-spacer></v-spacer>
 
@@ -62,11 +69,11 @@ export default {
 	mounted() {
 		console.log('Новини', this.news);
 	},
-	methods:{
-		detailNew(e){
-			console.log(e)
-		}
-	}
+	methods: {
+		detailNew(e) {
+			console.log(e);
+		},
+	},
 };
 </script>
 
@@ -81,5 +88,13 @@ export default {
 		white-space: nowrap;
 		text-overflow: ellipsis;
 	}
+}
+.category{
+	top: 0;
+	left: 0;
+	z-index: 3;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 }
 </style>
