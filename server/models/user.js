@@ -23,6 +23,14 @@ module.exports = mongoose => {
                 type: String,
                 require: true
             },
+            hash: {
+                type: String,
+                require: true,
+            },
+            salt: {
+                type: String,
+                require: true,
+            },
             position: {
                 type: Schema.Types.ObjectId,
                 ref: 'position'
