@@ -73,7 +73,7 @@
 						>
 					</VCol>
 					<VCol cols="6">
-						<VBtn text color="primary">
+						<VBtn text color="primary" @click="visibleAdd = true">
 							<VIcon left>mdi-plus</VIcon>Додати нову посаду</VBtn
 						>
 					</VCol>
@@ -86,13 +86,17 @@
 				<VBtn color="primary" @click="onUpdate" v-if="edit"> Оновити </VBtn>
 				<VBtn color="primary" @click="onCreate" v-else> Створити </VBtn>
 			</VCardActions>
-		</VCard>
+		</VCard>	<add-new-permission-dialog :visibleAdd="visibleAdd" v-if="visibleAdd" @close="visibleAdd = false" />
+
 	</VDialog>
 </template>
 
 <script>
 import usersService from '@/request/users/usersService';
+import AddNewPermissionDialog from './AddNewPermissionDialog.vue';
+
 export default {
+  components: { AddNewPermissionDialog },
 	name: 'add-users-dialog',
 	props: {
 		visible: {
@@ -109,6 +113,7 @@ export default {
 	data: () => ({
 		categories: [{ id: 1, name: 'Адмін', value: 'admin' }],
 		user: [],
+		visibleAdd:false
 	}),
 	mounted() {
 		this.getChosenUser();
