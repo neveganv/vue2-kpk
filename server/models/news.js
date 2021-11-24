@@ -1,10 +1,11 @@
 module.exports = mongoose =>{
+    const { Schema } = mongoose;
     const news = mongoose.model(
         "news",
         mongoose.Schema({
-            categoryId:{
-                type:String,
-                require:true
+            category:{
+                type: Schema.Types.ObjectId,
+                ref: 'newsCategory'
             },
             title:{
                 type:String,

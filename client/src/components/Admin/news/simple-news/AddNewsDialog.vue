@@ -153,7 +153,7 @@ export default {
 				try {
 					const params = [];
 					params.title = this.news.title;
-					params.categoryId = this.news.category;
+					params.category = this.news.category;
 					params.main_img = this.news.main_img.name;
 					await newsService.addSimpleNew({ ...params });
 					this.news = [];

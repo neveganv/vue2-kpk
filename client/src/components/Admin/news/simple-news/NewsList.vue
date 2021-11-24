@@ -12,7 +12,7 @@
 								@click="detailNew(newItem)"
 							>
 								<v-btn absolute top left  color="primary" tile class="category">
-									{{ newItem.categoryId }}
+									{{ newItem.category.name }}
 								</v-btn>
 								<v-img
 									v-if="newItem.main_img"

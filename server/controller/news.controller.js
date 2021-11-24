@@ -5,7 +5,7 @@ const News = db.news
 // Create a new optionsList
 exports.create = (req, res) => {
       const news = new News({
-          categoryId: req.body.categoryId,
+          category: req.body.category,
           title: req.body.title,
          // content: req.body.content,
           main_img: req.body.main_img
@@ -42,6 +42,7 @@ exports.findByCategory = (req, res) => {
 
 exports.findAll = (req,res) => {
     News.find()
+    .populate('category')
     .then(data => {
         res.send(data);
     })
