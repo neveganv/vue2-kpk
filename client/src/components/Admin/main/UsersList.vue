@@ -17,7 +17,7 @@
 					<td>{{ user.name || '--' }} {{ user.surname || '--' }}</td>
 					<td>{{ user.phone || '--' }}</td>
 					<td>{{ user.email || '--' }}</td>
-					<td>{{ user.type || '--' }}</td>
+					<td>{{ user.position.title || '--' }}</td>
 					<td>
 						<VBtn small color="primary" @click="editUser(user)">
 							<VIcon> mdi-account-edit</VIcon></VBtn

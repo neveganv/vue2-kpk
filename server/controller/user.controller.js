@@ -10,6 +10,7 @@ exports.create = (req, res) => {
           surname: req.body.surname,
           email: req.body.email,
           phone: req.body.phone,
+          position: req.body.position
       });
     user
         .save(user)
@@ -26,7 +27,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req,res) => {
-    User.find()
+    User.find().populate('position')
     .then(data => {
         res.send(data);
     })

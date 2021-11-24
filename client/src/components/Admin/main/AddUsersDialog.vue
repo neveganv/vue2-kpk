@@ -59,7 +59,7 @@
             <v-select
               prepend-icon="mdi-shield-account"
               :items="Object.values(categories)"
-              :item-value="'value'"
+              :item-value="'_id'"
               :item-text="'title'"
               v-model="user.permission"
               label="Посада"
@@ -149,7 +149,7 @@ export default {
         params.surname = this.user.surname;
         params.email = this.user.email;
         params.phone = this.user.phone;
-        params.type = this.user.permission;
+        params.position = this.user.permission;
 
         await usersService.addNewUser({
           ...params,
