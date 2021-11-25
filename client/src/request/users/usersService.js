@@ -24,5 +24,10 @@ export default {
 	async update(params){
 		const response = await requestService.post(`${prefix}/update`, params)
 		return response?.data
+	},
+	async changePassword(params){
+		const response = await requestService.post(`${prefix}/changePassword`, params)
+		return response?.data
 	}
+
 };

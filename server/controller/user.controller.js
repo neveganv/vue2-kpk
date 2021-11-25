@@ -119,3 +119,41 @@ exports.update = (req, res) => {
         });
 
 };
+
+exports.changePassword = (req, res) => {
+    id = req.body.id;
+    User.findOne({ _id: id }, function (err, user) {
+        if (user === null) {
+            return res.status(400).send({
+                message: "Користувача не знайдено."
+            });
+        }
+        else {
+            var hash = crypto.pbkdf2Sync(req.body.oldPassword,
+                user.salt, 1000, 64, `sha512`).toString(`hex`);
+            if (user.hash == hash) {
+                let salt = crypto.randomBytes(16).toString('hex');
+                let hash = crypto.pbkdf2Sync(req.body.password, salt,
+                    1000, 64, `sha512`).toString(`hex`);
+               User.findByIdAndUpdate( id, {password: hash}, {useFindAndModify: false})
+               .then(data => {
+                if (!data) {
+                  res.status(404).send({
+                    message: `Cannot update user with id=${id}.`
+                  });
+                } else res.send({ message: "User was updated successfully." });
+              })
+              .catch(err => {
+                res.status(500).send({
+                  message: "Error updating user with id=" + id
+                });
+              });
+            }
+            else {
+                return res.status(400).send({
+                    message: "Неправильний пароль"
+                });
+            }
+        }
+    });
+}

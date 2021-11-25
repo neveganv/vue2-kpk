@@ -15,4 +15,7 @@ router.post("/login", user.login);
 //update user
 router.post("/update", user.update);
 
+//change password
+router.post("/changePassword", user.changePassword)
+
 module.exports = router
