@@ -34,7 +34,7 @@
 											dense
 										>
 											<template #selection="{ item }">
-												<v-chip small color="primary">{{ item.group }}</v-chip>
+												<v-chip small color="primary">{{ tmpGroup =item.group }}</v-chip>
 											</template></v-select
 										>
 									</VCol>
@@ -288,11 +288,7 @@ export default {
 		],
 		event: [],
 	}),
-	watch: {
-		watchGroup(e) {
-			this.tmpGroup = e;
-		},
-	},
+
 	methods: {
 		addGroup(e) {
 			this.visibleAddGroup = false;
