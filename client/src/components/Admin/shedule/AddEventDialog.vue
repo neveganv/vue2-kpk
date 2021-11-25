@@ -7,7 +7,7 @@
 						Оберіть групу
 					</v-stepper-step>
 					<v-stepper-step editable :complete="e1 > 1" step="1" v-else>
-						{{ event.group }}
+						{{ tmpGroup }}
 					</v-stepper-step>
 					<v-divider></v-divider>
 					<v-stepper-step :complete="e1 > 2" step="2">
@@ -264,6 +264,7 @@ export default {
 		menu2: false,
 		menu3: false,
 		menu4: false,
+		tmpGroup:'',
 		groups: [
 			{
 				id: 1,
@@ -280,6 +281,11 @@ export default {
 		],
 		event: [],
 	}),
+	watch: {
+		event(e){
+			this.tmpGroup = e.group
+		}
+	},
 	methods: {
 		stepToSecond() {
 			this.$v.event.group.$touch();
@@ -370,6 +376,7 @@ export default {
 			!this.$v.event.link.url && errors.push('Посилання повинне бути валідним');
 			return errors;
 		},
+
 	},
 };
 </script>
