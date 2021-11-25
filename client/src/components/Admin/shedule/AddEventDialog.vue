@@ -39,7 +39,7 @@
 										>
 									</VCol>
 									<VCol cols="6">
-										<VBtn text color="primary" @click="visibleAdd = true">
+										<VBtn text color="primary" @click="visibleAddGroup = true">
 											<VIcon left>mdi-plus</VIcon>Додати нову групу</VBtn
 										>
 									</VCol>
@@ -250,13 +250,21 @@
 				</v-stepper-items>
 			</v-stepper>
 		</VCard>
+		<add-group-dialog
+			@addGroup="addGroup"
+			:visible="visibleAddGroup"
+			@close="visibleAddGroup = false"
+		/>
 	</VDialog>
 </template>
 
 <script>
 import { validationMixin } from 'vuelidate';
 import { required, url } from 'vuelidate/lib/validators';
+import AddGroupDialog from './AddGroupDialog.vue';
+
 export default {
+	components: { AddGroupDialog },
 	mixins: [validationMixin],
 	data: () => ({
 		e1: 1,
@@ -264,7 +272,8 @@ export default {
 		menu2: false,
 		menu3: false,
 		menu4: false,
-		tmpGroup:'',
+		visibleAddGroup: false,
+		tmpGroup: '',
 		groups: [
 			{
 				id: 1,
@@ -282,11 +291,15 @@ export default {
 		event: [],
 	}),
 	watch: {
-		event(e){
-			this.tmpGroup = e.group
-		}
+		watchGroup(e) {
+			this.tmpGroup = e;
+		},
 	},
 	methods: {
+		addGroup(e) {
+			this.visibleAddGroup = false;
+			this.groups.push(e);
+		},
 		stepToSecond() {
 			this.$v.event.group.$touch();
 			if (!this.$v.event.group.$invalid) {
@@ -342,6 +355,9 @@ export default {
 		},
 	},
 	computed: {
+		watchGroup() {
+			return this.event.group;
+		},
 		visibility: {
 			get() {
 				return this.visible;
@@ -376,7 +392,6 @@ export default {
 			!this.$v.event.link.url && errors.push('Посилання повинне бути валідним');
 			return errors;
 		},
-
 	},
 };
 </script>
