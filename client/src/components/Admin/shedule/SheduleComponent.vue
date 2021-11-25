@@ -1,14 +1,39 @@
 <template>
 	<div class="p-1">
-		<VRow justify="end" class="p-1">
+		<VRow justify="space-between" class="pt-4 p-1">
+			<VCol cols="4">
+				<v-select
+					prepend-icon="mdi-account-multiple-plus"
+					:items="Object.values(groups)"
+					:item-value="'id'"
+					:item-text="'name'"
+					v-model="chosenGroup"
+					label="Виберіть групу"
+					@change="changeGroup(chosenGroup)"
+					outlined
+					clearable
+					dense
+					ref="choseGroup"
+					hide-details
+				>
+					<template #selection="{ item }">
+						<v-chip small color="primary">{{ item.name }}</v-chip>
+					</template></v-select
+				>
+			</VCol>
 			<VBtn outlined color="primary" @click="visible = true">
 				<v-icon left> mdi-calendar-plus </v-icon>Додати подію
 			</VBtn>
 		</VRow>
-		<VRow>
+		<VRow v-if="chosenGroup">
 			<VCol>
 				<shedule-inner :events="events" />
 			</VCol>
+		</VRow>
+		<VRow v-else justify="center" align="center" style="height: 20vh">
+			<VBtn text color="error" @click="$refs.choseGroup.focus();$refs.choseGroup.activateMenu();" >
+				Виберіть групу</VBtn
+			>
 		</VRow>
 		<AddEventDialog
 			@addEvent="addEvent"
@@ -36,8 +61,23 @@ export default {
 			},
 		],
 		visible: false,
+		chosenGroup: '',
+
+		groups: [
+			{
+				id: 1,
+				name: 'П-41',
+			},
+			{
+				id: 1,
+				name: 'П-42',
+			},
+		],
 	}),
 	methods: {
+		changeGroup(e) {
+			console.log(e);
+		},
 		addEvent(e) {
 			this.visible = false;
 			this.events.push(e);
@@ -65,6 +105,10 @@ export default {
 			console.log(e.event.link);
 			// window.open(e.event.link);
 		},
+	},
+	mounted() {
+		console.log(this.$refs);
+
 	},
 };
 </script>
