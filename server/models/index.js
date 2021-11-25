@@ -10,5 +10,6 @@ db.user = require("./user")(mongoose);
 db.position = require("./position")(mongoose);
 db.newsCategory = require("./newsCategory")(mongoose);
 db.shedule = require("./shedule")(mongoose);
+db.classes = require("./class")(mongoose);
 
 module.exports = db;

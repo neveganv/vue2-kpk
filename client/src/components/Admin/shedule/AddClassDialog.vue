@@ -10,7 +10,7 @@
 				<VRow>
 					<VCol>
 						<VTextField
-							label="Назва групи"
+							label="Назва пари"
 							prepend-icon="mdi-account-multiple-plus"
 							outlined
 							dense
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import newsService from '@/request/news/newsService';
+import classService from '@/request/class/classService';
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
 
@@ -57,8 +57,7 @@ export default {
 				try {
 					const params = [];
 					params.name = this.className;
-					params.id = Date.now();
-					// await newsService.addSimpleNewCategory({ ...params });
+				    await classService.createClasses({ ...params });
 					this.$emit('addClass', params);
 					this.$v.$reset();
                     console.log(params)
