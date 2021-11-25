@@ -6,7 +6,7 @@
 					prepend-icon="mdi-account-multiple-plus"
 					:items="Object.values(groups)"
 					:item-value="'_id'"
-					:item-text="'group'"
+					:item-text="'name'"
 					v-model="chosenGroup"
 					label="Виберіть групу"
 					@change="changeGroup(chosenGroup)"
@@ -17,7 +17,7 @@
 					hide-details
 				>
 					<template #selection="{ item }">
-						<v-chip small color="primary">{{ item.group }}</v-chip>
+						<v-chip small color="primary">{{ item.name }}</v-chip>
 					</template></v-select
 				>
 			</VCol>

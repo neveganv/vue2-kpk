@@ -1,6 +1,6 @@
 import requestService from '../requestService';
 
-const prefix = '/api/shedule/class';
+const prefix = '/api/class';
 
 export default {
 	async createClasses(params){

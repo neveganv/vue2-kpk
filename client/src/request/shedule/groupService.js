@@ -1,6 +1,6 @@
 import requestService from '../requestService';
 
-const prefix = '/api/shedule/group';
+const prefix = '/api/group';
 
 export default {
 	async createGroup(params){

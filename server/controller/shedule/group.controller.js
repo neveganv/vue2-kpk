@@ -6,7 +6,7 @@ const Group = db.group
 exports.createGroup = (req, res) => {
     console.log("Категорія:",req.body.name)
       const group = new Group({
-          group: req.body.name
+          name: req.body.name
       });
 
     // Save optionsList in the database

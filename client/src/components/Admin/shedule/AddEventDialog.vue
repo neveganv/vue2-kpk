@@ -24,7 +24,7 @@
 											prepend-icon="mdi-account-multiple-plus"
 											:items="Object.values(groups)"
 											:item-value="'_id'"
-											:item-text="'group'"
+											:item-text="'name'"
 											v-model="event.group"
 											label="Виберіть групу"
 											:error-messages="GroupError"
@@ -35,7 +35,7 @@
 										>
 											<template #selection="{ item }">
 												<v-chip small color="primary">{{
-													(tmpGroup = item.group)
+													(tmpGroup = item.name)
 												}}</v-chip>
 											</template></v-select
 										>
