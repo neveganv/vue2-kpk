@@ -78,7 +78,7 @@
 										>
 									</VCol>
 									<VCol cols="6">
-										<VBtn text color="primary" @click="visibleAdd = true">
+										<VBtn text color="primary" @click="visibleAddClass = true">
 											<VIcon left>mdi-plus</VIcon>Додати нову пару</VBtn
 										>
 									</VCol>
@@ -255,6 +255,11 @@
 			:visible="visibleAddGroup"
 			@close="visibleAddGroup = false"
 		/>
+		<add-class-dialog
+			@addClass="addClass"
+			:visible="visibleAddClass"
+			@close="visibleAddClass = false"
+		/>
 	</VDialog>
 </template>
 
@@ -262,9 +267,10 @@
 import { validationMixin } from 'vuelidate';
 import { required, url } from 'vuelidate/lib/validators';
 import AddGroupDialog from './AddGroupDialog.vue';
+import AddClassDialog from './AddClassDialog.vue';
 
 export default {
-	components: { AddGroupDialog },
+	components: { AddGroupDialog, AddClassDialog },
 	mixins: [validationMixin],
 	data: () => ({
 		e1: 1,
@@ -273,6 +279,7 @@ export default {
 		menu3: false,
 		menu4: false,
 		visibleAddGroup: false,
+		visibleAddClass: false,
 		tmpGroup: '',
 		groups: [
 			{
@@ -299,6 +306,10 @@ export default {
 		addGroup(e) {
 			this.visibleAddGroup = false;
 			this.groups.push(e);
+		},
+		addClass(e) {
+			this.visibleAddClass = false;
+			this.classes.push(e);
 		},
 		stepToSecond() {
 			this.$v.event.group.$touch();
