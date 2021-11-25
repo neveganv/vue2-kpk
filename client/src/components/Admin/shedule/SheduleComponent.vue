@@ -44,6 +44,7 @@
 		</VRow>
 		<AddEventDialog
 			:groups="groups"
+			@addGroup="addGroup"
 			@addEvent="addEvent"
 			:visible="visible"
 			@close="visible = false"
@@ -71,17 +72,22 @@ export default {
 	methods: {
 		async changeGroup(e) {
 			try {
-				const params = []
-				params.group = e
-				this.events = await sheduleService.getEvent({...params});
-				console.log(this.events)
+				const params = [];
+				params.group = e;
+				this.events = await sheduleService.getEvent({ ...params });
+				console.log(this.events);
 			} catch (e) {
 				alert(e);
 			}
 		},
+		addGroup() {
+			this.getGroups();
+		},
 		addEvent(e) {
 			this.visible = false;
 			this.events.push(e);
+			this.chosenGroup = e.group;
+			console.log(e);
 			console.log(this.events);
 		},
 		async getGroups() {

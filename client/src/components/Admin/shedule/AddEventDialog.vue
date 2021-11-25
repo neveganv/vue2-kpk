@@ -120,7 +120,8 @@
 													v-on="on"
 													outlined
 													dense
-													hide-details
+													:hide-details="!StartDateError.length"
+													:error-messages="StartDateError"
 												></v-text-field>
 											</template>
 											<v-date-picker
@@ -152,7 +153,8 @@
 													v-on="on"
 													dense
 													outlined
-													hide-details
+													:hide-details="!StartTimeError.length"
+													:error-messages="StartTimeError"
 												></v-text-field>
 											</template>
 											<v-time-picker
@@ -184,7 +186,8 @@
 													v-on="on"
 													outlined
 													dense
-													hide-details
+													:hide-details="!EndDateError.length"
+													:error-messages="EndDateError"
 												></v-text-field>
 											</template>
 											<v-date-picker
@@ -216,7 +219,8 @@
 													v-on="on"
 													dense
 													outlined
-													hide-details
+													:hide-details="!EndTimeError.length"
+													:error-messages="EndTimeError"
 												></v-text-field>
 											</template>
 											<v-time-picker
@@ -295,11 +299,11 @@ export default {
 	methods: {
 		addGroup(e) {
 			this.visibleAddGroup = false;
-			this.groups.push(e);
+			this.$emit('addGroup',e)
 		},
 		addClass(e) {
 			this.visibleAddClass = false;
-			this.classes.push(e);
+			this.getClasses();
 		},
 		stepToSecond() {
 			this.$v.event.group.$touch();
@@ -307,21 +311,21 @@ export default {
 				this.e1 = 2;
 			}
 		},
-		 onCreate() {
+		onCreate() {
 			this.$v.$touch();
-			if (!this.$v.$$invalid) {
+			if (!this.$v.$invalid) {
 				const params = {};
 				params.name = this.event.name;
-			    params.group = this.event.group;
+				params.group = this.event.group;
 				params.link = this.event.link;
 				if (this.event.content) {
 					params.content = this.event.content;
 				}
 				params.start = `${this.event.start_date + ' ' + this.event.start_time}`;
 				params.end = `${this.event.end_date + ' ' + this.event.end_time}`;
-			    sheduleService.createEvent({
-					...params
-				})
+				sheduleService.createEvent({
+					...params,
+				});
 				this.$emit('addEvent', params);
 				this.$v.$reset();
 				this.e1 = 1;
@@ -358,6 +362,18 @@ export default {
 			},
 			link: {
 				url,
+			},
+			start_date: {
+				required,
+			},
+			start_time: {
+				required,
+			},
+			end_time: {
+				required,
+			},
+			end_date: {
+				required,
 			},
 		},
 	},
@@ -397,6 +413,42 @@ export default {
 			}
 			!this.$v.event.name.required &&
 				errors.push('Назва пари обов`язкове поле для заповнення');
+			return errors;
+		},
+		StartDateError() {
+			const errors = [];
+			if (!this.$v.event.start_date.$dirty) {
+				return errors;
+			}
+			!this.$v.event.start_date.required &&
+				errors.push('Дата обов`язкове поле для заповнення');
+			return errors;
+		},
+		StartTimeError() {
+			const errors = [];
+			if (!this.$v.event.start_time.$dirty) {
+				return errors;
+			}
+			!this.$v.event.start_time.required &&
+				errors.push('Час обов`язкове поле для заповнення');
+			return errors;
+		},
+		EndDateError() {
+			const errors = [];
+			if (!this.$v.event.end_date.$dirty) {
+				return errors;
+			}
+			!this.$v.event.end_date.required &&
+				errors.push('Дата обов`язкове поле для заповнення');
+			return errors;
+		},
+		EndTimeError() {
+			const errors = [];
+			if (!this.$v.event.end_time.$dirty) {
+				return errors;
+			}
+			!this.$v.event.end_time.required &&
+				errors.push('Час обов`язкове поле для заповнення');
 			return errors;
 		},
 		LinkError() {
