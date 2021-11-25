@@ -7,7 +7,7 @@ const classes = require("../../controller/class.controller");
 router.post("/addClass", classes.create);
 
 //Find all Class
-router.post("/getAll", classes.findAll);
+router.post("/getAllClass", classes.findAll);
 
 
 

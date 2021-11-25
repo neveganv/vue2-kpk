@@ -8,7 +8,7 @@ export default {
 		return response?.data
 	},
 	async getAllClasses(){
-		const response = await requestService.post(`${prefix}/getAll`)
+		const response = await requestService.post(`${prefix}/getAllClass`)
 		return response?.data
 	}
 };

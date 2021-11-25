@@ -34,7 +34,9 @@
 											dense
 										>
 											<template #selection="{ item }">
-												<v-chip small color="primary">{{ tmpGroup =item.group }}</v-chip>
+												<v-chip small color="primary">{{
+													(tmpGroup = item.group)
+												}}</v-chip>
 											</template></v-select
 										>
 									</VCol>
@@ -268,6 +270,7 @@ import { validationMixin } from 'vuelidate';
 import { required, url } from 'vuelidate/lib/validators';
 import AddGroupDialog from './AddGroupDialog.vue';
 import AddClassDialog from './AddClassDialog.vue';
+import classService from '@/request/class/classService';
 
 export default {
 	components: { AddGroupDialog, AddClassDialog },
@@ -282,13 +285,12 @@ export default {
 		visibleAddClass: false,
 		tmpGroup: '',
 
-		classes: [
-			{ id: 1, name: 'Графіка' },
-			{ id: 2, name: 'Прикольна пара' },
-		],
+		classes: [],
 		event: [],
 	}),
-
+	mounted() {
+		this.getClasses();
+	},
 	methods: {
 		addGroup(e) {
 			this.visibleAddGroup = false;
@@ -332,6 +334,14 @@ export default {
 			this.$v.$reset();
 			this.e1 = 1;
 			this.event = [];
+		},
+		async getClasses() {
+			try {
+				const newclasses = await classService.getAllClasses();
+				this.classes = newclasses;
+			} catch (e) {
+				alert(e);
+			}
 		},
 	},
 	validations: {
