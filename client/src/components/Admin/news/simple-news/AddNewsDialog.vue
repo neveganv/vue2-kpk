@@ -1,7 +1,8 @@
 <template>
   <VDialog v-model="visibility" @click:outside="$v.$reset()">
     <VCard width="700">
-      <VCardTitle> Створити Новину </VCardTitle>
+      <VCardTitle v-if="visibleEdit"> Оновити новину</VCardTitle>
+      <VCardTitle v-else> Створити Новину </VCardTitle>
       <VCardText>
         <VRow>
           <VCol cols="6">
@@ -57,7 +58,7 @@
               :show-size="1000"
               :rules="rules"
               v-model="news.main_img"
-              :error-messages="MainImageError"
+             :error-messages="MainImageError"
               :hide-details="!MainImageError.length"
 			  @change="onFileChange"
             >
@@ -82,7 +83,8 @@
       <VCardActions>
         <VSpacer />
         <VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
-        <VBtn color="primary" @click="onCreate"> Створити </VBtn>
+        <VBtn color="primary" @click="onUpdate" v-if="visibleEdit">Оновити</VBtn>
+        <VBtn color="primary" @click="onCreate" v-else> Створити </VBtn>
       </VCardActions>
     </VCard>
     <add-new-category-dialog
@@ -120,7 +122,7 @@ export default {
       title: {
         required,
       },
-      main_img: {
+     main_img: {
         required,
       },
       category: {
@@ -130,18 +132,35 @@ export default {
   },
   props: {
     visible: {
-      require: true,
+      require: false,
     },
+    visibleEdit: {
+      require: false
+    },
+    chosenNews: {
+      require: false
+    }
   },
   mounted() {
     this.getCategories();
+    this.getChosenNews();
   },
   methods: {
     addCategory() {
       this.visibleAdd = false;
       this.getCategories();
     },
-
+    getChosenNews(){
+      console.log("chosen news", this.chosenNews)
+      if(this.chosenNews){
+        
+        this.news = this.chosenNews;
+        this.news.permission = this.news.position.title;
+        console.log("ch", this.chosenNews)
+        console.log("Класі новини: ",this.news)
+      }
+      
+    },
     onCancel() {
       this.news = [];
       this.$v.$reset();
@@ -155,6 +174,7 @@ export default {
           params.title = this.news.title;
           params.category = this.news.category;
           params.main_img = this.base64image;
+          console.log("params", params);
           await newsService.addSimpleNew({ ...params });
           this.news = [];
           this.$emit("addNews", params);
@@ -163,6 +183,23 @@ export default {
           alert(e);
         }
       }
+    },
+    async onUpdate(){
+       /* this.$v.$touch();
+      if (!this.$v.$invalid) {*/
+        try {
+          const params = [];
+          params.id = this.news._id
+          params.title = this.news.title;
+          params.category = this.news.category;
+          params.main_img = this.news.main_img;
+          await newsService.updateSimpleNews({ ...params });
+          this.$emit("close")
+          this.news = [];
+         // this.$v.$reset();
+        } catch (e) {
+          alert(e);
+        }
     },
     onFileChange(files) {
       if (files) {
@@ -184,7 +221,10 @@ export default {
   computed: {
     visibility: {
       get() {
+        if(this.visible === true){
         return this.visible;
+        }
+        else { return this.visibleEdit; }
       },
       set() {
         this.$emit("close");

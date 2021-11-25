@@ -7,7 +7,7 @@
 		</VRow>
 		<VRow>
 			<VCol>
-				<NewsList :news="news" />
+				<NewsList :news="news" @show ="showNews"/>
 			</VCol>
 		</VRow>
 		<AddNewDialog
@@ -15,6 +15,12 @@
 			:visible="visible"
 			@close="visible = false"
 			v-if="visible"
+		/>
+		<AddNewDialog
+			:visibleEdit="visibleEdit"
+			:chosenNews="clickNews"
+			@close="visibleEdit = false"
+			v-if="visibleEdit"
 		/>
 	</div>
 </template>
@@ -28,7 +34,9 @@ export default {
 	components: { NewsList, AddNewDialog },
 	data: () => ({
 		visible: false,
+		visibleEdit: false,
 		news: [],
+		clickNews: []
 	}),
 	mounted() {
 		this.getNews();
@@ -38,6 +46,14 @@ export default {
 			this.visible = false;
 			this.getNews();
 		},
+		updateNews(){
+            this.edit = false;
+			this.getNews();
+		},
+		showNews(e){
+			this.visibleEdit =true,
+			this.clickNews = e;
+		},
 		async getNews() {
 			try {
 				this.news = await newsService.getAllNews();
@@ -45,6 +61,10 @@ export default {
 			} catch (e) {
 				alert(e);
 			}
+		},
+		showEdit(e) {
+			this.news = e;
+			this.visibleEdit = true;
 		},
 	},
 };

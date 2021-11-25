@@ -20,5 +20,9 @@ export default {
 	async getSimpleNewsCategories(){
 		const response = await requestService.post(`${prefix2}/getAll`)
 		return response?.data
+	},
+	async updateSimpleNews(params){
+		const response = await requestService.post(`${prefix}/update`, params)
+		return response?.data 
 	}
 };

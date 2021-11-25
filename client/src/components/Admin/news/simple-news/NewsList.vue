@@ -71,6 +71,7 @@ export default {
 	},
 	methods: {
 		detailNew(e) {
+			this.$emit("show", e);
 			console.log(e);
 		},
 	},

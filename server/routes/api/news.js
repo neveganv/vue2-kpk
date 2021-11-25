@@ -12,4 +12,7 @@ router.post("/getByCategory", news.findByCategory);
 //Find all News
 router.post("/getAllNews", news.findAll);
 
+//Update news
+router.post("/update", news.update);
+
 module.exports = router
