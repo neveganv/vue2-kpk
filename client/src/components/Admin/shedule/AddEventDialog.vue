@@ -271,6 +271,7 @@ import { required, url } from 'vuelidate/lib/validators';
 import AddGroupDialog from './AddGroupDialog.vue';
 import AddClassDialog from './AddClassDialog.vue';
 import classService from '@/request/shedule/classService';
+import sheduleService from '@/request/shedule/sheduleService';
 
 export default {
 	components: { AddGroupDialog, AddClassDialog },
@@ -306,18 +307,21 @@ export default {
 				this.e1 = 2;
 			}
 		},
-		onCreate() {
+		 onCreate() {
 			this.$v.$touch();
 			if (!this.$v.$$invalid) {
 				const params = {};
 				params.name = this.event.name;
-				// params.group_id = this.event.group;
+			    params.group = this.event.group;
 				params.link = this.event.link;
 				if (this.event.content) {
 					params.content = this.event.content;
 				}
 				params.start = `${this.event.start_date + ' ' + this.event.start_time}`;
 				params.end = `${this.event.end_date + ' ' + this.event.end_time}`;
+			    sheduleService.createEvent({
+					...params
+				})
 				this.$emit('addEvent', params);
 				this.$v.$reset();
 				this.e1 = 1;

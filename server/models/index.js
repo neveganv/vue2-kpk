@@ -11,5 +11,6 @@ db.position = require("./position")(mongoose);
 db.newsCategory = require("./newsCategory")(mongoose);
 db.group = require("./shedule/group")(mongoose);
 db.classes = require("./shedule/class")(mongoose);
+db.shedul = require("./shedule/shedule")(mongoose);
 
 module.exports = db;
