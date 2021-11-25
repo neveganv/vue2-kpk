@@ -7,8 +7,8 @@ export default {
 		const response = await requestService.post(`${prefix}/addEvent`,params)
 		return response?.data
 	},
-	async getAllEvent(){
-		const response = await requestService.post(`${prefix}/getAllEvent`)
+	async getEvent(){
+		const response = await requestService.post(`${prefix}/getEvent`)
 		return response?.data
 	}
 };

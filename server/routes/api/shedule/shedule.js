@@ -7,7 +7,7 @@ const shedule = require("../../../controller/shedule/shedule.controller");
 router.post("/addEvent", shedule.create);
 
 //Find all Event
-router.post("/getAllEvent", shedule.findAll);
+router.post("/getEvent", shedule.findByGroup);
 
 
 

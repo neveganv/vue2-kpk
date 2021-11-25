@@ -2,14 +2,8 @@ const db = require("../../models");
 const Event = db.shedul
 
 
-// Create a new optionsList
+// Create a new Event
 exports.create = (req, res) => {
-    console.log("name:" ,req.body.name,
-        "group:" ,req.body.group,
-        "link:" ,req.body.link,
-        "start:" ,req.body.start,
-       " end:", req.body.end,
-        "content:" ,req.body.content)
       const event = new Event({
           name: req.body.name,
           group: req.body.group,
@@ -19,7 +13,7 @@ exports.create = (req, res) => {
           content: req.body.content
       });
 
-    // Save optionsList in the database
+    // Save Event in the database
     event
         .save(event)
         .then(data => {
@@ -34,8 +28,10 @@ exports.create = (req, res) => {
 
 };
 
-exports.findAll = (req,res) => {
-    Event.find()
+exports.findByGroup = (req,res) => {
+    Event.find({
+        group: req.body.group
+    })
     .then(data => {
         res.send(data);
     })
