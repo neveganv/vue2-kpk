@@ -57,10 +57,9 @@ export default {
 				try {
 					const params = [];
 					params.name = this.group;
-					await sheduleService.createGroup({ ...params });
-					this.$emit('addGroup', params);
+					const group = await sheduleService.createGroup({ ...params });
+					this.$emit('addGroup', group);
 					this.$v.$reset();
-                    console.log(params)
 					this.group = '';
 				} catch (e) {
 					alert(e);

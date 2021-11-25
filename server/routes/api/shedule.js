@@ -4,10 +4,10 @@ const router = express.Router()
 const shedule = require("../../controller/shedule.controller");
 
 //Create new Group
-router.post("/add", shedule.create);
+router.post("/addGroup", shedule.create);
 
 //Find all group
-router.post("/getAll", shedule.findAll);
+router.post("/getAllGroup", shedule.findAll);
 
 
 

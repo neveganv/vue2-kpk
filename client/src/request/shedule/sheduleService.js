@@ -4,11 +4,11 @@ const prefix = '/api/shedule';
 
 export default {
 	async createGroup(params){
-		const response = await requestService.post(`${prefix}/add`,params)
+		const response = await requestService.post(`${prefix}/addGroup`,params)
 		return response?.data
 	},
-	async getAll(){
-		const response = await requestService.post(`${prefix}/getAll`)
+	async getAllGroups(){
+		const response = await requestService.post(`${prefix}/getAllGroup`)
 		return response?.data
 	}
 };

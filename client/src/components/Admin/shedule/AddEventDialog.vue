@@ -23,8 +23,8 @@
 										<v-select
 											prepend-icon="mdi-account-multiple-plus"
 											:items="Object.values(groups)"
-											:item-value="'id'"
-											:item-text="'name'"
+											:item-value="'_id'"
+											:item-text="'group'"
 											v-model="event.group"
 											label="Виберіть групу"
 											:error-messages="GroupError"
@@ -34,7 +34,7 @@
 											dense
 										>
 											<template #selection="{ item }">
-												<v-chip small color="primary">{{ item.name }}</v-chip>
+												<v-chip small color="primary">{{ item.group }}</v-chip>
 											</template></v-select
 										>
 									</VCol>
@@ -281,16 +281,7 @@ export default {
 		visibleAddGroup: false,
 		visibleAddClass: false,
 		tmpGroup: '',
-		groups: [
-			{
-				id: 1,
-				name: 'П-41',
-			},
-			{
-				id: 1,
-				name: 'П-42',
-			},
-		],
+
 		classes: [
 			{ id: 1, name: 'Графіка' },
 			{ id: 2, name: 'Прикольна пара' },
@@ -362,6 +353,9 @@ export default {
 	},
 	props: {
 		visible: {
+			require: true,
+		},
+		groups: {
 			require: true,
 		},
 	},
