@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import classService from '@/request/class/classService';
+import classService from '@/request/shedule/classService';
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
 

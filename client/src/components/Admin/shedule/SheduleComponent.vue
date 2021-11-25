@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import sheduleService from '@/request/shedule/sheduleService';
+import groupService from '@/request/shedule/groupService';
 import SheduleInner from './SheduleInner.vue';
 import AddEventDialog from './AddEventDialog.vue';
 export default {
@@ -85,7 +85,7 @@ export default {
 		},
 		async getGroups() {
 			try {
-				this.groups = await sheduleService.getAllGroups();
+				this.groups = await groupService.getAllGroups();
 			} catch (e) {
 				console.log(e);
 			}

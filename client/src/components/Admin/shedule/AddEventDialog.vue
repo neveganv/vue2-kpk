@@ -270,7 +270,7 @@ import { validationMixin } from 'vuelidate';
 import { required, url } from 'vuelidate/lib/validators';
 import AddGroupDialog from './AddGroupDialog.vue';
 import AddClassDialog from './AddClassDialog.vue';
-import classService from '@/request/class/classService';
+import classService from '@/request/shedule/classService';
 
 export default {
 	components: { AddGroupDialog, AddClassDialog },

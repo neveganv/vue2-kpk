@@ -1,11 +1,11 @@
-const db = require("../models");
-const Shedule = db.shedule
+const db = require("../../models");
+const Group = db.group
 
 
 // Create a new optionsList
-exports.create = (req, res) => {
+exports.createGroup = (req, res) => {
     console.log("Категорія:",req.body.name)
-      const group = new Shedule({
+      const group = new Group({
           group: req.body.name
       });
 
@@ -25,7 +25,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req,res) => {
-    Shedule.find()
+    Group.find()
     .then(data => {
         res.send(data);
     })

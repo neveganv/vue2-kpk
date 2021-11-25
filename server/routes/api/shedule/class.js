@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 
-const classes = require("../../controller/class.controller");
+const classes = require("../../../controller/shedule/class.controller");
 
 //Create new Class
 router.post("/addClass", classes.create);

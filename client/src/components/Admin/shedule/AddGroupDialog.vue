@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import sheduleService from '@/request/shedule/sheduleService';
+import groupService from '@/request/shedule/groupService';
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
 
@@ -57,7 +57,7 @@ export default {
 				try {
 					const params = [];
 					params.name = this.group;
-					const group = await sheduleService.createGroup({ ...params });
+					const group = await groupService.createGroup({ ...params });
 					this.$emit('addGroup', group);
 					this.$v.$reset();
 					this.group = '';

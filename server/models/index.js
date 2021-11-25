@@ -9,7 +9,7 @@ db.news = require("./news")(mongoose);
 db.user = require("./user")(mongoose);
 db.position = require("./position")(mongoose);
 db.newsCategory = require("./newsCategory")(mongoose);
-db.shedule = require("./shedule")(mongoose);
-db.classes = require("./class")(mongoose);
+db.group = require("./shedule/group")(mongoose);
+db.classes = require("./shedule/class")(mongoose);
 
 module.exports = db;
