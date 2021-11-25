@@ -27,6 +27,7 @@ app.use('/api/news', require('./routes/api/news'))
 app.use('/api/user', require('./routes/api/user'))
 app.use('/api/position', require('./routes/api/position'))
 app.use('/api/newsCategory', require('./routes/api/newsCategory')) 
+app.use('/api/shedule', require('./routes/api/shedule'))
 
 //DB
 function start() {

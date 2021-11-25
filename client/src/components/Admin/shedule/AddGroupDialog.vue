@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import newsService from '@/request/news/newsService';
+import sheduleService from '@/request/shedule/sheduleService';
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
 
@@ -57,8 +57,7 @@ export default {
 				try {
 					const params = [];
 					params.name = this.group;
-					params.id = Date.now();
-					// await newsService.addSimpleNewCategory({ ...params });
+					await sheduleService.createGroup({ ...params });
 					this.$emit('addGroup', params);
 					this.$v.$reset();
                     console.log(params)
