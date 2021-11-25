@@ -157,7 +157,7 @@ export default {
 					...params,
 				});
 				this.user = [];
-				this.$emit('addUser', params);
+				this.$emit('addUser');
 			} catch (e) {
 				alert(e);
 			}
@@ -168,7 +168,20 @@ export default {
 		},
 		async onUpdate() {
 			try {
-				console.log(this.user);
+				console.log("tut");
+				const params = [];
+				params.id = this.user._id; 
+				params.name = this.user.name;
+				params.surname = this.user.surname;
+				params.email = this.user.email;
+				params.phone = this.user.phone;
+				params.position = this.user.permission;
+                console.log(params);
+				await usersService.update({
+					...params,
+				});
+				
+				this.$emit('addUser', params);
 			} catch (e) {
 				alert(e);
 			}

@@ -1,3 +1,4 @@
+import { update } from '../../../../server/controller/news.controller';
 import requestService from '../requestService';
 
 const main = 'https://jsonplaceholder.typicode.com';
@@ -20,4 +21,8 @@ export default {
 		const response = await requestService.post(`${prefix}/login`,params)
 		return response?.data
 	},
+	async update(params){
+		const response = await requestService.post(`${prefix}/update`, params)
+		return response?.data
+	}
 };

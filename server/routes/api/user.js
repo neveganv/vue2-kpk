@@ -12,4 +12,7 @@ router.post("/getAll", user.findAll);
 //login user
 router.post("/login", user.login);
 
+//update user
+router.post("/update", user.update);
+
 module.exports = router
