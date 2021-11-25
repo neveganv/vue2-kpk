@@ -30,8 +30,10 @@ exports.create = (req, res) => {
 
 exports.findByGroup = (req,res) => {
     Event.find({
-        group: req.body.group
+        group: req.body.group,
+        
     })
+
     .then(data => {
         res.send(data);
     })

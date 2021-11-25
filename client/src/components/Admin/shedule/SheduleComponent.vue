@@ -54,6 +54,7 @@
 
 <script>
 import groupService from '@/request/shedule/groupService';
+import sheduleService from '@/request/shedule/sheduleService';
 import SheduleInner from './SheduleInner.vue';
 import AddEventDialog from './AddEventDialog.vue';
 export default {
@@ -62,21 +63,21 @@ export default {
 		AddEventDialog,
 	},
 	data: () => ({
-		events: [
-			{
-				name: 'крута пара',
-				start: '2021-11-25 09:00',
-				end: '2021-11-25 10:00',
-				link: 'https://classroom.google.com/u/1/c/Mzg4MTQzMTEzNDA4',
-			},
-		],
+		events: [],
 		visible: false,
 		chosenGroup: '',
 		groups: [],
 	}),
 	methods: {
-		changeGroup(e) {
-			console.log(e);
+		async changeGroup(e) {
+			try {
+				const params = []
+				params.group = e
+				this.events = await sheduleService.getEvent({...params});
+				console.log(this.events)
+			} catch (e) {
+				alert(e);
+			}
 		},
 		addEvent(e) {
 			this.visible = false;
