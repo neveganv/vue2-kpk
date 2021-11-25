@@ -289,6 +289,15 @@ export default {
 		visibleAddGroup: false,
 		visibleAddClass: false,
 		tmpGroup: '',
+		colors: [
+			'blue',
+			'indigo',
+			'deep-purple',
+			'cyan',
+			'green',
+			'orange',
+			'grey darken-1',
+		],
 
 		classes: [],
 		event: [],
@@ -299,7 +308,7 @@ export default {
 	methods: {
 		addGroup(e) {
 			this.visibleAddGroup = false;
-			this.$emit('addGroup',e)
+			this.$emit('addGroup', e);
 		},
 		addClass(e) {
 			this.visibleAddClass = false;
@@ -318,6 +327,7 @@ export default {
 				params.name = this.event.name;
 				params.group = this.event.group;
 				params.link = this.event.link;
+				params.color = this.colors[this.rnd(0, this.colors.length - 1)];
 				if (this.event.content) {
 					params.content = this.event.content;
 				}
@@ -331,6 +341,9 @@ export default {
 				this.e1 = 1;
 				this.event = [];
 			}
+		},
+		rnd(a, b) {
+			return Math.floor((b - a + 1) * Math.random()) + a;
 		},
 		onCancel() {
 			this.event = [];

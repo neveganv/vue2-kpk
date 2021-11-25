@@ -6,7 +6,7 @@
 			:events="events"
 			@click:event="showEvent"
 			color="primary"
-			type="week"
+			:type="type"
 			:short-weekdays="false"
 			first-time="7:30"
 			locale="uk-UA"
@@ -44,20 +44,19 @@
 						</VCol>
 					</VRow>
 					<VRow>
-                        <VCol>
-						<VBtn
-							:href="selectedEvent.link"
-							outlined
-							target="blank"
-							color="primary"
-							v-if="selectedEvent.link"
-						>
-							<VIcon left>mdi-link </VIcon> Посилання
-						</VBtn>
-                        </VCol>
+						<VCol>
+							<VBtn
+								:href="selectedEvent.link"
+								outlined
+								target="blank"
+								color="primary"
+								v-if="selectedEvent.link"
+							>
+								<VIcon left>mdi-link </VIcon> Посилання
+							</VBtn>
+						</VCol>
 					</VRow>
 				</v-card-text>
-			
 			</v-card>
 		</v-menu>
 	</v-sheet>
@@ -68,6 +67,29 @@ export default {
 	props: {
 		events: {
 			require: true,
+		},
+		type: {
+			require: false,
+		},
+		next: {
+			require: false,
+		},
+		prev: {
+			require: false,
+		},
+	},
+	watch: {
+		next: {
+			deep: true,
+			handler() {
+				this.$refs.calendar.next();
+			},
+		},
+		prev: {
+			deep: true,
+			handler() {
+				this.$refs.calendar.prev();
+			},
 		},
 	},
 	data: () => ({

@@ -9,6 +9,7 @@ exports.create = (req, res) => {
           group: req.body.group,
           link: req.body.link,
           start: req.body.start,
+          color: req.body.color,
           end: req.body.end,
           content: req.body.content
       });

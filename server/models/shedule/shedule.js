@@ -15,6 +15,10 @@ module.exports = mongoose => {
                 type:String,
                 require: true
             },
+            color:{
+                type:String,
+                require: true
+            },
             start: {
                 type: String,
                 require: true
