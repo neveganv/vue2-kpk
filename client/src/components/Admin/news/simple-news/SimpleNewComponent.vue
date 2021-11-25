@@ -14,6 +14,7 @@
 			@addNews="addNews"
 			:visible="visible"
 			@close="visible = false"
+			v-if="visible"
 		/>
 	</div>
 </template>

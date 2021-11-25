@@ -43,7 +43,7 @@
 						<VListItemIcon>
 							<VIcon>mdi-calendar</VIcon>
 						</VListItemIcon>
-						<VListItemTitle>Календарик(тестово)</VListItemTitle>
+						<VListItemTitle>Розклад</VListItemTitle>
 					</VListItem>
 				</VListItemGroup>
 				<VListGroup class="listGroupMenu" :value="specialitiesSelector">

@@ -11,7 +11,7 @@
 								class="align-end"
 								@click="detailNew(newItem)"
 							>
-								<v-btn absolute top left  color="primary" tile class="category">
+								<v-btn absolute top left color="primary" tile class="category">
 									{{ newItem.category.name }}
 								</v-btn>
 								<v-img
@@ -89,12 +89,14 @@ export default {
 		text-overflow: ellipsis;
 	}
 }
-.category{
+.category {
+	max-width: 100%;
+
 	top: 0;
 	left: 0;
 	z-index: 3;
 	border-top-right-radius: 5px;
-	border-top-left-radius: 5px;
 	border-bottom-right-radius: 5px;
+	pointer-events: none;
 }
 </style>
