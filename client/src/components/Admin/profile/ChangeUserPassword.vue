@@ -67,6 +67,9 @@ export default {
 		visible: {
 			require: true,
 		},
+		user: {
+			require: true,
+		},
 	},
 	methods: {
 		async onChange() {
@@ -75,7 +78,7 @@ export default {
 					console.log('Паролі не збігаються');
 				} else {
 					const params = [];
-					params.id = '619eb562138a16cf5e937839';
+					params.id = this.user._id;
 					params.password = this.password.confirmedPassword;
 
 					await usersService.changePassword({

@@ -14,7 +14,7 @@
 				></VCol
 			>
 		</VRow>
-		<ChangePassword :visible="showChange" v-if="showChange" @close="showChange = false"/>
+		<ChangePassword :user="user" :visible="showChange" v-if="showChange" @close="showChange = false"/>
 	</div>
 </template>
 
