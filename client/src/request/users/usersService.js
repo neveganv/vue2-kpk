@@ -1,5 +1,6 @@
 import { update } from '../../../../server/controller/news.controller';
 import requestService from '../requestService';
+import axios from 'axios'
 
 const main = 'https://jsonplaceholder.typicode.com';
 const prefix = '/api/user';
@@ -15,6 +16,11 @@ export default {
 	},
 	async getAll(){
 		const response = await requestService.post(`${prefix}/getAll`)
+		return response?.data
+	},
+	async getOne(token){
+		axios.defaults.headers.common['token'] = token
+		const response = await requestService.post(`${prefix}/getUser`, {headers: {token: token}})
 		return response?.data
 	},
 	async login(params){

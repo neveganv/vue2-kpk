@@ -52,7 +52,7 @@ export default {
 		params.password = this.password
 		
         let token = await usersService.login({ ...params });
-		localStorage.token = token
+		localStorage.token = JSON.stringify(token)
 		this.$router.push('/admin')
       } catch (e) {
         alert(e);

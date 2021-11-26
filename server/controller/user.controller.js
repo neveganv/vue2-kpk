@@ -4,6 +4,7 @@ const email = require("../email/email.send");
 const password = require("../generator/passwordGenerator");
 const crypto = require('crypto');
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 
 // Create a new optionsList
@@ -65,7 +66,7 @@ exports.login = (req, res) => {
                         userId: user.id,
                         position: user.position,
                     },
-                    'https://jwt.io/#debugger-io?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+                    process.env.JWT_KEY
                 );
                 user.token = token
                 user.save()
@@ -95,6 +96,20 @@ exports.findAll = (req, res) => {
             });
         });
 };
+
+//get by token
+exports.getUser = (req, res) => {
+    User.findOne({ _id: req.userId }, function (err, user) {
+        if (user === null) {
+            return res.status(400).send({
+                message: "Користувача не знайдено."
+            });
+        }
+        else {
+            res.send(user)
+        }
+    });
+}
 
 exports.update = (req, res) => {
     if (!req.body) {

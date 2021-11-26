@@ -3,7 +3,7 @@
 		<template v-slot:activator="{ on, attrs }">
 			<span v-bind="attrs" v-on="on">
 				<span class="d-flex align-center">
-					<Avatar :name="tmpUserName"  size="40"/>
+					<Avatar :name="user.name + ' ' + user.surname"  size="40"/>
 					<VIcon v-if="attrs['aria-expanded'] === 'false'">mdi-menu-down</VIcon>
 					<VIcon v-else>mdi-menu-up</VIcon>
 				</span>
@@ -13,11 +13,11 @@
 			<VList>
 				<VListItem>
 					<VListItemAvatar>
-						<Avatar :name="tmpUserName" size="50" />
+						<Avatar :name="user.name + ' ' + user.surname" size="50" />
 					</VListItemAvatar>
 					<VListItemContent>
-						<VListItemTitle>Ростик Урдейчук</VListItemTitle>
-						<VListItemSubtitle>admin@gmail.com</VListItemSubtitle>
+						<VListItemTitle>{{user.name}} {{user.surname}}</VListItemTitle>
+						<VListItemSubtitle>{{user.email}}</VListItemSubtitle>
 					</VListItemContent>
 				</VListItem>
 				<VDivider />
@@ -47,7 +47,8 @@ import ChangePassword from '../main/ChangeUserPassword';
 
 export default {
 	props: {
-		tmpUserName: {
+		user: {
+			type: Object,
 			require: true,
 		},
 	},

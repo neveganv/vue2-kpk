@@ -4,10 +4,11 @@ export default {
     get(url, params = {}, headers = {}) {
       return axios.get(`${url}`);
     },
-    post(url, body = {}, config = {}) {
+    post(url, body = {}, headers = {}, config = {}) {
       return axios.post(
         url,
         body,
+        headers,
         config,
       );
     },
