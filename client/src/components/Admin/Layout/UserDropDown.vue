@@ -59,7 +59,8 @@ export default {
 	}),
 	methods: {
 		onLeft() {
-			console.log('left');
+			localStorage.removeItem('token');
+			this.$router.push('/admin/login')
 		},
 	},
 };
