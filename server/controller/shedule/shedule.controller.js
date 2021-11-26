@@ -33,7 +33,6 @@ exports.findByGroup = (req,res) => {
     Event.find({
         group: req.body.group,        
     })
-    .populate('name')
 
     .then(data => {
         res.send(data);
