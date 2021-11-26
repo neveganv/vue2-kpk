@@ -13,7 +13,7 @@ module.exports = mongoose => {
 			},
 			link: {
 				type: String,
-				require: true,
+				require: false,
 			},
 			color: {
 				type: String,

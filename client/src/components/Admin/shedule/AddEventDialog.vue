@@ -328,23 +328,32 @@ export default {
 		onCreate() {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
-				const params = {};
-				params.class = this.event.name;
-				params.group = this.event.group;
-				params.link = this.event.link;
-				params.color = this.colors[this.rnd(0, this.colors.length - 1)];
-				if (this.event.content) {
-					params.content = this.event.content;
+				try {
+					const params = {};
+					params.class = this.event.name;
+					params.group = this.event.group;
+					if (this.event.link) {
+						params.link = this.event.link;
+					}
+					params.color = this.colors[this.rnd(0, this.colors.length - 1)];
+					if (this.event.content) {
+						params.content = this.event.content;
+					}
+					params.start = `${
+						this.event.start_date + ' ' + this.event.start_time
+					}`;
+					params.end = `${this.event.end_date + ' ' + this.event.end_time}`;
+
+					sheduleService.createEvent({
+						...params,
+					});
+					this.$emit('addEvent', params.group);
+					this.$v.$reset();
+					this.e1 = 1;
+					this.event = [];
+				} catch (e) {
+					alert(e);
 				}
-				params.start = `${this.event.start_date + ' ' + this.event.start_time}`;
-				params.end = `${this.event.end_date + ' ' + this.event.end_time}`;
-				sheduleService.createEvent({
-					...params,
-				});
-				this.$emit('addEvent',params);
-				this.$v.$reset();
-				this.e1 = 1;
-				this.event = [];
 			}
 		},
 		rnd(a, b) {

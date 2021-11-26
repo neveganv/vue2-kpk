@@ -161,11 +161,12 @@ export default {
 		addGroup() {
 			this.getGroups();
 		},
-		addEvent(e){
+		addEvent(e) {
 			this.visible = false;
-			this.getEvents();
-			console.log(e)
-			this.chosenGroup = e.group;
+			this.getEvents({ group: e });
+			this.chosenGroup = e;
+
+			console.log(e);
 		},
 		async getGroups() {
 			try {
