@@ -5,7 +5,7 @@ module.exports = mongoose => {
         mongoose.Schema({
             name: {
                 type: Schema.Types.ObjectId,
-                ref: 'class'
+                ref: 'classes'
             },
             group: {
                 type: Schema.Types.ObjectId,
