@@ -341,7 +341,7 @@ export default {
 				sheduleService.createEvent({
 					...params,
 				});
-				this.$emit('addEvent');
+				this.$emit('addEvent',params);
 				this.$v.$reset();
 				this.e1 = 1;
 				this.event = [];

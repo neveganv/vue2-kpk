@@ -30,7 +30,7 @@
 					<v-btn icon>
 						<v-icon>mdi-pencil</v-icon>
 					</v-btn>
-					<v-toolbar-title v-if="selectedEvent.class" v-html="selectedEvent.class.name"></v-toolbar-title>
+					<v-toolbar-title v-if="selectedEvent.name" v-html="selectedEvent.name"></v-toolbar-title>
 				</v-toolbar>
 				<v-card-text>
 					<VRow v-if="selectedEvent.start">
