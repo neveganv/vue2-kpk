@@ -26,7 +26,7 @@
 			offset-x
 		>
 			<v-card color="grey lighten-4" min-width="350px" flat>
-				<v-toolbar color="primary" dark>
+				<v-toolbar :color="selectedEvent.color" dark>
 					<v-btn icon>
 						<v-icon>mdi-pencil</v-icon>
 					</v-btn>
@@ -56,7 +56,7 @@
 								:href="selectedEvent.link"
 								outlined
 								target="blank"
-								color="primary"
+								:color="selectedEvent.color"
 								v-if="selectedEvent.link"
 							>
 								<VIcon left>mdi-link </VIcon> Посилання
