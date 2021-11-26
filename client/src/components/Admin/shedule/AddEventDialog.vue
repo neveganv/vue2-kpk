@@ -64,7 +64,7 @@
 										<v-select
 											prepend-icon="mdi-account-multiple-plus"
 											:items="Object.values(classes)"
-											:item-value="'_id'"
+											:item-value="'name'"
 											:item-text="'name'"
 											v-model="event.name"
 											label="Назва пари"
@@ -329,7 +329,7 @@ export default {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				const params = {};
-				params.name = this.event.name;
+				params.class = this.event.name;
 				params.group = this.event.group;
 				params.link = this.event.link;
 				params.color = this.colors[this.rnd(0, this.colors.length - 1)];
@@ -341,7 +341,7 @@ export default {
 				sheduleService.createEvent({
 					...params,
 				});
-				this.$emit('addEvent', params);
+				this.$emit('addEvent');
 				this.$v.$reset();
 				this.e1 = 1;
 				this.event = [];

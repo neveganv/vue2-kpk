@@ -89,7 +89,12 @@
 				/>
 			</VCol>
 		</VRow>
-		<VRow v-if="!chosenGroup" justify="center" align="center" style="height: 20vh">
+		<VRow
+			v-if="!chosenGroup"
+			justify="center"
+			align="center"
+			style="height: 20vh"
+		>
 			<VBtn
 				text
 				color="error"
@@ -149,7 +154,6 @@ export default {
 				params.group = e;
 				console.log(e);
 				this.events = await sheduleService.getEvent({ ...params });
-				console.log(this.events);
 			} catch (e) {
 				alert(e);
 			}
@@ -159,10 +163,8 @@ export default {
 		},
 		addEvent(e) {
 			this.visible = false;
-			this.events.push(e);
+			this.getEvents();
 			this.chosenGroup = e.group;
-			console.log(e);
-			console.log(this.events);
 		},
 		async getGroups() {
 			try {

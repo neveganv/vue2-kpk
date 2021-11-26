@@ -32,6 +32,11 @@ const routes = [
 		name: 'admin-page-shedule',
 		component: () => import('@/views/Admin/Shedule.vue'),
 	},
+	{
+		path: '/admin-profile',
+		name: 'admin-page-profile',
+		component: () => import('@/views/Admin/Profile.vue'),
+	},
 ];
 const router = new VueRouter({
 	mode: 'history',

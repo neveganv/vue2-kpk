@@ -3,7 +3,7 @@
 		<template v-slot:activator="{ on, attrs }">
 			<span v-bind="attrs" v-on="on">
 				<span class="d-flex align-center">
-					<Avatar :name="user.name + ' ' + user.surname"  size="40"/>
+					<Avatar :name="user.name + ' ' + user.surname" size="40" />
 					<VIcon v-if="attrs['aria-expanded'] === 'false'">mdi-menu-down</VIcon>
 					<VIcon v-else>mdi-menu-up</VIcon>
 				</span>
@@ -16,12 +16,12 @@
 						<Avatar :name="user.name + ' ' + user.surname" size="50" />
 					</VListItemAvatar>
 					<VListItemContent>
-						<VListItemTitle>{{user.name}} {{user.surname}}</VListItemTitle>
-						<VListItemSubtitle>{{user.email}}</VListItemSubtitle>
+						<VListItemTitle>{{ user.name }} {{ user.surname }}</VListItemTitle>
+						<VListItemSubtitle>{{ user.email }}</VListItemSubtitle>
 					</VListItemContent>
 				</VListItem>
 				<VDivider />
-				<VListItem @click="onSettings" dense>
+				<VListItem :to="{ path: '/admin-profile' }" dense>
 					<VListItemIcon>
 						<VIcon>mdi-cog</VIcon>
 					</VListItemIcon>
@@ -35,9 +35,7 @@
 				</VListItem>
 			</VList>
 		</VCard>
-	  <ChangePassword 
-	  :visible="showChange"
-	  v-if="showChange" />
+		<ChangePassword :visible="showChange" v-if="showChange" />
 	</VMenu>
 </template>
 
@@ -57,17 +55,12 @@ export default {
 		ChangePassword,
 	},
 	data: () => ({
-       showChange: false
+		showChange: false,
 	}),
 	methods: {
-		onSettings() {
-			console.log(123);
-			this.showChange = true;
-			console.log(this.showChange)
+		onLeft() {
+			console.log('left');
 		},
-		onLeft(){
-			console.log('left')
-		}
 	},
 };
 </script>

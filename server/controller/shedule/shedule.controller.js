@@ -5,7 +5,7 @@ const Event = db.shedul
 // Create a new Event
 exports.create = (req, res) => {
       const event = new Event({
-          name: req.body.name,
+          name: req.body.class,
           group: req.body.group,
           link: req.body.link,
           start: req.body.start,
@@ -33,7 +33,7 @@ exports.findByGroup = (req,res) => {
     Event.find({
         group: req.body.group,        
     })
-    .populate('name')
+    .populate('group')
 
     .then(data => {
         res.send(data);
