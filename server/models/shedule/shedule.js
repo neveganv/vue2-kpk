@@ -4,8 +4,8 @@ module.exports = mongoose => {
         "shedule",
         mongoose.Schema({
             name: {
-                type: String,
-                require: true
+                type: Schema.Types.ObjectId,
+                ref: 'class'
             },
             group: {
                 type: Schema.Types.ObjectId,

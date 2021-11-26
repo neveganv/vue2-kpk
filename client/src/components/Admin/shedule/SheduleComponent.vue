@@ -147,6 +147,7 @@ export default {
 			try {
 				const params = [];
 				params.group = e;
+				console.log(e);
 				this.events = await sheduleService.getEvent({ ...params });
 				console.log(this.events);
 			} catch (e) {
