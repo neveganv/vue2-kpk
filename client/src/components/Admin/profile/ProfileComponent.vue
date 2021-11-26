@@ -5,19 +5,31 @@
 				Профіль користувача {{ user.name || '--' }} {{ user.surname || '--' }}
 			</VCol>
 		</VRow>
-		<VRow>
-			<VCol cols="8"></VCol>
-			<VCol cols="4"></VCol>
+		<VRow style="height: 80vh">
+			<VCol cols="7"></VCol>
+			<VDivider vertical />
+			<VCol cols="4"
+				><VBtn text color="error" @click="showChange = true"
+					><VIcon>mdi-lock-reset</VIcon>Змінити пароль</VBtn
+				></VCol
+			>
 		</VRow>
+		<ChangePassword :visible="showChange" v-if="showChange" @close="showChange = false"/>
 	</div>
 </template>
 
 <script>
+import ChangePassword from '@/components/Admin/profile/ChangeUserPassword';
+
 import usersService from '@/request/users/usersService';
 
 export default {
+	components: {
+		ChangePassword,
+	},
 	data: () => ({
 		user: [],
+		showChange:false
 	}),
 	methods: {
 		async getUser() {

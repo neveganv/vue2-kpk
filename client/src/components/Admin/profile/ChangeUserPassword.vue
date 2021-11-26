@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility">
-		<VCard width="300">
+		<VCard width="700">
 			<VCardTitle> Змінити пароль </VCardTitle>
 			<VCardText>
 				<VRow>
@@ -51,43 +51,46 @@
 </template>
 
 <script>
-import positionService from '@/request/positions/positionService';
+// import positionService from '@/request/positions/positionService';
 import usersService from '@/request/users/usersService';
 
 export default {
 	name: 'change-users-password-dialog',
-    data:() => ({
-        password:{
-            oldPassword: "",
-            newPassword: "",
-            confirmedPassword:""
-        }
-    }),
-	props:{
-		visible:{
-			require: true
-		}
+	data: () => ({
+		password: {
+			oldPassword: '',
+			newPassword: '',
+			confirmedPassword: '',
+		},
+	}),
+	props: {
+		visible: {
+			require: true,
+		},
 	},
-    methods: {
-       async onChange(){
-            if(this.newPassword !== confirmedPassword){
-                console.log("Паролі не збігаються")
-            }
-			else{
-				const params = [];
-                params.id = "619f366efae053f795a91f83";
-				params.password = this.password.confirmedPassword;
+	methods: {
+		async onChange() {
+			try {
+				if (this.newPassword !== this.confirmedPassword) {
+					console.log('Паролі не збігаються');
+				} else {
+					const params = [];
+					params.id = '619eb562138a16cf5e937839';
+					params.password = this.password.confirmedPassword;
 
-                await usersService.changePassword({
-					...params
-				});
+					await usersService.changePassword({
+						...params,
+					});
+				}
+			} catch (e) {
+				alert(e);
 			}
-        },
-        onClose(){
-			this.$emit("close")
-		}
-    },
-	computed:{
+		},
+		onClose() {
+			this.$emit('close');
+		},
+	},
+	computed: {
 		visibility: {
 			get() {
 				return this.visible;
@@ -96,8 +99,8 @@ export default {
 				this.$emit('close');
 			},
 		},
-	}
-}
+	},
+};
 </script>
 
 <style></style>

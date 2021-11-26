@@ -35,13 +35,11 @@
 				</VListItem>
 			</VList>
 		</VCard>
-		<ChangePassword :visible="showChange" v-if="showChange" />
 	</VMenu>
 </template>
 
 <script>
 import Avatar from './Avatar.vue';
-import ChangePassword from '../main/ChangeUserPassword';
 
 export default {
 	props: {
@@ -52,11 +50,8 @@ export default {
 	},
 	components: {
 		Avatar,
-		ChangePassword,
 	},
-	data: () => ({
-		showChange: false,
-	}),
+
 	methods: {
 		onLeft() {
 			localStorage.removeItem('token');
