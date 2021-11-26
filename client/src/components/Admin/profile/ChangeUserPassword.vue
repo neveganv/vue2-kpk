@@ -71,14 +71,18 @@ export default {
 			require: true,
 		},
 	},
+	mounted() {
+		console.log("N", this.password.newPassword, "C", this.password.confirmedPassword );
+	},
 	methods: {
 		async onChange() {
 			try {
-				if (this.newPassword !== this.confirmedPassword) {
-					console.log('Паролі не збігаються');
+				if (this.password.newPassword !== this.password.confirmedPassword) {
+					alert('Паролі не збігаються');
 				} else {
 					const params = [];
 					params.id = this.user._id;
+					params.oldPassword = this.password.oldPassword;
 					params.password = this.password.confirmedPassword;
 
 					await usersService.changePassword({

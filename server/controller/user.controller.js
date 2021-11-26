@@ -144,13 +144,15 @@ exports.changePassword = (req, res) => {
             });
         }
         else {
-            var hash = crypto.pbkdf2Sync(req.body.oldPassword,
+            console.log(req.body.oldPassword)
+            const oldPassword = req.body.oldPassword;
+            var oldHash = crypto.pbkdf2Sync(oldPassword,
                 user.salt, 1000, 64, `sha512`).toString(`hex`);
-            if (user.hash == hash) {
+            if (user.hash == oldHash) {
                 let salt = crypto.randomBytes(16).toString('hex');
                 let hash = crypto.pbkdf2Sync(req.body.password, salt,
                     1000, 64, `sha512`).toString(`hex`);
-               User.findByIdAndUpdate( id, {password: hash}, {useFindAndModify: false})
+               User.findByIdAndUpdate( id, {hash: hash, salt:salt}, {useFindAndModify: false})
                .then(data => {
                 if (!data) {
                   res.status(404).send({

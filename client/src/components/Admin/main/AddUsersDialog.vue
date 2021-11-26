@@ -171,6 +171,7 @@ export default {
 				console.log("tut");
 				const params = [];
 				params.id = this.user._id; 
+				console.log("userId",this.user._id)
 				params.name = this.user.name;
 				params.surname = this.user.surname;
 				params.email = this.user.email;
