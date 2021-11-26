@@ -174,8 +174,7 @@ export default {
 				params.surname = this.user.surname;
 				params.email = this.user.email;
 				params.phone = this.user.phone;
-				/*params.position = this.user.permission;
-				params.token = JSON.parse(localStorage.token);*/
+				params.position = "619e7c89827cb784d7f78c30";
 				console.log(params);
 	
 				await usersService.update({

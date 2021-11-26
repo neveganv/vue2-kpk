@@ -4,6 +4,7 @@ const email = require("../email/email.send");
 const password = require("../generator/passwordGenerator");
 const crypto = require('crypto');
 const jwt = require("jsonwebtoken");
+const { ObjectId } = require("bson");
 require("dotenv").config();
 
 
@@ -118,8 +119,14 @@ exports.update = (req, res) => {
         });
       }
       const id = req.body.id;
-      const user = req.body;
-      User.findByIdAndUpdate(id, {user}, { useFindAndModify: false })
+      
+       User.findByIdAndUpdate(id, {
+        name: req.body.name,
+        surname: req.body.surname,
+        phone: req.body.phone,
+        email: req.body.email,
+        position: new ObjectId(req.body.position)}, 
+        { useFindAndModify: false })
         .then(data => {
           if (!data) {
             res.status(404).send({
