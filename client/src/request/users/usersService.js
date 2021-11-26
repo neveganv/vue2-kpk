@@ -1,6 +1,7 @@
 import { update } from '../../../../server/controller/news.controller';
 import requestService from '../requestService';
 import axios from 'axios'
+import { deleteUser } from '../../../../server/controller/user.controller';
 
 const main = 'https://jsonplaceholder.typicode.com';
 const prefix = '/api/user';
@@ -34,6 +35,9 @@ export default {
 	async changePassword(params){
 		const response = await requestService.post(`${prefix}/changePassword`, params)
 		return response?.data
+	},
+	async deleteUser(params){
+		const response = await requestService.post(`${prefix}/deleteUser`, params) 
 	}
 
 };
