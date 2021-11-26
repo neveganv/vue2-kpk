@@ -171,6 +171,7 @@ export default {
 		async getGroups() {
 			try {
 				this.groups = await groupService.getAllGroups();
+				this.changeGroup(this.groups[0]._id);
 				this.chosenGroup = this.groups[0]._id;
 			} catch (e) {
 				console.log(e);
