@@ -119,7 +119,7 @@ exports.update = (req, res) => {
       }
       const id = req.body.id;
       const user = req.body;
-       User.findByIdAndUpdate(id, {user}, { useFindAndModify: false })
+      User.findByIdAndUpdate(id, {user}, { useFindAndModify: false })
         .then(data => {
           if (!data) {
             res.status(404).send({

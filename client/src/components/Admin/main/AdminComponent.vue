@@ -17,7 +17,7 @@
 		<add-users-dialog
 			:visible="visibleEdit"
 			@close="visibleEdit = false"
-			
+			@updateUser="updateUser"
 			:edit="true"
 			:chosenUser="chosenUser"
 			v-if="visibleEdit"
@@ -40,6 +40,10 @@ export default {
 		addUser(){
 		this.getUser();
 		this.visible = false
+		},
+		updateUser(){
+			this.getUser();
+			this.visibleEdit = false
 		},
 		async getUser() {
 			try {

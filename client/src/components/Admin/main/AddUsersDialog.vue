@@ -168,21 +168,20 @@ export default {
 		},
 		async onUpdate() {
 			try {
-				console.log("tut");
 				const params = [];
 				params.id = this.user._id; 
-				console.log("userId",this.user._id)
 				params.name = this.user.name;
 				params.surname = this.user.surname;
 				params.email = this.user.email;
 				params.phone = this.user.phone;
-				params.position = this.user.permission;
-                console.log(params);
+				/*params.position = this.user.permission;
+				params.token = JSON.parse(localStorage.token);*/
+				console.log(params);
+	
 				await usersService.update({
 					...params,
 				});
-				
-				this.$emit('addUser', params);
+				this.$emit('updateUser', params);
 			} catch (e) {
 				alert(e);
 			}
