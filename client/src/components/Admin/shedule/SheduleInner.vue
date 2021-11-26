@@ -11,6 +11,13 @@
 			first-time="7:30"
 			locale="uk-UA"
 			:weekdays="[1, 2, 3, 4, 5, 6, 0]"
+		>
+			<template v-slot:day-body="{ date, week }">
+				<div
+					class="v-current-time"
+					:class="{ first: date === week[0].date }"
+					:style="{ top: nowY }"
+				></div> </template
 		></v-calendar>
 		<v-menu
 			v-model="selectedOpen"
@@ -93,12 +100,18 @@ export default {
 		},
 	},
 	data: () => ({
+		value: '',
+		ready: false,
 		selectedEvent: {},
 		selectedElement: null,
 		selectedOpen: false,
 		today: new Date().toISOString().substr(0, 10),
 	}),
 	methods: {
+		test() {
+			console.log(this.$refs);
+			this.$refs.calendar.prev();
+		},
 		showEvent({ nativeEvent, event }) {
 			const open = () => {
 				this.selectedEvent = event;
@@ -120,9 +133,56 @@ export default {
 		getEvents(e) {
 			console.log(e.event.link);
 		},
+		getCurrentTime() {
+			return this.cal
+				? this.cal.times.now.hour * 60 + this.cal.times.now.minute
+				: 0;
+		},
+		scrollToTime() {
+			const time = this.getCurrentTime();
+			const first = Math.max(0, time - (time % 30) - 30);
+
+			this.cal.scrollToTime(first);
+		},
+		updateTime() {
+			setInterval(() => this.cal.updateTimes(), 60 * 1000);
+		},
 	},
-	mounted() {},
+	computed: {
+		cal() {
+			return this.ready ? this.$refs.calendar : null;
+		},
+		nowY() {
+			return this.cal ? this.cal.timeToY(this.cal.times.now) + 'px' : '-10px';
+		},
+	},
+	mounted() {
+		this.ready = true;
+		this.scrollToTime();
+		this.updateTime();
+		this.$refs.calendar.checkChange();
+	},
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.v-current-time {
+	height: 2px;
+	background-color: #ea4335;
+	position: absolute;
+	left: -1px;
+	right: 0;
+	pointer-events: none;
+
+	&.first::before {
+		content: '';
+		position: absolute;
+		background-color: #ea4335;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		margin-top: -5px;
+		margin-left: -6.5px;
+	}
+}
+</style>

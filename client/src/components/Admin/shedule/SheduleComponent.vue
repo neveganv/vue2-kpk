@@ -65,6 +65,9 @@
 							<v-list-item @click="type = 'month'">
 								<v-list-item-title>Місяць</v-list-item-title>
 							</v-list-item>
+							<v-list-item @click="type = 'day'">
+								<v-list-item-title>День</v-list-item-title>
+							</v-list-item>
 						</v-list>
 					</v-menu>
 				</VCol>
@@ -76,7 +79,7 @@
 			</div>
 		</VRow>
 
-		<VRow v-if="chosenGroup">
+		<VRow v-show="chosenGroup">
 			<VCol>
 				<shedule-inner
 					:type="type"
@@ -86,7 +89,7 @@
 				/>
 			</VCol>
 		</VRow>
-		<VRow v-else justify="center" align="center" style="height: 20vh">
+		<VRow v-if="!chosenGroup" justify="center" align="center" style="height: 20vh">
 			<VBtn
 				text
 				color="error"
@@ -136,6 +139,7 @@ export default {
 		typeToLabel: {
 			month: 'Місяць',
 			week: 'Тиждень',
+			day: 'День',
 		},
 	}),
 	methods: {
