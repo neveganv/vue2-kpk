@@ -1,4 +1,3 @@
-import { update } from '../../../../server/controller/news.controller';
 import requestService from '../requestService';
 import axios from 'axios'
 
@@ -33,6 +32,10 @@ export default {
 	},
 	async changePassword(params){
 		const response = await requestService.post(`${prefix}/changePassword`, params)
+		return response?.data
+	},
+	async deleteUser(params){
+		const response = await requestService.post(`${prefix}/deleteUser`, params)
 		return response?.data
 	}
 

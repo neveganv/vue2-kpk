@@ -23,6 +23,11 @@
 							<VIcon> mdi-account-edit</VIcon></VBtn
 						>
 					</td>
+					<td>
+						<VBtn small color="error" @click="deleteUser(user._id)">X
+							<VIcon> mdi-account-delete</VIcon></VBtn
+						>
+					</td>
 				</tr>
 			</tbody>
 		</template>
@@ -42,6 +47,10 @@ export default {
 		editUser(e) {
 			this.$emit('showEdit', e);
 		},
+		deleteUser(e){
+			console.log(e);
+			this.$emit('deleteUser',e);
+		}
 	},
 };
 </script>

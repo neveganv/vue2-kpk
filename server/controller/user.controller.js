@@ -180,4 +180,26 @@ exports.changePassword = (req, res) => {
             }
         }
     });
+},
+exports.deleteUser = (req,res) => {
+    const id = req.body.id;
+
+    User.findByIdAndRemove(id)
+      .then(data => {
+        if (!data) {
+          res.status(404).send({
+            message: `Cannot delete user with id=${id}.`
+          });
+        } else {
+          res.send({
+            message: "user was deleted successfully!"
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Could not delete dish with id=" + id
+        });
+      });
+
 }

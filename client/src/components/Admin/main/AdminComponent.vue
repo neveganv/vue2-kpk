@@ -7,7 +7,10 @@
 			>
 		</div>
 		<VDivider />
-		<UsersList :users="users" @showEdit="showEdit" />
+		<UsersList 
+		:users="users" 
+		@showEdit="showEdit"
+		@deleteUser="deleteUser" />
 		<add-users-dialog
 			:visible="visible"
 			@close="visible = false"
@@ -44,6 +47,17 @@ export default {
 		updateUser(){
 			this.getUser();
 			this.visibleEdit = false
+		},
+		async deleteUser(e){
+		try{	
+			console.log("e",e);
+		const params = [];
+		params.id = e;
+           await usersService.deleteUser({...params});
+		   this.getUser();
+		   }catch (e){
+			   alert(e);
+		   }
 		},
 		async getUser() {
 			try {

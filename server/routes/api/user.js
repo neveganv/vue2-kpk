@@ -20,6 +20,9 @@ router.post("/login", user.login);
 router.post("/update", user.update);
 
 //change password
-router.post("/changePassword", user.changePassword)
+router.post("/changePassword", user.changePassword);
+
+//delete user
+router.post("/deleteUser", user.deleteUser);
 
 module.exports = router
