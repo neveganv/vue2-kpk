@@ -10,5 +10,9 @@ export default {
 	async getEvent(params){
 		const response = await requestService.post(`${prefix}/getEvent`,params)
 		return response?.data
+	},
+	async updateEvent(params){
+		const response = await requestService.post(`${prefix}/updateEvent`, params)
+		return response?.data
 	}
 };

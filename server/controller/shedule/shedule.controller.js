@@ -1,6 +1,6 @@
 const db = require("../../models");
 const Event = db.shedul
-
+const { ObjectId } = require("bson");
 
 // Create a new Event
 exports.create = (req, res) => {
@@ -46,3 +46,28 @@ exports.findByGroup = (req,res) => {
         });
     });
 };
+
+exports.updateEvent = (req,res) => {
+    if (!req.body) {
+        return res.status(400).send({
+          message: "Data to update can not be empty!"
+        });
+      }
+      const id = req.body.id;
+      const event = req.body;
+       Event.findByIdAndUpdate(id, {event,group: new ObjectId(req.body.group)},
+        { useFindAndModify: false })
+        .then(data => {
+          if (!data) {
+            res.status(404).send({
+              message: `Cannot update event with id=${id}.`
+            });
+          } else res.send({ message: "Event was updated successfully." });
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: "Error updating event with id=" + id
+          });
+        });
+
+}
