@@ -1,5 +1,6 @@
 const db = require("../models");
 const News = db.news
+const { ObjectId } = require("bson");
 
 
 // Create a new optionsList
@@ -61,8 +62,7 @@ exports.update = (req, res) => {
         });
       }
       const id = req.body.id;
-
-       News.findByIdAndUpdate(id, {title: req.body.title, category:req.body.category}, { useFindAndModify: false })
+       News.findByIdAndUpdate(id, {title: req.body.title, category: new ObjectId(req.body.category)}, { useFindAndModify: false })
         .then(data => {
           if (!data) {
             res.status(404).send({

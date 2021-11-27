@@ -191,7 +191,7 @@ export default {
           const params = [];
           params.id = this.news._id
           params.title = this.news.title;
-          params.category = this.news.category;
+          params.category = "61a10b1b58d5cc9d3959c3d2";
           params.main_img = this.news.main_img;
           await newsService.updateSimpleNews({ ...params });
           this.$emit("close")
