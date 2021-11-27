@@ -42,9 +42,6 @@ export default {
 		editUser(e) {
 			this.$emit('showEdit', e);
 		},
-		deleteUser(e){
-			this.$emit('deleteUser', e);
-		}
 	},
 };
 </script>

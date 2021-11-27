@@ -119,7 +119,7 @@ exports.update = (req, res) => {
         });
       }
       const id = req.body.id;
-
+      
        User.findByIdAndUpdate(id, {
         name: req.body.name,
         surname: req.body.surname,
@@ -180,29 +180,4 @@ exports.changePassword = (req, res) => {
             }
         }
     });
-}
-
-// Delete a user by id
-exports.deleteUser = (req, res) => {
-    
-    const id = req.params.id;
-  
-    User.findByIdAndRemove(id)
-      .then(data => {
-        if (!data) {
-          res.status(404).send({
-            message: `Cannot delete user with id=${id}.`
-          });
-        } else {
-          res.send({
-            message: "user was deleted successfully!"
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Could not delete dish with id=" + id
-        });
-      });
-  
 }

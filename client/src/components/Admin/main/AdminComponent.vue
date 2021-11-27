@@ -18,7 +18,6 @@
 			:visible="visibleEdit"
 			@close="visibleEdit = false"
 			@updateUser="updateUser"
-			@deleteUser="deleteUser"
 			:edit="true"
 			:chosenUser="chosenUser"
 			v-if="visibleEdit"
@@ -45,10 +44,6 @@ export default {
 		updateUser(){
 			this.getUser();
 			this.visibleEdit = false
-		},
-		async deleteUser(e){
-			console.log(e);
-            await usersService.deleteUser(e);
 		},
 		async getUser() {
 			try {

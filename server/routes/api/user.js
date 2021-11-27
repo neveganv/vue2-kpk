@@ -4,10 +4,10 @@ const router = express.Router()
 const user = require("../../controller/user.controller");
 const token = require("../../middleware/checkToken")
 
-//Create new User
+//Create new Mews
 router.post("/add", user.create);
 
-//Find all User
+//Find all News
 router.post("/getAll", user.findAll);
 
 //Find one by token
@@ -21,8 +21,5 @@ router.post("/update", user.update);
 
 //change password
 router.post("/changePassword", user.changePassword)
-
-//delete User
-router.post("/deleteUser",user.deleteUser)
 
 module.exports = router
