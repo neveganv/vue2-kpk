@@ -1,5 +1,5 @@
 <template>
-	<v-simple-table class="p-1">
+	<v-simple-table class="p-1 my-table">
 		<template v-slot:default>
 			<thead>
 				<tr>
@@ -19,14 +19,14 @@
 					<td>{{ user.email || '--' }}</td>
 					<td>{{ user.position.title || '--' }}</td>
 					<td>
-						<VBtn small color="primary" @click="editUser(user)">
-							<VIcon> mdi-account-edit</VIcon></VBtn
-						>
-					</td>
-					<td>
-						<VBtn small color="error" @click="deleteUser(user._id)">X
-							<VIcon> mdi-account-delete</VIcon></VBtn
-						>
+						<VRow>
+							<VBtn small color="primary" @click="editUser(user)">
+								<VIcon> mdi-account-edit</VIcon></VBtn
+							>
+							<VBtn small color="error" @click="deleteUser(user._id)">
+								<VIcon> mdi-delete</VIcon></VBtn
+							>
+						</VRow>
 					</td>
 				</tr>
 			</tbody>
@@ -47,12 +47,37 @@ export default {
 		editUser(e) {
 			this.$emit('showEdit', e);
 		},
-		deleteUser(e){
+		deleteUser(e) {
 			console.log(e);
-			this.$emit('deleteUser',e);
-		}
+			this.$emit('deleteUser', e);
+		},
 	},
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.my-table {
+	tr {
+		th,
+		td {
+			width: auto;
+			white-space: nowrap;
+			overflow-x: scroll;
+			&:nth-child(6) {
+				width: 10%;
+				text-align: center !important;
+				div {
+					flex-wrap: nowrap;
+					justify-content: space-between;
+
+					button {
+						&:nth-child(1) {
+							margin-right: 10px;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+</style>
