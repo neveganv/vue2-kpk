@@ -59,14 +59,14 @@
 						<v-select
 							prepend-icon="mdi-shield-account"
 							:items="Object.values(categories)"
-							:item-value=" edit ? user.permission : '_id'"
+							:item-value="'_id'"
 							:item-text="'title'"
 							v-model="user.permission"
-      
 							label="Посада"
 							hide-details
 							outlined
 							dense
+							clearable
 						>
 							<template #selection="{ item }">
 								<v-chip small color="primary">{{ item.title }}</v-chip>
@@ -130,12 +130,14 @@ export default {
 		getChosenUser() {
 			if (this.chosenUser) {
 				this.user = this.chosenUser;
-				this.user.permission = this.user.position.title;
+				this.user.permission = this.user.position._id;
+				console.log(this.user.permission);
 			}
 		},
 		async getPositions() {
 			try {
 				this.categories = await positionService.getAll();
+				console.log(this.categories);
 			} catch (e) {
 				alert(e);
 			}
@@ -163,20 +165,20 @@ export default {
 			}
 		},
 		addedPosition(position) {
-			this.categories.push(position);
+			this.getPositions();
 			this.visibleAdd = false;
 		},
 		async onUpdate() {
 			try {
 				const params = [];
-				params.id = this.user._id; 
+				params.id = this.user._id;
 				params.name = this.user.name;
 				params.surname = this.user.surname;
 				params.email = this.user.email;
 				params.phone = this.user.phone;
-				params.position = "619e7c89827cb784d7f78c30";
+				params.position = this.user.permission;
 				console.log(params);
-	
+
 				await usersService.update({
 					...params,
 				});

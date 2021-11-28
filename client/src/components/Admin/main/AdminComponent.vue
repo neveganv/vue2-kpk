@@ -38,8 +38,10 @@ export default {
 
 	mounted() {
 		this.getUser();
+
 	},
 	methods: {
+
 		addUser(){
 		this.getUser();
 		this.visible = false
@@ -55,6 +57,7 @@ export default {
 		params.id = e;
            await usersService.deleteUser({...params});
 		   this.getUser();
+		   
 		   }catch (e){
 			   alert(e);
 		   }
@@ -62,6 +65,7 @@ export default {
 		async getUser() {
 			try {
 				this.users = await usersService.getAll();
+						console.log(this.users);
 			} catch (e) {
 				alert(e);
 			}
