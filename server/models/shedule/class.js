@@ -6,6 +6,10 @@ module.exports = mongoose => {
             name: {
                 type: String,
                 require: true
+            },
+            color: {
+                type: String,
+                require: true
             }
         })
     )

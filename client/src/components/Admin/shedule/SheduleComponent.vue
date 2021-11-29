@@ -147,12 +147,18 @@ export default {
 			day: 'День',
 		},
 	}),
+	watch: {
+		chosenGroup(e) {
+			console.log(e);
+			this.changeGroup(e);
+		},
+	},
 	methods: {
 		async changeGroup(e) {
 			try {
+				console.log(e);
 				const params = [];
 				params.group = e;
-				console.log(e);
 				this.events = await sheduleService.getEvent({ ...params });
 			} catch (e) {
 				alert(e);
@@ -163,7 +169,7 @@ export default {
 		},
 		addEvent(e) {
 			this.visible = false;
-			this.getEvents({ group: e });
+			console.log(e);
 			this.chosenGroup = e;
 
 			console.log(e);
@@ -196,7 +202,7 @@ export default {
 			nativeEvent.stopPropagation();
 		},
 		getEvents(e) {
-			console.log(e.event.link);
+			// console.log(e.event.link);
 			// window.open(e.event.link);
 		},
 	},

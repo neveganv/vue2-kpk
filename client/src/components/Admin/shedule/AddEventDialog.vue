@@ -64,18 +64,24 @@
 										<v-select
 											prepend-icon="mdi-account-multiple-plus"
 											:items="Object.values(classes)"
-											:item-value="'name'"
+											return-object
 											:item-text="'name'"
 											v-model="event.name"
 											label="Назва пари"
 											:error-messages="NameError"
 											:hide-details="!NameError.length"
 											outlined
+											@change="changeClass"
 											clearable
 											dense
+											:color="event.name ? event.name.color : 'primary'"
 										>
 											<template #selection="{ item }">
-												<v-chip small color="primary">{{ item.name }}</v-chip>
+												<v-chip
+													small
+													:color="item.name ? item.color : 'primary'"
+													>{{ item.name }}</v-chip
+												>
 											</template></v-select
 										>
 									</VCol>
@@ -311,11 +317,13 @@ export default {
 		this.getClasses();
 	},
 	methods: {
+		changeClass(e) {},
 		addGroup(e) {
 			this.visibleAddGroup = false;
 			this.$emit('addGroup', e);
 		},
 		addClass(e) {
+			this.event.name = e;
 			this.visibleAddClass = false;
 			this.getClasses();
 		},
@@ -330,12 +338,12 @@ export default {
 			if (!this.$v.$invalid) {
 				try {
 					const params = {};
-					params.class = this.event.name;
+					params.class = this.event.name.name;
 					params.group = this.event.group;
 					if (this.event.link) {
 						params.link = this.event.link;
 					}
-					params.color = this.colors[this.rnd(0, this.colors.length - 1)];
+					params.color = this.event.name.color;
 					if (this.event.content) {
 						params.content = this.event.content;
 					}
@@ -483,7 +491,11 @@ export default {
 			if (!this.$v.event.link.$dirty) {
 				return errors;
 			}
-			!this.$v.event.link.url && errors.push('Посилання повинне бути валідним');
+			if (this.event.link) {
+				!this.$v.event.link.url &&
+					errors.push('Посилання повинне бути валідним');
+				return errors;
+			}
 			return errors;
 		},
 	},

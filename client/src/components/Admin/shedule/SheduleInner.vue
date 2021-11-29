@@ -50,14 +50,14 @@
 							<p v-if="selectedEvent.content">{{ selectedEvent.content }}</p>
 						</VCol>
 					</VRow>
-					<VRow>
+					<VRow v-if="selectedEvent.link">
 						<VCol>
 							<VBtn
 								:href="selectedEvent.link"
 								outlined
 								target="blank"
 								:color="selectedEvent.color"
-								v-if="selectedEvent.link"
+								
 							>
 								<VIcon left>mdi-link </VIcon> Посилання
 							</VBtn>

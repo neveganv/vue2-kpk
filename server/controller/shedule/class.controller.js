@@ -6,7 +6,8 @@ const Classes = db.classes
 exports.create = (req, res) => {
     console.log("Категорія:",req.body.name)
       const classes = new Classes({
-          name: req.body.name
+          name: req.body.name,
+          color: req.body.color
       });
 
     // Save Classes in the database
