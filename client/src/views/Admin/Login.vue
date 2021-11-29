@@ -20,6 +20,9 @@
               dense
               outlined
               hide-details
+              :type="passwordVisible ? 'text' : 'password'"
+              :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="passwordVisible = !passwordVisible"
               v-model="password"
               label="Пароль"
             ></v-text-field>
@@ -43,6 +46,7 @@ export default {
   data: () => ({
     password: null,
     email: null,
+    passwordVisible:false
   }),
   methods: {
     async login() {
