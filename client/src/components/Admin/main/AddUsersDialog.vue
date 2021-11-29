@@ -108,9 +108,10 @@ import usersService from '@/request/users/usersService';
 import AddNewPermissionDialog from './AddNewPermissionDialog.vue';
 import { validationMixin } from 'vuelidate';
 import { required, email } from 'vuelidate/lib/validators';
+import phoneMask from '@/validators/phoneMask';
 
 export default {
-	components: { AddNewPermissionDialog },
+	components: { AddNewPermissionDialog, phoneMask },
 	name: 'add-users-dialog',
 	mixins: [validationMixin],
 
@@ -141,6 +142,7 @@ export default {
 			},
 			phone: {
 				required,
+				phoneMask,
 			},
 			email: {
 				required,
@@ -154,6 +156,7 @@ export default {
 	mounted() {
 		this.getChosenUser();
 		this.getPositions();
+		this.user.phone = this.user.phone.replace('+380', '');
 	},
 	methods: {
 		getChosenUser() {
@@ -183,7 +186,7 @@ export default {
 					params.name = this.user.name;
 					params.surname = this.user.surname;
 					params.email = this.user.email;
-					params.phone = this.user.phone;
+					params.phone = `+380${this.user.phone}`;
 					params.position = this.user.permission;
 
 					await usersService.addNewUser({
@@ -210,7 +213,7 @@ export default {
 					params.name = this.user.name;
 					params.surname = this.user.surname;
 					params.email = this.user.email;
-					params.phone = this.user.phone;
+					params.phone = `+380${this.user.phone}`;
 					params.position = this.user.permission;
 					console.log(params);
 
@@ -255,6 +258,10 @@ export default {
 		PhoneError() {
 			const errors = [];
 			if (!this.$v.user.phone.$dirty) {
+				return errors;
+			}
+			if (!this.$v.user.phone.phoneMask) {
+				errors.push('Телефон повинен бути валідним');
 				return errors;
 			}
 			!this.$v.user.phone.required &&
