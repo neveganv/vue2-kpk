@@ -202,4 +202,21 @@ exports.deleteUser = (req,res) => {
         });
       });
 
-}
+},
+
+//Find user by Id
+exports.findUserById = (req, res) => {
+    
+    User.find(req.body.id)
+    .then(data => {
+        res.send(data);
+        console.log(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while retrieving blogs."
+        });
+    });
+
+} 

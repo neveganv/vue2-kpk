@@ -37,6 +37,10 @@ export default {
 	async deleteUser(params){
 		const response = await requestService.post(`${prefix}/deleteUser`, params)
 		return response?.data
+	},
+	async findUserById(params){
+		const response = await requestService.post(`${prefix}/findUserById`, params)
+		return response?.data
 	}
 
 };

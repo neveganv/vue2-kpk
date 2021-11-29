@@ -25,4 +25,7 @@ router.post("/changePassword", user.changePassword);
 //delete user
 router.post("/deleteUser", user.deleteUser);
 
+//find user by id
+router.post("/findUserById", user.findUserById);
+
 module.exports = router
