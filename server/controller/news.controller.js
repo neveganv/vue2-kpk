@@ -62,7 +62,7 @@ exports.update = (req, res) => {
         });
       }
       const id = req.body.id;
-       News.findByIdAndUpdate(id, {title: req.body.title, category: new ObjectId(req.body.category)}, { useFindAndModify: false })
+       News.findByIdAndUpdate(id, {title: req.body.title, category: new ObjectId(req.body.category),main_img:req.body.main_img}, { useFindAndModify: false })
         .then(data => {
           if (!data) {
             res.status(404).send({

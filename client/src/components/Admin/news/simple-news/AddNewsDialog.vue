@@ -50,6 +50,7 @@
 				<VRow>
 					<VCol>
 						<v-file-input
+							v-if="!chosenNews"
 							dense
 							counter
 							label="Головна картинка"
@@ -63,7 +64,7 @@
 							:error-messages="MainImageError"
 							:hide-details="!MainImageError.length && !rules.length"
 							@change="onFileChange"
-              	@input.native="$v.news.main_img.$touch()"
+							@input.native="$v.news.main_img.$touch()"
 						>
 							<template v-slot:selection="{ index, text }">
 								<v-chip v-if="index < 2" label small>
@@ -78,6 +79,42 @@
 								</span>
 							</template>
 						</v-file-input>
+						<VCard v-else>
+							<v-img
+								height="140"
+								:lazy-src="news.main_img"
+								:src="news.main_img"
+							>
+								<template v-slot:placeholder>
+									<v-row
+										class="fill-height ma-0"
+										align="center"
+										justify="center"
+									>
+										<v-progress-circular
+											indeterminate
+											color="primary "
+										></v-progress-circular>
+									</v-row>
+								</template>
+							</v-img>
+							<v-card-actions>
+                Головна картинка
+								<v-spacer></v-spacer>
+								<v-btn icon color="error">
+									<v-icon>mdi-delete</v-icon>
+								</v-btn>
+								<v-btn icon color="primary" @click="onEditImage">
+									<v-icon>mdi-square-edit-outline</v-icon>
+								</v-btn>
+							</v-card-actions>
+							<input
+								v-show="!chosenNews && chosenNews"
+								type="file"
+								ref="image"
+								@change="onChangeEditImg"
+							/>
+						</VCard>
 					</VCol>
 				</VRow>
 
@@ -86,9 +123,7 @@
 			<VCardActions>
 				<VSpacer />
 				<VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
-				<VBtn color="primary" @click="onUpdate" v-if="visibleEdit"
-					>Оновити</VBtn
-				>
+				<VBtn color="primary" @click="onUpdate" v-if="chosenNews">Оновити</VBtn>
 				<VBtn color="primary" @click="onCreate" v-else> Створити </VBtn>
 			</VCardActions>
 		</VCard>
@@ -145,10 +180,10 @@ export default {
 		},
 		chosenNews: {
 			require: false,
+			default: null,
 		},
 	},
 	mounted() {
-		console.log(this.$v);
 		this.getCategories();
 		this.getChosenNews();
 	},
@@ -158,12 +193,11 @@ export default {
 			this.getCategories();
 		},
 		getChosenNews() {
-			console.log('chosen news', this.chosenNews);
 			if (this.chosenNews) {
+				console.log(this.chosenNews);
+				this.$v.$touch();
 				this.news = this.chosenNews;
-				this.news.permission = this.news.position.title;
-				console.log('ch', this.chosenNews);
-				console.log('Класі новини: ', this.news);
+				this.news.category = this.news.category._id;
 			}
 		},
 		onCancel() {
@@ -190,28 +224,43 @@ export default {
 			}
 		},
 		async onUpdate() {
-			/* this.$v.$touch();
-      if (!this.$v.$invalid) {*/
-			try {
-				const params = [];
-				params.id = this.news._id;
-				params.title = this.news.title;
-				params.category = '61a10b1b58d5cc9d3959c3d2';
-				params.main_img = this.news.main_img;
-				await newsService.updateSimpleNews({ ...params });
-				this.$emit('close');
-				this.news = [];
-				// this.$v.$reset();
-			} catch (e) {
-				alert(e);
+			this.$v.$touch();
+			if (!this.$v.$invalid) {
+				try {
+					const params = [];
+					params.id = this.news._id;
+					params.title = this.news.title;
+					params.category = this.news.category;
+					params.main_img = this.news.main_img;
+					await newsService.updateSimpleNews({ ...params });
+					this.$emit('addNews', params);
+					this.news = [];
+					this.$v.$reset();
+				} catch (e) {
+					alert(e);
+				}
 			}
 		},
+		onEditImage() {
+			this.$nextTick(function () {
+				this.$refs.image.click();
+			});
+		},
+		onChangeEditImg(e) {
+			console.log(e.target.files[0]);
+			this.onFileChange(e.target.files[0]);
+		
+		},
 		onFileChange(files) {
+			console.log(files);
 			if (files) {
 				const reader = new FileReader();
 				reader.readAsDataURL(files);
 				reader.onload = e => {
 					this.base64image = e.target.result;
+          if(this.chosenNews){
+            	this.news.main_img = this.base64image;
+          }
 				};
 			}
 		},
@@ -260,6 +309,7 @@ export default {
 		},
 		MainImageError() {
 			const errors = [];
+
 			if (!this.$v.news.main_img.$dirty) {
 				return errors;
 			}

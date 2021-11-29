@@ -15,13 +15,9 @@
 			:visible="visible"
 			@close="visible = false"
 			v-if="visible"
-		/>
-		<AddNewDialog
-			:visibleEdit="visibleEdit"
 			:chosenNews="clickNews"
-			@close="visibleEdit = false"
-			v-if="visibleEdit"
 		/>
+
 	</div>
 </template>
 
@@ -34,9 +30,8 @@ export default {
 	components: { NewsList, AddNewDialog },
 	data: () => ({
 		visible: false,
-		visibleEdit: false,
 		news: [],
-		clickNews: []
+		clickNews: null
 	}),
 	mounted() {
 		this.getNews();
@@ -44,14 +39,16 @@ export default {
 	methods: {
 		addNews() {
 			this.visible = false;
+			
 			this.getNews();
+			console.log(this.news);
 		},
 		updateNews(){
             this.edit = false;
 			this.getNews();
 		},
 		showNews(e){
-			this.visibleEdit =true,
+			this.visible =true,
 			this.clickNews = e;
 		},
 		async getNews() {

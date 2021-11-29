@@ -14,7 +14,7 @@
 							:hide-details="!NameError.length"
 							:error-messages="NameError"
 							v-model="user.name"
-								@input.native="$v.user.name.$touch()"
+							@input.native="$v.user.name.$touch()"
 						>
 						</VTextField>
 					</VCol>
@@ -158,16 +158,20 @@ export default {
 		},
 	},
 	mounted() {
+		
 		this.getChosenUser();
 		this.getPositions();
+						console.log(this.chosenUser);
 	},
 	methods: {
 		getChosenUser() {
 			if (this.chosenUser) {
+
 				this.$v.$touch();
-				this.user.phone = this.user.phone.replace('+380', '');
 
 				this.user = this.chosenUser;
+				this.user.phone = this.user.phone.replace('+380', '');
+
 				this.user.permission = this.user.position._id;
 			}
 		},
