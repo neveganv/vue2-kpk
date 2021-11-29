@@ -11,7 +11,8 @@
 							prepend-icon="mdi-account"
 							outlined
 							dense
-							hide-details
+							:hide-details="!NameError.length"
+							:error-messages="NameError"
 							v-model="user.name"
 						>
 						</VTextField>
@@ -21,7 +22,8 @@
 							label="Прізвище"
 							outlined
 							dense
-							hide-details
+							:hide-details="!SurnameError.length"
+							:error-messages="SurnameError"
 							v-model="user.surname"
 						>
 						</VTextField>
@@ -34,7 +36,8 @@
 							prepend-icon="mdi-email"
 							outlined
 							dense
-							hide-details
+							:hide-details="!EmailError.length"
+							:error-messages="EmailError"
 							v-model="user.email"
 						>
 						</VTextField>
@@ -47,8 +50,9 @@
 							prepend-icon="mdi-phone"
 							outlined
 							dense
-							hide-details
 							prefix="+380"
+							:hide-details="!PhoneError.length"
+							:error-messages="PhoneError"
 							v-model="user.phone"
 						>
 						</VTextField>
@@ -63,9 +67,10 @@
 							:item-text="'title'"
 							v-model="user.permission"
 							label="Посада"
-							hide-details
 							outlined
 							dense
+							:hide-details="!PermissionError.length"
+							:error-messages="PermissionError"
 							clearable
 						>
 							<template #selection="{ item }">
@@ -101,10 +106,14 @@
 import positionService from '@/request/positions/positionService';
 import usersService from '@/request/users/usersService';
 import AddNewPermissionDialog from './AddNewPermissionDialog.vue';
+import { validationMixin } from 'vuelidate';
+import { required, email } from 'vuelidate/lib/validators';
 
 export default {
 	components: { AddNewPermissionDialog },
 	name: 'add-users-dialog',
+	mixins: [validationMixin],
+
 	props: {
 		visible: {
 			require: true,
@@ -122,6 +131,26 @@ export default {
 		user: [],
 		visibleAdd: false,
 	}),
+	validations: {
+		user: {
+			name: {
+				required,
+			},
+			surname: {
+				required,
+			},
+			phone: {
+				required,
+			},
+			email: {
+				required,
+				email,
+			},
+			permission: {
+				required,
+			},
+		},
+	},
 	mounted() {
 		this.getChosenUser();
 		this.getPositions();
@@ -129,39 +158,43 @@ export default {
 	methods: {
 		getChosenUser() {
 			if (this.chosenUser) {
+				this.$v.$touch();
 				this.user = this.chosenUser;
 				this.user.permission = this.user.position._id;
-				console.log(this.user.permission);
 			}
 		},
 		async getPositions() {
 			try {
 				this.categories = await positionService.getAll();
-				console.log(this.categories);
 			} catch (e) {
 				alert(e);
 			}
 		},
 		onCancel() {
 			this.user = [];
+			this.$v.$reset();
 			this.$emit('close');
 		},
 		async onCreate() {
-			try {
-				const params = [];
-				params.name = this.user.name;
-				params.surname = this.user.surname;
-				params.email = this.user.email;
-				params.phone = this.user.phone;
-				params.position = this.user.permission;
+			this.$v.$touch();
+			if (!this.$v.$invalid) {
+				try {
+					const params = [];
+					params.name = this.user.name;
+					params.surname = this.user.surname;
+					params.email = this.user.email;
+					params.phone = this.user.phone;
+					params.position = this.user.permission;
 
-				await usersService.addNewUser({
-					...params,
-				});
-				this.user = [];
-				this.$emit('addUser');
-			} catch (e) {
-				alert(e);
+					await usersService.addNewUser({
+						...params,
+					});
+					this.user = [];
+					this.$emit('addUser');
+					this.$v.$reset();
+				} catch (e) {
+					alert(e);
+				}
 			}
 		},
 		addedPosition(position) {
@@ -169,22 +202,26 @@ export default {
 			this.visibleAdd = false;
 		},
 		async onUpdate() {
-			try {
-				const params = [];
-				params.id = this.user._id;
-				params.name = this.user.name;
-				params.surname = this.user.surname;
-				params.email = this.user.email;
-				params.phone = this.user.phone;
-				params.position = this.user.permission;
-				console.log(params);
+			this.$v.$touch();
+			if (!this.$v.$invalid) {
+				try {
+					const params = [];
+					params.id = this.user._id;
+					params.name = this.user.name;
+					params.surname = this.user.surname;
+					params.email = this.user.email;
+					params.phone = this.user.phone;
+					params.position = this.user.permission;
+					console.log(params);
 
-				await usersService.update({
-					...params,
-				});
-				this.$emit('updateUser', params);
-			} catch (e) {
-				alert(e);
+					await usersService.update({
+						...params,
+					});
+					this.$emit('updateUser', params);
+					this.$v.$reset();
+				} catch (e) {
+					alert(e);
+				}
 			}
 		},
 	},
@@ -196,6 +233,55 @@ export default {
 			set() {
 				this.$emit('close');
 			},
+		},
+		NameError() {
+			const errors = [];
+			if (!this.$v.user.name.$dirty) {
+				return errors;
+			}
+			!this.$v.user.name.required &&
+				errors.push('Заголовок обов`язкове поле для заповнення');
+			return errors;
+		},
+		SurnameError() {
+			const errors = [];
+			if (!this.$v.user.surname.$dirty) {
+				return errors;
+			}
+			!this.$v.user.surname.required &&
+				errors.push('Прізвище обов`язкове поле для заповлення');
+			return errors;
+		},
+		PhoneError() {
+			const errors = [];
+			if (!this.$v.user.phone.$dirty) {
+				return errors;
+			}
+			!this.$v.user.phone.required &&
+				errors.push('Телефон обов`язкове поле для заповлення');
+			return errors;
+		},
+		EmailError() {
+			const errors = [];
+			if (!this.$v.user.email.$dirty) {
+				return errors;
+			}
+			if (!this.$v.user.email.email) {
+				errors.push('Пошта повинна бути валідна');
+				return errors;
+			}
+			!this.$v.user.email.required &&
+				errors.push('Пошта обов`язкове поле для заповлення');
+			return errors;
+		},
+		PermissionError() {
+			const errors = [];
+			if (!this.$v.user.permission.$dirty) {
+				return errors;
+			}
+			!this.$v.user.permission.required &&
+				errors.push('Посада обов`язкове поле для заповлення');
+			return errors;
 		},
 	},
 };
