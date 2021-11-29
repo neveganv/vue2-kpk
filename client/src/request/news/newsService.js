@@ -24,5 +24,9 @@ export default {
 	async updateSimpleNews(params){
 		const response = await requestService.post(`${prefix}/update`, params)
 		return response?.data 
+	},
+	async deleteSimpleNews(params){
+		const response = await requestService.post(`${prefix}/deleteNews`, params)
+		return response?.data
 	}
 };

@@ -79,3 +79,25 @@ exports.update = (req, res) => {
 			});
 		});
 };
+exports.deleteNews = (req,res) => {
+    const id = req.body.id;
+
+    News.findByIdAndRemove(id)
+      .then(data => {
+        if (!data) {
+          res.status(404).send({
+            message: `Cannot delete news with id=${id}.`
+          });
+        } else {
+          res.send({
+            message: "News was deleted successfully!"
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Could not delete news with id=" + id
+        });
+      });
+
+};
