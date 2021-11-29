@@ -28,5 +28,9 @@ export default {
 	async deleteSimpleNews(params){
 		const response = await requestService.post(`${prefix}/deleteNews`, params)
 		return response?.data
+	},
+	async getSimpleNewsByCategories(params){
+		const response = await requestService.post(`${prefix}/getByCategory`, params)
+		return response?.data 
 	}
 };
