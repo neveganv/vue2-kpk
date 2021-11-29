@@ -207,7 +207,9 @@ exports.deleteUser = (req,res) => {
 //Find user by Id
 exports.findUserById = (req, res) => {
     
-    User.find(req.body.id)
+    User.find({
+        _id: req.body.id
+    })
     .then(data => {
         res.send(data);
         console.log(data);

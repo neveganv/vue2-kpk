@@ -14,5 +14,9 @@ export default {
 	async updateEvent(params){
 		const response = await requestService.post(`${prefix}/updateEvent`, params)
 		return response?.data
+	},
+	async getEventById(params){
+		const response = await requestService.post(`${prefix}/findEventById`, params)
+		return response?.data
 	}
 };

@@ -47,6 +47,20 @@ exports.findByGroup = (req,res) => {
     });
 };
 
+exports.findEventById = (req, res) => {
+  Event.find({
+    _id: req.body.id
+  })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: 'Не вдалось отримати пару за вибраним ід.',
+    });
+  });
+}
+
 exports.updateEvent = (req,res) => {
     if (!req.body) {
         return res.status(400).send({
