@@ -14,6 +14,7 @@
 							:hide-details="!NameError.length"
 							:error-messages="NameError"
 							v-model="user.name"
+								@input.native="$v.user.name.$touch()"
 						>
 						</VTextField>
 					</VCol>
@@ -25,6 +26,7 @@
 							:hide-details="!SurnameError.length"
 							:error-messages="SurnameError"
 							v-model="user.surname"
+							@input.native="$v.user.surname.$touch()"
 						>
 						</VTextField>
 					</VCol>
@@ -39,6 +41,7 @@
 							:hide-details="!EmailError.length"
 							:error-messages="EmailError"
 							v-model="user.email"
+							@blur="$v.user.email.$touch()"
 						>
 						</VTextField>
 					</VCol>
@@ -54,6 +57,7 @@
 							:hide-details="!PhoneError.length"
 							:error-messages="PhoneError"
 							v-model="user.phone"
+							@blur="$v.user.phone.$touch()"
 						>
 						</VTextField>
 					</VCol>
@@ -156,12 +160,13 @@ export default {
 	mounted() {
 		this.getChosenUser();
 		this.getPositions();
-		this.user.phone = this.user.phone.replace('+380', '');
 	},
 	methods: {
 		getChosenUser() {
 			if (this.chosenUser) {
 				this.$v.$touch();
+				this.user.phone = this.user.phone.replace('+380', '');
+
 				this.user = this.chosenUser;
 				this.user.permission = this.user.position._id;
 			}
