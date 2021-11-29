@@ -118,7 +118,11 @@
 					</VCol>
 				</VRow>
 
-				тут буде едітор, но його поки немає
+				<VRow>
+          <VCol>
+              <vue-editor @input="test" v-model="news.content"></vue-editor>
+          </VCol>
+        </VRow>
 			</VCardText>
 			<VCardActions>
 				<VSpacer />
@@ -136,6 +140,7 @@
 </template>
 
 <script>
+import { VueEditor } from "vue2-editor";
 import AddNewCategoryDialog from './AddNewCategoryDialog.vue';
 import newsService from '@/request/news/newsService';
 import { validationMixin } from 'vuelidate';
@@ -145,6 +150,7 @@ export default {
 	mixins: [validationMixin],
 	components: {
 		AddNewCategoryDialog,
+    VueEditor
 	},
 
 	data: () => ({
@@ -157,6 +163,7 @@ export default {
 		visibleAdd: false,
 		base64image: '',
 	}),
+
 	validations: {
 		news: {
 			title: {
@@ -188,6 +195,9 @@ export default {
 		this.getChosenNews();
 	},
 	methods: {
+    test(e){
+      console.log(e);
+    },
 		addCategory() {
 			this.visibleAdd = false;
 			this.getCategories();
@@ -213,6 +223,7 @@ export default {
 					params.title = this.news.title;
 					params.category = this.news.category;
 					params.main_img = this.base64image;
+					params.content = this.news.content;
 					console.log('params', params);
 					await newsService.addSimpleNew({ ...params });
 					this.news = [];
@@ -231,6 +242,7 @@ export default {
 					params.id = this.news._id;
 					params.title = this.news.title;
 					params.category = this.news.category;
+          	params.content = this.news.content;
 					params.main_img = this.news.main_img;
 					await newsService.updateSimpleNews({ ...params });
 					this.$emit('addNews', params);
