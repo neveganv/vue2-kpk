@@ -32,5 +32,10 @@ export default {
 	async getSimpleNewsByCategories(params){
 		const response = await requestService.post(`${prefix}/getByCategory`, params)
 		return response?.data 
+	},
+	async getSimpleNewsById(params){
+		const response = await requestService.post(`${prefix}/getNewsById`, params)
+		return response?.data
+	   
 	}
 };

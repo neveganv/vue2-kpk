@@ -18,4 +18,7 @@ router.post("/update", news.update);
 //Delete news 
 router.post("/deleteNews", news.deleteNews);
 
+//Find news by id
+router.post("/getNewsById", news.findNewsById)
+
 module.exports = router

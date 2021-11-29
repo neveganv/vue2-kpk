@@ -35,6 +35,19 @@ exports.findByCategory = (req, res) => {
 			});
 		});
 };
+exports.findNewsById = (req, res) => {
+	News.find({
+		_id: req.params.id,
+	})
+		.then(data => {
+			res.send(data);
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: 'Не вдалось отримати новини за вибраним ід.',
+			});
+		});
+};
 
 exports.findAll = (req, res) => {
 	News.find()
