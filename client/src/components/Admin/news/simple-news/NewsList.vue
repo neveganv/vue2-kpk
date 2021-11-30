@@ -2,7 +2,7 @@
 	<VRow>
 		<VCol>
 			<v-item-group>
-				<v-row>
+				<v-row v-if="news.length > 0">
 					<v-col v-for="newItem in news" :key="newItem._id" cols="12" md="3">
 						<v-item v-slot="{ active }">
 							<v-card
@@ -46,7 +46,7 @@
 									</div>
 									<v-spacer></v-spacer>
 
-									<v-btn icon @click.stop color="error darken-1">
+									<v-btn icon @click.stop="onDelete(newItem)" color="error darken-1">
 										<v-icon>mdi-delete</v-icon>
 									</v-btn>
 								</v-card-actions>
@@ -54,6 +54,7 @@
 						</v-item>
 					</v-col>
 				</v-row>
+				<v-row v-else >Новин ще немає</v-row>
 			</v-item-group>
 		</VCol>
 	</VRow>
@@ -71,8 +72,10 @@ export default {
 	},
 	methods: {
 		detailNew(e) {
-			this.$emit("show", e);
-			console.log(e);
+			this.$emit('show', e);
+		},
+		onDelete(e) {
+			this.$emit('deleteNew', e._id);
 		},
 	},
 };
