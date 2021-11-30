@@ -171,7 +171,7 @@ export default {
 			this.visible = false;
 			console.log(e);
 			this.chosenGroup = e;
-
+			this.changeGroup(e)
 			console.log(e);
 		},
 		async getGroups() {

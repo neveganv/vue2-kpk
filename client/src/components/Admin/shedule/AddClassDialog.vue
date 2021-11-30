@@ -128,10 +128,10 @@ export default {
 	display: flex;
 	align-items: center;
 	span {
-		width: 14px;
-		height: 14px;
-		border: 1px solid #676767;
-		border-radius: 50%;
+		width: 22px;
+		height: 22px;
+		border: 1px solid #e3e3e3;
+		border-radius: 4px;
 		display: block;
 	}
 }

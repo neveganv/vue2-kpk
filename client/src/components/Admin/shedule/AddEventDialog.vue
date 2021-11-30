@@ -105,8 +105,8 @@
 										</VTextField>
 									</VCol>
 								</VRow>
-								<v-subheader>Початок пари</v-subheader>
-								<VRow>
+								<v-subheader>Дата і час початкута кінця</v-subheader>
+								<VRow align="center">
 									<VCol cols="6">
 										<v-menu
 											v-model="menu"
@@ -126,7 +126,7 @@
 													v-on="on"
 													outlined
 													dense
-													:hide-details="!StartDateError.length"
+													hide-details
 													:error-messages="StartDateError"
 												></v-text-field>
 											</template>
@@ -137,7 +137,8 @@
 											></v-date-picker>
 										</v-menu>
 									</VCol>
-									<VCol cols="6">
+									<VCol><VIcon>mdi-clock-time-four-outline</VIcon></VCol>
+									<VCol cols="2">
 										<v-menu
 											ref="menu1"
 											v-model="menu2"
@@ -153,13 +154,12 @@
 												<v-text-field
 													v-model="event.start_time"
 													label="Час"
-													prepend-icon="mdi-clock-time-four-outline"
 													readonly
 													v-bind="attrs"
 													v-on="on"
 													dense
 													outlined
-													:hide-details="!StartTimeError.length"
+													hide-details
 													:error-messages="StartTimeError"
 												></v-text-field>
 											</template>
@@ -170,40 +170,8 @@
 												@click:minute="$refs.menu1.save(event.start_time)"
 											></v-time-picker> </v-menu
 									></VCol>
-								</VRow>
-								<v-subheader>Кінець пари</v-subheader>
-								<VRow>
-									<VCol cols="6">
-										<v-menu
-											v-model="menu3"
-											:close-on-content-click="false"
-											:nudge-right="40"
-											transition="scale-transition"
-											offset-y
-											min-width="auto"
-										>
-											<template v-slot:activator="{ on, attrs }">
-												<v-text-field
-													v-model="event.end_date"
-													label="Дата"
-													prepend-icon="mdi-calendar"
-													readonly
-													v-bind="attrs"
-													v-on="on"
-													outlined
-													dense
-													:hide-details="!EndDateError.length"
-													:error-messages="EndDateError"
-												></v-text-field>
-											</template>
-											<v-date-picker
-												v-model="event.end_date"
-												locale="uk-UA"
-												@input="menu3 = false"
-											></v-date-picker>
-										</v-menu>
-									</VCol>
-									<VCol cols="6">
+									<VCol><VIcon>mdi-minus</VIcon></VCol>
+											<VCol cols="2">
 										<v-menu
 											ref="menu2"
 											v-model="menu4"
@@ -219,13 +187,12 @@
 												<v-text-field
 													v-model="event.end_time"
 													label="Час"
-													prepend-icon="mdi-clock-time-four-outline"
 													readonly
 													v-bind="attrs"
 													v-on="on"
 													dense
 													outlined
-													:hide-details="!EndTimeError.length"
+													hide-details
 													:error-messages="EndTimeError"
 												></v-text-field>
 											</template>
@@ -237,6 +204,7 @@
 											></v-time-picker> </v-menu
 									></VCol>
 								</VRow>
+
 								<VRow>
 									<VCol>
 										<v-textarea
@@ -350,7 +318,7 @@ export default {
 					params.start = `${
 						this.event.start_date + ' ' + this.event.start_time
 					}`;
-					params.end = `${this.event.end_date + ' ' + this.event.end_time}`;
+					params.end = `${this.event.start_date + ' ' + this.event.end_time}`;
 
 					sheduleService.createEvent({
 						...params,
@@ -407,9 +375,7 @@ export default {
 			end_time: {
 				required,
 			},
-			end_date: {
-				required,
-			},
+		
 		},
 	},
 	props: {
@@ -465,25 +431,17 @@ export default {
 				return errors;
 			}
 			!this.$v.event.start_time.required &&
-				errors.push('Час обов`язкове поле для заповнення');
+				errors.push('');
 			return errors;
 		},
-		EndDateError() {
-			const errors = [];
-			if (!this.$v.event.end_date.$dirty) {
-				return errors;
-			}
-			!this.$v.event.end_date.required &&
-				errors.push('Дата обов`язкове поле для заповнення');
-			return errors;
-		},
+	
 		EndTimeError() {
 			const errors = [];
 			if (!this.$v.event.end_time.$dirty) {
 				return errors;
 			}
 			!this.$v.event.end_time.required &&
-				errors.push('Час обов`язкове поле для заповнення');
+				errors.push('');
 			return errors;
 		},
 		LinkError() {

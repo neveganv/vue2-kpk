@@ -7,8 +7,9 @@
 				hide-canvas
 				hide-sliders
 				hide-inputs
+				:swatches="swatches"
 				swatches-max-height="300px"
-                @update:color="setColor"
+				@update:color="setColor"
 			></v-color-picker>
 		</VCardText>
 	</VCard>
@@ -20,9 +21,34 @@ export default {
 	props: {
 		value: String,
 	},
+	data: () => ({
+		swatches: [
+			[ '#AA0000', '#550000'],
+			[ '#AAAA00', '#555500'],
+			[ '#00AA00', '#005500'],
+			[ '#00AAAA', '#005555'],
+			[ '#0000AA', '#000055'],
+			['#2F3DA9'],
+			['#2383F3'],
+			['#F98300'],
+			['#47A23A'],
+			['#626262'],
+			['#25B0CB'],
+			['#60B6C9'],
+			['#5EC58F'],
+			['#693210'],
+			['#C9364D'],
+			['#C46C6C'],
+			['#C44949'],
+			['#C48C51'],
+			['#C47151'],
+			['#C45C82'],
+
+		],
+	}),
 	methods: {
 		setColor(val) {
-            console.log(val);
+			console.log(val);
 
 			this.$emit('input', val.hex);
 		},
