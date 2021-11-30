@@ -210,7 +210,8 @@ export default {
 					const newNews = await newsService.getSimpleNewsById({
 						id: this.chosenNews,
 					});
-					this.news = newNews;
+
+					this.news = newNews[0];
 				} catch (e) {
 					alert(e);
 				}

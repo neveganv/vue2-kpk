@@ -36,9 +36,8 @@ exports.findByCategory = (req, res) => {
 		});
 };
 exports.findNewsById = (req, res) => {
-	console.log(req)
 	News.find({
-		_id: req.params.id,
+		_id: req.body.id,
 
 	})
 		.then(data => {
@@ -77,7 +76,7 @@ exports.update = (req, res) => {
 			title: req.body.title,
 			category: new ObjectId(req.body.category),
 			main_img: req.body.main_img,
-      content: req.body.content,
+     	    content: req.body.content,
 		},
 		{ useFindAndModify: false }
 	)
