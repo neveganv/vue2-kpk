@@ -1,7 +1,7 @@
 <template>
 	<VDialog v-model="visibility" @click:outside="$v.$reset()">
 		<VCard width="700">
-			<VCardTitle v-if="visibleEdit"> Оновити новину</VCardTitle>
+			<VCardTitle v-if="chosenNews"> Оновити новину</VCardTitle>
 			<VCardTitle v-else> Створити Новину </VCardTitle>
 			<VCardText>
 				<VRow>
@@ -119,9 +119,18 @@
 				</VRow>
 
 				<VRow>
-					<VCol>
+				
+
+					<VCol v-if="!showEditorText">
 						<vue-editor @input="test" v-model="news.content"></vue-editor>
 					</VCol>
+					
+					<VCol v-else>
+						<div v-html="news.content" class="editor-view"></div>
+					</VCol>
+						<VBtn icon color="primary" @click="showEditorText = !showEditorText"
+						><VIcon>mdi-eye</VIcon></VBtn
+					>
 				</VRow>
 			</VCardText>
 			<VCardActions>
@@ -162,6 +171,7 @@ export default {
 		news: [],
 		visibleAdd: false,
 		base64image: '',
+		showEditorText: false,
 	}),
 
 	validations: {
@@ -339,4 +349,19 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" >
+
+.editor-view {
+	border: 1px solid #e3e3e3;
+	padding: 5px;
+	width: 100%;
+	min-height: 283px;
+	p {
+		img {
+			width: 100%;
+			height: auto;
+			object-fit: contain;
+		}
+	}
+}
+</style>

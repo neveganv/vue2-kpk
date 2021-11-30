@@ -62,7 +62,6 @@ export default {
 		td {
 			width: auto;
 			white-space: nowrap;
-			overflow-x: scroll;
 			&:nth-child(6) {
 				width: 10%;
 				text-align: center !important;
