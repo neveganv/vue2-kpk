@@ -13,11 +13,10 @@
 		@deleteUser="deleteUser" />
 		<add-users-dialog
 			:visible="visible"
-			@close="visible = false"
+			@close="visible = false;chosenId = null"
 			v-if="visible"
 			@addUser="addUser"
 			:chosenUser="chosenId"
-			:edit="true"
 			@updateUser="updateUser"
 		/>
 
@@ -46,6 +45,7 @@ export default {
 			this.getUser();
 			this.visible = false
 			console.log(123)
+			this.chosenId = null
 		},
 		async deleteUser(e){
 		try{	
@@ -62,7 +62,7 @@ export default {
 		async getUser() {
 			try {
 				this.users = await usersService.getAll();
-						console.log(this.users);
+			console.log(this.users);
 			} catch (e) {
 				alert(e);
 			}
@@ -77,6 +77,7 @@ export default {
 		visible: false,
 		visibleEdit: false,
 		users: [],
+		chosenId:null
 	}),
 };
 </script>

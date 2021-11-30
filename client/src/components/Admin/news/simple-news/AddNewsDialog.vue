@@ -99,7 +99,7 @@
 								</template>
 							</v-img>
 							<v-card-actions>
-                Головна картинка
+								Головна картинка
 								<v-spacer></v-spacer>
 								<v-btn icon color="error">
 									<v-icon>mdi-delete</v-icon>
@@ -119,10 +119,10 @@
 				</VRow>
 
 				<VRow>
-          <VCol>
-              <vue-editor @input="test" v-model="news.content"></vue-editor>
-          </VCol>
-        </VRow>
+					<VCol>
+						<vue-editor @input="test" v-model="news.content"></vue-editor>
+					</VCol>
+				</VRow>
 			</VCardText>
 			<VCardActions>
 				<VSpacer />
@@ -140,7 +140,7 @@
 </template>
 
 <script>
-import { VueEditor } from "vue2-editor";
+import { VueEditor } from 'vue2-editor';
 import AddNewCategoryDialog from './AddNewCategoryDialog.vue';
 import newsService from '@/request/news/newsService';
 import { validationMixin } from 'vuelidate';
@@ -150,7 +150,7 @@ export default {
 	mixins: [validationMixin],
 	components: {
 		AddNewCategoryDialog,
-    VueEditor
+		VueEditor,
 	},
 
 	data: () => ({
@@ -195,19 +195,25 @@ export default {
 		this.getChosenNews();
 	},
 	methods: {
-    test(e){
-      console.log(e);
-    },
+		test(e) {
+			console.log(e);
+		},
 		addCategory() {
 			this.visibleAdd = false;
 			this.getCategories();
 		},
-		getChosenNews() {
+		async getChosenNews() {
 			if (this.chosenNews) {
-				console.log(this.chosenNews);
-				this.$v.$touch();
-				this.news = this.chosenNews;
-				this.news.category = this.news.category._id;
+				try {
+					console.log(this.chosenNews);
+					this.$v.$touch();
+					const newNews = await newsService.getSimpleNewsById({
+						id: this.chosenNews,
+					});
+					this.news = newNews;
+				} catch (e) {
+					alert(e);
+				}
 			}
 		},
 		onCancel() {
@@ -242,7 +248,7 @@ export default {
 					params.id = this.news._id;
 					params.title = this.news.title;
 					params.category = this.news.category;
-          	params.content = this.news.content;
+					params.content = this.news.content;
 					params.main_img = this.news.main_img;
 					await newsService.updateSimpleNews({ ...params });
 					this.$emit('addNews', params);
@@ -261,7 +267,6 @@ export default {
 		onChangeEditImg(e) {
 			console.log(e.target.files[0]);
 			this.onFileChange(e.target.files[0]);
-		
 		},
 		onFileChange(files) {
 			console.log(files);
@@ -270,9 +275,9 @@ export default {
 				reader.readAsDataURL(files);
 				reader.onload = e => {
 					this.base64image = e.target.result;
-          if(this.chosenNews){
-            	this.news.main_img = this.base64image;
-          }
+					if (this.chosenNews) {
+						this.news.main_img = this.base64image;
+					}
 				};
 			}
 		},

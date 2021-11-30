@@ -49,7 +49,7 @@ export default {
 		},
 		showNews(e){
 			this.visible =true,
-			this.clickNews = e;
+			this.clickNews = e._id;
 		},
 		async getNews() {
 			try {

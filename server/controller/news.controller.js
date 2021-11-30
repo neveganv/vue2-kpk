@@ -36,8 +36,10 @@ exports.findByCategory = (req, res) => {
 		});
 };
 exports.findNewsById = (req, res) => {
+	console.log(req)
 	News.find({
 		_id: req.params.id,
+
 	})
 		.then(data => {
 			res.send(data);

@@ -123,11 +123,9 @@ export default {
 		visible: {
 			require: true,
 		},
-		edit: {
-			require: false,
-		},
 		chosenUser:{
-			require:false
+			require:false,
+
 		}
 	},
 
@@ -135,6 +133,7 @@ export default {
 		categories: [],
 		user: [],
 		visibleAdd: false,
+		edit:false
 	}),
 	validations: {
 		user: {
@@ -164,7 +163,9 @@ export default {
 	methods: {
 		async getChosenUser() {
 			if (this.chosenUser) {
+				console.log(this.chosenUser)
 				try {
+					this.edit = true
 					const newUser = await usersService.findUserById({id:this.chosenUser});
 					this.user = newUser[0]
 					console.log(this.user);
@@ -173,6 +174,8 @@ export default {
 				}
 				this.user.phone = this.user.phone.replace('+380', '');
 				this.user.permission = this.user.position;
+			}else{
+				this.edit = false
 			}
 		},
 		async getPositions() {
