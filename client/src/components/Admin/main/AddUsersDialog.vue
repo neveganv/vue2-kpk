@@ -126,9 +126,9 @@ export default {
 		edit: {
 			require: false,
 		},
-		chosenUser: {
-			require: false,
-		},
+		chosenUser:{
+			require:false
+		}
 	},
 
 	data: () => ({
@@ -158,21 +158,21 @@ export default {
 		},
 	},
 	mounted() {
-		
 		this.getChosenUser();
 		this.getPositions();
-						console.log(this.chosenUser);
 	},
 	methods: {
-		getChosenUser() {
+		async getChosenUser() {
 			if (this.chosenUser) {
-
-				this.$v.$touch();
-
-				this.user = this.chosenUser;
+				try {
+					const newUser = await usersService.findUserById({id:this.chosenUser});
+					this.user = newUser[0]
+					console.log(this.user);
+				} catch (e) {
+					alert(e);
+				}
 				this.user.phone = this.user.phone.replace('+380', '');
-
-				this.user.permission = this.user.position._id;
+				this.user.permission = this.user.position;
 			}
 		},
 		async getPositions() {

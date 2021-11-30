@@ -1,5 +1,8 @@
 <template>
+<div>
 	<MainComponent />
+	<VBtn  color="error" :to ="{path:'/admin'}">Перейти на адмінку</VBtn>
+</div>
 </template>
 
 <script>

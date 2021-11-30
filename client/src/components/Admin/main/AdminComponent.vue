@@ -16,15 +16,11 @@
 			@close="visible = false"
 			v-if="visible"
 			@addUser="addUser"
-		/>
-		<add-users-dialog
-			:visible="visibleEdit"
-			@close="visibleEdit = false"
-			@updateUser="updateUser"
+			:chosenUser="chosenId"
 			:edit="true"
-			:chosenUser="chosenUser"
-			v-if="visibleEdit"
+			@updateUser="updateUser"
 		/>
+
 	</div>
 </template>
 
@@ -48,7 +44,8 @@ export default {
 		},
 		updateUser(){
 			this.getUser();
-			this.visibleEdit = false
+			this.visible = false
+			console.log(123)
 		},
 		async deleteUser(e){
 		try{	
@@ -71,14 +68,14 @@ export default {
 			}
 		},
 		showEdit(e) {
-			this.chosenUser = e;
-			this.visibleEdit = true;
+			this.chosenId = e._id;
+			
+			this.visible = true;
 		},
 	},
 	data: () => ({
 		visible: false,
 		visibleEdit: false,
-		chosenUser: [],
 		users: [],
 	}),
 };
