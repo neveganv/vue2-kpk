@@ -252,20 +252,16 @@ export default {
 					params.class = this.event.name.name;
 					params.classId = this.event.name._id;
 					params.group = this.event.group;
-					if (this.event.link) {
-						params.link = this.event.link;
-					}
+					params.link = this.event.link;
 					params.color = this.event.name.color;
-					if (this.event.content) {
-						params.content = this.event.content;
-					}
+					params.content = this.event.content;
 					params.start = `${
 						this.event.start_date + ' ' + this.event.start_time
 					}`;
 					params.end = `${this.event.start_date + ' ' + this.event.end_time}`;
 
-					await sheduleService.updateEvent({ id: this.chosenEvent,...params });
-					this.$emit('updateEvent',params.group)
+					await sheduleService.updateEvent({ id: this.chosenEvent, ...params });
+					this.$emit('updateEvent', params.group);
 					this.$v.$reset();
 				} catch (e) {
 					alert(e);
