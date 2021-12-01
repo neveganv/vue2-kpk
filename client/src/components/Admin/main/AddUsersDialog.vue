@@ -167,7 +167,7 @@ export default {
 				try {
 					this.edit = true
 					const newUser = await usersService.findUserById({id:this.chosenUser});
-					this.user = newUser[0]
+					this.user = newUser
 					console.log(this.user);
 				} catch (e) {
 					alert(e);

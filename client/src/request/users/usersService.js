@@ -40,7 +40,7 @@ export default {
 	},
 	async findUserById(params){
 		const response = await requestService.post(`${prefix}/findUserById`, params)
-		return response?.data
+		return response?.data[0]
 	}
 
 };

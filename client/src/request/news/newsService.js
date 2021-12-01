@@ -35,7 +35,7 @@ export default {
 	},
 	async getSimpleNewsById(params){
 		const response = await requestService.post(`${prefix}/getNewsById`, params)
-		return response?.data
+		return response?.data[0]
 	   
 	}
 };

@@ -86,6 +86,7 @@
 					:prev="prev"
 					:next="next"
 					:events="events"
+					@editEvent="editEvent"
 				/>
 			</VCol>
 		</VRow>
@@ -114,6 +115,12 @@
 			@close="visible = false"
 			v-if="visible"
 		/>
+		<EditEventDialog
+			@close="visibleEditEvent = false"
+			:visible="visibleEditEvent"
+			:chosenEvent="chosenEvent"
+			v-if="visibleEditEvent"
+		/>
 	</div>
 </template>
 
@@ -122,10 +129,12 @@ import groupService from '@/request/shedule/groupService';
 import sheduleService from '@/request/shedule/sheduleService';
 import SheduleInner from './SheduleInner.vue';
 import AddEventDialog from './AddEventDialog.vue';
+import EditEventDialog from './EditEventDialog.vue';
 export default {
 	components: {
 		SheduleInner,
 		AddEventDialog,
+		EditEventDialog,
 	},
 	watch: {
 		type(e) {
@@ -140,6 +149,8 @@ export default {
 		visible: false,
 		chosenGroup: '',
 		groups: [],
+		chosenEvent: '',
+		visibleEditEvent: false,
 		type: 'week',
 		typeToLabel: {
 			month: 'Місяць',
@@ -149,11 +160,14 @@ export default {
 	}),
 	watch: {
 		chosenGroup(e) {
-			console.log(e);
 			this.changeGroup(e);
 		},
 	},
 	methods: {
+		editEvent(e) {
+			this.visibleEditEvent = true;
+			this.chosenEvent = e;
+		},
 		async changeGroup(e) {
 			try {
 				console.log(e);
@@ -171,16 +185,15 @@ export default {
 			this.visible = false;
 			console.log(e);
 			this.chosenGroup = e;
-			this.changeGroup(e)
+			this.changeGroup(e);
 			console.log(e);
 		},
 		async getGroups() {
 			try {
 				this.groups = await groupService.getAllGroups();
-				if(this.groups[0]){
-				this.changeGroup(this.groups[0]._id);
-				this.chosenGroup = this.groups[0]._id;
-
+				if (this.groups[0]) {
+					this.changeGroup(this.groups[0]._id);
+					this.chosenGroup = this.groups[0]._id;
 				}
 			} catch (e) {
 				console.log(e);

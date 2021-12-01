@@ -122,7 +122,7 @@
 				
 
 					<VCol v-if="!showEditorText">
-						<vue-editor @input="test" v-model="news.content"></vue-editor>
+						<vue-editor  v-model="news.content"></vue-editor>
 					</VCol>
 					
 					<VCol v-else>
@@ -205,9 +205,7 @@ export default {
 		this.getChosenNews();
 	},
 	methods: {
-		test(e) {
-			console.log(e);
-		},
+		
 		addCategory() {
 			this.visibleAdd = false;
 			this.getCategories();
@@ -221,7 +219,7 @@ export default {
 						id: this.chosenNews,
 					});
 
-					this.news = newNews[0];
+					this.news = newNews;
 				} catch (e) {
 					alert(e);
 				}

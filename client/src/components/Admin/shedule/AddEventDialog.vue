@@ -153,12 +153,12 @@
 											<template v-slot:activator="{ on, attrs }">
 												<v-text-field
 													v-model="event.start_time"
-													label="Час"
+													label="Початок"
 													readonly
 													v-bind="attrs"
 													v-on="on"
 													dense
-													outlined
+													
 													hide-details
 													:error-messages="StartTimeError"
 												></v-text-field>
@@ -186,12 +186,12 @@
 											<template v-slot:activator="{ on, attrs }">
 												<v-text-field
 													v-model="event.end_time"
-													label="Час"
+													label="Кінець"
 													readonly
 													v-bind="attrs"
 													v-on="on"
 													dense
-													outlined
+													
 													hide-details
 													:error-messages="EndTimeError"
 												></v-text-field>

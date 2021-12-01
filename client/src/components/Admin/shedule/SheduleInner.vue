@@ -27,23 +27,22 @@
 		>
 			<v-card color="grey lighten-4" min-width="350px" flat>
 				<v-toolbar :color="selectedEvent.color" dark>
-					<v-btn icon>
+					<v-btn icon @click="OnEdit(selectedEvent._id)">
 						<v-icon>mdi-pencil</v-icon>
 					</v-btn>
-					<v-toolbar-title v-if="selectedEvent.name" v-html="selectedEvent.name"></v-toolbar-title>
+					<v-toolbar-title
+						v-if="selectedEvent.name"
+						v-html="selectedEvent.name"
+					></v-toolbar-title>
 				</v-toolbar>
 				<v-card-text>
-					<VRow v-if="selectedEvent.start">
-						<VCol cols="5">Початок пари:</VCol>
-						<VCol
-							><b> {{ selectedEvent.start.substr(10, 10) }}</b></VCol
-						>
-					</VRow>
-					<VRow v-if="selectedEvent.end">
-						<VCol cols="5">Кінець пари:</VCol>
-						<VCol
-							><b> {{ selectedEvent.end.substr(10, 10) }}</b></VCol
-						>
+					<VRow v-if="selectedEvent.start && selectedEvent.end">
+						<VCol cols="2">Час:</VCol>
+						<VCol>
+							<b> {{ selectedEvent.start.substr(10, 10) }}</b>
+							<VIcon>mdi-minus</VIcon>
+							<b> {{ selectedEvent.end.substr(10, 10) }}</b>
+						</VCol>
 					</VRow>
 					<VRow>
 						<VCol>
@@ -57,7 +56,6 @@
 								outlined
 								target="blank"
 								:color="selectedEvent.color"
-								
 							>
 								<VIcon left>mdi-link </VIcon> Посилання
 							</VBtn>
@@ -98,7 +96,6 @@ export default {
 				this.$refs.calendar.prev();
 			},
 		},
-
 	},
 	data: () => ({
 		value: '',
@@ -109,6 +106,9 @@ export default {
 		today: new Date().toISOString().substr(0, 10),
 	}),
 	methods: {
+		OnEdit(e) {
+			this.$emit('editEvent', e);
+		},
 		test() {
 			console.log(this.$refs);
 			this.$refs.calendar.prev();

@@ -17,6 +17,7 @@ export default {
 	},
 	async getEventById(params){
 		const response = await requestService.post(`${prefix}/findEventById`, params)
-		return response?.data
+		console.log(response?.data[0])
+		return response?.data[0]
 	}
 };
