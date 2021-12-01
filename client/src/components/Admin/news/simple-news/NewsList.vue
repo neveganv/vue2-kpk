@@ -56,11 +56,25 @@
 													<VCol cols="5" class="timer">{{
 														newItem.created_time.substr(0, 10) || '--'
 													}}</VCol>
-													<VCol class="timer">
+													<VCol
+														class="timer"
+														v-if="
+															moment
+																.duration(
+																	moment(newItem.created_time).diff(moment())
+																)
+																.asDays() <= 0 &&
+															moment
+																.duration(
+																	moment(newItem.created_time).diff(moment())
+																)
+																.asDays() > -1
+														"
+													>
 														{{
 															moment(newItem.created_time)
 																.locale('uk')
-																.endOf('day')
+																.endOf('hours')
 																.fromNow() || '--'
 														}}
 													</VCol>
@@ -87,7 +101,7 @@
 					<v-row>
 						<v-col cols="12" md="3" v-for="key in 14" :key="key">
 							<v-skeleton-loader
-							light
+								light
 								class="mx-auto"
 								max-width="300"
 								type="card"
