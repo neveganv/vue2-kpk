@@ -11,6 +11,10 @@ module.exports = mongoose => {
 				type: Schema.Types.ObjectId,
 				ref: 'group',
 			},
+			classes: {
+				type: Schema.Types.ObjectId,
+				ref: 'classes',
+			},
 			link: {
 				type: String,
 				require: false,

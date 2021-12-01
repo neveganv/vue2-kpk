@@ -307,6 +307,7 @@ export default {
 				try {
 					const params = {};
 					params.class = this.event.name.name;
+					params.classId = this.event.name._id;
 					params.group = this.event.group;
 					if (this.event.link) {
 						params.link = this.event.link;

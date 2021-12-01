@@ -116,6 +116,7 @@
 			v-if="visible"
 		/>
 		<EditEventDialog
+			@updateEvent="updateEvent"
 			@close="visibleEditEvent = false"
 			:visible="visibleEditEvent"
 			:chosenEvent="chosenEvent"
@@ -180,6 +181,11 @@ export default {
 		},
 		addGroup() {
 			this.getGroups();
+		},
+		updateEvent(e) {
+			this.visibleEditEvent = false;
+			this.changeGroup(e)
+			console.log(e);
 		},
 		addEvent(e) {
 			this.visible = false;

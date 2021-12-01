@@ -162,7 +162,7 @@
 			<VCardActions>
 				<VSpacer />
 				<v-btn color="error" text @click="onCancel"> Скасувати </v-btn>
-				<v-btn color="primary" @click="onCreate"> Оновити </v-btn>
+				<v-btn color="primary" @click="onUpdate"> Оновити </v-btn>
 			</VCardActions>
 		</VCard>
 	</VDialog>
@@ -172,7 +172,7 @@
 import { validationMixin } from 'vuelidate';
 import { required, url } from 'vuelidate/lib/validators';
 import sheduleService from '@/request/shedule/sheduleService';
-import axios from 'axios';
+import classService from '@/request/shedule/classService';
 export default {
 	mixins: [validationMixin],
 
@@ -204,6 +204,7 @@ export default {
 		},
 	},
 	mounted() {
+		this.getClasses();
 		this.getEvent();
 	},
 	data: () => ({
@@ -220,14 +221,56 @@ export default {
 				const newEvent = await sheduleService.getEventById({
 					id: this.chosenEvent,
 				});
-				this.event = newEvent;
-                console.log(this.event)
+				console.log(newEvent);
+				this.event = {
+					link: newEvent.link,
+					start_date: newEvent.start.substr(0, 10),
+					start_time: newEvent.start.substr(11, 5),
+					end_time: newEvent.end.substr(11, 5),
+					content: newEvent.content,
+					name: newEvent.name,
+					group: newEvent.group,
+				};
+				console.log(this.event);
 			} catch (e) {
 				alert(e);
 			}
 		},
-		async onCreate() {
-			console.log(2);
+		async getClasses() {
+			try {
+				const newclasses = await classService.getAllClasses();
+				this.classes = newclasses;
+			} catch (e) {
+				alert(e);
+			}
+		},
+		async onUpdate() {
+			this.$v.$touch();
+			if (!this.$v.$invalid) {
+				try {
+					const params = {};
+					params.class = this.event.name.name;
+					params.classId = this.event.name._id;
+					params.group = this.event.group;
+					if (this.event.link) {
+						params.link = this.event.link;
+					}
+					params.color = this.event.name.color;
+					if (this.event.content) {
+						params.content = this.event.content;
+					}
+					params.start = `${
+						this.event.start_date + ' ' + this.event.start_time
+					}`;
+					params.end = `${this.event.start_date + ' ' + this.event.end_time}`;
+
+					await sheduleService.updateEvent({ id: this.chosenEvent,...params });
+					this.$emit('updateEvent',params.group)
+					this.$v.$reset();
+				} catch (e) {
+					alert(e);
+				}
+			}
 		},
 		async onCancel() {
 			this.$emit('close');
