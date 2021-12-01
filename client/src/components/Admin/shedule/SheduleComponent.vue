@@ -175,6 +175,7 @@ export default {
 				const params = [];
 				params.group = e;
 				this.events = await sheduleService.getEvent({ ...params });
+				console.log(this.events)
 			} catch (e) {
 				alert(e);
 			}

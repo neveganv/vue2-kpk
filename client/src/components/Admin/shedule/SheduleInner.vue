@@ -116,6 +116,7 @@ export default {
 		showEvent({ nativeEvent, event }) {
 			const open = () => {
 				this.selectedEvent = event;
+		
 				this.selectedElement = nativeEvent.target;
 				requestAnimationFrame(() =>
 					requestAnimationFrame(() => (this.selectedOpen = true))
@@ -162,6 +163,7 @@ export default {
 		this.scrollToTime();
 		this.updateTime();
 		this.$refs.calendar.checkChange();
+		console.log(this.selectedEvent)
 	},
 };
 </script>

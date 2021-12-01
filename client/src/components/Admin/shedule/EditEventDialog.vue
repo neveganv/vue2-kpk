@@ -252,9 +252,18 @@ export default {
 					params.class = this.event.name.name;
 					params.classId = this.event.name._id;
 					params.group = this.event.group;
-					params.link = this.event.link;
+					if (this.event.link) {
+						params.link = this.event.link;
+					}
+					else{
+						params.link = null
+					}
 					params.color = this.event.name.color;
-					params.content = this.event.content;
+					if (this.event.content) {
+						params.content = this.event.content;
+					}else{
+						params.content = null
+					}
 					params.start = `${
 						this.event.start_date + ' ' + this.event.start_time
 					}`;
