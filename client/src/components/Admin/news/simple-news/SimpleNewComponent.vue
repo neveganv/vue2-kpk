@@ -7,7 +7,7 @@
 		</VRow>
 		<VRow>
 			<VCol>
-				<NewsList :news="news" @show="showNews" @deleteNew="deleteNew" />
+				<NewsList :news="news" @show="showNews" @deleteNew="deleteNew" :sceletonLoader="sceletonLoader"/>
 			</VCol>
 		</VRow>
 		<AddNewDialog
@@ -31,6 +31,7 @@ export default {
 		visible: false,
 		news: [],
 		clickNews: null,
+		sceletonLoader:false
 	}),
 	mounted() {
 		this.getNews();
@@ -62,7 +63,9 @@ export default {
 		},
 		async getNews() {
 			try {
+				this.sceletonLoader = true
 				this.news = await newsService.getAllNews();
+								this.sceletonLoader = false
 				console.log(this.news);
 			} catch (e) {
 				alert(e);
