@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "moment": "^2.29.1",
     "sass": "^1.32.0",
     "sass-loader": "^10.0.0",
     "v-mask": "^2.3.0",

@@ -1,7 +1,13 @@
 <template>
 	<VDialog v-model="visibility" @click:outside="$v.$reset()">
 		<VCard width="700">
-			<VCardTitle v-if="chosenNews"> Оновити новину</VCardTitle>
+			<VCardTitle v-if="chosenNews">
+				<VRow align="center">
+					<VCol>Оновити новину</VCol>
+					<VSpacer />
+					<div class="time">{{ moment(news.created_time).locale('uk').format('MMMM Do YYYY, h:mm a') || '--' }}</div>
+				</VRow></VCardTitle
+			>
 			<VCardTitle v-else> Створити Новину </VCardTitle>
 			<VCardText>
 				<VRow>
@@ -112,6 +118,7 @@
 								v-show="!chosenNews && chosenNews"
 								type="file"
 								ref="image"
+								accept="image/png, image/jpeg, image/svg"
 								@change="onChangeEditImg"
 							/>
 						</VCard>
@@ -119,16 +126,14 @@
 				</VRow>
 
 				<VRow>
-				
-
 					<VCol v-if="!showEditorText">
-						<vue-editor  v-model="news.content"></vue-editor>
+						<vue-editor v-model="news.content"></vue-editor>
 					</VCol>
-					
+
 					<VCol v-else>
 						<div v-html="news.content" class="editor-view"></div>
 					</VCol>
-						<VBtn icon color="primary" @click="showEditorText = !showEditorText"
+					<VBtn icon color="primary" @click="showEditorText = !showEditorText"
 						><VIcon>mdi-eye</VIcon></VBtn
 					>
 				</VRow>
@@ -154,6 +159,7 @@ import AddNewCategoryDialog from './AddNewCategoryDialog.vue';
 import newsService from '@/request/news/newsService';
 import { validationMixin } from 'vuelidate';
 import { required, maxLength } from 'vuelidate/lib/validators';
+import moment from 'moment';
 
 export default {
 	mixins: [validationMixin],
@@ -205,7 +211,6 @@ export default {
 		this.getChosenNews();
 	},
 	methods: {
-		
 		addCategory() {
 			this.visibleAdd = false;
 			this.getCategories();
@@ -214,11 +219,11 @@ export default {
 			if (this.chosenNews) {
 				try {
 					console.log(this.chosenNews);
-					this.$v.$touch();
+
 					const newNews = await newsService.getSimpleNewsById({
 						id: this.chosenNews,
 					});
-
+					this.$v.$touch();
 					this.news = newNews;
 				} catch (e) {
 					alert(e);
@@ -239,6 +244,7 @@ export default {
 					params.category = this.news.category;
 					params.main_img = this.base64image;
 					params.content = this.news.content;
+					params.created_time = this.getCurrentTime;
 					console.log('params', params);
 					await newsService.addSimpleNew({ ...params });
 					this.news = [];
@@ -299,6 +305,13 @@ export default {
 		},
 	},
 	computed: {
+		getCurrentTime() {
+			const currentTIme = `${
+				moment(new Date().toISOString()).locale('uk').format()
+
+			}`;
+			return currentTIme;
+		},
 		visibility: {
 			get() {
 				if (this.visible === true) {
@@ -347,8 +360,7 @@ export default {
 };
 </script>
 
-<style lang="scss" >
-
+<style lang="scss">
 .editor-view {
 	border: 1px solid #e3e3e3;
 	padding: 5px;
@@ -361,5 +373,10 @@ export default {
 			object-fit: contain;
 		}
 	}
+}
+.time {
+	font-size: 15px;
+	font-weight: 500;
+	color: #b5b5b5;
 }
 </style>

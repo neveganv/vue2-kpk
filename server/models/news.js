@@ -17,6 +17,9 @@ module.exports = mongoose =>{
             main_img:{
                 type:String
             },
+            created_time:{
+                type:String
+            },
 
         })
     )

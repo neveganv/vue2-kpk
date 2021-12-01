@@ -9,6 +9,7 @@ exports.create = (req, res) => {
 		title: req.body.title,
 		content: req.body.content,
 		main_img: req.body.main_img,
+		created_time: req.body.created_time,
 	});
 	news
 		.save(news)

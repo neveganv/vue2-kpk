@@ -5,8 +5,10 @@ import router from './router';
 import vuetify from './plugins/vuetify';
 import vuelidate from 'vuelidate'
 import { VueMaskDirective } from 'v-mask';
-Vue.directive('mask', VueMaskDirective);
+import moment from 'moment'
 
+Vue.directive('mask', VueMaskDirective);
+Vue.prototype.moment = moment
 
 Vue.config.productionTip = false;
 

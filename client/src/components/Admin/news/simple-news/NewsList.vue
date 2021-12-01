@@ -41,12 +41,31 @@
 								</v-img>
 
 								<v-card-actions>
-									<div class="new-title">
-										<span>{{ newItem.title || '--' }}</span>
-									</div>
+									<VRow class="new-title">
+										<VCol cols="12">
+											<span>{{ newItem.title || '--' }}</span>
+											<VRow>
+												<VCol cols="5" class="timer">{{
+													newItem.created_time.substr(0, 10) || '--'
+												}}</VCol>
+												<VCol class="timer">
+													{{
+														moment(newItem.created_time)
+															.locale('uk')
+															.endOf('day')
+															.fromNow() || '--'
+													}}
+												</VCol>
+											</VRow>
+										</VCol>
+									</VRow>
 									<v-spacer></v-spacer>
 
-									<v-btn icon @click.stop="onDelete(newItem)" color="error darken-1">
+									<v-btn
+										icon
+										@click.stop="onDelete(newItem)"
+										color="error darken-1"
+									>
 										<v-icon>mdi-delete</v-icon>
 									</v-btn>
 								</v-card-actions>
@@ -54,7 +73,7 @@
 						</v-item>
 					</v-col>
 				</v-row>
-				<v-row v-else >Новин ще немає</v-row>
+				<v-row v-else>Новин ще немає</v-row>
 			</v-item-group>
 		</VCol>
 	</VRow>
@@ -92,6 +111,11 @@ export default {
 		white-space: nowrap;
 		text-overflow: ellipsis;
 	}
+}
+.timer {
+	font-size: 10px;
+	font-weight: 500;
+	color: #b5b5b5;
 }
 .category {
 	max-width: 100%;
