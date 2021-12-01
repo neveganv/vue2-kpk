@@ -5,9 +5,17 @@
 				<VRow align="center">
 					<VCol>Оновити новину</VCol>
 					<VSpacer />
-					<div class="time">{{ moment(news.created_time).locale('uk').format('MMMM Do YYYY, h:mm a') || '--' }}</div>
-				</VRow></VCardTitle
-			>
+					<div v-if="news.created_time" class="time">
+						{{
+							moment(news.created_time)
+								.locale('uk')
+								.format('MMMM Do YYYY, h:mm a') || '--'
+						}}
+					</div>
+					<div v-else class="time">
+						<v-skeleton-loader type="chip"></v-skeleton-loader>
+					</div> </VRow
+			></VCardTitle>
 			<VCardTitle v-else> Створити Новину </VCardTitle>
 			<VCardText>
 				<VRow>
@@ -138,11 +146,15 @@
 					>
 				</VRow>
 			</VCardText>
-			<VCardActions>
+			<VCardActions v-if="news.created_time || !chosenNews">
 				<VSpacer />
 				<VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
 				<VBtn color="primary" @click="onUpdate" v-if="chosenNews">Оновити</VBtn>
 				<VBtn color="primary" @click="onCreate" v-else> Створити </VBtn>
+			</VCardActions>
+			<VCardActions v-else>
+				<VSpacer/>
+				<v-skeleton-loader type="actions"></v-skeleton-loader>
 			</VCardActions>
 		</VCard>
 		<add-new-category-dialog
@@ -306,10 +318,9 @@ export default {
 	},
 	computed: {
 		getCurrentTime() {
-			const currentTIme = `${
-				moment(new Date().toISOString()).locale('uk').format()
-
-			}`;
+			const currentTIme = `${moment(new Date().toISOString())
+				.locale('uk')
+				.format()}`;
 			return currentTIme;
 		},
 		visibility: {
