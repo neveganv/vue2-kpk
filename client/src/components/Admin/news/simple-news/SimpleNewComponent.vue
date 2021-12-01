@@ -13,7 +13,7 @@
 		<AddNewDialog
 			@addNews="addNews"
 			:visible="visible"
-			@close="visible = false"
+			@close="visible = false;clickNews = null"
 			v-if="visible"
 			:chosenNews="clickNews"
 		/>
@@ -45,6 +45,7 @@ export default {
 		updateNews() {
 			this.edit = false;
 			this.getNews();
+
 		},
 		showNews(e) {
 			(this.visible = true), (this.clickNews = e._id);
