@@ -30,6 +30,7 @@ app.use('/api/newsCategory', require('./routes/api/newsCategory'))
 app.use('/api/group', require('./routes/api/shedule/group'))
 app.use('/api/class', require('./routes/api/shedule/class'))
 app.use('/api/shedule', require('./routes/api/shedule/shedule'))
+app.use('/api/page', require('./routes/api/page'))
 
 //DB
 function start() {

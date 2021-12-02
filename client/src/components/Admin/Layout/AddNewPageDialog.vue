@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import pageService from "@/request/page/pageService";
 export default {
 	data: () => ({
 		page: [],
@@ -73,8 +74,15 @@ export default {
 		},
 	},
 	methods: {
-		onCreate() {
+		async onCreate() {
 			console.log(this.page);
+			const params = [];
+			params.name = this.page.name,
+			params.type = this.page.type,
+			//params.accessRights = this.page.permissions
+            await pageService.addPage({ 
+				...params
+			});
 		},
 	},
 	computed: {
