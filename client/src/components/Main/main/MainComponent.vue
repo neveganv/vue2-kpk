@@ -20,8 +20,16 @@
 		</div>
 		<!-- specialities  -->
 		<div class="my-container">
+			<VRow align="center" justify="space-between" style="margin-bottom:100px">
+				<VCol class="title">Спеціальності</VCol>
+				<VCol class="sub">
+					Коледж готує фахівців освітньо-професійного ступеня «фаховий молодший
+					бакалавр» за спеціальностями/освітньо-професійними програмами (ОПП)
+				</VCol>
+			</VRow>
 			<SpecialitiesList />
 		</div>
+		<div style="height: 100vh"></div>
 	</div>
 </template>
 
@@ -36,7 +44,6 @@ export default {
 		CoolNews,
 		SpecialitiesList,
 	},
-
 };
 </script>
 <style lang="scss" scoped>
@@ -66,5 +73,20 @@ export default {
 		position: absolute;
 		z-index: 1;
 	}
+}
+.title,
+.sub {
+	font-family: 'Montserrat', sans-serif;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 64px !important;
+	line-height: 78px;
+
+	color: #4b4453;
+}
+.sub {
+	font-weight: 500;
+	line-height: 29px;
+	font-size: 24px !important;
 }
 </style>
