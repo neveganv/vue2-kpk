@@ -74,7 +74,7 @@
 														{{
 															moment(newItem.created_time)
 																.locale('uk')
-																.endOf('hours')
+																.startOf('hours')
 																.fromNow() || '--'
 														}}
 													</VCol>

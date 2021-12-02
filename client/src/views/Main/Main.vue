@@ -1,16 +1,13 @@
 <template>
-<div>
 	<MainComponent />
-	<VBtn  color="error" :to ="{path:'/admin'}">Перейти на адмінку</VBtn>
-</div>
 </template>
 
 <script>
-import MainComponent from '@/components/Main/MainComponent'
+import MainComponent from '@/components/Main/main/MainComponent';
 export default {
-	components:{
-		MainComponent
-	}
+	components: {
+		MainComponent,
+	},
 };
 </script>
 

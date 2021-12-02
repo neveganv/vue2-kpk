@@ -1,0 +1,46 @@
+<template>
+	<div>
+		<VRow>
+			<VCol cols="8">
+				<div class="title">Нещодавні новини</div>
+				<div class="sub">
+					Lorem Ipsum is simply dummy text of the printing and typesetting
+					industry. Lorem Ipsum has been the industry's standard dummy text ever
+					since the 1500s, when an unknown printer took a galley of type and
+					scrambled it to make a type specimen book. It has survived not only
+					five centuries, but also the leap into electronic typesetting,
+					remaining essentially unchanged. It was popularised in the 1960s with
+					the release of Letraset sheets containing Lorem Ipsum passages, and
+					more recently with desktop publishing software like Aldus PageMaker
+					including versions of Lorem Ipsum.
+				</div>
+			</VCol>
+			<VCol cols="4">
+                <slider-cards />
+            </VCol>
+		</VRow>
+	</div>
+</template>
+
+<script>
+import SliderCards from './SliderCards.vue';
+export default {
+  components: { SliderCards },};
+</script>
+
+<style lang="scss" scoped>
+.title {
+	font-style: normal;
+	font-weight: 600;
+	font-size: 64px !important;
+	line-height: 78px;
+	color: #4b4453;
+}
+.sub {
+	font-family: 'Montserrat', sans-serif !important;
+	font-style: normal;
+	font-weight: 300;
+	font-size: 20px!important;;
+	line-height: 24px;
+}
+</style>

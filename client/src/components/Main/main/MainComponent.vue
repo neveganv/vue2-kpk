@@ -1,0 +1,62 @@
+<template>
+	<div class="overflow-auto">
+		<!-- header  -->
+		<my-header />
+		<!-- main image -->
+		<div class="first-screen my-container">
+			<span>Політехніка звучить гордо</span>
+			<div class="img_wrapper">
+				<img :src="require('@/assets/img/test_img.jpg')" alt="main_img" />
+				<img
+					class="glass"
+					:src="require('@/assets/img/main-glass.svg')"
+					alt="main_img"
+				/>
+			</div>
+		</div>
+		<!-- cool news -->
+		<div class="my-container" style="margin-top: 150px; margin-bottom: 150px">
+			<CoolNews />
+		</div>
+	</div>
+</template>
+
+<script>
+import MyHeader from '../UI/my-header.vue';
+import CoolNews from './CoolNews.vue';
+export default {
+	components: {
+		MyHeader,
+		CoolNews,
+	},
+};
+</script>
+<style lang="scss" scoped>
+.first-screen {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	span {
+		margin-top: 80px;
+		margin-bottom: 40px;
+		font-family: 'Montserrat', sans-serif;
+		font-style: normal;
+		font-weight: normal;
+		color: #4b4453;
+		font-size: 41px;
+	}
+}
+.img_wrapper {
+	margin-top: 100px;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	.glass {
+		top: -100px;
+
+		position: absolute;
+		z-index: 1;
+	}
+}
+</style>

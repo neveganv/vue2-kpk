@@ -1,7 +1,9 @@
 body,
 html {
-	overflow: hidden !important;
+	overflow: auto !important;
+	
 }
+
 .d {
 	&-flex {
 		display: flex;
@@ -77,4 +79,10 @@ html {
 
 .v-dialog>.v-card>.v-card__actions{
 	padding: 14px 23px!important;
+}
+.my-container{
+	max-width: 1300px;
+	margin: auto;
+	width: 100%;
+
 }

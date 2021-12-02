@@ -1,7 +1,9 @@
 <template>
-	<AdminWrapper>
-		<AdminComponent />
-	</AdminWrapper>
+	<div class="body">
+		<AdminWrapper>
+			<AdminComponent />
+		</AdminWrapper>
+	</div>
 </template>
 
 <script>
@@ -16,4 +18,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+body,html {
+	overflow: hidden !important;
+}
+</style>
