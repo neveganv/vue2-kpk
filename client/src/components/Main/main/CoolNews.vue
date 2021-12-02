@@ -20,7 +20,7 @@
 				</div>
 			</VCol>
 			<VCol cols="4">
-				<slider-cards :news="news" v-if="!sceleton" />
+				<slider-cards :news="news" v-if="!sceleton" @changeCoolNew="changeCoolNew" />
 				<VCard v-else max-width="400">
 					<VCardText>
 						<v-skeleton-loader
@@ -56,6 +56,11 @@ export default {
 		}
 		console.log(this.news);
 	},
+	methods:{
+		changeCoolNew(e){
+			console.log(e)
+		}
+	}
 };
 </script>
 

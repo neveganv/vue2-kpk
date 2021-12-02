@@ -1,12 +1,12 @@
 <template>
 	<card-swipe v-if="news.length > 0">
-		{{ news }}
 		<card-swipe-item
 			class="card-item"
 			v-for="newItem in news"
 			:key="newItem._id"
+
 		>
-			<div class="card-img">
+			<div class="card-img" 			@click="clickCoolNew(newItem._id)">
 				<img :src="newItem.main_img" />
 				<span class="title">{{ newItem.title }}</span>
 				<span class="time">
@@ -31,17 +31,22 @@ export default {
 			required: false,
 		},
 	},
-	watch:{
-		news:{
-			deep:true,
-			handler(e){
-				console.log(e)
-			}
-		}
+	watch: {
+		news: {
+			deep: true,
+			handler(e) {
+				console.log(e);
+			},
+		},
 	},
 	components: {
 		CardSwipe,
 		CardSwipeItem,
+	},
+	methods: {
+		clickCoolNew(e) {
+			this.$emit('changeCoolNew', e);
+		},
 	},
 	mounted() {
 		console.log(this.news);
