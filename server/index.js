@@ -22,7 +22,6 @@ app.get("*", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
 //routes
-app.use('/api/optionsList', require('./routes/api/optionsList'))
 app.use('/api/news', require('./routes/api/news'))
 app.use('/api/user', require('./routes/api/user'))
 app.use('/api/position', require('./routes/api/position'))
@@ -31,6 +30,7 @@ app.use('/api/group', require('./routes/api/shedule/group'))
 app.use('/api/class', require('./routes/api/shedule/class'))
 app.use('/api/shedule', require('./routes/api/shedule/shedule'))
 app.use('/api/page', require('./routes/api/page'))
+app.use('/api/specialty', require('./routes/api/specialty'))
 
 //DB
 function start() {
