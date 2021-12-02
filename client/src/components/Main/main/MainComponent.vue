@@ -18,17 +18,25 @@
 		<div class="my-container" style="margin-top: 150px; margin-bottom: 150px">
 			<CoolNews />
 		</div>
+		<!-- specialities  -->
+		<div class="my-container">
+			<SpecialitiesList />
+		</div>
 	</div>
 </template>
 
 <script>
 import MyHeader from '../UI/my-header.vue';
 import CoolNews from './CoolNews.vue';
+import SpecialitiesList from './SpecialitiesList.vue';
+
 export default {
 	components: {
 		MyHeader,
 		CoolNews,
+		SpecialitiesList,
 	},
+
 };
 </script>
 <style lang="scss" scoped>

@@ -1,5 +1,6 @@
 <template>
 	<card-swipe v-if="news.length > 0">
+		{{ news }}
 		<card-swipe-item
 			class="card-item"
 			v-for="newItem in news"
@@ -23,24 +24,26 @@
 
 <script>
 import { CardSwipe, CardSwipeItem } from '@eshengsky/vue-card-swipe';
-import newsService from '@/request/news/newsService';
 
 export default {
-	data: () => ({
-		news: [],
-	}),
+	props: {
+		news: {
+			required: false,
+		},
+	},
+	watch:{
+		news:{
+			deep:true,
+			handler(e){
+				console.log(e)
+			}
+		}
+	},
 	components: {
 		CardSwipe,
 		CardSwipeItem,
 	},
-	async mounted() {
-		try {
-			this.news = [];
-			this.news = await newsService.getAllNews();
-			console.log(this.news);
-		} catch (e) {
-			alert(e);
-		}
+	mounted() {
 		console.log(this.news);
 	},
 };
@@ -52,7 +55,7 @@ export default {
 		height: 300px;
 	}
 	&-img {
-        	font-family: 'Montserrat', sans-serif !important;
+		font-family: 'Montserrat', sans-serif !important;
 		width: 100%;
 		height: 100%;
 		position: relative;
@@ -88,9 +91,7 @@ export default {
 			color: white;
 			z-index: 100;
 			margin: 10px;
-            font-weight: 600;
-            
-
+			font-weight: 600;
 		}
 	}
 }
