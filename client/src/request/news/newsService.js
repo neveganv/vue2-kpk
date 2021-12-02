@@ -2,6 +2,7 @@ import requestService from '../requestService';
 
 const prefix = '/api/news';
 const prefix2 = '/api/newsCategory';
+const prefix3 = '/api/coolNews';
 
 export default {
 
@@ -35,7 +36,28 @@ export default {
 	},
 	async getSimpleNewsById(params){
 		const response = await requestService.post(`${prefix}/getNewsById`, params)
-		return response?.data[0]
-	   
+		return response?.data[0]	   
+	},
+	async addCoolNews(params){
+		console.log("params: ",params);
+		const response = await requestService.post(`${prefix3}/addCoolNews`, params)
+		return response?.data
+	},
+	async getCoolNews(){
+		const response = await requestService.post(`${prefix3}/getAllCoolNews`)
+		return response?.data
+	},
+	async getCoolNewsById(params){
+		const response = await requestService.post(`${prefix3}/getCoolNewsById`, params)
+		return response?.data
+	},
+	async updateCoolNews(params){
+       const response = await requestService.post(`${prefix3}/updateCoolNews`, params)
+	   return response?.data
+	},
+	async deleteCoolNews(params){
+		const response = await requestService.post(`${prefix3}/deleteCoolNews`, params)
+		return response?.data
 	}
+
 };

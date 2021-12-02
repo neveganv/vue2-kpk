@@ -13,5 +13,6 @@ db.classes = require("./shedule/class")(mongoose);
 db.shedul = require("./shedule/shedule")(mongoose);
 db.page = require("./page")(mongoose);
 db.specialty = require("./specialty")(mongoose);
+db.coolNews = require("./news/coolNews")(mongoose);
 
 module.exports = db;

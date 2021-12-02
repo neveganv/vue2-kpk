@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import newsService from "@/request/news/newsService"
 export default {
 	data: () => ({
 		rules: [
@@ -74,9 +75,15 @@ export default {
 			this.news = [];
 			this.$emit('close');
 		},
-		onCreate() {
+		async onCreate() {
+			const params = [];
 			console.log(this.news);
-			// this.$emit('close');
+			params.title = this.news.title,
+			params.img = this.news.main_img.name,
+			this.$emit('close');
+            await newsService.addCoolNews({
+				...params
+			})
 		},
 	},
 	computed: {

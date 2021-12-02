@@ -1,12 +1,15 @@
 const express = require("express")
 const router = express.Router()
 
-const page = require("../../controller/specialty.controller");
+const specialty = require("../../controller/specialty.controller");
 
-//Create new page
-router.post("/addSpecialty", page.create);
+//Create new specialty
+router.post("/addSpecialty", specialty.create);
 
-//Find all page
-router.post("/getAllSpecialty", page.findAll);
+//Find all specialty
+router.post("/getAllSpecialty", specialty.findAll);
+
+//Update specialty
+router.post("/updateSpecialty", specialty.update)
 
 module.exports = router
