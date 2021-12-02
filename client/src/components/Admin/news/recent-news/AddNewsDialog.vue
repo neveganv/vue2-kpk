@@ -1,7 +1,8 @@
 <template>
 	<VDialog v-model="visibility">
 		<VCard width="700">
-			<VCardTitle> Створити Круту Новину </VCardTitle>
+			<VCardTitle v-if="chosenNews"> Оновити Круту Новину </VCardTitle>
+			<VCardTitle v-else> Створити Круту Новину </VCardTitle>
 			<VCardText>
 				<VRow>
 					<VCol>
@@ -49,7 +50,8 @@
 			<VCardActions>
 				<VSpacer />
 				<VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
-				<VBtn color="primary" @click="onCreate"> Створити </VBtn>
+				<VBtn color="primary" @click="onUpdate" v-if="chosenNews"> Оновити </VBtn>
+				<VBtn color="primary" @click="onCreate" v-else> Створити </VBtn>
 			</VCardActions>
 		</VCard>
 	</VDialog>
@@ -69,6 +71,9 @@ export default {
 		visible: {
 			require: true,
 		},
+		chosenNews: {
+			require:false
+		}
 	},
 	methods: {
 		onCancel() {
@@ -85,6 +90,16 @@ export default {
 				...params
 			})
 		},
+		async onUpdate(){
+			const params = [];
+			console.log(this.news);
+			params.title = this.news.title,
+			params.img = this.news.main_img.name,
+			this.$emit('close');
+            await newsService.updateCoolNews({
+				...params
+			})
+		}
 	},
 	computed: {
 		visibility: {
