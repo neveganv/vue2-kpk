@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-center align-center w-100 h-100">
-    <v-card max-width="600" class="w-25">
+    <v-card max-width="400" class="w-100">
       <v-card-title>Авторизація</v-card-title>
       <v-card-text>
         <v-row>
@@ -30,6 +30,9 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
+         <v-btn :to="{path:'/'}" text color="secondary"><VIcon left>mdi-arrow-left</VIcon>
+         назад
+         </v-btn>
         <v-spacer></v-spacer>
         <v-col>
           <v-btn @click="login" color="primary">Авторизуватися</v-btn>
