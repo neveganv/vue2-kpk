@@ -54,8 +54,14 @@
 						</VListItemIcon>
 						<VListItemTitle>Розклад</VListItemTitle>
 					</VListItem>
+					<VListItem :to="{ path: '/admin-specialities' }">
+						<VListItemIcon>
+							<VIcon>mdi-folder-account</VIcon>
+						</VListItemIcon>
+						<VListItemTitle>Спеціальності</VListItemTitle>
+					</VListItem>
 				</VListItemGroup>
-				<VListGroup class="listGroupMenu" :value="specialitiesSelector">
+				<!-- <VListGroup class="listGroupMenu" :value="specialitiesSelector">
 					<template v-slot:activator>
 						<VListItemIcon>
 							<VIcon>mdi-folder-account</VIcon>
@@ -80,7 +86,7 @@
 						</VListItemIcon>
 						<VListItemTitle>Додати</VListItemTitle>
 					</VListItem>
-				</VListGroup>
+				</VListGroup> -->
 				<VListItem @click="visible = true">
 					<VListItemIcon>
 						<VIcon>mdi-playlist-plus</VIcon>

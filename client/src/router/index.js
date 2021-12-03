@@ -37,6 +37,11 @@ const routes = [
 		name: 'admin-page-profile',
 		component: () => import('@/views/Admin/Profile.vue'),
 	},
+	{
+		path: '/admin-specialities',
+		name: 'admin-page-specialities',
+		component: () => import('@/views/Admin/Specialities.vue'),
+	},
 ];
 const router = new VueRouter({
 	mode: 'history',
