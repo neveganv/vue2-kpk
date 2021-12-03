@@ -1,5 +1,5 @@
 <template>
-	<VDialog v-model="visibility">
+	<VDialog v-model="visibility" @click:outside="$v.$reset()">
 		<VCard width="700">
 			<VCardTitle v-if="chosenNews"> Оновити Круту Новину </VCardTitle>
 			<VCardTitle v-else> Створити Круту Новину </VCardTitle>
@@ -11,8 +11,10 @@
 							prepend-icon="mdi-clipboard-text"
 							outlined
 							dense
-							hide-details
+							:error-messages="TitleError"
 							v-model="news.title"
+							counter
+							maxlength="70"
 						>
 						</VTextField>
 					</VCol>
@@ -30,6 +32,8 @@
 							:show-size="1000"
 							:rules="rules"
 							v-model="news.main_img"
+							@change="onFileChange"
+							:error-messages="MainImageError"
 						>
 							<template v-slot:selection="{ index, text }">
 								<v-chip v-if="index < 2" label small>
@@ -50,7 +54,9 @@
 			<VCardActions>
 				<VSpacer />
 				<VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
-				<VBtn color="primary" @click="onUpdate" v-if="chosenNews"> Оновити </VBtn>
+				<VBtn color="primary" @click="onUpdate" v-if="chosenNews">
+					Оновити
+				</VBtn>
 				<VBtn color="primary" @click="onCreate" v-else> Створити </VBtn>
 			</VCardActions>
 		</VCard>
@@ -58,48 +64,87 @@
 </template>
 
 <script>
-import newsService from "@/request/news/newsService"
+import { validationMixin } from 'vuelidate';
+import { required, maxLength } from 'vuelidate/lib/validators';
+import moment from 'moment';
+import newsService from '@/request/news/newsService';
 export default {
+	mixins: [validationMixin],
+
 	data: () => ({
 		rules: [
 			value =>
 				!value || value.size < 3000000 || 'Зображення повинне бути менше 3 MB!',
 		],
 		news: [],
+		base64image: '',
 	}),
+	validations: {
+		news: {
+			title: {
+				maxLength: maxLength(70),
+				required,
+			},
+			main_img: {
+				required,
+			},
+		},
+	},
 	props: {
 		visible: {
 			require: true,
 		},
 		chosenNews: {
-			require:false
-		}
+			require: false,
+		},
 	},
 	methods: {
 		onCancel() {
 			this.news = [];
 			this.$emit('close');
+			this.$v.$reset();
 		},
 		async onCreate() {
-			const params = [];
-			console.log(this.news);
-			params.title = this.news.title,
-			params.img = this.news.main_img.name,
-			this.$emit('close');
-            await newsService.addCoolNews({
-				...params
-			})
+			this.$v.$touch();
+			if (!this.$v.$invalid) {
+				try {
+					const params = [];
+					params.title = this.news.title;
+					params.img = this.base64image;
+					params.created_time = this.getCurrentTime;
+
+					const res = await newsService.addCoolNews({
+						...params,
+					});
+					this.$emit('create', res);
+					this.news = [];
+					this.$v.$reset();
+				} catch (e) {
+					alert(e);
+				}
+			}
 		},
-		async onUpdate(){
+		async onUpdate() {
 			const params = [];
-			console.log(this.news);
-			params.title = this.news.title,
-			params.img = this.news.main_img.name,
+			params.title = this.news.title;
+			params.img = this.base64image;
 			this.$emit('close');
-            await newsService.updateCoolNews({
-				...params
-			})
-		}
+			await newsService.updateCoolNews({
+				...params,
+			});
+		},
+		onFileChange(files) {
+			if (files) {
+				const reader = new FileReader();
+				reader.readAsDataURL(files);
+				reader.onload = e => {
+					this.base64image = e.target.result;
+					if (this.chosenNews) {
+						this.news.main_img = this.base64image;
+					}
+				};
+			}
+		},
 	},
 	computed: {
 		visibility: {
@@ -109,6 +154,35 @@ export default {
 			set() {
 				this.$emit('close');
 			},
+		},
+		getCurrentTime() {
+			const currentTIme = `${moment(new Date().toISOString())
+				.locale('uk')
+				.format()}`;
+			return currentTIme;
+		},
+		TitleError() {
+			const errors = [];
+			if (!this.$v.news.title.$dirty) {
+				return errors;
+			}
+			if (!this.$v.news.title.maxLength) {
+				errors.push('Довжина заголовку має бути менша за 70 символів');
+				return errors;
+			}
+			!this.$v.news.title.required &&
+				errors.push('Заголовок обов`язкове поле для заповнення');
+			return errors;
+		},
+		MainImageError() {
+			const errors = [];
+
+			if (!this.$v.news.main_img.$dirty) {
+				return errors;
+			}
+			!this.$v.news.main_img.required &&
+				errors.push('Головна картинка обов`язкове поле для заповнення');
+			return errors;
 		},
 	},
 };

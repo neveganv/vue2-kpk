@@ -48,7 +48,7 @@ export default {
 	async mounted() {
 		try {
 			this.sceleton = true;
-			this.news = await newsService.getAllNews();
+			this.news = await newsService.getCoolNews();
 			this.sceleton = false;
 			console.log(this.news);
 		} catch (e) {

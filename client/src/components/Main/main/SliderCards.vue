@@ -7,7 +7,7 @@
 
 		>
 			<div class="card-img" 			@click="clickCoolNew(newItem._id)">
-				<img :src="newItem.main_img" />
+				<img :src="newItem.img" />
 				<span class="title">{{ newItem.title }}</span>
 				<span class="time">
 					{{
