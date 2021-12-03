@@ -1,11 +1,11 @@
 <template>
 	<div class="specialities-card">
 		<div class="card__title">
-			<div class="title__number">{{ specialitie.number }}</div>
-			<div class="title__text">{{ specialitie.title }}</div>
+			<div class="title__number">{{ specialitie.number || "--"}}</div>
+			<div class="title__text">{{ specialitie.name || "--"}}</div>
 		</div>
 		<div class="card__img">
-			<img src="https://picsum.photos/350/165?random">
+			<img :src="specialitie.img">
 		</div>
 		<div class="card__arrow">
 			<VIcon>mdi-arrow-bottom-left</VIcon>
