@@ -37,8 +37,8 @@
 												<v-chip small color="primary">{{
 													(tmpGroup = item.name)
 												}}</v-chip>
-											</template></v-select
-										>
+											</template>
+										</v-select>
 									</VCol>
 									<VCol cols="6">
 										<VBtn text color="primary" @click="visibleAddGroup = true">
@@ -78,12 +78,22 @@
 										>
 											<template #selection="{ item }">
 												<v-chip
-													small
+													
 													:color="item.name ? item.color : 'primary'"
 													>{{ item.name }}</v-chip
 												>
-											</template></v-select
-										>
+											</template>
+											<template slot="item" slot-scope="data">
+												<VRow>
+													<span
+														class="mr-1 span"
+														:style="`background: ${data.item.color}`"
+													></span>
+
+													{{ data.item.name }}
+												</VRow>
+											</template>
+										</v-select>
 									</VCol>
 									<VCol cols="6">
 										<VBtn text color="primary" @click="visibleAddClass = true">
@@ -158,7 +168,6 @@
 													v-bind="attrs"
 													v-on="on"
 													dense
-													
 													hide-details
 													:error-messages="StartTimeError"
 												></v-text-field>
@@ -171,7 +180,7 @@
 											></v-time-picker> </v-menu
 									></VCol>
 									<VCol><VIcon>mdi-minus</VIcon></VCol>
-											<VCol cols="2">
+									<VCol cols="2">
 										<v-menu
 											ref="menu2"
 											v-model="menu4"
@@ -191,7 +200,6 @@
 													v-bind="attrs"
 													v-on="on"
 													dense
-													
 													hide-details
 													:error-messages="EndTimeError"
 												></v-text-field>
@@ -376,7 +384,6 @@ export default {
 			end_time: {
 				required,
 			},
-		
 		},
 	},
 	props: {
@@ -431,18 +438,16 @@ export default {
 			if (!this.$v.event.start_time.$dirty) {
 				return errors;
 			}
-			!this.$v.event.start_time.required &&
-				errors.push('');
+			!this.$v.event.start_time.required && errors.push('');
 			return errors;
 		},
-	
+
 		EndTimeError() {
 			const errors = [];
 			if (!this.$v.event.end_time.$dirty) {
 				return errors;
 			}
-			!this.$v.event.end_time.required &&
-				errors.push('');
+			!this.$v.event.end_time.required && errors.push('');
 			return errors;
 		},
 		LinkError() {
@@ -461,4 +466,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.span {
+	width: 22px;
+	height: 22px;
+	border: 1px solid #e3e3e3;
+	border-radius: 4px;
+	display: block;
+}
+</style>
