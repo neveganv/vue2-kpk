@@ -19,6 +19,10 @@ module.exports = mongoose => {
                 type: Object,
                 require: false
             },
+            number: {
+                type: String,
+                require: false
+            },
         })
     )
     return specialty;

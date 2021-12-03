@@ -16,6 +16,19 @@
 						>
 						</VTextField>
 					</VCol>
+					<VCol>
+						<VTextField
+							label="Номер спеціальності"
+							prepend-icon="mdi-counter"
+							outlined
+							dense
+							v-model="specialities.number"
+							:error-messages="NumberError"
+                            type="number"
+
+						>
+						</VTextField>
+					</VCol>
 				</VRow>
 				<VRow>
 					<VCol>
@@ -117,6 +130,9 @@ export default {
 			img: {
 				required,
 			},
+			number: {
+				required,
+			},
 		},
 	},
 	data: () => ({
@@ -125,6 +141,7 @@ export default {
 			img: null,
 			courses: {},
 			content: '',
+			number: '',
 		},
 		showEditorText: false,
 		rules: [
@@ -141,6 +158,7 @@ export default {
 				img: null,
 				courses: {},
 				content: '',
+				number: '',
 			};
 			this.$v.$reset();
 		},
@@ -153,6 +171,7 @@ export default {
 					params.img = this.base64image;
 					params.courses = this.specialities.courses;
 					params.content = this.specialities.content;
+					params.number = this.specialities.number;
 					const res = await specialityService.addSpecialty({ ...params });
 					this.$emit('addSpeciality', res);
 					this.$v.$reset();
@@ -161,6 +180,7 @@ export default {
 						img: null,
 						courses: {},
 						content: '',
+						number: '',
 					};
 				} catch (e) {
 					alert(e);
@@ -201,6 +221,15 @@ export default {
 			}
 			!this.$v.specialities.title.required &&
 				errors.push('Заголовок обов`язкове поле для заповнення');
+			return errors;
+		},
+		NumberError() {
+			const errors = [];
+			if (!this.$v.specialities.number.$dirty) {
+				return errors;
+			}
+			!this.$v.specialities.number.required &&
+				errors.push('Номер спеціальності обов`язкове поле для заповнення');
 			return errors;
 		},
 		MainImageError() {

@@ -1,7 +1,7 @@
 <template>
 	<div class="specialities-card">
 		<div class="card__title">
-			<div class="title__number">{{ specialitie.number || "--"}}</div>
+			<div class="title__number">{{ '0'+indexSpecialitie  || "--"}}</div>
 			<div class="title__text">{{ specialitie.name || "--"}}</div>
 		</div>
 		<div class="card__img">
@@ -19,6 +19,9 @@ export default {
 	props: {
 		specialitie: {
 			type: Object,
+			require: true,
+		},
+		indexSpecialitie: {
 			require: true,
 		},
 	},

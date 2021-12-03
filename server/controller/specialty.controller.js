@@ -9,7 +9,8 @@ exports.create = (req, res) => {
           name: req.body.name,
           img: req.body.img,
           content: req.body.content,
-          courses: req.body.courses
+          courses: req.body.courses,
+          number: req.body.number
       });
    
     specialty
