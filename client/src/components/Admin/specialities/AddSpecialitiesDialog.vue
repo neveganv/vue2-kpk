@@ -1,5 +1,5 @@
 <template>
-	<VDialog v-model="visibility" scrollable>
+	<VDialog v-model="visibility" scrollable @click:outside="$v.$reset()">
 		<VCard width="700">
 			<VCardTitle> Додати нову спеціальність </VCardTitle>
 			<VCardText>
@@ -85,7 +85,7 @@
 			</VCardText>
 			<VCardActions>
 				<VSpacer />
-				<VBtn text color="error">Скасувати</VBtn>
+				<VBtn text color="error" @click="onCancel">Скасувати</VBtn>
 				<VBtn color="primary" @click="onCreate">Додати</VBtn>
 			</VCardActions>
 		</VCard>
@@ -97,6 +97,7 @@ import { VueEditor } from 'vue2-editor';
 import { validationMixin } from 'vuelidate';
 import { required, maxLength } from 'vuelidate/lib/validators';
 import specialityService from '@/request/specialty/specialtyService';
+
 export default {
 	components: {
 		VueEditor,
@@ -132,26 +133,35 @@ export default {
 		],
 		panel: [0, 1, 2, 3],
 	}),
-	watch: {
-		specialities: {
-			deep: true,
-			handler(e) {
-				console.log(e);
-			},
-		},
-	},
 	methods: {
+		onCancel() {
+			this.$emit('close');
+			this.specialities = {
+				title: '',
+				img: null,
+				courses: {},
+				content: '',
+			};
+			this.$v.$reset();
+		},
 		async onCreate() {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
 					const params = [];
-					params.title = this.specialities.title;
+					params.name = this.specialities.title;
 					params.img = this.base64image;
 					params.courses = this.specialities.courses;
 					params.content = this.specialities.content;
 					const res = await specialityService.addSpecialty({ ...params });
-					console.log(res);
+					this.$emit('addSpeciality', res);
+					this.$v.$reset();
+					this.specialities = {
+						title: '',
+						img: null,
+						courses: {},
+						content: '',
+					};
 				} catch (e) {
 					alert(e);
 				}

@@ -16,7 +16,7 @@ module.exports = mongoose => {
                 require: true
             },
             courses: {
-                type: Array,
+                type: Object,
                 require: false
             },
         })
