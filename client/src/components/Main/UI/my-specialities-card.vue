@@ -1,14 +1,21 @@
 <template>
 	<div class="specialities-card">
 		<div class="card__title">
-			<div class="title__number">{{ '0'+indexSpecialitie  || "--"}}</div>
-			<div class="title__text">{{ specialitie.name || "--"}}</div>
+			<div class="title__number">{{ '0' + indexSpecialitie || '--' }}</div>
+			<div class="title__text">
+				{{ specialitie.name || '--' }} ({{ specialitie.number || '--' }})
+			</div>
 		</div>
 		<div class="card__img">
-			<img :src="specialitie.img">
+			<img :src="specialitie.img" />
 		</div>
-		<div class="card__arrow">
+		<div class="card__arrow" v-if="!edit">
 			<VIcon>mdi-arrow-bottom-left</VIcon>
+		</div>
+		<div class="card__arrow" v-else>
+			<VBtn color="primary">
+				<VIcon>mdi-square-edit-outline</VIcon>
+			</VBtn>
 		</div>
 	</div>
 </template>
@@ -24,29 +31,30 @@ export default {
 		indexSpecialitie: {
 			require: true,
 		},
+		edit: {
+			require: false,
+		},
 	},
 };
 </script>
 
 <style lang="scss">
 .specialities-card {
-    transform: scale(.9);
-    margin: auto;
+	margin: auto;
 	cursor: pointer;
 	display: flex;
 	flex-direction: column;
-	max-width: 475px;
+	max-width: 350px;
 	width: auto;
-	height: 420px;
+	height: 300px;
 	background: #fff;
-    transition:.2s ease;
+	transition: 0.2s ease;
 	position: relative;
-    	padding-left: 15px;
+	padding-left: 15px;
 	.card__title {
 		display: flex;
-		justify-content: space-between;
+		justify-content: flex-start;
 		padding-top: 7px;
-	
 		max-width: 350px;
 		.title__number {
 			font-weight: 800;
@@ -54,24 +62,25 @@ export default {
 			line-height: 26px;
 		}
 		.title__text {
+			
 			padding-left: 10px;
 			padding-top: 7px;
-			max-width: 300px;
+			max-width: 250px;
 			width: 100%;
 			height: 65px;
 			font-weight: 600;
-			font-size: 21px;
-			line-height: 26px;
+			font-size: 15px;
+			line-height: 15px;
 		}
 	}
 	.card__img {
 		align-self: flex-end;
 		max-width: 450px;
-		height: 400px;
+		height: 100%;
 		width: 100%;
 
 		img {
-            object-fit: cover;
+			object-fit: cover;
 			width: 100%;
 			height: 100%;
 		}
@@ -80,7 +89,7 @@ export default {
 		content: '';
 		position: absolute;
 		width: 2px;
-		height: 400px;
+		height: 350px;
 		left: 0;
 		top: 0;
 		background: #b0a8b9;
@@ -102,9 +111,9 @@ export default {
 	&.card-5 {
 		margin-top: -300px;
 	}
-    &:active{
-        transform: scale(.8);
-    }
+	&:active {
+		transform: scale(0.8);
+	}
 }
 .card__arrow {
 	position: absolute;

@@ -1,11 +1,12 @@
 <template>
 	<div>
-		<VRow justify="space-between" class="mt-5" v-if="!SceletonLoader">
+		<VRow class="mt-5" v-if="!SceletonLoader">
 			<VCol
 				v-for="(specialitie, index) in specialities"
 				:key="index"
 				cols="12"
 				md="4"
+				class="mt-5"
 			>
 				<MySpecialitiesCard
 					:specialitie="specialitie"
@@ -13,7 +14,7 @@
 				/>
 			</VCol>
 		</VRow>
-		<VRow justify="space-between" class="mt-5" v-else>
+		<VRow justify="center" class="mt-5" v-else>
 			<VCol v-for="n in 6" :key="n" cols="12" md="4">
 				<VCard max-width="400">
 					<VCol>

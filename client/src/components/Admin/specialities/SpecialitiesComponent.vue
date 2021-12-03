@@ -1,13 +1,21 @@
 <template>
 	<div class="h-auto">
 		<div class="d-flex justify-space-between p-1 align-center">
-			<VBtn text color="primary">Список Спеціальностей</VBtn>
+			<VBtn text color="primary">
+				<VIcon left> mdi-school-outline</VIcon>
+				Список Спеціальностей
+			</VBtn>
 			<VBtn color="primary" outlined @click="visible = true">
 				<VIcon left>mdi-folder-account</VIcon>Додати нову спеціальність</VBtn
 			>
 		</div>
 		<VDivider />
-		<SpecialitiesList :specialitites="specialities" />
+
+		<SpecialitiesList
+			:specialitites="specialities"
+			:SceletonLoader="SceletonLoader"
+		/>
+
 		<AddSpecialitiesDialog
 			:visible="visible"
 			@close="visible = false"
@@ -26,6 +34,7 @@ export default {
 	data: () => ({
 		visible: false,
 		specialities: [],
+		SceletonLoader: false,
 	}),
 	mounted() {
 		this.getSpecialities();
@@ -34,11 +43,13 @@ export default {
 		addSpeciality(e) {
 			this.visible = false;
 			this.specialities.push(e);
-            this.getSpecialities()
+			this.getSpecialities();
 		},
 		async getSpecialities() {
+			this.SceletonLoader = true;
 			this.specialities = await specialityService.getAllSpecialty();
-            console.log(this.specialities)
+			this.SceletonLoader = false;
+			console.log(this.specialities);
 		},
 	},
 };
