@@ -4,14 +4,7 @@
 			<v-app-bar color="white" style="height: 65px; top: 0; z-index: 1">
 				<VAppBarNavIcon @click="mini = !mini"></VAppBarNavIcon>
 				<div class="admin-logo ml-4">
-					<VBadge
-						color="error"
-						overlap
-						right
-						bottom
-						text
-						content="pre-alpha"
-					>
+					<VBadge color="error" overlap right bottom text content="pre-alpha">
 						<img :src="require('@/assets/img/logo-admin.svg')" alt="" />
 					</VBadge>
 				</div>
@@ -38,27 +31,27 @@
 				<VListItemGroup color="primary">
 					<VListItem :to="{ path: '/admin' }">
 						<VListItemIcon>
-							<VIcon>mdi-view-dashboard</VIcon>
+							<VIcon>mdi-view-dashboard-outline</VIcon>
 						</VListItemIcon>
 						<VListItemTitle>Головна</VListItemTitle>
 					</VListItem>
 					<VListItem :to="{ path: '/admin-news' }">
 						<VListItemIcon>
-							<VIcon>mdi-newspaper-variant</VIcon>
+							<VIcon>mdi-newspaper-variant-outline</VIcon>
 						</VListItemIcon>
 						<VListItemTitle>Новини</VListItemTitle>
+					</VListItem>
+					<VListItem :to="{ path: '/admin-specialities' }">
+						<VListItemIcon>
+							<VIcon>mdi-folder-account-outline</VIcon>
+						</VListItemIcon>
+						<VListItemTitle>Спеціальності</VListItemTitle>
 					</VListItem>
 					<VListItem :to="{ path: '/admin-shedule' }">
 						<VListItemIcon>
 							<VIcon>mdi-calendar</VIcon>
 						</VListItemIcon>
 						<VListItemTitle>Розклад</VListItemTitle>
-					</VListItem>
-					<VListItem :to="{ path: '/admin-specialities' }">
-						<VListItemIcon>
-							<VIcon>mdi-folder-account</VIcon>
-						</VListItemIcon>
-						<VListItemTitle>Спеціальності</VListItemTitle>
 					</VListItem>
 				</VListItemGroup>
 				<!-- <VListGroup class="listGroupMenu" :value="specialitiesSelector">
@@ -158,7 +151,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .listGroupMenu {
 	.v-list-group__items {
 		padding-left: 18px;
