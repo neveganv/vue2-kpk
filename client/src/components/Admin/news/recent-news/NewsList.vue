@@ -28,15 +28,17 @@
 									</v-img>
 									<v-card-actions>
 										<VRow class="new-title">
-											<VCol>{{ item.title }}</VCol>
-											<VCol class="timer">
-												{{
-													moment(item.created_time)
-														.locale('uk')
-														.startOf('hours')
-														.fromNow() || '--'
-												}}</VCol
-											>
+											<VCol
+												><span>{{ item.title }}</span>
+												<div class="timer m-0 p-0">
+													{{
+														moment(item.created_time)
+															.locale('uk')
+															.startOf('hours')
+															.fromNow() || '--'
+													}}
+												</div>
+											</VCol>
 										</VRow>
 
 										<v-spacer></v-spacer>
@@ -54,8 +56,7 @@
 						</v-col>
 					</v-row>
 					<v-row v-else>
-						
-					<div>Ще немає крутих новин</div>
+						<div>Ще немає крутих новин</div>
 					</v-row>
 				</div>
 				<div v-else>
@@ -81,7 +82,7 @@ export default {
 		news: {
 			require: true,
 		},
-			sceletonLoader: {
+		sceletonLoader: {
 			require: true,
 		},
 	},
@@ -98,7 +99,6 @@ export default {
 			this.$emit('deleteNew', e);
 		},
 	},
-
 };
 </script>
 
@@ -106,6 +106,7 @@ export default {
 .new-title {
 	max-width: 90%;
 	width: 100%;
+
 	span {
 		display: block;
 		overflow: hidden;
