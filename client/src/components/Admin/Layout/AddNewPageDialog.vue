@@ -1,12 +1,13 @@
 <template>
 	<VDialog v-model="visibility">
 		<VCard width="500">
-			<VCardTitle> Додати нову сторінку </VCardTitle>
+			<VCardTitle v-if="addPageVisibility"> Додати нову папку </VCardTitle>
+			<VCardTitle v-else> Додати нову сторінку </VCardTitle>
 			<VCardText>
 				<VRow>
 					<VCol>
 						<VTextField
-							label="Назва Сторінки"
+							:label="addPageVisibility ? 'Назва сторінки': 'Назва папки'"
 							prepend-icon="mdi-application-edit"
 							outlined
 							dense
@@ -17,7 +18,7 @@
 					</VCol>
 				</VRow>
 				<VRow>
-					<VCol>
+					<!-- <VCol>
 						<VTextField
 							label="Тип Сторінки (тут напевно чот над зробить вибірку якусь)"
 							prepend-icon="mdi-application-cog"
@@ -27,7 +28,7 @@
 							v-model="page.type"
 						>
 						</VTextField>
-					</VCol>
+					</VCol> -->
 				</VRow>
 				<VRow>
 					<VCol>
@@ -52,14 +53,15 @@
 			</VCardText>
 			<VCardActions>
 				<VSpacer />
-				<VBtn color="primary" @click="onCreate"> Додати Сторінку </VBtn>
+				<VBtn color="primary" @click="onCreateFolder" v-if="addPageVisibility"> Додати Папку </VBtn>
+				<VBtn color="primary" @click="onCreatePage" v-else > Додати Сторінку </VBtn>
 			</VCardActions>
 		</VCard>
 	</VDialog>
 </template>
 
 <script>
-import pageService from "@/request/page/pageService";
+// import pageService from "@/request/page/pageService";
 export default {
 	data: () => ({
 		page: [],
@@ -72,18 +74,32 @@ export default {
 		visible: {
 			require: true,
 		},
+		addPageVisibility:{
+			require:false,
+		}
+	},
+	watch:{
+		addPageVisibility:{
+			deep:true,
+			handler(e){
+				console.log(e)
+			}
+		}
 	},
 	methods: {
-		async onCreate() {
+		async onCreateFolder() {
 			console.log(this.page);
 			const params = [];
 			params.name = this.page.name,
-			params.type = this.page.type,
+			params.type = this.page.type
 			//params.accessRights = this.page.permissions
-            await pageService.addPage({ 
-				...params
-			});
+            // await pageService.addPage({ 
+			// 	...params
+			// });
 		},
+		async onCreatePage(){
+
+		}
 	},
 	computed: {
 		visibility: {
