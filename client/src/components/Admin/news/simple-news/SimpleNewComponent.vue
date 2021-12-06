@@ -1,19 +1,52 @@
 <template>
 	<div class="simple-new">
-		<VRow justify="end" class="p-1">
-			<VBtn outlined color="primary" @click="visible = true">
-				<v-icon left> mdi-newspaper-plus </v-icon>Створити новину
-			</VBtn>
+		<VRow justify="space-between" class="p-1">
+			<VCol cols="3 ">
+				<v-select
+					v-if="!sceletonLoader"
+					prepend-inner-icon="mdi-filter-variant"
+					:items="Object.values(categories)"
+					:item-value="'_id'"
+					:item-text="'name'"
+					v-model="filter.category"
+					label="Оберіть категорію"
+					outlined
+					@change="changeCategory"
+					clearable
+					hide-details
+					dense
+				>
+					<template #selection="{ item }">
+						<v-chip small color="primary">{{ (tmpGroup = item.name) }}</v-chip>
+					</template>
+				</v-select>
+				<div v-else>
+					<v-skeleton-loader light type="heading"></v-skeleton-loader>
+				</div>
+			</VCol>
+			<div class="mt-4">
+				<VBtn outlined color="primary" @click="visible = true">
+					<v-icon left> mdi-newspaper-plus </v-icon>Створити новину
+				</VBtn>
+			</div>
 		</VRow>
 		<VRow>
 			<VCol>
-				<NewsList :news="news" @show="showNews" @deleteNew="deleteNew" :sceletonLoader="sceletonLoader"/>
+				<NewsList
+					:news="news"
+					@show="showNews"
+					@deleteNew="deleteNew"
+					:sceletonLoader="sceletonLoader"
+				/>
 			</VCol>
 		</VRow>
 		<AddNewDialog
 			@addNews="addNews"
 			:visible="visible"
-			@close="visible = false;clickNews = null"
+			@close="
+				visible = false;
+				clickNews = null;
+			"
 			v-if="visible"
 			:chosenNews="clickNews"
 		/>
@@ -31,10 +64,13 @@ export default {
 		visible: false,
 		news: [],
 		clickNews: null,
-		sceletonLoader:false
+		sceletonLoader: false,
+		categories: [],
+		filter: [],
 	}),
 	mounted() {
 		this.getNews();
+		this.getCategories();
 	},
 	methods: {
 		addNews() {
@@ -46,27 +82,47 @@ export default {
 		updateNews() {
 			this.edit = false;
 			this.getNews();
-
 		},
 		showNews(e) {
 			(this.visible = true), (this.clickNews = e._id);
 		},
 		async deleteNew(e) {
 			try {
-				this.news = await newsService.deleteSimpleNews({id:e});
+				this.news = await newsService.deleteSimpleNews({ id: e });
 				console.log(this.news);
 				this.getNews();
-
 			} catch (e) {
 				alert(e);
 			}
 		},
+		async changeCategory(e) {
+			if (!e) {
+				this.getNews();
+			} else {
+				console.log(e);
+				this.sceletonLoader = true;
+
+				this.news = await newsService.getSimpleNewsByCategories({
+					idCategory: e,
+				});
+				this.sceletonLoader = false;
+
+				console.log(this.news);
+			}
+		},
 		async getNews() {
 			try {
-				this.sceletonLoader = true
+				this.sceletonLoader = true;
 				this.news = await newsService.getAllNews();
-								this.sceletonLoader = false
+				this.sceletonLoader = false;
 				console.log(this.news);
+			} catch (e) {
+				alert(e);
+			}
+		},
+		async getCategories() {
+			try {
+				this.categories = await newsService.getSimpleNewsCategories();
 			} catch (e) {
 				alert(e);
 			}

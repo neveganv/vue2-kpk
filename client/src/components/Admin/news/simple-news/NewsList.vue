@@ -100,12 +100,16 @@
 				<div v-else>
 					<v-row>
 						<v-col cols="12" md="3" v-for="key in 14" :key="key">
+							<VCard>
+								<VCardText>
 							<v-skeleton-loader
 								light
 								class="mx-auto"
 								max-width="300"
 								type="card"
 							></v-skeleton-loader>
+								</VCardText>
+							</VCard>
 						</v-col>
 					</v-row>
 				</div>
