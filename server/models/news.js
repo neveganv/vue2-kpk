@@ -20,6 +20,10 @@ module.exports = mongoose =>{
             created_time:{
                 type:String
             },
+            views:{
+                type:Number,
+                default: 0
+            },
 
         })
     )
