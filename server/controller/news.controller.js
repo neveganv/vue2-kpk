@@ -25,8 +25,8 @@ exports.create = (req, res) => {
 
 exports.findByCategory = (req, res) => {
 	News.find({
-		idCategory: req.params.id,
-	})
+		category: req.body.idCategory,
+	}).populate('category')
 		.then(data => {
 			res.send(data);
 		})
