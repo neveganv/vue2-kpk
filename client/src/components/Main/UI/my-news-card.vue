@@ -6,7 +6,7 @@
 				<span>
 					{{ moment(newItem.created_time).locale('uk').format('LL') || '--' }}
 				</span>
-				<div class="views"><VIcon small >mdi-eye</VIcon>99</div>
+				<div class="views"><VIcon small >mdi-eye</VIcon>{{newItem.views}}</div>
 			</div>
 		</div>
 		<div class="my-new__content">

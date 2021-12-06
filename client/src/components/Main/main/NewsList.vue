@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<VRow justify="space-between" align="center" v-if="!sceletonLoader">
-			<div v-for="newItem in news" :key="newItem._id">
+			<div v-for="newItem in news" :key="newItem._id" @click="counter(newItem)">
 				<my-news-card :newItem="newItem" />
 			</div>
 		</VRow>
@@ -33,8 +33,27 @@ export default {
 		news: [],
 		sceletonLoader: false,
 	}),
-	async mounted() {
-		try {
+	mounted() {
+		this.getNews();
+	},
+	methods: {
+		async counter(e){
+			const params = [];
+			params.id = e._id;
+			params.views = e.views + 1;
+			console.log("paramsCounter", params);
+		try{
+			await newsService.counterViewsSimpleNews({
+                  ...params
+			});
+			this.getNews();
+			}
+			catch(e){
+				alert(e);
+			}
+		},
+	async getNews(){
+        try {
 			this.sceletonLoader = true;
 			this.news = await newsService.getAllNews();
 			console.log(this.news);
@@ -42,7 +61,8 @@ export default {
 		} catch (e) {
 			alert(e);
 		}
-	},
+		}
+	}
 };
 </script>
 

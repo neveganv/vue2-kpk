@@ -116,3 +116,21 @@ exports.deleteNews = (req,res) => {
       });
 
 };
+
+exports.counter = (req, res) => {
+	console.log("id: ", req.body.id);
+	const id = req.body.id;
+	News.findByIdAndUpdate(req.body.id, {views: req.body.views})
+	.then(data => {
+		if (!data) {
+			res.status(404).send({
+				message: `Cannot update newsViews with id=${id}.`,
+			});
+		} else res.send({ message: 'newsViews was updated successfully.' });
+	})
+	.catch(err => {
+		res.status(500).send({
+			message: 'Error updating newsViews with id=' + id,
+		});
+	});
+}

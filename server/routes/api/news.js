@@ -21,4 +21,7 @@ router.post("/deleteNews", news.deleteNews);
 //Find news by id
 router.post("/getNewsById", news.findNewsById)
 
+//Counter views
+router.post("/counterViews", news.counter)
+
 module.exports = router
