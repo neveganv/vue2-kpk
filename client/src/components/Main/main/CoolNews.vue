@@ -2,12 +2,12 @@
 	<div>
 		<VRow>
 			<VCol cols="8">
-				<div class="title">
+				<div class="my-title">
 					<VBadge top overlap color="error" content="beta">
 						Нещодавні новини
 					</VBadge>
 				</div>
-				<div class="sub">
+				<div class="my-sub">
 					Lorem Ipsum is simply dummy text of the printing and typesetting
 					industry. Lorem Ipsum has been the industry's standard dummy text ever
 					since the 1500s, when an unknown printer took a galley of type and
@@ -64,8 +64,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.title {
+<style lang="scss">
+.my-title {
 	font-style: normal;
 	font-weight: 600;
 	font-size: 64px !important;
@@ -73,7 +73,7 @@ export default {
 	color: #4b4453;
 	margin-bottom: 30px;
 }
-.sub {
+.my-sub {
 	font-family: 'Montserrat', sans-serif !important;
 	font-style: normal;
 	font-weight: 300;

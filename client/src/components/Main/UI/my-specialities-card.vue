@@ -46,7 +46,7 @@ export default {
 	flex-direction: column;
 	max-width: 350px;
 	width: auto;
-	height: 300px;
+	// height: 300px;
 	background: #fff;
 	transition: 0.2s ease;
 	position: relative;
@@ -96,7 +96,7 @@ export default {
 	}
 	&:hover {
 		img {
-			opacity: 0.8;
+			opacity: 0.9;
 		}
 	}
 	&.card-2 {
@@ -112,7 +112,7 @@ export default {
 		margin-top: -300px;
 	}
 	&:active {
-		transform: scale(0.8);
+		transform: scale(0.95);
 	}
 }
 .card__arrow {

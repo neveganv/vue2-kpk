@@ -19,7 +19,7 @@
 			<CoolNews />
 		</div>
 		<!-- specialities  -->
-		<div class="my-container">
+		<div class="my-container" >
 			<VRow align="center" justify="space-between" style="margin-bottom:100px">
 				<VCol class="title">Спеціальності</VCol>
 				<VCol class="sub">
@@ -29,6 +29,10 @@
 			</VRow>
 			<SpecialitiesList />
 		</div>
+		<!-- news list -->
+			<div class="my-container" style="margin-top:160px">
+			<MainNewsList />
+		</div>
 		<div style="height: 100vh"></div>
 	</div>
 </template>
@@ -37,12 +41,14 @@
 import MyHeader from '../UI/my-header.vue';
 import CoolNews from './CoolNews.vue';
 import SpecialitiesList from './SpecialitiesList.vue';
+import MainNewsList from './MainNewsList.vue';
 
 export default {
 	components: {
 		MyHeader,
 		CoolNews,
 		SpecialitiesList,
+		MainNewsList
 	},
 };
 </script>

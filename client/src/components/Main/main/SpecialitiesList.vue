@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<VRow class="mt-5" v-if="!SceletonLoader">
+		<VRow class="mt-5 h-auto" v-if="!SceletonLoader">
 			<VCol
 				v-for="(specialitie, index) in specialities"
 				:key="index"
