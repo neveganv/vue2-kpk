@@ -6,7 +6,11 @@
 		<div class="first-screen my-container">
 			<span>Політехніка звучить гордо</span>
 			<div class="img_wrapper">
-				<img :src="require('@/assets/img/test_img.jpg')" alt="main_img" />
+				<img
+					:src="require('@/assets/img/main-img.jpg')"
+					alt="main_img"
+					class="img"
+				/>
 				<img
 					class="glass"
 					:src="require('@/assets/img/main-glass.svg')"
@@ -19,8 +23,8 @@
 			<CoolNews />
 		</div>
 		<!-- specialities  -->
-		<div class="my-container" >
-			<VRow align="center" justify="space-between" style="margin-bottom:100px">
+		<div class="my-container">
+			<VRow align="center" justify="space-between" style="margin-bottom: 100px">
 				<VCol class="title">Спеціальності</VCol>
 				<VCol class="sub">
 					Коледж готує фахівців освітньо-професійного ступеня «фаховий молодший
@@ -30,7 +34,7 @@
 			<SpecialitiesList />
 		</div>
 		<!-- news list -->
-			<div class="my-container" style="margin-top:160px">
+		<div class="my-container" style="margin-top: 160px">
 			<MainNewsList />
 		</div>
 		<div style="height: 100vh"></div>
@@ -48,7 +52,7 @@ export default {
 		MyHeader,
 		CoolNews,
 		SpecialitiesList,
-		MainNewsList
+		MainNewsList,
 	},
 };
 </script>
@@ -94,5 +98,12 @@ export default {
 	font-weight: 500;
 	line-height: 29px;
 	font-size: 24px !important;
+}
+.img {
+	width: 1300px;
+	object-fit: cover;
+	height: 740px;
+	position: relative;
+	z-index: 0;
 }
 </style>
