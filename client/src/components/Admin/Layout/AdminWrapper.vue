@@ -73,14 +73,24 @@
 						</VListItemIcon>
 						<VListItemTitle>Не крута спеціальність</VListItemTitle>
 					</VListItem>
-					<VListItem :to="{ path: '/add' }">
+					<VListItem
+						@click="
+							visible = true;
+							addPageVisibility = true;
+						"
+					>
 						<VListItemIcon>
 							<VIcon>mdi-folder-account</VIcon>
 						</VListItemIcon>
 						<VListItemTitle>Додати</VListItemTitle>
 					</VListItem>
 				</VListGroup>
-				<VListItem @click="visible = true">
+				<VListItem
+					@click="
+						visible = true;
+						addPageVisibility = false;
+					"
+				>
 					<VListItemIcon>
 						<VIcon>mdi-playlist-plus</VIcon>
 					</VListItemIcon>
@@ -100,7 +110,11 @@
 				</VCard>
 			</v-container>
 		</v-main>
-		<AddNewPageDialog :visible="visible" @close="visible = false" />
+		<AddNewPageDialog
+			:visible="visible"
+			@close="visible = false"
+			:addPageVisibility="addPageVisibility"
+		/>
 	</VApp>
 </template>
 
@@ -131,6 +145,7 @@ export default {
 		fixed: false,
 		user: {},
 		visible: false,
+		addPageVisibility: false,
 	}),
 	methods: {
 		async getUser() {
