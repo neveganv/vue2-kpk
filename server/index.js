@@ -30,6 +30,7 @@ app.use('/api/group', require('./routes/api/shedule/group'))
 app.use('/api/class', require('./routes/api/shedule/class'))
 app.use('/api/shedule', require('./routes/api/shedule/shedule'))
 app.use('/api/page', require('./routes/api/page'))
+app.use('/api/folder', require('./routes/api/folder'))
 app.use('/api/specialty', require('./routes/api/specialty'))
 app.use('/api/coolNews', require('./routes/api/news/coolNews'))
 

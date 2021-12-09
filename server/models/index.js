@@ -13,6 +13,7 @@ db.group = require("./shedule/group")(mongoose);
 db.classes = require("./shedule/class")(mongoose);
 db.shedul = require("./shedule/shedule")(mongoose);
 db.page = require("./page")(mongoose);
+db.folder = require("./folder")(mongoose);
 db.specialty = require("./specialty")(mongoose);
 db.coolNews = require("./news/coolNews")(mongoose);
 
