@@ -3,17 +3,17 @@ module.exports = mongoose => {
     const page = mongoose.model(
         "page",
         mongoose.Schema({
-            type: {
-                type: String,
-                require: true
-            },
             name: {
                 type: String,
                 require: true
             },
-            accessRights: {
+            folder: {
                 type: Schema.Types.ObjectId,
-                ref: 'user'
+                ref: 'folder'
+            },
+            html: {
+                type: String,
+                default: null
             }
         })
     )

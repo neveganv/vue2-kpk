@@ -58,7 +58,7 @@
           class="listGroupMenu"
           :value="specialitiesSelector"
           v-for="folder in folders"
-          :key="folder"
+          :key="folder._id"
         >
           <template v-slot:activator>
             <VListItemIcon>
@@ -66,16 +66,17 @@
             </VListItemIcon>
             <VListItemTitle>{{ folder.name }}</VListItemTitle>
           </template>
-          <VListItem>
+          <VListItem v-for="page in folder.pages" :key="page._id">
             <VListItemIcon>
               <VIcon>mdi-folder-account</VIcon>
             </VListItemIcon>
-            <VListItemTitle>Крута спеціальність</VListItemTitle>
+            <VListItemTitle>{{ page.name }}</VListItemTitle>
           </VListItem>
           <VListItem
             @click="
               visible = true;
               addPageVisibility = true;
+              selectedFolder = folder;
             "
           >
             <VListItemIcon>
@@ -114,6 +115,7 @@
       @close="visible = false"
       :addPageVisibility="addPageVisibility"
       @addedFolder="updateFolders"
+      :folder="selectedFolder"
     />
   </VApp>
 </template>
@@ -123,6 +125,7 @@ import UserDropDown from "./UserDropDown";
 import AddNewPageDialog from "./AddNewPageDialog";
 import usersService from "@/request/users/usersService";
 import folderService from "@/request/folders/folderService";
+import pageService from "@/request/page/pageService";
 
 export default {
   components: {
@@ -149,6 +152,7 @@ export default {
     visible: false,
     addPageVisibility: false,
     folders: [],
+    selectedFolder: null,
   }),
   methods: {
     async getUser() {
@@ -169,7 +173,27 @@ export default {
     },
     async getFolders() {
       try {
-        this.folders = await folderService.getFolders();
+        await folderService.getFolders().then((res) => {
+          this.folders = res;
+          var pages = [];
+          try {
+            pageService.getPages().then((res) => {
+				pages = res
+              for (let f = 0; f < this.folders.length; f++) {
+                this.folders[f]["pages"] = [];
+                for (let p = 0; p < pages.length; p++) {
+                  if (this.folders[f]._id == pages[p].folder._id) {
+                    this.folders[f]["pages"].push(pages[p]);
+                    console.log(this.folders[f]["pages"]);
+                  }
+                }
+              }
+            });
+          } catch (e) {
+            alert(e);
+          }
+          console.log(pages);
+        });
       } catch (e) {
         alert(e);
       }

@@ -8,7 +8,7 @@ export default {
 		const response = await requestService.post(`${prefix}/addPage`,params)
 		return response?.data
 	},
-	async getAllPage(){
+	async getPages(){
 		const response = await requestService.post(`${prefix}/getAllPage`)
 		return response?.data
 	},

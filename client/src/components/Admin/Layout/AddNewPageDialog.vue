@@ -30,7 +30,7 @@
 						</VTextField>
 					</VCol> -->
         </VRow>
-        <VRow>
+        <VRow v-if="!addPageVisibility">
           <VCol>
             <v-select
               v-model="page.permissions"
@@ -65,9 +65,9 @@
 </template>
 
 <script>
-// import pageService from "@/request/page/pageService";
+import pageService from "@/request/page/pageService";
 import folderService from "@/request/folders/folderService";
-import positionService from '@/request/positions/positionService';
+import positionService from "@/request/positions/positionService";
 
 export default {
   data: () => ({
@@ -81,6 +81,10 @@ export default {
     addPageVisibility: {
       require: false,
     },
+    folder: {
+      type: Object,
+      require: false,
+    },
   },
   watch: {
     addPageVisibility: {
@@ -90,25 +94,26 @@ export default {
       },
     },
   },
-  mounted(){
-	  this.getPositions()
+  mounted() {
+    this.getPositions();
   },
   methods: {
     async onCreateFolder() {
       const params = [];
-      params.name = this.page.name, 
-      params.positions = this.page.permissions
-	  try {
-      await folderService.addFolder({
-      	...params
-      }).then((res) => {
-		  this.$emit('addedFolder', res)
-		  this.$emit("close");
-	  });
-	  }
-	  catch(e){
-		  alert(e)
-	  }
+      (params.name = this.page.name),
+        (params.positions = this.page.permissions);
+      try {
+        await folderService
+          .addFolder({
+            ...params,
+          })
+          .then((res) => {
+            this.$emit("addedFolder", res);
+            this.$emit("close");
+          });
+      } catch (e) {
+        alert(e);
+      }
     },
     async getPositions() {
       try {
@@ -117,7 +122,25 @@ export default {
         alert(e);
       }
     },
-    async onCreatePage() {},
+    async onCreatePage() {
+		console.log(this.folder)
+      const params = [];
+      params.name = this.page.name;
+	  params.folder = this.folder._id
+      try {
+        await pageService
+          .addPage({
+            ...params,
+          })
+          .then((res) => {
+			  console.log(res)
+            //this.$emit("addedFolder", res);
+            this.$emit("close");
+          });
+      } catch (e) {
+        alert(e);
+      }
+    },
   },
   computed: {
     visibility: {
