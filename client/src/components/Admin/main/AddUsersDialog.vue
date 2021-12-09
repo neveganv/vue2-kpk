@@ -53,9 +53,10 @@
 							prepend-icon="mdi-phone"
 							outlined
 							dense
-							   return-masked-value
-                          v-mask="'+## (###) ##-##-###'"
-
+							return-masked-value
+                          	v-mask="'+## (###) ##-##-###'"
+							:append-icon="!PhoneError.length ? 'mdi-check' :  ''"
+							:color="user.phone > 0 ? 'success' :  '' "
 							:hide-details="!PhoneError.length"
 							:error-messages="PhoneError"
 							v-model="user.phone"
@@ -308,4 +309,3 @@ export default {
 };
 </script>
 
-<style></style>
