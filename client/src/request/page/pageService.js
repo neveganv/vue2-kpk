@@ -12,5 +12,8 @@ export default {
 		const response = await requestService.post(`${prefix}/getAllPage`)
 		return response?.data
 	},
-
+	async getOne(params){
+		const response = await requestService.post(`${prefix}/getById`, params)
+		return response?.data
+	},
 };
