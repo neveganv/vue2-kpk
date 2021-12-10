@@ -60,6 +60,7 @@
 						:value="specialitiesSelector"
 						v-for="folder in folders"
 						:key="folder._id"
+            multiple
 					>
 						<template v-slot:activator>
 							<VListItemIcon>
@@ -70,7 +71,7 @@
 						<VListItem
 							v-for="page in folder.pages"
 							:key="page._id"
-							:to="{ path: `amdin/${folder._id}` }"
+							:to="{ path: `admin/dynamic-page/${folder._id}` }"
 						>
 							<VListItemIcon>
 								<VIcon>mdi-note-outline</VIcon>
