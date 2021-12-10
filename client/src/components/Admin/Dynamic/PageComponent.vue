@@ -4,7 +4,7 @@
 			<VRow>
 				<VCol cols="auto"
 					><VBtn text color="primary" @click="onChangeFolder">
-						{{ page.name || '--' }}</VBtn
+						{{ folderName || '--' }}</VBtn
 					></VCol
 				>
 				<VIcon small>mdi-chevron-right</VIcon>
@@ -71,6 +71,7 @@ export default {
 		changeFolderVisible: false,
 		isEditFolder: false,
 		editFolderVisivle: false,
+        folderName:''
 	}),
 	watch: {
 		$route: {
@@ -87,7 +88,8 @@ export default {
 		async getPage() {
 			const newPage = await pageService.getOne({ _id: this.$route.params.id });
 			this.page = newPage[0];
-			console.log(newPage);
+            this.folderName =this.page.folder.name
+			console.log(this.page);
 		},
 		onCreate() {
 			console.log(this.page.content);

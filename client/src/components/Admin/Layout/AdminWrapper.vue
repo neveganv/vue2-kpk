@@ -103,12 +103,13 @@
 						<VListItemTitle> Додати </VListItemTitle>
 					</VListItem>
 				</div>
-				<div v-else class="d-flex justify-center mt-5">
+				<div v-else class="d-flex justify-center mt-4">
 					<v-progress-circular
 						indeterminate
-						color="primary"
-						:width="5"
-						:size="50"
+						color="grey darken-2
+"
+						:width="4"
+						:size="40"
 					></v-progress-circular>
 				</div>
 			</VList>
