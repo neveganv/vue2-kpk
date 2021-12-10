@@ -23,7 +23,7 @@
 							<VBtn small color="primary" @click="editUser(user)">
 								<VIcon> mdi-account-edit</VIcon></VBtn
 							>
-							<VBtn small color="error" @click="deleteUser(user._id)" >
+							<VBtn small color="error" @click="deleteUser(user._id)" disabled>
 								<VIcon> mdi-delete</VIcon></VBtn
 							>
 						</VRow>

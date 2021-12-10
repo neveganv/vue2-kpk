@@ -1,24 +1,24 @@
 <template>
-  <VDialog v-model="visibility">
-    <VCard width="500">
-      <VCardTitle v-if="!addPageVisibility"> Додати нову папку </VCardTitle>
-      <VCardTitle v-else> Додати нову сторінку </VCardTitle>
-      <VCardText>
-        <VRow>
-          <VCol>
-            <VTextField
-              :label="addPageVisibility ? 'Назва сторінки' : 'Назва папки'"
-              prepend-icon="mdi-application-edit"
-              outlined
-              dense
-              hide-details
-              v-model="page.name"
-            >
-            </VTextField>
-          </VCol>
-        </VRow>
-        <VRow>
-          <!-- <VCol>
+	<VDialog v-model="visibility" width="600" scrollable>
+		<VCard :height="focusSelection ? 500 : ''">
+			<VCardTitle v-if="!addPageVisibility"> Додати нову папку </VCardTitle>
+			<VCardTitle v-else> Додати нову сторінку </VCardTitle>
+			<VCardText>
+				<VRow>
+					<VCol>
+						<VTextField
+							:label="addPageVisibility ? 'Назва сторінки' : 'Назва папки'"
+							prepend-icon="mdi-application-edit"
+							outlined
+							dense
+							hide-details
+							v-model="page.name"
+						>
+						</VTextField>
+					</VCol>
+				</VRow>
+				<VRow>
+					<!-- <VCol>
 						<VTextField
 							label="Тип Сторінки (тут напевно чот над зробить вибірку якусь)"
 							prepend-icon="mdi-application-cog"
@@ -29,130 +29,133 @@
 						>
 						</VTextField>
 					</VCol> -->
-        </VRow>
-        <VRow v-if="!addPageVisibility">
-          <VCol>
-            <v-select
-              v-model="page.permissions"
-              :items="Object.values(categories)"
-              attach
-              :item-value="'_id'"
-              :item-text="'title'"
-              prepend-icon="mdi-shield-account"
-              outlined
-              dense
-              label="Права доступу"
-              multiple
-            >
-              <template #selection="{ item }">
-                <v-chip small color="primary">{{ item.title }}</v-chip>
-              </template></v-select
-            >
-          </VCol>
-        </VRow>
-      </VCardText>
-      <VCardActions>
-        <VSpacer />
-        <VBtn color="primary" @click="onCreateFolder" v-if="!addPageVisibility">
-          Додати Папку
-        </VBtn>
-        <VBtn color="primary" @click="onCreatePage" v-else>
-          Додати Сторінку
-        </VBtn>
-      </VCardActions>
-    </VCard>
-  </VDialog>
+				</VRow>
+				<VRow v-if="!addPageVisibility">
+					<VCol>
+						<v-select
+							v-model="page.permissions"
+							:items="Object.values(categories)"
+							attach
+							:item-value="'_id'"
+							:item-text="'title'"
+							prepend-icon="mdi-shield-account"
+							outlined
+							dense
+							label="Права доступу"
+							multiple
+							deletable-chips
+							@focus="focusSelection = true"
+							@blur="focusSelection = false"
+						>
+							<template #selection="{ item }">
+								<v-chip small color="primary">{{ item.title }}</v-chip>
+							</template></v-select
+						>
+					</VCol>
+				</VRow>
+			</VCardText>
+			<VCardActions>
+				<VSpacer />
+				<VBtn color="primary" @click="onCreateFolder" v-if="!addPageVisibility">
+					Додати Папку
+				</VBtn>
+				<VBtn color="primary" @click="onCreatePage" v-else>
+					Додати Сторінку
+				</VBtn>
+			</VCardActions>
+		</VCard>
+	</VDialog>
 </template>
 
 <script>
-import pageService from "@/request/page/pageService";
-import folderService from "@/request/folders/folderService";
-import positionService from "@/request/positions/positionService";
+import pageService from '@/request/page/pageService';
+import folderService from '@/request/folders/folderService';
+import positionService from '@/request/positions/positionService';
 
 export default {
-  data: () => ({
-    page: [],
-    categories: [],
-  }),
-  props: {
-    visible: {
-      require: true,
-    },
-    addPageVisibility: {
-      require: false,
-    },
-    folder: {
-      type: Object,
-      require: false,
-    },
-  },
-  watch: {
-    addPageVisibility: {
-      deep: true,
-      handler(e) {
-        console.log(e);
-      },
-    },
-  },
-  mounted() {
-    this.getPositions();
-  },
-  methods: {
-    async onCreateFolder() {
-      const params = [];
-      (params.name = this.page.name),
-        (params.positions = this.page.permissions);
+	data: () => ({
+		page: [],
+		categories: [],
+		focusSelection: false,
+	}),
+	props: {
+		visible: {
+			require: true,
+		},
+		addPageVisibility: {
+			require: false,
+		},
+		folder: {
+			type: Object,
+			require: false,
+		},
+	},
+	watch: {
+		addPageVisibility: {
+			deep: true,
+			handler(e) {
+				console.log(e);
+			},
+		},
+	},
+	mounted() {
+		this.getPositions();
+	},
+	methods: {
+		async onCreateFolder() {
       try {
-        await folderService
-          .addFolder({
-            ...params,
-          })
-          .then((res) => {
-            this.$emit("addedFolder", res);
-            this.$emit("close");
-          });
-      } catch (e) {
-        alert(e);
-      }
-    },
-    async getPositions() {
-      try {
-        this.categories = await positionService.getAll();
-      } catch (e) {
-        alert(e);
-      }
-    },
-    async onCreatePage() {
-		console.log(this.folder)
-      const params = [];
-      params.name = this.page.name;
-	  params.folder = this.folder._id
-      try {
-        await pageService
-          .addPage({
-            ...params,
-          })
-          .then((res) => {
-			  console.log(res)
-            //this.$emit("addedFolder", res);
-            this.$emit("close");
-          });
-      } catch (e) {
-        alert(e);
-      }
-    },
-  },
-  computed: {
-    visibility: {
-      get() {
-        return this.visible;
-      },
-      set() {
-        this.$emit("close");
-      },
-    },
-  },
+        const params = [];
+        params.name = this.page.name;
+        params.positions = this.page.permissions;
+				await folderService
+					.addFolder({
+						...params,
+					})
+					.then(res => {
+						this.page = [];
+						this.$emit('addedFolder', res);
+						this.$emit('close');
+					});
+			} catch (e) {
+				alert(e);
+			}
+		},
+		async getPositions() {
+			try {
+				this.categories = await positionService.getAll();
+			} catch (e) {
+				alert(e);
+			}
+		},
+		async onCreatePage() {
+			try {
+				const params = [];
+				params.name = this.page.name;
+				params.folder = this.folder._id;
+				await pageService
+					.addPage({
+						...params,
+					})
+					.then(res => {
+						this.page = [];
+						this.$emit('addNewPage', res);
+						this.$emit('close');
+					});
+			} catch (e) {
+				alert(e);
+			}
+		},
+	},
+	computed: {
+		visibility: {
+			get() {
+				return this.visible;
+			},
+			set() {
+				this.$emit('close');
+			},
+		},
+	},
 };
 </script>
-
-<style></style>
+<style lang="scss" scoped></style>
