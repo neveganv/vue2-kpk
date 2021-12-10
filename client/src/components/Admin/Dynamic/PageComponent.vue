@@ -4,11 +4,13 @@
 			<VRow>
 				<VCol cols="auto"
 					><VBtn text color="primary" @click="onChangeFolder">
-						Назва папки</VBtn
+						{{ page.name || '--' }}</VBtn
 					></VCol
 				>
 				<VIcon small>mdi-chevron-right</VIcon>
-				<VCol cols="auto"><VBtn text disabled> Назва Сторінки</VBtn></VCol>
+				<VCol cols="auto"
+					><VBtn text disabled> {{ page.name || '--' }}</VBtn></VCol
+				>
 			</VRow>
 			<div class="d-flex">
 				<VCol cols="auto"
@@ -47,34 +49,45 @@
 		<AddNewPageDialog
 			:visible="editFolderVisivle"
 			@close="visible = false"
-            :isEditFolder="isEditFolder"
-		/>	</div>
+			:isEditFolder="isEditFolder"
+		/>
+	</div>
 </template>
 
 <script>
 import { VueEditor } from 'vue2-editor';
 import AddNewPageDialog from '../Layout/AddNewPageDialog';
+import pageService from '@/request/page/pageService';
+
 export default {
 	components: {
 		VueEditor,
-        AddNewPageDialog
-        
+		AddNewPageDialog,
 	},
 	data: () => ({
 		page: [],
 		fab: '',
 		pageId: '',
-        changeFolderVisible:false,
-        isEditFolder:false,
-        editFolderVisivle:false
+		changeFolderVisible: false,
+		isEditFolder: false,
+		editFolderVisivle: false,
 	}),
+	watch: {
+		$route: {
+			deep: true,
+			handler(e) {
+				this.getPage();
+			},
+		},
+	},
 	mounted() {
-		this.pageId = this.$route.params.id;
 		this.getPage();
 	},
 	methods: {
 		async getPage() {
-			console.log(213);
+			const newPage = await pageService.getOne({ _id: this.$route.params.id });
+			this.page = newPage[0];
+			console.log(newPage);
 		},
 		onCreate() {
 			console.log(this.page.content);
@@ -85,7 +98,6 @@ export default {
 		onChangeFolder() {
 			this.isEditFolder = true;
 			this.editFolderVisivle = true;
-            
 		},
 	},
 };

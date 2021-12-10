@@ -68,16 +68,14 @@
 							</VListItemIcon>
 							<VListItemTitle>{{ folder.name }}</VListItemTitle>
 						</template>
-						<VListItem
-							v-for="page in folder.pages"
-							:key="page._id"
-							@click="onPushDynamic(page)"
-						>
-							<VListItemIcon>
-								<VIcon>mdi-note-outline</VIcon>
-							</VListItemIcon>
-							<VListItemTitle>{{ page.name }}</VListItemTitle>
-						</VListItem>
+						<div v-for="page in folder.pages" :key="page._id">
+							<VListItem  :to="{path:`/admin-dynamic-page/${page._id}`}">
+								<VListItemIcon>
+									<VIcon>mdi-note-outline</VIcon>
+								</VListItemIcon>
+								<VListItemTitle>{{ page.name }}</VListItemTitle>
+							</VListItem>
+						</div>
 						<VListItem
 							@click="
 								visible = true;
@@ -98,11 +96,11 @@
 						"
 					>
 						<VListItemIcon>
-						<VBadge dot color="error" bottom overlap>
-							<VIcon>mdi-folder-plus-outline</VIcon>
-						</VBadge>
+							<VBadge dot color="error" bottom overlap>
+								<VIcon>mdi-folder-plus-outline</VIcon>
+							</VBadge>
 						</VListItemIcon>
-							<VListItemTitle> Додати </VListItemTitle>
+						<VListItemTitle> Додати </VListItemTitle>
 					</VListItem>
 				</div>
 				<div v-else class="d-flex justify-center mt-5">
@@ -179,12 +177,11 @@ export default {
 	},
 	methods: {
 		onPushDynamic(e) {
-			this.$router
-				.push({
-					name: 'admin-dynamic-page',
-					params: { id: e._id },
-				})
-				.catch(() => {});
+			this.$router.push({
+				name: 'admin-dynamic-page',
+				params: { id: e },
+			});
+			// .catch(() => {});
 		},
 		async getUser() {
 			try {
