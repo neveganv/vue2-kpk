@@ -3,7 +3,7 @@
 		<VRow no-gutters align="center" justify="space-between">
 			<VRow>
 				<VCol cols="auto"><VBtn text color="primary"> Назва папки</VBtn></VCol>
-				<VCol cols="auto"><VIcon small>mdi-chevron-right</VIcon></VCol>
+				<VIcon small>mdi-chevron-right</VIcon>
 				<VCol cols="auto"><VBtn text disabled> Назва Сторінки</VBtn></VCol>
 			</VRow>
 			<div class="d-flex">
