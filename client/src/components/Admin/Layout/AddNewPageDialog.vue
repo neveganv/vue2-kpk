@@ -1,6 +1,6 @@
 <template>
-	<VDialog v-model="visibility" width="600" scrollable>
-		<VCard :height="focusSelection ? 500 : ''">
+	<VDialog v-model="visibility" width="600" content-class="c-dialog">
+		<VCard>
 			<VCardTitle v-if="!addPageVisibility"> Додати нову папку </VCardTitle>
 			<VCardTitle v-else> Додати нову сторінку </VCardTitle>
 			<VCardText>
@@ -17,19 +17,7 @@
 						</VTextField>
 					</VCol>
 				</VRow>
-				<VRow>
-					<!-- <VCol>
-						<VTextField
-							label="Тип Сторінки (тут напевно чот над зробить вибірку якусь)"
-							prepend-icon="mdi-application-cog"
-							outlined
-							dense
-							hide-details
-							v-model="page.type"
-						>
-						</VTextField>
-					</VCol> -->
-				</VRow>
+
 				<VRow v-if="!addPageVisibility">
 					<VCol>
 						<v-select
@@ -44,8 +32,8 @@
 							label="Права доступу"
 							multiple
 							deletable-chips
-							@focus="focusSelection = true"
-							@blur="focusSelection = false"
+              :menu-props="{ bottom: true, offsetY: true }"
+
 						>
 							<template #selection="{ item }">
 								<v-chip small color="primary">{{ item.title }}</v-chip>
@@ -76,7 +64,6 @@ export default {
 	data: () => ({
 		page: [],
 		categories: [],
-		focusSelection: false,
 	}),
 	props: {
 		visible: {
@@ -158,4 +145,10 @@ export default {
 	},
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" >
+.v-dialog{
+&.c-dialog{
+  overflow-y:unset!important
+}
+}
+  </style>

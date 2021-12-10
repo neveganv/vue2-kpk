@@ -42,6 +42,10 @@ const routes = [
 		name: 'admin-page-specialities',
 		component: () => import('@/views/Admin/Specialities.vue'),
 	},
+	{
+		path: '/admin/dynamic-page/:id',
+		component: () => import('@/views/Admin/Dynamic/Page.vue'),
+	},
 ];
 const router = new VueRouter({
 	mode: 'history',
