@@ -8,7 +8,11 @@
 					<VCol>
 						<VTextField
 							:label="addPageVisibility ? 'Назва сторінки' : 'Назва папки'"
-              :prepend-icon="addPageVisibility ? 'mdi-note-edit-outline' : 'mdi-folder-edit-outline'"
+							:prepend-icon="
+								addPageVisibility
+									? 'mdi-note-edit-outline'
+									: 'mdi-folder-edit-outline'
+							"
 							outlined
 							dense
 							hide-details
@@ -32,8 +36,7 @@
 							label="Права доступу"
 							multiple
 							deletable-chips
-              :menu-props="{ bottom: true, offsetY: true }"
-
+							:menu-props="{ bottom: true, offsetY: true }"
 						>
 							<template #selection="{ item }">
 								<v-chip small color="primary">{{ item.title }}</v-chip>
@@ -76,6 +79,9 @@ export default {
 			type: Object,
 			require: false,
 		},
+		isEditFolder: {
+			require: false,
+		},
 	},
 	watch: {
 		addPageVisibility: {
@@ -90,10 +96,10 @@ export default {
 	},
 	methods: {
 		async onCreateFolder() {
-      try {
-        const params = [];
-        params.name = this.page.name;
-        params.positions = this.page.permissions;
+			try {
+				const params = [];
+				params.name = this.page.name;
+				params.positions = this.page.permissions;
 				await folderService
 					.addFolder({
 						...params,
@@ -132,6 +138,8 @@ export default {
 				alert(e);
 			}
 		},
+    
+    
 	},
 	computed: {
 		visibility: {
@@ -145,10 +153,10 @@ export default {
 	},
 };
 </script>
-<style lang="scss" >
-.v-dialog{
-&.c-dialog{
-  overflow-y:unset!important
+<style lang="scss">
+.v-dialog {
+	&.c-dialog {
+		overflow-y: unset !important;
+	}
 }
-}
-  </style>
+</style>
