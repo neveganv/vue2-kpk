@@ -8,7 +8,7 @@
 					<VCol>
 						<VTextField
 							:label="addPageVisibility ? 'Назва сторінки' : 'Назва папки'"
-							prepend-icon="mdi-application-edit"
+              :prepend-icon="addPageVisibility ? 'mdi-note-edit-outline' : 'mdi-folder-edit-outline'"
 							outlined
 							dense
 							hide-details

@@ -61,8 +61,6 @@
 						v-for="folder in folders"
 						:key="folder._id"
 						multiple
-            
-            
 					>
 						<template v-slot:activator>
 							<VListItemIcon>
@@ -100,9 +98,11 @@
 						"
 					>
 						<VListItemIcon>
+						<VBadge dot color="error" bottom overlap>
 							<VIcon>mdi-folder-plus-outline</VIcon>
+						</VBadge>
 						</VListItemIcon>
-						<VListItemTitle>Додати</VListItemTitle>
+							<VListItemTitle> Додати </VListItemTitle>
 					</VListItem>
 				</div>
 				<div v-else class="d-flex justify-center mt-5">
@@ -175,9 +175,7 @@ export default {
 		activePage: true,
 	}),
 	computed: {
-		isIdPage() {
-
-    },
+		isIdPage() {},
 	},
 	methods: {
 		onPushDynamic(e) {
