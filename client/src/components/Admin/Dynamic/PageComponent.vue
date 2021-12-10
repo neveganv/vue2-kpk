@@ -17,10 +17,8 @@
 				>
 			</div>
 		</VRow>
-		<VDivider class="mt-2" />
-		<VRow no-gutters>
-			<VSubheader> Контент сторінки </VSubheader>
-		</VRow>
+		<VDivider class="mt-2 mb-5" />
+	
 		<VRow no-gutters>
 			<vue-editor class="editor w-100 px-2" />
 		</VRow>
