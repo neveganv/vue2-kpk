@@ -43,7 +43,8 @@ const routes = [
 		component: () => import('@/views/Admin/Specialities.vue'),
 	},
 	{
-		path: '/admin/dynamic-page/:id',
+		path: '/admin-dynamic-page/:id',
+		name: 'admin-dynamic-page',
 		component: () => import('@/views/Admin/Dynamic/Page.vue'),
 	},
 ];

@@ -60,7 +60,9 @@
 						:value="specialitiesSelector"
 						v-for="folder in folders"
 						:key="folder._id"
-            multiple
+						multiple
+            
+            
 					>
 						<template v-slot:activator>
 							<VListItemIcon>
@@ -71,7 +73,7 @@
 						<VListItem
 							v-for="page in folder.pages"
 							:key="page._id"
-							:to="{ path: `admin/dynamic-page/${folder._id}` }"
+							@click="onPushDynamic(page)"
 						>
 							<VListItemIcon>
 								<VIcon>mdi-note-outline</VIcon>
@@ -170,8 +172,22 @@ export default {
 		folders: [],
 		selectedFolder: null,
 		foldersLoader: false,
+		activePage: true,
 	}),
+	computed: {
+		isIdPage() {
+
+    },
+	},
 	methods: {
+		onPushDynamic(e) {
+			this.$router
+				.push({
+					name: 'admin-dynamic-page',
+					params: { id: e._id },
+				})
+				.catch(() => {});
+		},
 		async getUser() {
 			try {
 				this.user = await usersService.getOne(JSON.parse(localStorage.token));
@@ -185,12 +201,12 @@ export default {
 		addNewPage(e) {
 			const newPage = e;
 			const myFolder = this.folders.filter(e => e._id == newPage.folder);
-      if(!myFolder[0].pages){
-        myFolder[0].pages  = []
-      }
+			if (!myFolder[0].pages) {
+				myFolder[0].pages = [];
+			}
 			console.log(myFolder);
 			myFolder[0].pages.push(newPage);
-      this.addPageVisibility = false
+			this.addPageVisibility = false;
 		},
 		updateFolders(folder) {
 			this.folders.push(folder);
