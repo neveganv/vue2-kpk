@@ -48,17 +48,16 @@ export default {
 
 <style lang="scss">
 .specialities-card {
-	margin: auto;
+
 	cursor: pointer;
 	display: flex;
 	flex-direction: column;
-	max-width: 350px;
-	width: auto;
-	// height: 300px;
+	width: 350px;
 	background: #fff;
 	transition: 0.2s ease;
 	position: relative;
 	padding-left: 15px;
+	margin: 20px 10px 20px 0;
 	.card__title {
 		display: flex;
 		justify-content: flex-start;
@@ -83,7 +82,7 @@ export default {
 	.card__img {
 		align-self: flex-end;
 		max-width: 450px;
-		height: 100%;
+		height: 300px;
 		width: 100%;
 
 		img {

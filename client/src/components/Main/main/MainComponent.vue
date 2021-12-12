@@ -6,16 +6,9 @@
 		<div class="first-screen my-container">
 			<span>Політехніка звучить гордо</span>
 			<div class="img_wrapper">
-				<img
-					:src="require('@/assets/img/main-img.jpg')"
-					alt="main_img"
-					class="img"
-				/>
-				<img
-					class="glass"
-					:src="require('@/assets/img/main-glass.svg')"
-					alt="main_img"
-				/>
+				<div class="main-glass">
+					<img :src="require('@/assets/img/main_text.svg')" alt="">
+				</div>
 			</div>
 		</div>
 		<!-- cool news -->
@@ -48,6 +41,9 @@ import SpecialitiesList from './SpecialitiesList.vue';
 import MainNewsList from './MainNewsList.vue';
 
 export default {
+	data: () => ({
+		mainImage: '../../../assets/img/main-img.jpg',
+	}),
 	components: {
 		MyHeader,
 		CoolNews,
@@ -72,7 +68,11 @@ export default {
 	}
 }
 .img_wrapper {
+	background-image: url('../../../assets/img/main-img.jpg');
+	background-size: cover;
+	width: 100%;
 	margin-top: 100px;
+	height: 700px;
 	position: relative;
 	display: flex;
 	justify-content: center;
@@ -105,5 +105,34 @@ export default {
 	height: 740px;
 	position: relative;
 	z-index: 0;
+}
+.main-glass {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 769.57px;
+	height: 217.49px;
+	position: absolute;
+	border-radius: 20px;
+	top: -15%;
+	position: relative;
+	z-index: 1;
+	border: 1px solid rgba(227, 227, 227, 0.4);
+	background: rgba(242, 242, 242, 0.6);
+	overflow: hidden;
+
+	&::before {
+		content: '';
+		position: absolute;
+		background: inherit;
+		z-index: -1;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
+		filter: blur(10px);
+		margin: -20px;
+	}
 }
 </style>

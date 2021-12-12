@@ -17,7 +17,7 @@
 		<VRow no-gutters justify="center" class="mt-5" v-else>
 			<VCol v-for="n in 6" :key="n" cols="12" md="4">
 				<VCard max-width="400">
-					<VCol>
+					<VCol class="my-5">
 						<v-skeleton-loader
 							class="mx-auto"
 							max-width="400"
