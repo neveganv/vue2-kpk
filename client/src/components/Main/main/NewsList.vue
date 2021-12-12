@@ -4,24 +4,19 @@
 			no-gutters
 			justify="space-between"
 			align="center"
-			v-if="!sceletonLoader"
+			v-if="!sceletonLoader && news.length > 0"
 		>
 			<div v-for="newItem in news" :key="newItem._id" @click="counter(newItem)">
 				<my-news-card :newItem="newItem" />
 			</div>
 		</VRow>
-		<VRow v-else justify="space-between">
-			<VCol v-for="(n, key) in 8" :key="key" md="5">
-				<VCard max-width="500">
-					<VCardText>
-						<v-skeleton-loader
-							class="mx-auto"
-							max-width="500"
-							type="card"
-						></v-skeleton-loader>
-					</VCardText>
-				</VCard>
-			</VCol>
+		<VRow v-else-if="sceletonLoader" justify="space-between">
+			<div v-for="item in 4" :key="item" >
+				<my-news-card :sceletonLoader="sceletonLoader" :newItem="item" />
+			</div>
+		</VRow>
+		<VRow v-else align="center" justify="center">
+			<div>Список новин порожній</div>
 		</VRow>
 	</div>
 </template>

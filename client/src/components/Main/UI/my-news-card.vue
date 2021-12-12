@@ -1,19 +1,32 @@
 <template>
 	<div class="my-new">
-		<div class="my-new__header">
-			<b>{{ newItem.category.name || '--' }}</b>
+		<div class="my-new__header" v-if="!sceletonLoader">
+			<b> {{ newItem.category.name || '--' }}</b>
+
 			<div>
 				<span>
 					{{ moment(newItem.created_time).locale('uk').format('LL') || '--' }}
 				</span>
-				<div class="views"><VIcon small >mdi-eye</VIcon>{{newItem.views}}</div>
+				<div class="views"><VIcon small>mdi-eye</VIcon>{{ newItem.views }}</div>
 			</div>
 		</div>
-		<div class="my-new__content">
+		<div class="my-new__header" v-else>
+			<v-skeleton-loader
+				type="article"
+				style="width: 530px"
+			></v-skeleton-loader>
+		</div>
+		<div class="my-new__content" v-if="!sceletonLoader">
 			{{ newItem.title }}
 		</div>
-		<div class="my-new__img">
+		<div class="my-new__img" v-if="!sceletonLoader">
 			<img :src="newItem.main_img" />
+		</div>
+		<div class="my-new__img" v-else>
+			<v-skeleton-loader
+				type="image"
+				style="width: 530px; padding: 15px"
+			></v-skeleton-loader>
 		</div>
 	</div>
 </template>
@@ -24,6 +37,9 @@ export default {
 		newItem: {
 			require: true,
 		},
+		sceletonLoader: {
+			require: false,
+		},
 	},
 };
 </script>
@@ -31,8 +47,7 @@ export default {
 <style lang="scss" scoped>
 .my-new {
 	cursor: pointer;
-	max-width: 530px;
-	width: 100%;
+	width: 530px;
 	height: 440px;
 	padding-left: 15px;
 	margin: 20px 0;
@@ -56,13 +71,13 @@ export default {
 			line-height: 13px;
 			font-weight: 300;
 		}
-        .views{
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            font-size: 13px;
-            color:#757575
-        }
+		.views {
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+			font-size: 13px;
+			color: #757575;
+		}
 	}
 	&__content {
 		margin-top: 20px;

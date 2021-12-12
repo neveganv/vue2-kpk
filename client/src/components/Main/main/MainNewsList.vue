@@ -12,10 +12,11 @@
 				@clickCategory="clickCategory"
 				:activeCategory="activeCategory"
 				:sceletonLoader="sceletonLoader"
+				:categories="categories"
 			/>
 		</div>
 		<div>
-			<NewsList :news="SortedNews" />
+			<NewsList :news="SortedNews" :sceletonLoader="sceletonLoader" />
 		</div>
 	</div>
 </template>
@@ -31,6 +32,7 @@ export default {
 		sceletonLoader: false,
 		news: [],
 		changeNews: [],
+		categories:[]
 	}),
 	components: {
 		MainNewsCategoryList,
@@ -48,6 +50,15 @@ export default {
 				this.sceletonLoader = true;
 				this.news = await newsService.getAllNews();
 				this.changeNews = this.news;
+				this.getCategories()
+			} catch (e) {
+				alert(e);
+			}
+		},
+		async getCategories() {
+			try {
+				this.categories = await newsService.getSimpleNewsCategories();
+				this.categories.unshift({ name: 'Всі', _id: 'all' });
 				this.sceletonLoader = false;
 			} catch (e) {
 				alert(e);
