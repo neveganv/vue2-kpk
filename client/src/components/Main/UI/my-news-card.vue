@@ -18,6 +18,7 @@
 		</div>
 		<div class="my-new__content" v-if="!sceletonLoader">
 			{{ newItem.title }}
+			
 		</div>
 		<div class="my-new__img" v-if="!sceletonLoader">
 			<img :src="newItem.main_img" />
@@ -50,7 +51,7 @@ export default {
 	width: 530px;
 	height: 440px;
 	padding-left: 15px;
-	margin: 20px 0;
+	margin: 20px 0 70px 0;
 	position: relative;
 	transition: 0.2s ease;
 	&__header {
@@ -84,6 +85,9 @@ export default {
 		margin-bottom: 10px;
 		font-weight: normal;
 		width: 80%;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
 	}
 	&__img {
 		height: 320px;
@@ -101,7 +105,7 @@ export default {
 		width: 2px;
 		left: 0;
 		top: 0;
-		height: 80%;
+		height: 90%;
 		background: #757575;
 	}
 	&:hover {
