@@ -65,7 +65,7 @@
 				<VCol cols="auto" class="black--text">Освітній процес</VCol>
 			</VRow>
 			<VRow no-gutters style="margin-top: 30px; margin-bottom: 50px">
-				<v-expansion-panels v-model="panel" multiple>
+				<v-expansion-panels v-model="panel" >
 					<v-expansion-panel
 						v-for="(course, i) in specialitie.courses"
 						:key="i"

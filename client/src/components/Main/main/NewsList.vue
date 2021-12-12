@@ -1,22 +1,27 @@
 <template>
 	<div>
-		<VRow no-gutters justify="space-between" align="center" v-if="!sceletonLoader">
+		<VRow
+			no-gutters
+			justify="space-between"
+			align="center"
+			v-if="!sceletonLoader"
+		>
 			<div v-for="newItem in news" :key="newItem._id" @click="counter(newItem)">
 				<my-news-card :newItem="newItem" />
 			</div>
 		</VRow>
-		<VRow v-else justify="space-between" >
-            <VCol v-for="(n,key) in 8" :key="key" md="5">
-                <VCard max-width="500">
-                    <VCardText>
-			<v-skeleton-loader
-				class="mx-auto"
-				max-width="500"
-				type="card"
-			></v-skeleton-loader>
-                    </VCardText>
-                </VCard>
-            </VCol>
+		<VRow v-else justify="space-between">
+			<VCol v-for="(n, key) in 8" :key="key" md="5">
+				<VCard max-width="500">
+					<VCardText>
+						<v-skeleton-loader
+							class="mx-auto"
+							max-width="500"
+							type="card"
+						></v-skeleton-loader>
+					</VCardText>
+				</VCard>
+			</VCol>
 		</VRow>
 	</div>
 </template>
@@ -29,40 +34,30 @@ export default {
 	components: {
 		myNewsCard,
 	},
-	data: () => ({
-		news: [],
-		sceletonLoader: false,
-	}),
-	mounted() {
-		this.getNews();
+	props: {
+		news: {
+			require: true,
+		},
+		sceletonLoader: {
+			require: false,
+		},
 	},
+	mounted() {},
 	methods: {
-		async counter(e){
+		async counter(e) {
 			const params = [];
 			params.id = e._id;
 			params.views = e.views + 1;
-			console.log("paramsCounter", params);
-		try{
-			await newsService.counterViewsSimpleNews({
-                  ...params
-			});
-			this.getNews();
-			}
-			catch(e){
+			console.log('paramsCounter', params);
+			try {
+				await newsService.counterViewsSimpleNews({
+					...params,
+				});
+			} catch (e) {
 				alert(e);
 			}
 		},
-	async getNews(){
-        try {
-			this.sceletonLoader = true;
-			this.news = await newsService.getAllNews();
-			console.log(this.news);
-			this.sceletonLoader = false;
-		} catch (e) {
-			alert(e);
-		}
-		}
-	}
+	},
 };
 </script>
 
