@@ -6,8 +6,29 @@
 		<div class="first-screen my-container">
 			<span>Політехніка звучить гордо</span>
 			<div class="img_wrapper">
-				<div class="main-glass">
-					<img :src="require('@/assets/img/main_text.svg')" alt="">
+				<v-img
+					class="img"
+					draggable="false"
+					:src="require('@/assets/img/main-img.jpg')"
+					:lazy-src="require('@/assets/img/main-img.jpg')"
+					alt=""
+					@load="loadedMain"
+				>
+					<template v-slot:placeholder>
+						<v-row class="fill-height ma-0" align="center" justify="center">
+							<v-progress-circular
+								indeterminate
+								color="grey lighten-5"
+							></v-progress-circular>
+						</v-row> </template
+				></v-img>
+
+				<div class="main-glass unselectable">
+					<img
+						draggable="false"
+						:src="require('@/assets/img/main_text.svg')"
+						alt=""
+					/>
 				</div>
 			</div>
 		</div>
@@ -50,6 +71,11 @@ export default {
 		SpecialitiesList,
 		MainNewsList,
 	},
+	methods: {
+		loadedMain() {
+			console.log(123);
+		},
+	},
 };
 </script>
 <style lang="scss" scoped>
@@ -68,13 +94,11 @@ export default {
 	}
 }
 .img_wrapper {
-	background-image: url('../../../assets/img/main-img.jpg');
-	background-size: cover;
-	width: 100%;
+	background: white;
 	margin-top: 100px;
 	height: 700px;
-	position: relative;
 	display: flex;
+	position: relative;
 	justify-content: center;
 	align-items: flex-start;
 	.glass {
@@ -103,7 +127,6 @@ export default {
 	width: 1300px;
 	object-fit: cover;
 	height: 740px;
-	position: relative;
 	z-index: 0;
 }
 .main-glass {
@@ -112,18 +135,17 @@ export default {
 	justify-content: center;
 	width: 769.57px;
 	height: 217.49px;
-	position: absolute;
 	border-radius: 20px;
 	top: -15%;
-	position: relative;
 	z-index: 1;
+	position: absolute !important;
+
 	border: 1px solid rgba(227, 227, 227, 0.4);
 	background: rgba(242, 242, 242, 0.6);
 	overflow: hidden;
 
 	&::before {
 		content: '';
-		position: absolute;
 		background: inherit;
 		z-index: -1;
 		top: 0;

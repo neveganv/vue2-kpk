@@ -43,7 +43,6 @@ export default {
 
 	mounted() {
 		console.log(this.activeCategory);
-		this.getCategories();
 	},
 	methods: {
 		changeNews(e) {

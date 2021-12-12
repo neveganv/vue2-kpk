@@ -3,11 +3,12 @@
 		<div class="my-new__header" v-if="!sceletonLoader">
 			<b> {{ newItem.category.name || '--' }}</b>
 
-			<div>
-				<span>
+			<div class="text-right">
+				<span >
 					{{ moment(newItem.created_time).locale('uk').format('LL') || '--' }}
 				</span>
-				<div class="views"><VIcon small>mdi-eye</VIcon>{{ newItem.views }}</div>
+				<div class="views" v-if="newItem.views >0 "><VIcon left small>mdi-eye</VIcon>{{ newItem.views }}</div>
+				<div class="views" v-else><VIcon left small>mdi-eye</VIcon>немає переглядів</div>
 			</div>
 		</div>
 		<div class="my-new__header" v-else>
@@ -68,11 +69,13 @@ export default {
 			color: #000000;
 		}
 		span {
+			
 			font-size: 11px !important;
 			line-height: 13px;
 			font-weight: 300;
 		}
 		.views {
+			width: 100%;
 			display: flex;
 			align-items: center;
 			justify-content: flex-end;

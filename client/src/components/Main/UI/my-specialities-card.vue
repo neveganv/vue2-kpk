@@ -1,17 +1,24 @@
 <template>
 	<div class="specialities-card" @click="onClick">
-		<div class="card__title">
+		<div class="card__title" v-if="!sceletonLoader">
 			<div class="title__number">{{ '0' + indexSpecialitie || '--' }}</div>
 			<div class="title__text">
 				{{ specialitie.name || '--' }} ({{ specialitie.number || '--' }})
 			</div>
 		</div>
-		<div class="card__img">
+		<div class="card__title" v-else>
+			<v-skeleton-loader type="chip"></v-skeleton-loader>
+		</div>
+		<div class="card__img" v-if="!sceletonLoader">
 			<img :src="specialitie.img" />
+		</div>
+		<div  v-else>
+			<v-skeleton-loader type="card" class="mt-7" height="300"></v-skeleton-loader>
 		</div>
 		<div class="card__arrow" v-if="!edit">
 			<VIcon>mdi-arrow-bottom-left</VIcon>
 		</div>
+
 		<div class="card__arrow" v-else>
 			<VBtn color="primary">
 				<VIcon>mdi-square-edit-outline</VIcon>
@@ -26,12 +33,15 @@ export default {
 	props: {
 		specialitie: {
 			type: Object,
-			require: true,
+			require: false,
 		},
 		indexSpecialitie: {
-			require: true,
+			require: false,
 		},
 		edit: {
+			require: false,
+		},
+		sceletonLoader: {
 			require: false,
 		},
 	},
@@ -48,7 +58,6 @@ export default {
 
 <style lang="scss">
 .specialities-card {
-
 	cursor: pointer;
 	display: flex;
 	flex-direction: column;

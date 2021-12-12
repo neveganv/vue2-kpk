@@ -19,9 +19,9 @@
 					style="height: 140px"
 				></v-skeleton-loader>
 				<VRow no-gutters class="my-1" style="height: 44px">
-					<v-skeleton-loader type="chip" class="pl-2"></v-skeleton-loader>
+					<v-skeleton-loader type="chip" class="pl-2" ></v-skeleton-loader>
 					<VSpacer />
-					<v-skeleton-loader type="button" class="pr-2"></v-skeleton-loader>
+					<v-skeleton-loader type="button" class="pr-2 "></v-skeleton-loader>
 				</VRow>
 			</VCard>
 		</div>

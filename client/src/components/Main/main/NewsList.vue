@@ -2,13 +2,16 @@
 	<div>
 		<VRow
 			no-gutters
-			justify="space-between"
+			justify-lg="space-between"
+			justify-md="space-around"
+			justify-sm="space-around"
 			align="center"
 			v-if="!sceletonLoader && news.length > 0"
+		
 		>
-			<div v-for="newItem in news" :key="newItem._id" @click="counter(newItem)">
+			<VCol cols="auto" v-for="newItem in news" :key="newItem._id" @click="counter(newItem)">
 				<my-news-card :newItem="newItem" />
-			</div>
+			</VCol>
 		</VRow>
 		<VRow v-else-if="sceletonLoader" justify="space-between">
 			<div v-for="item in 4" :key="item" >
