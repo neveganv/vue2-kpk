@@ -17,8 +17,11 @@
 			</VCol>
 		</VRow>
 		<VRow no-gutters v-if="!sceletonLoader">
-			<div class="main-img">
-				<img :src="specialitie.img" alt="" />
+			<div
+				class="main-img"
+				v-bind:style="{ 'background-image': 'url(' + specialitie.img + ')' }"
+			>
+				<!-- <img :src="specialitie.img" alt="" /> -->
 			</div>
 		</VRow>
 		<VRow no-gutters v-else>
@@ -45,7 +48,7 @@
 				<div v-html="specialitie.content"></div>
 			</VRow>
 		</VCol>
-		<VCol no-gutters style="margin-top: 50px"  v-else-if="sceletonLoader">
+		<VCol no-gutters style="margin-top: 50px" v-else-if="sceletonLoader">
 			<v-skeleton-loader type="article"></v-skeleton-loader>
 			<v-skeleton-loader type="article"></v-skeleton-loader>
 		</VCol>
@@ -114,23 +117,23 @@ export default {
 		margin-top: 50px;
 		position: relative;
 		overflow: hidden;
+		background-size: cover;
+		background-position: center;
+		z-index: 1;
+		overflow: hidden;
 
-		img {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-		}
 		&::before {
+			background: inherit;
 			content: '';
 			width: 100%;
 			height: 100%;
-			background: rgba(#0000, 0.3);
 			position: absolute;
 			top: 0;
 			right: 0;
 			bottom: 0;
-			box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.3);
-			filter: blur(10px);
+			box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
+			backdrop-filter: blur(5px);
+            filter:blur(5px)
 		}
 	}
 	.content {
