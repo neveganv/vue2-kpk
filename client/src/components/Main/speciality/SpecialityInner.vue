@@ -1,0 +1,146 @@
+<template>
+	<div class="speciality">
+		<VRow class="title" no-gutter align="center" v-if="!sceletonLoader">
+			<VCol cols="auto" class="title-number">
+				{{ specialitie.number || '--' }}
+			</VCol>
+			<VCol class="title-text">
+				{{ specialitie.name || '--' }}
+			</VCol>
+		</VRow>
+		<VRow v-else class="title" no-gutter align="center">
+			<VCol cols="auto">
+				<v-skeleton-loader type="button"></v-skeleton-loader>
+			</VCol>
+			<VCol class="title-text">
+				<v-skeleton-loader type="chip" class="pl-2"></v-skeleton-loader>
+			</VCol>
+		</VRow>
+		<VRow no-gutters v-if="!sceletonLoader">
+			<div class="main-img">
+				<img :src="specialitie.img" alt="" />
+			</div>
+		</VRow>
+		<VRow no-gutters v-else>
+			<div class="w-100" style="margin-top: 50px">
+				<v-skeleton-loader type="image"></v-skeleton-loader>
+			</div>
+		</VRow>
+
+		<VCol
+			no-gutters
+			style="margin-top: 50px"
+			class="content"
+			v-if="specialitie.content && !sceletonLoader"
+		>
+			<VRow align="center" class="content-title">
+				<VCol cols="auto">
+					<VIcon color="black" size="30">mdi-information-outline</VIcon></VCol
+				>
+				<VCol cols="auto" class="black--text"
+					>Інформація про спеціальність</VCol
+				>
+			</VRow>
+			<VRow no-gutters style="margin-top: 30px">
+				<div v-html="specialitie.content"></div>
+			</VRow>
+		</VCol>
+		<VCol no-gutters style="margin-top: 50px"  v-else>
+			<v-skeleton-loader type="article"></v-skeleton-loader>
+			<v-skeleton-loader type="article"></v-skeleton-loader>
+		</VCol>
+		<VCol
+			no-gutters
+			style="margin-top: 50px"
+			class="content"
+			v-if="specialitie.courses && !sceletonLoader"
+		>
+			<VRow align="center" class="content-title">
+				<VCol cols="auto">
+					<VIcon color="black" size="30">mdi-school-outline</VIcon></VCol
+				>
+				<VCol cols="auto" class="black--text">Освітній процес</VCol>
+			</VRow>
+			<VRow no-gutters style="margin-top: 30px; margin-bottom: 50px">
+				<v-expansion-panels v-model="panel" multiple>
+					<v-expansion-panel
+						v-for="(course, i) in specialitie.courses"
+						:key="i"
+					>
+						<v-expansion-panel-header> {{ i }} курс </v-expansion-panel-header>
+						<v-expansion-panel-content>
+							{{ course }}
+						</v-expansion-panel-content>
+					</v-expansion-panel>
+				</v-expansion-panels>
+			</VRow>
+		</VCol>
+	</div>
+</template>
+
+<script>
+export default {
+	props: {
+		specialitie: {
+			require: true,
+		},
+		sceletonLoader: {
+			require: true,
+		},
+	},
+	data: () => ({
+		panel: [0],
+	}),
+};
+</script>
+
+<style lang="scss" scoped>
+.speciality {
+	.title {
+		&-number {
+			background: white;
+			margin-left: 12px;
+			padding: 6px;
+			border-radius: 6px;
+			border: 1px solid #f3eff9;
+			box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
+			font-weight: 600;
+			font-size: 18px;
+		}
+	}
+	.main-img {
+		width: 100%;
+		height: 226px;
+		margin-top: 50px;
+		position: relative;
+		overflow: hidden;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		&::before {
+			content: '';
+			width: 100%;
+			height: 100%;
+			background: rgba(#0000, 0.3);
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.3);
+			filter: blur(10px);
+		}
+	}
+	.content {
+		&-title {
+			font-family: Montserrat;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 25px;
+			line-height: 30px;
+		}
+	}
+}
+</style>

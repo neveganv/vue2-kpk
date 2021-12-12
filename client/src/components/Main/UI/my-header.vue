@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="my-container mt-5">
-			<VRow aling="center" justify="space-between" class="py-2">
+			<VRow no-gutters aling="center" justify="space-between" class="py-2">
 				<div style="width: 50px">
 					<VBadge color="error" overlap right bottom text content="pre-alpha">
 						<img

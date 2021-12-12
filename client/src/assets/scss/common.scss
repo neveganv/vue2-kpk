@@ -1,7 +1,6 @@
 body,
 html {
-	overflow: auto !important;
-	
+	overflow: unset !important;
 }
 
 .d {
@@ -12,6 +11,14 @@ html {
 		display: block;
 	}
 }
+.unselectable {
+	-webkit-touch-callout: none; 
+	-webkit-user-select: none;   
+	-khtml-user-select: none;    
+	-moz-user-select: none;     
+	-ms-user-select: none;       
+	user-select: none;         
+  }
 
 .justify {
 	&-center {
@@ -77,17 +84,17 @@ html {
 	}
 }
 
-.v-dialog>.v-card>.v-card__actions{
-	padding: 14px 23px!important;
+.v-dialog > .v-card > .v-card__actions {
+	padding: 14px 23px !important;
 }
-.my-container{
+.my-container {
 	max-width: 1300px;
 	margin: auto;
 	width: 100%;
 
 }
-.m{
-	&-auto{
+.m {
+	&-auto {
 		margin: auto;
 	}
 }

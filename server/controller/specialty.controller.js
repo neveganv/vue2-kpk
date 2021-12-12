@@ -39,6 +39,19 @@ exports.findAll = (req, res) => {
         });
     });
 };
+exports.findById = (req, res) => {  
+    Specialty.find({_id: req.body._id})
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving blogs."
+        });
+      });
+  
+  };
 
 exports.update = (req, res) => {
     if (!req.body) {

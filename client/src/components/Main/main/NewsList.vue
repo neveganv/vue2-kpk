@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<VRow justify="space-between" align="center" v-if="!sceletonLoader">
+		<VRow no-gutters justify="space-between" align="center" v-if="!sceletonLoader">
 			<div v-for="newItem in news" :key="newItem._id" @click="counter(newItem)">
 				<my-news-card :newItem="newItem" />
 			</div>

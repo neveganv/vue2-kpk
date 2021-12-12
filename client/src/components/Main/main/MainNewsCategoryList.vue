@@ -1,5 +1,5 @@
 <template>
-	<VRow justify="center" class="category__wrapper m-auto">
+	<VRow no-gutters justify="center" class="category__wrapper m-auto">
 		<div
 			class="category__inner "
 			v-for="categorie in categories"

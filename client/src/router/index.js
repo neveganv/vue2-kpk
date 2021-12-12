@@ -10,6 +10,12 @@ const routes = [
 		component: () => import('@/views/Main/Main.vue'),
 	},
 	{
+		path: '/speciality/:id',
+		name: 'main-speciality-page',
+		component: () => import('@/views/Main/Speciality.vue'),
+
+	},
+	{
 		path: '/admin',
 		name: 'admin-page-auth',
 		component: () => import('@/views/Admin/Admin.vue'),

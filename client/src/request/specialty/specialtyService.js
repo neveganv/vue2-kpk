@@ -15,6 +15,10 @@ export default {
 	async updateSpecialty(){
 		const response = await requestService.post(`${prefix}/updateSpecialty`)
 		return response?.data
+	},
+	async getById(params){
+		const response = await requestService.post(`${prefix}/getById`,params)
+		return response?.data
 	}
 
 };

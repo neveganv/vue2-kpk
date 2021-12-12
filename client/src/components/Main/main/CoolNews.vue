@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<VRow>
+		<VRow no-gutters>
 			<VCol cols="8">
 				<div class="my-title">
 					<VBadge top overlap color="error" content="beta">

@@ -1,5 +1,5 @@
 <template>
-	<div class="specialities-card">
+	<div class="specialities-card" @click="onClick">
 		<div class="card__title">
 			<div class="title__number">{{ '0' + indexSpecialitie || '--' }}</div>
 			<div class="title__text">
@@ -35,6 +35,14 @@ export default {
 			require: false,
 		},
 	},
+	methods: {
+		onClick() {
+			this.$router.push({
+				name: 'main-speciality-page',
+				params: { id: this.specialitie._id },
+			});
+		},
+	},
 };
 </script>
 
@@ -62,7 +70,6 @@ export default {
 			line-height: 26px;
 		}
 		.title__text {
-			
 			padding-left: 10px;
 			padding-top: 7px;
 			max-width: 250px;
