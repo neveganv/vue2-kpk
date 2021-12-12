@@ -45,7 +45,7 @@
 				<div v-html="specialitie.content"></div>
 			</VRow>
 		</VCol>
-		<VCol no-gutters style="margin-top: 50px"  v-else>
+		<VCol no-gutters style="margin-top: 50px"  v-else-if="sceletonLoader">
 			<v-skeleton-loader type="article"></v-skeleton-loader>
 			<v-skeleton-loader type="article"></v-skeleton-loader>
 		</VCol>
