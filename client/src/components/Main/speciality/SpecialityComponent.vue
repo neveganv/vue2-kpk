@@ -1,7 +1,14 @@
 <template>
 	<div>
 		<my-header />
-		<div class="my-container" style="margin-top: 110px">
+		<div class="my-container" style="margin-top: 50px">
+			<VRow no-gutters
+				><VBtn color="primary" text @click="$router.push({ path: '/' })">
+					<VIcon left>mdi-arrow-left</VIcon> На головну</VBtn
+				></VRow
+			>
+		</div>
+		<div class="my-container" style="margin-top: 50px">
 			<VRow no-gutters>
 				<VCol cols="8">
 					<SpecialityInner
