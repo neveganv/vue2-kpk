@@ -3,7 +3,7 @@
 		<my-header />
 		<div class="my-container" style="margin-top: 50px">
 			<VRow no-gutters
-				><VBtn color="primary" text @click="$router.push({ path: '/' })">
+				><VBtn rounded color="primary" text @click="$router.push({ path: '/' })">
 					<VIcon left>mdi-arrow-left</VIcon> На головну</VBtn
 				></VRow
 			>

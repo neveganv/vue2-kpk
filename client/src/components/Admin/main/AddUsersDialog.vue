@@ -54,7 +54,7 @@
 							outlined
 							dense
 							return-masked-value
-                          	v-mask="'+## (###) ##-##-###'"
+                          	v-mask="'+38 (###) ##-##-###'"
 							:append-icon="!PhoneError.length ? 'mdi-check' :  ''"
 							:color="user.phone > 0 ? 'success' :  '' "
 							:hide-details="!PhoneError.length"

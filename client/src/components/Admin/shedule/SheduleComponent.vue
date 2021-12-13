@@ -4,6 +4,7 @@
 			<div class="d-flex">
 				<VCol :cols="chosenGroup ? 6 : 12">
 					<v-select
+					rounded
 						prepend-icon="mdi-account-multiple-plus"
 						:items="Object.values(groups)"
 						:item-value="'_id'"
@@ -53,13 +54,13 @@
 				<VCol cols="5" v-if="chosenGroup">
 					<v-menu bottom right>
 						<template v-slot:activator="{ on, attrs }">
-							<v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
+							<v-btn outlined color="grey darken-2" rounded v-bind="attrs" v-on="on">
 								<span>{{ typeToLabel[type] }}</span>
 								<v-icon right> mdi-menu-down </v-icon>
 							</v-btn>
 						</template>
-						<v-list>
-							<v-list-item @click="type = 'week'">
+						<v-list rounded>
+							<v-list-item  @click="type = 'week'">
 								<v-list-item-title>Тиждень</v-list-item-title>
 							</v-list-item>
 							<v-list-item @click="type = 'month'">
@@ -72,7 +73,7 @@
 					</v-menu>
 				</VCol>
 				<VCol cols="6">
-					<VBtn outlined color="primary" @click="visible = true">
+					<VBtn rounded outlined color="primary" @click="visible = true">
 						<v-icon left> mdi-calendar-plus </v-icon>Додати подію
 					</VBtn>
 				</VCol>

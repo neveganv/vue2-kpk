@@ -15,6 +15,7 @@
 					clearable
 					hide-details
 					dense
+					rounded
 				>
 					<template #selection="{ item }">
 						<v-chip small color="primary">{{ (tmpGroup = item.name) }}</v-chip>
@@ -25,7 +26,7 @@
 				</div>
 			</VCol>
 			<div class="mt-4">
-				<VBtn outlined color="primary" @click="visible = true">
+				<VBtn rounded outlined color="primary" @click="visible = true">
 					<v-icon left> mdi-newspaper-plus </v-icon>Створити новину
 				</VBtn>
 			</div>

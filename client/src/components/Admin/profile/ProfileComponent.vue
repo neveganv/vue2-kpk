@@ -9,7 +9,7 @@
 			<VCol cols="7"></VCol>
 			<VDivider vertical />
 			<VCol cols="4"
-				><VBtn text color="error" @click="showChange = true"
+				><VBtn rounded text color="error" @click="showChange = true"
 					><VIcon>mdi-lock-reset</VIcon>Змінити пароль</VBtn
 				></VCol
 			>

@@ -3,23 +3,25 @@
 		<VRow no-gutters align="center" justify="space-between">
 			<VRow>
 				<VCol cols="auto"
-					><VBtn text color="primary" @click="onChangeFolder">
-						{{ folderName || '--' }}</VBtn
+					><VBtn  text rounded color="grey darken-1" class="white--text" @click="onChangeFolder">
+						<VIcon left> mdi-folder-edit-outline
+						</VIcon>{{ folderName || '--' }}</VBtn
 					></VCol
 				>
 				<VIcon small>mdi-chevron-right</VIcon>
 				<VCol cols="auto"
-					><VBtn text disabled> {{ page.name || '--' }}</VBtn></VCol
+					><VBtn text color="primary" rounded> <VIcon left> mdi-file-edit-outline
+						</VIcon>{{ page.name || '--' }}</VBtn></VCol
 				>
 			</VRow>
 			<div class="d-flex">
 				<VCol cols="auto"
-					><VBtn color="error" text @click="onCancel"
+					><VBtn rounded color="error" text @click="onCancel"
 						><VIcon left>mdi-close</VIcon>Скасувати</VBtn
 					></VCol
 				>
 				<VCol cols="auto"
-					><VBtn color="success" @click="onCreate"
+					><VBtn rounded color="success" @click="onCreate"
 						><VIcon left>mdi-check-all</VIcon>Зберегти</VBtn
 					></VCol
 				>
@@ -28,7 +30,7 @@
 		<VDivider class="mb-5" />
 
 		<VRow no-gutters>
-			<vue-editor class="editor w-100 px-2" v-model="page.content" />
+			<vue-editor class="editor w-100 pl-2" v-model="page.content" />
 		</VRow>
 		<VRow justify="end">
 			<v-speed-dial v-model="fab" transition="slide-y-reverse-transition">
@@ -48,7 +50,7 @@
 		</VRow>
 		<AddNewPageDialog
 			:visible="editFolderVisivle"
-			@close="visible = false"
+			@close="editFolderVisivle = false"
 			:isEditFolder="isEditFolder"
 		/>
 	</div>

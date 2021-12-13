@@ -19,6 +19,7 @@
 		</div>
 
 		<v-navigation-drawer
+		
 			permanent
 			absolute
 			style="top: 65px; height: calc(100vh - 65px)"
@@ -27,7 +28,7 @@
 			:class="{ fixed: fixed }"
 		>
 			<VDivider />
-			<VList nav dense>
+			<VList nav dense rounded>
 				<VListItemGroup color="primary">
 					<VListItem :to="{ path: '/admin' }">
 						<VListItemIcon>

@@ -2,9 +2,7 @@
 	<div>
 		<VRow no-gutters>
 			<div class="my-title">
-				<VBadge top overlap color="purple darken-2" content="Новинка">
 					Інформація про коледж
-				</VBadge>
 			</div>
 		</VRow>
 		<div>

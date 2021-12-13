@@ -1,8 +1,8 @@
 <template>
 	<div class="h-auto">
 		<div class="d-flex justify-space-between p-1 align-center">
-			<VBtn text color="primary">Список користувачів</VBtn>
-			<VBtn color="primary" outlined @click="visible = true">
+			<VBtn rounded text color="primary">Список користувачів</VBtn>
+			<VBtn rounded color="primary" outlined @click="visible = true">
 				<VIcon left>mdi-account-plus</VIcon>Додати нового користувача</VBtn
 			>
 		</div>

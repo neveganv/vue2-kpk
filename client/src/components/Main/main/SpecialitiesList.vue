@@ -28,7 +28,7 @@
 			justify-sm="space-around"
 			justify-md="space-around"
 		>
-			<VCol v-for="index in 5" :key="index" cols="auto" class="mt-5">
+			<VCol v-for="index in 6" :key="index" cols="auto" class="mt-5">
 				<MySpecialitiesCard
 					:sceletonLoader="SceletonLoader"
 	

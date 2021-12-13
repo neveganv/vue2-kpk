@@ -1,7 +1,7 @@
 <template>
 	<div class="simple-new">
 		<VRow justify="end" class="p-1">
-			<VBtn outlined color="primary" @click="visible = true">
+			<VBtn rounded outlined color="primary" @click="visible = true">
 				<v-icon left> mdi-newspaper-plus </v-icon>Створити круту новину
 			</VBtn>
 		</VRow>

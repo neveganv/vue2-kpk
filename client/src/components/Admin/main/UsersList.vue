@@ -19,11 +19,11 @@
 					<td>{{ user.email || '--' }}</td>
 					<td>{{ user.position.title || '--' }}</td>
 					<td>
-						<VRow>
-							<VBtn small color="primary" @click="editUser(user)">
+						<VRow >
+							<VBtn fab small color="primary" @click="editUser(user)">
 								<VIcon> mdi-account-edit</VIcon></VBtn
 							>
-							<VBtn small color="error" @click="deleteUser(user._id)" disabled>
+							<VBtn fab small color="error" @click="deleteUser(user._id)" disabled>
 								<VIcon> mdi-delete</VIcon></VBtn
 							>
 						</VRow>

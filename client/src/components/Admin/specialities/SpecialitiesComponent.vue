@@ -1,11 +1,11 @@
 <template>
 	<div class="h-auto">
 		<div class="d-flex justify-space-between p-1 align-center">
-			<VBtn text color="primary">
+			<VBtn rounded text color="primary">
 				<VIcon left> mdi-school-outline</VIcon>
 				Список Спеціальностей
 			</VBtn>
-			<VBtn color="primary" outlined @click="visible = true">
+			<VBtn  rounded color="primary" outlined @click="visible = true">
 				<VIcon left>mdi-folder-account</VIcon>Додати нову спеціальність</VBtn
 			>
 		</div>

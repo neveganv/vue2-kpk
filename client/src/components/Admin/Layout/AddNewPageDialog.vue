@@ -47,10 +47,10 @@
 			</VCardText>
 			<VCardActions>
 				<VSpacer />
-				<VBtn color="primary" @click="onCreateFolder" v-if="!addPageVisibility">
+				<VBtn   color="primary" @click="onCreateFolder" v-if="!addPageVisibility">
 					Додати Папку
 				</VBtn>
-				<VBtn color="primary" @click="onCreatePage" v-else>
+				<VBtn  color="primary" @click="onCreatePage" v-else>
 					Додати Сторінку
 				</VBtn>
 			</VCardActions>
