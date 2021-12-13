@@ -1,7 +1,7 @@
 <template>
 	<div class="simple-new">
-		<VRow justify="space-between" class="p-1">
-			<VCol cols="3 ">
+		<VRow justify="space-between" align="center" no-gutters>
+			<VCol cols="auto ">
 				<v-select
 					v-if="!sceletonLoader"
 					prepend-inner-icon="mdi-filter-variant"
@@ -25,8 +25,8 @@
 					<v-skeleton-loader light type="heading"></v-skeleton-loader>
 				</div>
 			</VCol>
-			<div class="mt-4">
-				<VBtn rounded outlined color="primary" @click="visible = true">
+			<div >
+				<VBtn  rounded outlined color="primary" @click="visible = true">
 					<v-icon left> mdi-newspaper-plus </v-icon>Створити новину
 				</VBtn>
 			</div>

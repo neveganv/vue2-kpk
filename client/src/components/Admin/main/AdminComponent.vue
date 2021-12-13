@@ -61,7 +61,9 @@ export default {
 		},
 		async getUser() {
 			try {
-				this.users = await usersService.getAll();
+			this.user = await usersService.getOne(JSON.parse(localStorage.token));
+			this.users = await usersService.getAll();
+			this.users = this.users.filter(user => user._id !== this.user._id)
 			console.log(this.users);
 			} catch (e) {
 				alert(e);

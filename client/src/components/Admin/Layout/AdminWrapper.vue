@@ -28,7 +28,7 @@
 			:class="{ fixed: fixed }"
 		>
 			<VDivider />
-			<VList nav dense rounded>
+			<VList  dense shaped class="pl-0" >
 				<VListItemGroup color="primary">
 					<VListItem :to="{ path: '/admin' }">
 						<VListItemIcon>
@@ -61,7 +61,8 @@
 						:value="specialitiesSelector"
 						v-for="folder in folders"
 						:key="folder._id"
-						multiple
+						
+						
 					>
 						<template v-slot:activator>
 							<VListItemIcon>
@@ -78,6 +79,7 @@
 							</VListItem>
 						</div>
 						<VListItem
+						
 							@click="
 								visible = true;
 								addPageVisibility = true;
@@ -187,6 +189,7 @@ export default {
 		},
 		async getUser() {
 			try {
+
 				this.user = await usersService.getOne(JSON.parse(localStorage.token));
 			} catch (e) {
 				alert(e);

@@ -19,11 +19,11 @@
 					<td>{{ user.email || '--' }}</td>
 					<td>{{ user.position.title || '--' }}</td>
 					<td>
-						<VRow >
-							<VBtn fab small color="primary" @click="editUser(user)">
+						<VRow justify="center">
+							<VBtn fab elevation="3" x-small color="primary" @click="editUser(user)">
 								<VIcon> mdi-account-edit</VIcon></VBtn
 							>
-							<VBtn fab small color="error" @click="deleteUser(user._id)" disabled>
+							<VBtn fab x-small elevation="3"  color="error" @click="deleteUser(user._id)" >
 								<VIcon> mdi-delete</VIcon></VBtn
 							>
 						</VRow>
@@ -49,7 +49,7 @@ export default {
 		},
 		deleteUser(e) {
 			console.log(e);
-			this.$emit('deleteUser', e);
+			// this.$emit('deleteUser', e);
 		},
 	},
 };
