@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-tabs v-model="tabs">
+		<v-tabs v-model="tabs"  show-arrows>
 			<v-tab href="#simpleNews">Новини</v-tab>
 			<v-tab href="#recentNews">Круті новини (треба норм назви)</v-tab>
 		</v-tabs>

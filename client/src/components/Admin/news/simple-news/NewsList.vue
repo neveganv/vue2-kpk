@@ -3,13 +3,19 @@
 		<VCol>
 			<v-item-group>
 				<div>
-					<v-row v-if="news.length > 0">
-						<v-col v-for="newItem in news" :key="newItem._id" cols="12" md="3">
+					<v-row
+						v-if="news.length > 0"
+						no-gutters
+						justify="space-around"
+						justify-lg="space-between"
+						justify-md="space-between"
+					>
+						<v-col v-for="newItem in news" :key="newItem._id" cols="auto">
 							<v-item v-slot="{ active }">
 								<v-card
 									width="auto"
 									:color="active ? '' : ''"
-									class="align-end"
+									class="align-end mb-10 new-card"
 									@click="detailNew(newItem)"
 								>
 									<v-btn
@@ -95,7 +101,12 @@
 							</v-item>
 						</v-col>
 					</v-row>
-					<v-row v-else class="d-flex justify-center align-center" style="height:10vh">Новин ще немає</v-row>
+					<v-row
+						v-else
+						class="d-flex justify-center align-center"
+						style="height: 10vh"
+						>Новин ще немає</v-row
+					>
 				</div>
 			</v-item-group>
 		</VCol>
@@ -125,6 +136,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.new-card {
+	max-width: 300px;
+
+}
 .new-title {
 	max-width: 90%;
 	width: 100%;

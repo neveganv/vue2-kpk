@@ -1,7 +1,7 @@
 <template>
 	<div class="simple-new">
 		<VRow justify="space-between" align="center" no-gutters>
-			<VCol cols="3 ">
+			<VCol cols="3">
 				<v-select
 					prepend-inner-icon="mdi-filter-variant"
 					:items="Object.values(categories)"
@@ -21,19 +21,15 @@
 					</template>
 				</v-select>
 			</VCol>
-			<div>
+			<VCol cols="auto">
 				<VBtn rounded outlined color="primary" @click="visible = true">
 					<v-icon left> mdi-newspaper-plus </v-icon>Створити новину
 				</VBtn>
-			</div>
+			</VCol>
 		</VRow>
 		<VRow>
 			<VCol>
-				<NewsList
-					:news="sortedNews"
-					@show="showNews"
-					@deleteNew="deleteNew"
-				/>
+				<NewsList :news="sortedNews" @show="showNews" @deleteNew="deleteNew" />
 			</VCol>
 		</VRow>
 		<AddNewDialog

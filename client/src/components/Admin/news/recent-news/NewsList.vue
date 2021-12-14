@@ -3,19 +3,19 @@
 		<VCol>
 			<v-item-group>
 				<div>
-					<v-row v-if="news.length > 0">
-						<v-col v-for="item in news" :key="item._id" cols="12" md="3">
+					<v-row v-if="news.length > 0" justify="space-around" justify-lg="space-between">
+						<v-col v-for="item in news" :key="item._id" cols="auto">
 							<v-item v-slot="{ active, toggle }">
 								<v-card
 									width="auto"
 									:color="active ? '' : ''"
 									@click="toggle"
-									class="align-end"
+									class="align-end new-card"
 								>
-									<v-img height="140" :lazy-src="item.img" :src="item.img">
+									<v-img height="140"  cover :lazy-src="item.img" :src="item.img">
 										<template v-slot:placeholder>
 											<v-row
-												class="fill-height ma-0"
+												class="fill-height ma-0 "
 												align="center"
 												justify="center"
 											>
@@ -90,6 +90,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.new-card{
+	max-width: 300px;
+}
 .new-title {
 	max-width: 90%;
 	width: 100%;

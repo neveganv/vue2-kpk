@@ -1,30 +1,17 @@
 <template>
 	<div>
-		<VRow class="mt-5" v-if="!SceletonLoader">
+		<VRow class="mt-5" no-gutters justify="space-around" justify-lg="space-between" >
 			<VCol
 				v-for="(specialitie, index) in specialitites"
 				:key="index"
-				cols="12"
-				md="4"
+				cols="auto"
+				class="px-5 mb-5"
 			>
 				<MySpecialitiesCard
 					:specialitie="specialitie"
 					:indexSpecialitie="index + 1"
 					:edit="true"
 				/>
-			</VCol>
-		</VRow>
-		<VRow justify="space-between" class="mt-5" v-else>
-			<VCol v-for="n in 6" :key="n" cols="12" md="4">
-				<VCard max-width="400">
-					<VCol>
-						<v-skeleton-loader
-							class="mx-auto"
-							max-width="400"
-							type="card"
-						></v-skeleton-loader>
-					</VCol>
-				</VCard>
 			</VCol>
 		</VRow>
 	</div>
@@ -41,11 +28,7 @@ export default {
 		specialitites: {
 			require: true,
 		},
-		SceletonLoader:{
-			require:true
-		}
 	},
-
 };
 </script>
 
