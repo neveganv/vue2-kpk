@@ -115,7 +115,7 @@
 										</VTextField>
 									</VCol>
 								</VRow>
-								<v-subheader>Дата і час початкута кінця</v-subheader>
+								<v-subheader>Дата і час початку та кінця</v-subheader>
 								<VRow align="center">
 									<VCol cols="6">
 										<v-menu
@@ -141,13 +141,14 @@
 												></v-text-field>
 											</template>
 											<v-date-picker
+											no-title
 												v-model="event.start_date"
 												locale="uk-UA"
 												@input="menu = false"
 											></v-date-picker>
 										</v-menu>
 									</VCol>
-									<VCol><VIcon>mdi-clock-time-four-outline</VIcon></VCol>
+									<VCol cols="auto"><VIcon>mdi-clock-time-four-outline</VIcon></VCol>
 									<VCol cols="2">
 										<v-menu
 											ref="menu1"

@@ -4,7 +4,7 @@
 			<div class="d-flex">
 				<VCol :cols="chosenGroup ? 6 : 12">
 					<v-select
-					rounded
+						rounded
 						prepend-icon="mdi-account-multiple-plus"
 						:items="Object.values(groups)"
 						:item-value="'_id'"
@@ -54,13 +54,19 @@
 				<VCol cols="5" v-if="chosenGroup">
 					<v-menu bottom right>
 						<template v-slot:activator="{ on, attrs }">
-							<v-btn outlined color="grey darken-2" rounded v-bind="attrs" v-on="on">
+							<v-btn
+								outlined
+								color="grey darken-2"
+								rounded
+								v-bind="attrs"
+								v-on="on"
+							>
 								<span>{{ typeToLabel[type] }}</span>
 								<v-icon right> mdi-menu-down </v-icon>
 							</v-btn>
 						</template>
 						<v-list rounded>
-							<v-list-item  @click="type = 'week'">
+							<v-list-item @click="type = 'week'">
 								<v-list-item-title>Тиждень</v-list-item-title>
 							</v-list-item>
 							<v-list-item @click="type = 'month'">
@@ -132,7 +138,10 @@ import sheduleService from '@/request/shedule/sheduleService';
 import SheduleInner from './SheduleInner.vue';
 import AddEventDialog from './AddEventDialog.vue';
 import EditEventDialog from './EditEventDialog.vue';
+import loader from '@/mixins/loader';
+
 export default {
+	mixins: [loader],
 	components: {
 		SheduleInner,
 		AddEventDialog,
@@ -172,11 +181,11 @@ export default {
 		},
 		async changeGroup(e) {
 			try {
-				console.log(e);
+				this.setLoading(true);
 				const params = [];
 				params.group = e;
 				this.events = await sheduleService.getEvent({ ...params });
-				console.log(this.events)
+				this.setLoading(false);
 			} catch (e) {
 				alert(e);
 			}
@@ -186,23 +195,22 @@ export default {
 		},
 		updateEvent(e) {
 			this.visibleEditEvent = false;
-			this.changeGroup(e)
-			console.log(e);
+			this.changeGroup(e);
 		},
 		addEvent(e) {
 			this.visible = false;
-			console.log(e);
 			this.chosenGroup = e;
 			this.changeGroup(e);
-			console.log(e);
 		},
 		async getGroups() {
 			try {
+				this.setLoading(true);
 				this.groups = await groupService.getAllGroups();
 				if (this.groups[0]) {
 					this.changeGroup(this.groups[0]._id);
 					this.chosenGroup = this.groups[0]._id;
 				}
+				this.setLoading(false);
 			} catch (e) {
 				console.log(e);
 			}
