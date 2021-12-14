@@ -54,10 +54,24 @@
 			<VCardActions>
 				<VSpacer />
 				<VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
-				<VBtn color="primary" @click="onUpdate" v-if="chosenNews">
+				<VBtn
+					color="primary"
+					@click="onUpdate"
+					v-if="chosenNews"
+					:disabled="isLoading"
+					:loading="isLoading"
+				>
 					Оновити
 				</VBtn>
-				<VBtn color="primary" @click="onCreate" v-else> Створити </VBtn>
+				<VBtn
+					color="primary"
+					@click="onCreate"
+					v-else
+					:disabled="isLoading"
+					:loading="isLoading"
+				>
+					Створити
+				</VBtn>
 			</VCardActions>
 		</VCard>
 	</VDialog>
@@ -76,6 +90,7 @@ export default {
 			value =>
 				!value || value.size < 3000000 || 'Зображення повинне бути менше 3 MB!',
 		],
+		isLoading: false,
 		news: [],
 		base64image: '',
 	}),
@@ -108,6 +123,7 @@ export default {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
+					this.isLoading = true;
 					const params = [];
 					params.title = this.news.title;
 					params.img = this.base64image;
@@ -119,6 +135,7 @@ export default {
 					this.$emit('create', res);
 					this.news = [];
 					this.$v.$reset();
+					this.isLoading = false;
 				} catch (e) {
 					alert(e);
 				}

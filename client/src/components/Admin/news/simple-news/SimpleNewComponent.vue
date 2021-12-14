@@ -1,9 +1,8 @@
 <template>
 	<div class="simple-new">
 		<VRow justify="space-between" align="center" no-gutters>
-			<VCol cols="auto ">
+			<VCol cols="3 ">
 				<v-select
-					v-if="!sceletonLoader"
 					prepend-inner-icon="mdi-filter-variant"
 					:items="Object.values(categories)"
 					:item-value="'_id'"
@@ -21,12 +20,9 @@
 						<v-chip small color="primary">{{ (tmpGroup = item.name) }}</v-chip>
 					</template>
 				</v-select>
-				<div v-else>
-					<v-skeleton-loader light type="heading"></v-skeleton-loader>
-				</div>
 			</VCol>
-			<div >
-				<VBtn  rounded outlined color="primary" @click="visible = true">
+			<div>
+				<VBtn rounded outlined color="primary" @click="visible = true">
 					<v-icon left> mdi-newspaper-plus </v-icon>Створити новину
 				</VBtn>
 			</div>
@@ -34,10 +30,9 @@
 		<VRow>
 			<VCol>
 				<NewsList
-					:news="news"
+					:news="sortedNews"
 					@show="showNews"
 					@deleteNew="deleteNew"
-					:sceletonLoader="sceletonLoader"
 				/>
 			</VCol>
 		</VRow>
@@ -58,27 +53,48 @@
 import NewsList from './NewsList.vue';
 import AddNewDialog from './AddNewsDialog.vue';
 import newsService from '@/request/news/newsService';
+import loader from '@/mixins/loader';
 
 export default {
+	mixins: [loader],
+
 	components: { NewsList, AddNewDialog },
 	data: () => ({
 		visible: false,
 		news: [],
 		clickNews: null,
-		sceletonLoader: false,
 		categories: [],
 		filter: [],
+		chosenCategory: '',
+		changeNews: [],
 	}),
 	mounted() {
 		this.getNews();
+		console.log(this.news);
 		this.getCategories();
 	},
+	computed: {
+		sortedNews() {
+			if (!this.chosenCategory) {
+				return this.news;
+			} else {
+				console.log(this.chosenCategory);
+				console.log(this.news);
+				return [
+					...(this.changeNews = this.news.filter(
+						item => item.category._id == this.chosenCategory
+					)),
+				];
+			}
+		},
+	},
 	methods: {
+		changeCategory(e) {
+			this.chosenCategory = e;
+		},
 		addNews() {
 			this.visible = false;
-
 			this.getNews();
-			console.log(this.news);
 		},
 		updateNews() {
 			this.edit = false;
@@ -89,34 +105,20 @@ export default {
 		},
 		async deleteNew(e) {
 			try {
-				this.news = await newsService.deleteSimpleNews({ id: e });
-				console.log(this.news);
-				this.getNews();
+				this.setLoading(true);
+				await newsService.deleteSimpleNews({ id: e });
+				this.news = this.news.filter(item => item._id !== e);
+				this.setLoading(false);
 			} catch (e) {
 				alert(e);
 			}
 		},
-		async changeCategory(e) {
-			if (!e) {
-				this.getNews();
-			} else {
-				console.log(e);
-				this.sceletonLoader = true;
-
-				this.news = await newsService.getSimpleNewsByCategories({
-					idCategory: e,
-				});
-				this.sceletonLoader = false;
-
-				console.log(this.news);
-			}
-		},
 		async getNews() {
 			try {
-				this.sceletonLoader = true;
+				this.setLoading(true);
 				this.news = await newsService.getAllNews();
-				this.sceletonLoader = false;
-				console.log(this.news);
+				this.changeNews = this.news;
+				this.setLoading(false);
 			} catch (e) {
 				alert(e);
 			}

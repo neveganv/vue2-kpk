@@ -53,10 +53,15 @@
 							prepend-icon="mdi-phone"
 							outlined
 							dense
+							:class="{
+								'success-phone': !PhoneError.length && userPhone == 19,
+							}"
 							return-masked-value
-                          	v-mask="'+38 (###) ##-##-###'"
-							:append-icon="!PhoneError.length ? 'mdi-check' :  ''"
-							:color="user.phone > 0 ? 'success' :  '' "
+							v-mask="'+38 (###) ##-##-###'"
+							:append-icon="
+								!PhoneError.length && userPhone == 19 ? 'mdi-check' : ''
+							"
+							:color="!PhoneError.length && userPhone == 19 ? 'success' : ''"
 							:hide-details="!PhoneError.length"
 							:error-messages="PhoneError"
 							v-model="user.phone"
@@ -96,8 +101,24 @@
 			<VCardActions>
 				<VSpacer />
 				<VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
-				<VBtn color="primary" @click="onUpdate" v-if="edit"> Оновити </VBtn>
-				<VBtn color="primary" @click="onCreate" v-else> Створити </VBtn>
+				<VBtn
+					color="primary"
+					@click="onUpdate"
+					v-if="edit"
+					:disabled="isLoading"
+					:loading="isLoading"
+				>
+					Оновити
+				</VBtn>
+				<VBtn
+					color="primary"
+					@click="onCreate"
+					v-else
+					:disabled="isLoading"
+					:loading="isLoading"
+				>
+					Створити
+				</VBtn>
 			</VCardActions>
 		</VCard>
 		<add-new-permission-dialog
@@ -115,7 +136,7 @@ import usersService from '@/request/users/usersService';
 import AddNewPermissionDialog from './AddNewPermissionDialog.vue';
 import { validationMixin } from 'vuelidate';
 import { required, email } from 'vuelidate/lib/validators';
-const validPhone = (value) => value.replace(/[^+\d]/g, '').length === 13;
+const validPhone = value => value.replace(/[^+\d]/g, '').length === 13;
 
 export default {
 	components: { AddNewPermissionDialog },
@@ -126,17 +147,18 @@ export default {
 		visible: {
 			require: true,
 		},
-		chosenUser:{
-			require:false,
-
-		}
+		chosenUser: {
+			require: false,
+		},
 	},
 
 	data: () => ({
 		categories: [],
 		user: [],
+		phone: '12312321',
 		visibleAdd: false,
-		edit:false
+		edit: false,
+		isLoading: false,
 	}),
 	validations: {
 		user: {
@@ -166,19 +188,20 @@ export default {
 	methods: {
 		async getChosenUser() {
 			if (this.chosenUser) {
-				console.log(this.chosenUser)
+				console.log(this.chosenUser);
 				try {
-					this.edit = true
-					const newUser = await usersService.findUserById({id:this.chosenUser});
-					this.user = newUser
+					this.edit = true;
+					const newUser = await usersService.findUserById({
+						id: this.chosenUser,
+					});
+					this.user = newUser;
 					console.log(this.user);
 				} catch (e) {
 					alert(e);
 				}
-				this.user.phone = this.user.phone.replace('+380', '');
 				this.user.permission = this.user.position;
-			}else{
-				this.edit = false
+			} else {
+				this.edit = false;
 			}
 		},
 		async getPositions() {
@@ -197,6 +220,7 @@ export default {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
+					this.isLoading = true;
 					const params = [];
 					params.name = this.user.name;
 					params.surname = this.user.surname;
@@ -210,6 +234,7 @@ export default {
 					this.user = [];
 					this.$emit('addUser');
 					this.$v.$reset();
+					this.isLoading = false;
 				} catch (e) {
 					alert(e);
 				}
@@ -223,6 +248,7 @@ export default {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
+					this.isLoading = true;
 					const params = [];
 					params.id = this.user._id;
 					params.name = this.user.name;
@@ -237,6 +263,7 @@ export default {
 					});
 					this.$emit('updateUser', params);
 					this.$v.$reset();
+					this.isLoading = false;
 				} catch (e) {
 					alert(e);
 				}
@@ -244,6 +271,13 @@ export default {
 		},
 	},
 	computed: {
+		userPhone() {
+			console.log(this.user.phone);
+			if (this.user.phone) {
+				return this.user.phone.length;
+			}
+			return 0;
+		},
 		visibility: {
 			get() {
 				return this.visible;
@@ -275,9 +309,12 @@ export default {
 			if (!this.$v.user.phone.$dirty) {
 				return errors;
 			}
-			if (!this.$v.user.phone.validPhone) {
-				errors.push('Телефон повинен бути валідним');
-				return errors;
+
+			if (this.user.phone) {
+				if (!this.$v.user.phone.validPhone) {
+					errors.push('Телефон повинен бути валідним');
+					return errors;
+				}
 			}
 			!this.$v.user.phone.required &&
 				errors.push('Телефон обов`язкове поле для заповлення');
@@ -308,4 +345,3 @@ export default {
 	},
 };
 </script>
-

@@ -2,7 +2,7 @@
 	<VRow>
 		<VCol>
 			<v-item-group>
-				<div v-if="!sceletonLoader">
+				<div>
 					<v-row v-if="news.length > 0">
 						<v-col v-for="newItem in news" :key="newItem._id" cols="12" md="3">
 							<v-item v-slot="{ active }">
@@ -95,23 +95,7 @@
 							</v-item>
 						</v-col>
 					</v-row>
-					<v-row v-else>Новин ще немає</v-row>
-				</div>
-				<div v-else>
-					<v-row>
-						<v-col cols="12" md="3" v-for="key in 14" :key="key">
-							<VCard>
-								<VCardText>
-							<v-skeleton-loader
-								light
-								class="mx-auto"
-								max-width="300"
-								type="card"
-							></v-skeleton-loader>
-								</VCardText>
-							</VCard>
-						</v-col>
-					</v-row>
+					<v-row v-else class="d-flex justify-center align-center" style="height:10vh">Новин ще немає</v-row>
 				</div>
 			</v-item-group>
 		</VCol>
@@ -122,9 +106,6 @@
 export default {
 	data: () => ({}),
 	props: {
-		sceletonLoader: {
-			require: true,
-		},
 		news: {
 			require: true,
 		},

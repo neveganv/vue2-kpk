@@ -126,6 +126,7 @@
 			>
 				<VCard class="content-block_wrap-card">
 					<slot></slot>
+				<MainLoader />
 				</VCard>
 			</v-container>
 		</v-main>
@@ -143,6 +144,7 @@
 <script>
 import UserDropDown from './UserDropDown';
 import AddNewPageDialog from './AddNewPageDialog';
+import MainLoader from '@/common/MainLoader';
 import usersService from '@/request/users/usersService';
 import folderService from '@/request/folders/folderService';
 import pageService from '@/request/page/pageService';
@@ -150,7 +152,8 @@ import pageService from '@/request/page/pageService';
 export default {
 	components: {
 		UserDropDown,
-		AddNewPageDialog,
+		MainLoader,
+		AddNewPageDialog
 	},
 	created() {
 		window.addEventListener('scroll', this.handleScroll);

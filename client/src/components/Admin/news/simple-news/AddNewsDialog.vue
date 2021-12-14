@@ -149,11 +149,27 @@
 			<VCardActions v-if="news.created_time || !chosenNews">
 				<VSpacer />
 				<VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
-				<VBtn color="primary" @click="onUpdate" v-if="chosenNews">Оновити</VBtn>
-				<VBtn color="primary" @click="onCreate" v-else> Створити </VBtn>
+				<VBtn
+					color="primary"
+					@click="onUpdate"
+					v-if="chosenNews"
+					:disabled="isLoading"
+					:loading="isLoading"
+				>
+					 Оновити</VBtn
+				>
+				<VBtn
+					color="primary"
+					@click="onCreate"
+					v-else
+					:disabled="isLoading"
+					:loading="isLoading"
+				>
+					Створити
+				</VBtn>
 			</VCardActions>
 			<VCardActions v-else>
-				<VSpacer/>
+				<VSpacer />
 				<v-skeleton-loader type="actions"></v-skeleton-loader>
 			</VCardActions>
 		</VCard>
@@ -181,6 +197,7 @@ export default {
 	},
 
 	data: () => ({
+		isLoading: false,
 		rules: [
 			value =>
 				!value || value.size < 3000000 || 'Зображення повинне бути менше 3 MB!',
@@ -230,8 +247,6 @@ export default {
 		async getChosenNews() {
 			if (this.chosenNews) {
 				try {
-					console.log(this.chosenNews);
-
 					const newNews = await newsService.getSimpleNewsById({
 						id: this.chosenNews,
 					});
@@ -251,17 +266,20 @@ export default {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
+					this.isLoading = true;
 					const params = [];
 					params.title = this.news.title;
 					params.category = this.news.category;
 					params.main_img = this.base64image;
 					params.content = this.news.content;
 					params.created_time = this.getCurrentTime;
-					console.log('params', params);
-					await newsService.addSimpleNew({ ...params });
+					await newsService.addSimpleNew({ ...params })
+					;
 					this.news = [];
-					this.$emit('addNews', params);
 					this.$v.$reset();
+					
+					this.$emit('addNews');
+					this.isLoading = false;
 				} catch (e) {
 					alert(e);
 				}
@@ -271,6 +289,7 @@ export default {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
+					this.isLoading = true;
 					const params = [];
 					params.id = this.news._id;
 					params.title = this.news.title;
@@ -281,6 +300,7 @@ export default {
 					this.$emit('addNews', params);
 					this.news = [];
 					this.$v.$reset();
+					this.isLoading = false;
 				} catch (e) {
 					alert(e);
 				}

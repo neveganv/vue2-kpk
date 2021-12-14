@@ -7,19 +7,18 @@
 			>
 		</div>
 		<VDivider />
-		<UsersList 
-		:users="users" 
-		@showEdit="showEdit"
-		@deleteUser="deleteUser" />
+		<UsersList :users="users" @showEdit="showEdit" @deleteUser="deleteUser" />
 		<add-users-dialog
 			:visible="visible"
-			@close="visible = false;chosenId = null"
+			@close="
+				visible = false;
+				chosenId = null;
+			"
 			v-if="visible"
 			@addUser="addUser"
 			:chosenUser="chosenId"
 			@updateUser="updateUser"
 		/>
-
 	</div>
 </template>
 
@@ -27,51 +26,52 @@
 import AddUsersDialog from './AddUsersDialog.vue';
 import UsersList from './UsersList.vue';
 import usersService from '@/request/users/usersService';
+import loader from '@/mixins/loader';
 
 export default {
+	mixins: [loader],
 	components: { AddUsersDialog, UsersList },
 
 	mounted() {
 		this.getUser();
-
 	},
 	methods: {
-
-		addUser(){
-		this.getUser();
-		this.visible = false
-		},
-		updateUser(){
+		addUser() {
 			this.getUser();
-			this.visible = false
-			console.log(123)
-			this.chosenId = null
+			this.visible = false;
 		},
-		async deleteUser(e){
-		try{	
-			console.log("e",e);
-		const params = [];
-		params.id = e;
-           await usersService.deleteUser({...params});
-		   this.getUser();
-		   
-		   }catch (e){
-			   alert(e);
-		   }
+		updateUser() {
+			this.getUser();
+			this.visible = false;
+			console.log(123);
+			this.chosenId = null;
+		},
+		async deleteUser(e) {
+			try {
+				this.setLoading(true);
+				const params = [];
+				params.id = e;
+				await usersService.deleteUser({ ...params });
+				this.getUser();
+				this.setLoading(false);
+			} catch (e) {
+				alert(e);
+			}
 		},
 		async getUser() {
 			try {
-			this.user = await usersService.getOne(JSON.parse(localStorage.token));
-			this.users = await usersService.getAll();
-			this.users = this.users.filter(user => user._id !== this.user._id)
-			console.log(this.users);
+				this.setLoading(true);
+				this.user = await usersService.getOne(JSON.parse(localStorage.token));
+				this.users = await usersService.getAll();
+				this.users = this.users.filter(user => user._id !== this.user._id);
+				this.setLoading(false);
 			} catch (e) {
 				alert(e);
 			}
 		},
 		showEdit(e) {
 			this.chosenId = e._id;
-			
+
 			this.visible = true;
 		},
 	},
@@ -79,7 +79,7 @@ export default {
 		visible: false,
 		visibleEdit: false,
 		users: [],
-		chosenId:null
+		chosenId: null,
 	}),
 };
 </script>

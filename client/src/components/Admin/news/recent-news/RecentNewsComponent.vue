@@ -7,7 +7,7 @@
 		</VRow>
 		<VRow>
 			<VCol>
-				<NewsList :news="news" @deleteNew="deleteNew" :sceletonLoader="sceletonLoader"/>
+				<NewsList :news="news" @deleteNew="deleteNew" />
 			</VCol>
 		</VRow>
 		<AddNewDialog
@@ -22,8 +22,10 @@
 import NewsList from './NewsList.vue';
 import AddNewDialog from './AddNewsDialog.vue';
 import newsService from '@/request/news/newsService';
+import loader from '@/mixins/loader';
 
 export default {
+	mixins:[loader],
 	components: { NewsList, AddNewDialog },
 	data: () => ({
 		visible: false,
@@ -50,9 +52,9 @@ export default {
 		},
 		async getNews() {
 			try {
-				this.sceletonLoader = true
+				this.setLoading(true)
 				this.news = await newsService.getCoolNews();
-				this.sceletonLoader = false
+				this.setLoading(false)
 			} catch (e) {
 
 				alert(e);
