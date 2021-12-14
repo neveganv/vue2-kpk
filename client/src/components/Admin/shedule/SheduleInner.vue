@@ -11,6 +11,7 @@
 			first-time="7:30"
 			locale="uk-UA"
 			:weekdays="[1, 2, 3, 4, 5, 6, 0]"
+			v-model="focus"
 		>
 			<template v-slot:day-body="{ date, week }">
 				<div
@@ -82,22 +83,35 @@ export default {
 		prev: {
 			require: false,
 		},
+		setToday: {
+			require: false,
+		},
 	},
 	watch: {
 		next: {
 			deep: true,
-			handler() {
+			handler(e) {
 				this.$refs.calendar.next();
+				this.$emit('getDate', this.$refs.calendar.title);
 			},
 		},
 		prev: {
 			deep: true,
 			handler() {
 				this.$refs.calendar.prev();
+				this.$emit('getDate', this.$refs.calendar.title);
+			},
+		},
+		setToday: {
+			deep: true,
+			handler(e) {
+				console.log(e)
+			this.focus = ''
 			},
 		},
 	},
 	data: () => ({
+		focus: '',
 		value: '',
 		ready: false,
 		selectedEvent: {},
@@ -116,7 +130,7 @@ export default {
 		showEvent({ nativeEvent, event }) {
 			const open = () => {
 				this.selectedEvent = event;
-		
+
 				this.selectedElement = nativeEvent.target;
 				requestAnimationFrame(() =>
 					requestAnimationFrame(() => (this.selectedOpen = true))
@@ -159,11 +173,12 @@ export default {
 		},
 	},
 	mounted() {
+		this.$emit('getDate', this.$refs.calendar.title);
 		this.ready = true;
 		this.scrollToTime();
 		this.updateTime();
 		this.$refs.calendar.checkChange();
-		console.log(this.selectedEvent)
+		console.log(this.selectedEvent);
 	},
 };
 </script>

@@ -1,89 +1,133 @@
 <template>
 	<div class="p-1">
-		<VRow class="pt-4 p-2">
-			<div class="d-flex">
-				<VCol :cols="chosenGroup ? 6 : 12">
-					<v-select
-						rounded
-						prepend-icon="mdi-account-multiple-plus"
-						:items="Object.values(groups)"
-						:item-value="'_id'"
-						:item-text="'name'"
-						v-model="chosenGroup"
-						label="Виберіть групу"
-						@change="changeGroup(chosenGroup)"
-						outlined
-						clearable
-						dense
-						sm
-						ref="choseGroup"
-						hide-details
-					>
-						<template #selection="{ item }">
-							<v-chip small color="primary">{{ item.name }}</v-chip>
-						</template></v-select
-					>
-				</VCol>
+		<VRow
+			class="pt-4 py-2 pl-2"
+			align="center"
+			no-gutters
+			justify-lg="space-between"
+			justify-md="space-around"
+			justify-sm="space-around"
+		>
+			<VCol cols="6">
+				<VRow no-gutters>
+					<VCol cols="5" sm="12" md="12" lg="5">
+						<v-select
+							rounded
+							prepend-icon="mdi-account-multiple-plus"
+							:items="Object.values(groups)"
+							:item-value="'_id'"
+							:item-text="'name'"
+							v-model="chosenGroup"
+							label="Виберіть групу"
+							@change="changeGroup(chosenGroup)"
+							outlined
+							clearable
+							dense
+							sm
+							ref="choseGroup"
+							hide-details
+						>
+							<template #selection="{ item }">
+								<v-chip small color="primary">{{ item.name }}</v-chip>
+							</template></v-select
+						>
+					</VCol>
 
-				<VCol col="3" class="d-flex" v-if="chosenGroup">
-					<v-btn
-						fab
-						text
-						small
-						color="grey darken-2"
-						@click="prev = Date.now()"
+					<VRow
+						align="center"
+						v-if="chosenGroup"
+						justify-md="center"
+						justify="center"
 					>
-						<v-icon small> mdi-chevron-left </v-icon>
-					</v-btn>
-					<v-btn
-						fab
-						text
-						small
-						color="grey darken-2"
-						@click="next = Date.now()"
-					>
-						<v-icon small> mdi-chevron-right </v-icon>
-					</v-btn>
-					<v-toolbar-title v-if="$refs.calendar">
-						{{ $refs.calendar.title }}
-					</v-toolbar-title>
-				</VCol>
-			</div>
-
-			<div class="ml-auto d-flex">
-				<VCol cols="5" v-if="chosenGroup">
-					<v-menu bottom right>
-						<template v-slot:activator="{ on, attrs }">
+						<VCol cols="auto">
 							<v-btn
-								outlined
+								fab
+								text
+								small
 								color="grey darken-2"
-								rounded
-								v-bind="attrs"
-								v-on="on"
+								@click="prev = Date.now()"
 							>
-								<span>{{ typeToLabel[type] }}</span>
-								<v-icon right> mdi-menu-down </v-icon>
+								<v-icon small> mdi-chevron-left </v-icon>
 							</v-btn>
-						</template>
-						<v-list rounded>
-							<v-list-item @click="type = 'week'">
-								<v-list-item-title>Тиждень</v-list-item-title>
-							</v-list-item>
-							<v-list-item @click="type = 'month'">
-								<v-list-item-title>Місяць</v-list-item-title>
-							</v-list-item>
-							<v-list-item @click="type = 'day'">
-								<v-list-item-title>День</v-list-item-title>
-							</v-list-item>
-						</v-list>
-					</v-menu>
-				</VCol>
-				<VCol cols="6">
-					<VBtn rounded outlined color="primary" @click="visible = true">
+						</VCol>
+
+						<VCol cols="auto">
+							<v-btn
+								fab
+								text
+								small
+								color="grey darken-2"
+								@click="next = Date.now()"
+							>
+								<v-icon small> mdi-chevron-right </v-icon>
+							</v-btn>
+						</VCol>
+						<VCol cols="auto">
+							<v-toolbar-title v-if="calendarTitle">
+								{{ calendarTitle || '--' }}
+							</v-toolbar-title>
+						</VCol>
+					</VRow>
+				</VRow>
+			</VCol>
+			<VCol cols="auto" lg="auto" md="12" sm="12">
+				<VRow
+					no-gutters
+					class="mr-5"
+					justify="end"
+					justify-md="center"
+					justify-sm="center"
+				>
+					<v-btn
+						outlined
+						rounded
+						class="mr-4 my-1"
+						color="grey darken-2"
+						@click="setToday = Date.now()"
+						v-if="chosenGroup"
+					>
+						Сьогодні
+					</v-btn>
+
+					<div cols="2" class="mr-5 my-1" v-if="chosenGroup">
+						<v-menu bottom right>
+							<template v-slot:activator="{ on, attrs }">
+								<v-btn
+									outlined
+									color="grey darken-2"
+									rounded
+									v-bind="attrs"
+									v-on="on"
+								>
+									<span>{{ typeToLabel[type] }}</span>
+									<v-icon right> mdi-menu-down </v-icon>
+								</v-btn>
+							</template>
+							<v-list rounded>
+								<v-list-item @click="type = 'week'">
+									<v-list-item-title>Тиждень</v-list-item-title>
+								</v-list-item>
+								<v-list-item @click="type = 'month'">
+									<v-list-item-title>Місяць</v-list-item-title>
+								</v-list-item>
+								<v-list-item @click="type = 'day'">
+									<v-list-item-title>День</v-list-item-title>
+								</v-list-item>
+							</v-list>
+						</v-menu>
+					</div>
+
+					<VBtn
+						rounded
+						outlined
+						color="primary"
+						@click="visible = true"
+						class="my-1"
+					>
 						<v-icon left> mdi-calendar-plus </v-icon>Додати подію
 					</VBtn>
-				</VCol>
-			</div>
+				</VRow>
+			</VCol>
 		</VRow>
 
 		<VRow v-show="chosenGroup">
@@ -94,6 +138,8 @@
 					:next="next"
 					:events="events"
 					@editEvent="editEvent"
+					@getDate="getDate"
+					:setToday="setToday"
 				/>
 			</VCol>
 		</VRow>
@@ -154,6 +200,8 @@ export default {
 		},
 	},
 	data: () => ({
+		setToday: '',
+		calendarTitle: '',
 		events: [],
 		prev: '',
 		next: '',
@@ -175,6 +223,9 @@ export default {
 		},
 	},
 	methods: {
+		getDate(e) {
+			this.calendarTitle = e;
+		},
 		editEvent(e) {
 			this.visibleEditEvent = true;
 			this.chosenEvent = e;
