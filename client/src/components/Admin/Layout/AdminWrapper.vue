@@ -19,7 +19,6 @@
 		</div>
 
 		<v-navigation-drawer
-		
 			permanent
 			absolute
 			style="top: 65px; height: calc(100vh - 65px)"
@@ -28,7 +27,7 @@
 			:class="{ fixed: fixed }"
 		>
 			<VDivider />
-			<VList  dense shaped class="pl-0" >
+			<VList dense shaped class="pl-0">
 				<VListItemGroup color="primary">
 					<VListItem :to="{ path: '/admin' }">
 						<VListItemIcon>
@@ -61,8 +60,6 @@
 						:value="specialitiesSelector"
 						v-for="folder in folders"
 						:key="folder._id"
-						
-						
 					>
 						<template v-slot:activator>
 							<VListItemIcon>
@@ -71,7 +68,7 @@
 							<VListItemTitle>{{ folder.name }}</VListItemTitle>
 						</template>
 						<div v-for="page in folder.pages" :key="page._id">
-							<VListItem  :to="{path:`/admin-dynamic-page/${page._id}`}">
+							<VListItem :to="{ path: `/admin-dynamic-page/${page._id}` }">
 								<VListItemIcon>
 									<VIcon>mdi-note-outline</VIcon>
 								</VListItemIcon>
@@ -79,7 +76,6 @@
 							</VListItem>
 						</div>
 						<VListItem
-						
 							@click="
 								visible = true;
 								addPageVisibility = true;
@@ -126,7 +122,7 @@
 			>
 				<VCard class="content-block_wrap-card">
 					<slot></slot>
-				<MainLoader />
+					<MainLoader />
 				</VCard>
 			</v-container>
 		</v-main>
@@ -153,7 +149,7 @@ export default {
 	components: {
 		UserDropDown,
 		MainLoader,
-		AddNewPageDialog
+		AddNewPageDialog,
 	},
 	created() {
 		window.addEventListener('scroll', this.handleScroll);
@@ -192,7 +188,6 @@ export default {
 		},
 		async getUser() {
 			try {
-
 				this.user = await usersService.getOne(JSON.parse(localStorage.token));
 			} catch (e) {
 				alert(e);
@@ -209,6 +204,7 @@ export default {
 			}
 			console.log(myFolder);
 			myFolder[0].pages.push(newPage);
+			this.$router.push({ path: `/admin-dynamic-page/${e._id}` });
 			this.addPageVisibility = false;
 		},
 		updateFolders(folder) {

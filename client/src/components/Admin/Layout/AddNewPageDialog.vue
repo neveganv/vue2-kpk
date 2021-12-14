@@ -15,8 +15,9 @@
 							"
 							outlined
 							dense
-							hide-details
 							v-model="page.name"
+							:hide-details="!NameError.length"
+							:error-messages="NameError"
 						>
 						</VTextField>
 					</VCol>
@@ -37,7 +38,10 @@
 							multiple
 							deletable-chips
 							:menu-props="{ bottom: true, offsetY: true }"
+							:hide-details="!PermisiionError.length"
+							:error-messages="PermisiionError"
 						>
+							>
 							<template #selection="{ item }">
 								<v-chip small color="primary">{{ item.title }}</v-chip>
 							</template></v-select
@@ -47,10 +51,10 @@
 			</VCardText>
 			<VCardActions>
 				<VSpacer />
-				<VBtn   color="primary" @click="onCreateFolder" v-if="!addPageVisibility">
+				<VBtn color="primary" @click="onCreateFolder" v-if="!addPageVisibility">
 					Додати Папку
 				</VBtn>
-				<VBtn  color="primary" @click="onCreatePage" v-else>
+				<VBtn color="primary" @click="onCreatePage" v-else>
 					Додати Сторінку
 				</VBtn>
 			</VCardActions>
@@ -62,12 +66,25 @@
 import pageService from '@/request/page/pageService';
 import folderService from '@/request/folders/folderService';
 import positionService from '@/request/positions/positionService';
-
+import loader from '@/mixins/loader';
+import { validationMixin } from 'vuelidate';
+import { required } from 'vuelidate/lib/validators';
 export default {
+	mixins: [loader, validationMixin],
 	data: () => ({
 		page: [],
 		categories: [],
 	}),
+	validations: {
+		page: {
+			name: {
+				required,
+			},
+			permissions: {
+				required,
+			},
+		},
+	},
 	props: {
 		visible: {
 			require: true,
@@ -96,21 +113,27 @@ export default {
 	},
 	methods: {
 		async onCreateFolder() {
-			try {
-				const params = [];
-				params.name = this.page.name;
-				params.positions = this.page.permissions;
-				await folderService
-					.addFolder({
-						...params,
-					})
-					.then(res => {
-						this.page = [];
-						this.$emit('addedFolder', res);
-						this.$emit('close');
-					});
-			} catch (e) {
-				alert(e);
+			this.$v.$touch();
+			if (!this.$v.$invalid) {
+				try {
+					this.setLoading(true);
+					const params = [];
+					params.name = this.page.name;
+					params.positions = this.page.permissions;
+					await folderService
+						.addFolder({
+							...params,
+						})
+						.then(res => {
+							this.page = [];
+							this.$emit('addedFolder', res);
+							this.$emit('close');
+						});
+					this.$v.$reset();
+					this.setLoading(false);
+				} catch (e) {
+					alert(e);
+				}
 			}
 		},
 		async getPositions() {
@@ -121,27 +144,57 @@ export default {
 			}
 		},
 		async onCreatePage() {
-			try {
-				const params = [];
-				params.name = this.page.name;
-				params.folder = this.folder._id;
-				await pageService
-					.addPage({
-						...params,
-					})
-					.then(res => {
-						this.page = [];
-						this.$emit('addNewPage', res);
-						this.$emit('close');
-					});
-			} catch (e) {
-				alert(e);
+			this.$v.page.name.$touch();
+			if (!this.$v.page.name.$invalid) {
+				try {
+					this.setLoading(true);
+					const params = [];
+					params.name = this.page.name;
+					params.folder = this.folder._id;
+					await pageService
+						.addPage({
+							...params,
+						})
+						.then(res => {
+							this.page = [];
+							this.$emit('addNewPage', res);
+							this.$emit('close');
+						});
+					this.$v.$reset();
+					this.setLoading(false);
+				} catch (e) {
+					alert(e);
+				}
 			}
 		},
-    
-    
 	},
 	computed: {
+		NameError() {
+			const errors = [];
+			if (!this.$v.page.name.$dirty) {
+				return errors;
+			}
+			if (this.isEditFolder) {
+				!this.$v.page.name.required &&
+					errors.push('Назва папки обов`язкове поле для заповнення');
+				return errors;
+			} else {
+				!this.$v.page.name.required &&
+					errors.push('Назва сторінки обов`язкове поле для заповнення');
+				return errors;
+			}
+		},
+		PermisiionError() {
+			const errors = [];
+			if (this.isEditFolder) {
+				if (!this.$v.page.permissions.$dirty) {
+					return errors;
+				}
+				!this.$v.page.permissions.required &&
+					errors.push('Права доступу обов`язкове поле для заповнення');
+			}
+			return errors;
+		},
 		visibility: {
 			get() {
 				return this.visible;

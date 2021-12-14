@@ -3,15 +3,23 @@
 		<VRow no-gutters align="center" justify="space-between">
 			<VRow>
 				<VCol cols="auto"
-					><VBtn  text rounded color="grey darken-1" class="white--text" @click="onChangeFolder">
-						<VIcon left> mdi-folder-edit-outline
-						</VIcon>{{ folderName || '--' }}</VBtn
+					><VBtn
+						text
+						rounded
+						color="grey darken-1"
+						class="white--text"
+						@click="onChangeFolder"
+					>
+						<VIcon left> mdi-folder-edit-outline </VIcon
+						>{{ folderName || '--' }}</VBtn
 					></VCol
 				>
 				<VIcon small>mdi-chevron-right</VIcon>
 				<VCol cols="auto"
-					><VBtn text color="primary" rounded> <VIcon left> mdi-file-edit-outline
-						</VIcon>{{ page.name || '--' }}</VBtn></VCol
+					><VBtn text color="primary" rounded>
+						<VIcon left> mdi-file-edit-outline </VIcon
+						>{{ page.name || '--' }}</VBtn
+					></VCol
 				>
 			</VRow>
 			<div class="d-flex">
@@ -60,8 +68,10 @@
 import { VueEditor } from 'vue2-editor';
 import AddNewPageDialog from '../Layout/AddNewPageDialog';
 import pageService from '@/request/page/pageService';
+import loader from '@/mixins/loader';
 
 export default {
+	mixins:[loader],
 	components: {
 		VueEditor,
 		AddNewPageDialog,
@@ -73,7 +83,7 @@ export default {
 		changeFolderVisible: false,
 		isEditFolder: false,
 		editFolderVisivle: false,
-        folderName:''
+		folderName: '',
 	}),
 	watch: {
 		$route: {
@@ -88,10 +98,11 @@ export default {
 	},
 	methods: {
 		async getPage() {
+			this.setLoading(true);
 			const newPage = await pageService.getOne({ _id: this.$route.params.id });
 			this.page = newPage[0];
-            this.folderName =this.page.folder.name
-			console.log(this.page);
+			this.folderName = this.page.folder.name;
+			this.setLoading(false);
 		},
 		onCreate() {
 			console.log(this.page.content);

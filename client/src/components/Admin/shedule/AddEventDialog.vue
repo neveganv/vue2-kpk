@@ -77,11 +77,9 @@
 											:color="event.name ? event.name.color : 'primary'"
 										>
 											<template #selection="{ item }">
-												<v-chip
-													
-													:color="item.name ? item.color : 'primary'"
-													>{{ item.name }}</v-chip
-												>
+												<v-chip :color="item.name ? item.color : 'primary'">{{
+													item.name
+												}}</v-chip>
 											</template>
 											<template slot="item" slot-scope="data">
 												<VRow>
@@ -141,14 +139,16 @@
 												></v-text-field>
 											</template>
 											<v-date-picker
-											no-title
+												no-title
 												v-model="event.start_date"
 												locale="uk-UA"
 												@input="menu = false"
 											></v-date-picker>
 										</v-menu>
 									</VCol>
-									<VCol cols="auto"><VIcon>mdi-clock-time-four-outline</VIcon></VCol>
+									<VCol cols="auto"
+										><VIcon>mdi-clock-time-four-outline</VIcon></VCol
+									>
 									<VCol cols="2">
 										<v-menu
 											ref="menu1"
@@ -232,7 +232,7 @@
 							<VCardActions>
 								<VSpacer />
 								<v-btn color="error" text @click="onCancel"> Скасувати </v-btn>
-								<v-btn color="primary" @click="onCreate"> Додати </v-btn>
+								<v-btn color="primary" @click="onCreate" :loading="isLoading" :disabled="isLoading"> Додати </v-btn>
 							</VCardActions>
 						</VCard>
 					</v-stepper-content>
@@ -264,6 +264,7 @@ export default {
 	components: { AddGroupDialog, AddClassDialog },
 	mixins: [validationMixin],
 	data: () => ({
+		isLoading: false,
 		e1: 1,
 		menu: false,
 		menu2: false,
@@ -314,6 +315,7 @@ export default {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
+					this.isLoading = true;
 					const params = {};
 					params.class = this.event.name.name;
 					params.classId = this.event.name._id;
@@ -337,6 +339,7 @@ export default {
 					this.$v.$reset();
 					this.e1 = 1;
 					this.event = [];
+					this.isLoading = false;
 				} catch (e) {
 					alert(e);
 				}

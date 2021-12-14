@@ -162,7 +162,14 @@
 			<VCardActions>
 				<VSpacer />
 				<v-btn color="error" text @click="onCancel"> Скасувати </v-btn>
-				<v-btn color="primary" @click="onUpdate"> Оновити </v-btn>
+				<v-btn
+					color="primary"
+					@click="onUpdate"
+					:loading="isLoading"
+					:disabled="isLoading"
+				>
+					Оновити
+				</v-btn>
 			</VCardActions>
 		</VCard>
 	</VDialog>
@@ -208,6 +215,7 @@ export default {
 		this.getEvent();
 	},
 	data: () => ({
+		isLoading: false,
 		menu: false,
 		menu2: false,
 		menu3: false,
@@ -218,6 +226,7 @@ export default {
 	methods: {
 		async getEvent() {
 			try {
+				this.isLoading = true;
 				const newEvent = await sheduleService.getEventById({
 					id: this.chosenEvent,
 				});
@@ -232,6 +241,7 @@ export default {
 					group: newEvent.group,
 				};
 				console.log(this.event);
+				this.isLoading = false;
 			} catch (e) {
 				alert(e);
 			}
@@ -248,21 +258,21 @@ export default {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
+					this.isLoading = true;
 					const params = {};
 					params.class = this.event.name.name;
 					params.classId = this.event.name._id;
 					params.group = this.event.group;
 					if (this.event.link) {
 						params.link = this.event.link;
-					}
-					else{
-						params.link = null
+					} else {
+						params.link = null;
 					}
 					params.color = this.event.name.color;
 					if (this.event.content) {
 						params.content = this.event.content;
-					}else{
-						params.content = null
+					} else {
+						params.content = null;
 					}
 					params.start = `${
 						this.event.start_date + ' ' + this.event.start_time
@@ -272,6 +282,7 @@ export default {
 					await sheduleService.updateEvent({ id: this.chosenEvent, ...params });
 					this.$emit('updateEvent', params.group);
 					this.$v.$reset();
+					this.isLoading = false;
 				} catch (e) {
 					alert(e);
 				}
