@@ -24,7 +24,7 @@
 			</VCardText>
 			<VCardActions>
 				<VSpacer />
-				<VBtn color="primary" @click="onCreate"> Створити групу </VBtn>
+				<VBtn color="primary" @click="onCreate" :loading="isLoading" :disabled="isLoading"> Створити групу </VBtn>
 			</VCardActions>
 		</VCard>
 	</VDialog>
@@ -49,18 +49,21 @@ export default {
 	},
 	data: () => ({
 		group: '',
+		isLoading:false
 	}),
 	methods: {
 		async onCreate() {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
+					this.isLoading = true;
 					const params = [];
 					params.name = this.group;
 					const group = await groupService.createGroup({ ...params });
 					this.$emit('addGroup', group);
 					this.$v.$reset();
 					this.group = '';
+					this.isLoading = false;
 				} catch (e) {
 					alert(e);
 				}

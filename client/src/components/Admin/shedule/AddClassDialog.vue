@@ -36,7 +36,7 @@
 			</VCardText>
 			<VCardActions>
 				<VSpacer />
-				<VBtn color="primary" @click="onCreate">Додати пару</VBtn>
+				<VBtn color="primary" @click="onCreate" :loading="isLoading" :disabled="isLoading">Додати пару</VBtn>
 			</VCardActions>
 		</VCard>
 	</VDialog>
@@ -61,6 +61,7 @@ export default {
 		},
 	},
 	data: () => ({
+		isLoading:false,
 		className: '',
 		colorClass: '',
 	}),
@@ -69,6 +70,7 @@ export default {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
+					this.isLoading = true
 					const params = {};
 					params.name = this.className;
 					params.color = this.colorClass;
@@ -77,6 +79,7 @@ export default {
 					this.$v.$reset();
 					console.log(params);
 					this.className = '';
+						this.isLoading = false
 				} catch (e) {
 					alert(e);
 				}
