@@ -65,13 +65,13 @@
 				<VCol cols="auto" class="black--text">Освітній процес</VCol>
 			</VRow>
 			<VRow no-gutters style="margin-top: 30px; margin-bottom: 50px">
-				<v-expansion-panels v-model="panel" >
+				<v-expansion-panels v-model="panel" multiple>
 					<v-expansion-panel
 						v-for="(course, i) in specialitie.courses"
 						:key="i"
 					>
 						<v-expansion-panel-header> {{ i }} курс </v-expansion-panel-header>
-						<v-expansion-panel-content>
+						<v-expansion-panel-content style="word-break:break-all">
 							{{ course }}
 						</v-expansion-panel-content>
 					</v-expansion-panel>
@@ -133,7 +133,7 @@ export default {
 			bottom: 0;
 			box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
 			backdrop-filter: blur(5px);
-            filter:blur(5px)
+			filter: blur(5px);
 		}
 	}
 	.content {

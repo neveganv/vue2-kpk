@@ -28,8 +28,10 @@
 import AddSpecialitiesDialog from './AddSpecialitiesDialog.vue';
 import SpecialitiesList from './SpecialitiesList.vue';
 import specialityService from '@/request/specialty/specialtyService';
+import loader from '@/mixins/loader';
 
 export default {
+	mixins:[loader],
 	components: { AddSpecialitiesDialog, SpecialitiesList },
 	data: () => ({
 		visible: false,
@@ -46,10 +48,9 @@ export default {
 			this.getSpecialities();
 		},
 		async getSpecialities() {
-			this.SceletonLoader = true;
+			this.setLoading(true)
 			this.specialities = await specialityService.getAllSpecialty();
-			this.SceletonLoader = false;
-			console.log(this.specialities);
+			this.setLoading(false)
 		},
 	},
 };

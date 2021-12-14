@@ -24,8 +24,7 @@
 							dense
 							v-model="specialities.number"
 							:error-messages="NumberError"
-                            type="number"
-
+							type="number"
 						>
 						</VTextField>
 					</VCol>
@@ -74,9 +73,11 @@
 										outlined
 										auto-grow
 										:label="`${'Опис діяльності на  ' + (key + 1) + ' курсі'}`"
-										rows="2"
+										rows="5"
 										row-height="20"
 										v-model="specialities.courses[key + 1]"
+										:counter="210"
+										maxlength="210"
 									></v-textarea>
 								</v-expansion-panel-content>
 							</v-expansion-panel>
@@ -99,7 +100,7 @@
 			<VCardActions>
 				<VSpacer />
 				<VBtn text color="error" @click="onCancel">Скасувати</VBtn>
-				<VBtn color="primary" @click="onCreate">Додати</VBtn>
+				<VBtn color="primary" @click="onCreate" :loading="isLoading" :disabled="isLoading">Додати</VBtn>
 			</VCardActions>
 		</VCard>
 	</VDialog>
@@ -136,6 +137,7 @@ export default {
 		},
 	},
 	data: () => ({
+		isLoading:false,
 		specialities: {
 			title: '',
 			img: null,
@@ -166,6 +168,7 @@ export default {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
+					this.isLoading = true;
 					const params = [];
 					params.name = this.specialities.title;
 					params.img = this.base64image;
@@ -182,6 +185,7 @@ export default {
 						content: '',
 						number: '',
 					};
+					this.isLoading = true;
 				} catch (e) {
 					alert(e);
 				}
