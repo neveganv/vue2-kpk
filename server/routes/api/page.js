@@ -12,4 +12,10 @@ router.post("/getAllPage", page.findAll);
 //Find by value
 router.post("/getById", page.findById);
 
+//delete a page by id
+router.delete("/:id", page.delete);
+
+//update a page
+router.put("/:id", page.update);
+
 module.exports = router
