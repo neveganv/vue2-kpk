@@ -17,8 +17,11 @@ export default {
 		return response?.data
 	},
 	async update(id, params){
-		console.log(params)
 		const response = await requestService.put(`${prefix}/${id}`, params)
+		return response?.data
+	},
+	async delete(id){
+		const response = await requestService.delete(`${prefix}/${id}`)
 		return response?.data
 	},
 };
