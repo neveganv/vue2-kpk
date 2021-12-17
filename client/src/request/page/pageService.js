@@ -16,4 +16,9 @@ export default {
 		const response = await requestService.post(`${prefix}/getById`, params)
 		return response?.data
 	},
+	async update(id, params){
+		console.log(params)
+		const response = await requestService.put(`${prefix}/${id}`, params)
+		return response?.data
+	},
 };

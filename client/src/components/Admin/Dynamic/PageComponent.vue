@@ -38,7 +38,7 @@
 		<VDivider class="mb-5" />
 
 		<VRow no-gutters>
-			<vue-editor class="editor w-100 pl-2" v-model="page.content" />
+			<vue-editor class="editor w-100 pl-2" v-model="page.html" />
 		</VRow>
 		<VRow justify="end">
 			<v-speed-dial v-model="fab" transition="slide-y-reverse-transition">
@@ -104,8 +104,10 @@ export default {
 			this.folderName = this.page.folder.name;
 			this.setLoading(false);
 		},
-		onCreate() {
-			console.log(this.page.content);
+		async onCreate() {
+			const params = []
+			params.html = this.page.html
+			await pageService.update(this.$route.params.id, {...params});
 		},
 		onCancel() {
 			this.page = [];
