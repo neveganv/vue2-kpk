@@ -64,6 +64,8 @@
       :visible="editFolderVisivle"
       @close="editFolderVisivle = false"
       :isEditFolder="isEditFolder"
+	  :editFolder="page.folder"
+	  @update="changedFolder"
     />
   </div>
 </template>
@@ -134,6 +136,10 @@ export default {
       this.isEditFolder = true;
       this.editFolderVisivle = true;
     },
+	changedFolder() {
+	  this.getPage()
+      this.editFolderVisivle = false;
+	}
   },
 };
 </script>
