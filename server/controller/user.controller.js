@@ -100,7 +100,9 @@ exports.findAll = (req, res) => {
 
 //get by token
 exports.getUser = (req, res) => {
+    
     User.findOne({ _id: req.userId }, function (err, user) {
+
         if (user === null) {
             return res.status(400).send({
                 message: "Користувача не знайдено."
@@ -109,7 +111,7 @@ exports.getUser = (req, res) => {
         else {
             res.send(user)
         }
-    });
+    }).populate('position');
 }
 
 exports.update = (req, res) => {
@@ -210,6 +212,7 @@ exports.findUserById = (req, res) => {
     User.find({
         _id: req.body.id
     })
+    .populate('position')
     .then(data => {
         res.send(data);
     })

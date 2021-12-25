@@ -1,13 +1,10 @@
 <template>
 	<transition name="fade">
 		<div class="loader-wrapper" v-if="isLoading">
-			<!-- <VProgressCircular
-				:size="70"
-				:width="7"
-				indeterminate
-				class="loader"
-				color="primary"
-			></VProgressCircular> -->
+			<VProgressLinear
+				 indeterminate
+                color="primary"
+			></VProgressLinear>
 		</div>
 	</transition>
 </template>
@@ -24,14 +21,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .loader-wrapper {
 	position: absolute;
 	width: 100%;
-	height: 100%;
+	height: auto;
 	left: 0;
-	top: 0;
-	background: white;
+	top: 64px;
 	overflow: hidden;
 	z-index: 200;
 	display: flex;

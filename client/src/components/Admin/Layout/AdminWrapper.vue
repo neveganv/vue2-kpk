@@ -113,6 +113,7 @@
         </div>
       </VList>
     </v-navigation-drawer>
+          <MainLoaderLine />
     <v-main>
       <!-- Provides the application the proper gutter -->
       <v-container
@@ -141,6 +142,7 @@
 import UserDropDown from "./UserDropDown";
 import AddNewPageDialog from "./AddNewPageDialog";
 import MainLoader from "@/common/MainLoader";
+import MainLoaderLine from "@/common/MainLoaderLine";
 import usersService from "@/request/users/usersService";
 import folderService from "@/request/folders/folderService";
 import pageService from "@/request/page/pageService";
@@ -150,6 +152,7 @@ export default {
     UserDropDown,
     MainLoader,
     AddNewPageDialog,
+    MainLoaderLine
   },
   created() {
     window.addEventListener("scroll", this.handleScroll);
