@@ -5,6 +5,10 @@ module.exports = mongoose => {
             title: {
                 type: String,
                 require: true,
+            },
+            type: {
+                type: String,
+                require: true,
             }
         })
     )

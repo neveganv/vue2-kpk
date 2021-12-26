@@ -1,23 +1,23 @@
 <template>
-	<VMenu offset-y>
+	<VMenu offset-y v-if="user">
 		<template v-slot:activator="{ on, attrs }">
 			<span v-bind="attrs" v-on="on">
 				<span class="d-flex align-center">
-					<Avatar :name="user.name + ' ' + user.surname" size="40" />
+					<Avatar :name="user.name + ' ' + user.surname" size="40"  />
 					<VIcon v-if="attrs['aria-expanded'] === 'false'">mdi-menu-down</VIcon>
 					<VIcon v-else>mdi-menu-up</VIcon>
 				</span>
 			</span>
 		</template>
-		<VCard>
-			<VList>
+		<VCard @click.stop :ripple="false" style="cursor:auto">
+			<VList >
 				<VListItem>
 					<VListItemAvatar>
 						<Avatar :name="user.name + ' ' + user.surname" size="50" />
 					</VListItemAvatar>
 					<VListItemContent>
-						<VListItemTitle>{{ user.name }} {{ user.surname }}</VListItemTitle>
-						<VListItemSubtitle>{{ user.email }}</VListItemSubtitle>
+						<VListItemTitle >{{ user.name }} {{ user.surname }} </VListItemTitle>
+						<VListItemSubtitle>{{ user.positionTitle }}</VListItemSubtitle>
 					</VListItemContent>
 				</VListItem>
 				<VDivider />
@@ -40,7 +40,7 @@
 
 <script>
 import Avatar from './Avatar.vue';
-
+import user from '@/mixins/user'
 export default {
 	props: {
 		user: {
@@ -51,9 +51,11 @@ export default {
 	components: {
 		Avatar,
 	},
+	mixins:[user],
 
 	methods: {
 		onLeft() {
+			this.logOut();
 			localStorage.removeItem('token');
 			this.$router.push('/admin/login')
 		},

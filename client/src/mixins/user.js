@@ -1,14 +1,17 @@
 import { mapActions, mapGetters } from 'vuex';
+import * as getterTypes from '@/store/modules/auth/types/getters';
+import * as actionTypes from '@/store/modules/auth/types/actions';
 
-export default{
-    async mounted() {
-		this.getUser();
-		console.log(123)
+export default {
+	computed: {
+		...mapGetters('auth', {
+			getUser: getterTypes.GET_USER,
+			permissions: getterTypes.GET_PERMISSIONS,
+		}),
 	},
 	methods: {
-		...mapActions(['getUser']),
+		...mapActions('auth', {
+			logOut: actionTypes.LOG_OUT,
+		}),
 	},
-	computed: {
-		...mapGetters(['AllUser']),
-	},
-}
+};

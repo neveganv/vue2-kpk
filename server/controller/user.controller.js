@@ -212,7 +212,6 @@ exports.findUserById = (req, res) => {
     User.find({
         _id: req.body.id
     })
-    .populate('position')
     .then(data => {
         res.send(data);
     })

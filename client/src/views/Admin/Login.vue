@@ -44,6 +44,8 @@
 
 <script>
 import usersService from '@/request/users/usersService';
+import * as actionTypes from '@/store/modules/auth/types/actions';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   data: () => ({
@@ -52,15 +54,22 @@ export default {
     passwordVisible:false
   }),
   methods: {
+    ...mapActions('auth', {
+			logIn: actionTypes.FETCH_USER,
+      fetchUser: actionTypes.FETCH_USER,
+
+		}),
     async login() {
       try {
         const params = [];
         params.email = this.email;
-		params.password = this.password
-		
+        params.password = this.password
+        
         let token = await usersService.login({ ...params });
-		localStorage.token = JSON.stringify(token)
-		this.$router.push('/admin')
+        localStorage.token = JSON.stringify(token)
+        this.logIn(token)
+        console.log(token)
+        this.$router.push('/admin')
       } catch (e) {
         alert(e);
       }

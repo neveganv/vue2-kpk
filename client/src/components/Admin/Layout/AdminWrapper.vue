@@ -8,13 +8,14 @@
             <img :src="require('@/assets/img/logo-admin.svg')" alt="" />
           </VBadge>
         </div>
+        <span class="pl-10 ml-10 error--text"> перелогіньтеся</span>
         <VSpacer></VSpacer>
         <VBtn icon class="mr-5">
           <v-badge overlap content="99+">
             <VIcon>mdi-bell</VIcon>
           </v-badge>
         </VBtn>
-        <UserDropDown :user="user" />
+        <UserDropDown :user="getUser" />
       </v-app-bar>
     </div>
 
@@ -29,25 +30,25 @@
       <VDivider />
       <VList dense shaped class="pl-0">
         <VListItemGroup color="primary">
-          <VListItem :to="{ path: '/admin' }">
+          <VListItem :to="{ path: '/admin' }" v-if="permissions.owner">
             <VListItemIcon>
               <VIcon>mdi-view-dashboard-outline</VIcon>
             </VListItemIcon>
             <VListItemTitle>Головна</VListItemTitle>
           </VListItem>
-          <VListItem :to="{ path: '/admin-news' }">
+          <VListItem :to="{ path: '/admin-news' }" v-if="permissions.can_edit_news">
             <VListItemIcon>
               <VIcon>mdi-newspaper-variant-outline</VIcon>
             </VListItemIcon>
             <VListItemTitle>Новини</VListItemTitle>
           </VListItem>
-          <VListItem :to="{ path: '/admin-specialities' }">
+          <VListItem :to="{ path: '/admin-specialities' }" v-if="permissions.can_edit_specialities">
             <VListItemIcon>
               <VIcon>mdi-folder-account-outline</VIcon>
             </VListItemIcon>
             <VListItemTitle>Спеціальності</VListItemTitle>
           </VListItem>
-          <VListItem :to="{ path: '/admin-shedule' }">
+          <VListItem :to="{ path: '/admin-shedule' }" v-if="permissions.can_edit_shedule">
             <VListItemIcon>
               <VIcon>mdi-calendar</VIcon>
             </VListItemIcon>
@@ -146,6 +147,8 @@ import MainLoaderLine from "@/common/MainLoaderLine";
 import usersService from "@/request/users/usersService";
 import folderService from "@/request/folders/folderService";
 import pageService from "@/request/page/pageService";
+import user from '@/mixins/user'
+
 
 export default {
   components: {
@@ -154,6 +157,7 @@ export default {
     AddNewPageDialog,
     MainLoaderLine
   },
+  mixins:[user],
   created() {
     window.addEventListener("scroll", this.handleScroll);
   },
@@ -163,17 +167,19 @@ export default {
     console.log("destroyed");
   },
   mounted() {
-    this.getUser();
+
     this.getFolders();
+    console.log('userInfo',this.getUser)
+    console.log('permissions',this.permissions)
   },
   data: () => ({
     mini: true,
     specialitiesSelector: false,
     fixed: false,
-    user: {},
     visible: false,
     addPageVisibility: false,
     folders: [],
+    user:{},
     selectedFolder: null,
     foldersLoader: false,
     activePage: true,
@@ -189,13 +195,13 @@ export default {
       });
       // .catch(() => {});
     },
-    async getUser() {
-      try {
-        this.user = await usersService.getOne(JSON.parse(localStorage.token));
-      } catch (e) {
-        alert(e);
-      }
-    },
+    // async getUserMethod() {
+    //   try {
+    //     this.user = await usersService.getOne(JSON.parse(localStorage.token));
+    //   } catch (e) {
+    //     alert(e);
+    //   }
+    // },
     handleScroll() {
       this.fixed = window.pageYOffset > 55;
     },
@@ -224,7 +230,6 @@ export default {
           item.pages = newPage.filter((e) => e.folder._id == item._id);
         });
         this.foldersLoader = false;
-        console.log(this.folders);
       } catch (e) {
         alert(e);
       }

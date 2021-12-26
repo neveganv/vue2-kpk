@@ -61,9 +61,8 @@ export default {
 		async getUser() {
 			try {
 				this.setLoading(true);
-				this.user = await usersService.getOne(JSON.parse(localStorage.token));
 				this.users = await usersService.getAll();
-				this.users = this.users.filter(user => user._id !== this.user._id);
+				this.users = this.users.filter(user => user.token !== JSON.parse(localStorage.token));
 				this.setLoading(false);
 			} catch (e) {
 				alert(e);

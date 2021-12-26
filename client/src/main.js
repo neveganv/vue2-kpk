@@ -2,10 +2,14 @@ import Vue from 'vue';
 import App from './App.vue';
 import store from '@/store';
 import router from './router';
+
+//LIBRARES
 import vuetify from './plugins/vuetify';
 import vuelidate from 'vuelidate'
-import { VueMaskDirective } from 'v-mask';
 import moment from 'moment'
+
+//DIRECTIVES
+import { VueMaskDirective } from 'v-mask';
 
 Vue.directive('mask', VueMaskDirective);
 Vue.prototype.moment = moment

@@ -5,7 +5,8 @@ const Position = db.position
 // Create a new position
 exports.create = (req, res) => {
     const position = new Position({
-        title: req.body.title
+        title: req.body.title,
+        type: req.body.type,
     });
     position
         .save(position)

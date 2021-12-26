@@ -34,6 +34,7 @@
 import positionService from "@/request/positions/positionService";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
+import CyrillicToTranslit from 'cyrillic-to-translit-js';
 
 export default {
   mixins: [validationMixin],
@@ -57,7 +58,7 @@ export default {
         try {
           const params = [];
           params.title = this.permission;
-
+          params.type = new CyrillicToTranslit({ preset: "uk" }).transform(this.permission, '_').toLowerCase();
           let position = await positionService.createPosition({
             ...params,
           });
