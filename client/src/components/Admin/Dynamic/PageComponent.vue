@@ -68,7 +68,7 @@
 				<VCardSubtitle>PDF-файл</VCardSubtitle>
 				<VCardText>
 					<VRow no-gutters justify="center">
-						<VCol cols="10">
+						<VCol cols="8">
 							<VuePdfApp
 								@after-created="afterCreated"
 								style="height: 80vh"
@@ -170,7 +170,7 @@ export default {
 					files: params,
 				});
 				console.log(res.info);
-				this.page = res.info;
+				this.page.files = {params}
 				this.setLoading(false);
 			} catch (e) {
 				alert(e);

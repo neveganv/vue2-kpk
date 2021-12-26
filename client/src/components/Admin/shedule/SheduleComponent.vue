@@ -236,6 +236,7 @@ export default {
 				const params = [];
 				params.group = e;
 				this.events = await sheduleService.getEvent({ ...params });
+				 console.log(this.events)
 				this.setLoading(false);
 			} catch (e) {
 				alert(e);
@@ -248,10 +249,11 @@ export default {
 			this.visibleEditEvent = false;
 			this.changeGroup(e);
 		},
-		addEvent(e) {
+		addEvent(e,group) {
 			this.visible = false;
-			this.chosenGroup = e;
-			this.changeGroup(e);
+			this.chosenGroup = group;
+			this.events.push(e)
+			console.log(e)
 		},
 		async getGroups() {
 			try {

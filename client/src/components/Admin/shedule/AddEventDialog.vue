@@ -311,7 +311,7 @@ export default {
 				this.e1 = 2;
 			}
 		},
-		onCreate() {
+		async onCreate() {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
@@ -332,10 +332,10 @@ export default {
 					}`;
 					params.end = `${this.event.start_date + ' ' + this.event.end_time}`;
 
-					sheduleService.createEvent({
+					const res = await sheduleService.createEvent({
 						...params,
 					});
-					this.$emit('addEvent', params.group);
+					this.$emit('addEvent',res,params.group);
 					this.$v.$reset();
 					this.e1 = 1;
 					this.event = [];
