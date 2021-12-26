@@ -57,7 +57,7 @@ export default {
 		onLeft() {
 			this.logOut();
 			localStorage.removeItem('token');
-			this.$router.push('/admin/login')
+			this.$router.push({name :'admin-login'})
 		},
 	},
 };

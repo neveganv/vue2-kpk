@@ -5,5 +5,6 @@ export const userNormalizer = (User) => ({
     phone: User?.phone,
     position: User?.position.type,
     positionTitle: User?.position.title,
+    uuid: User?._id,
   });
   

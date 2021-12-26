@@ -292,7 +292,7 @@ export default {
 				return errors;
 			}
 			!this.$v.user.name.required &&
-				errors.push('Заголовок обов`язкове поле для заповнення');
+				errors.push('Ім\'я обов`язкове поле для заповнення');
 			return errors;
 		},
 		SurnameError() {

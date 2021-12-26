@@ -1,7 +1,8 @@
 <template>
   <div class="d-flex justify-center align-center w-100 h-100">
     <v-card max-width="400" class="w-100">
-      <v-card-title>Авторизація</v-card-title>
+      <v-card-title>Авторизація  рази </v-card-title>
+      <v-card-subtitle>2 рази клікни по кнопці (я це пофікшу)</v-card-subtitle>
       <v-card-text>
         <v-row>
           <v-col>
@@ -68,8 +69,7 @@ export default {
         let token = await usersService.login({ ...params });
         localStorage.token = JSON.stringify(token)
         this.logIn(token)
-        console.log(token)
-        this.$router.push('/admin')
+        this.$router.push({name : "admin-permission-guard"});
       } catch (e) {
         alert(e);
       }
