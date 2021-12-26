@@ -1,5 +1,5 @@
 <template>
-	<div class="px-3">
+	<div class="px-3 mb-5">
 		<VRow no-gutters align="center" justify="space-between">
 			<VRow>
 				<VCol cols="auto"
@@ -40,10 +40,48 @@
 			</div>
 		</VRow>
 		<VDivider class="mb-5" />
-
-		<VRow no-gutters v-if="page">
-			<vue-editor class="editor w-100 pl-2" v-model="page.html" />
+		<VRow no-gutters v-if="page" class="h-auto">
+			<VCol>
+				<vue-editor class="editor w-100 pl-2" v-model="page.html" />
+			</VCol>
 		</VRow>
+		<div v-if="page.files">
+			<VDivider class="my-5" />
+			<VCard v-for="pdfFile in page.files" :key="pdfFile.id">
+				<VCardTitle>
+					<VRow justify="space-between" align="center">
+						<VCol class="text-left" cols="auto">{{ pdfFile.title }}</VCol>
+						<VRow no-gutters justify="end" align="center">
+							<VCol class="text-right mx-1" cols="auto"
+								><VBtn dense color="warning" rounded
+									><VIcon left dense>mdi-pencil</VIcon>Змінити</VBtn
+								></VCol
+							>
+							<VCol class="text-right mx-1" cols="auto"
+								><VBtn color="error" fab small
+									><VIcon dense>mdi-close</VIcon></VBtn
+								></VCol
+							>
+						</VRow>
+					</VRow>
+				</VCardTitle>
+				<VCardSubtitle>PDF-файл</VCardSubtitle>
+				<VCardText>
+					<VRow no-gutters justify="center">
+						<VCol cols="10">
+							<VuePdfApp
+								@after-created="afterCreated"
+								style="height: 80vh"
+								page-scale="40"
+								theme="light"
+								:pdf="pdfFile.file"
+								:file-name="pdfFile.title"
+							/>
+						</VCol>
+					</VRow>
+				</VCardText>
+			</VCard>
+		</div>
 		<VRow justify="end">
 			<v-speed-dial v-model="fab" transition="slide-y-reverse-transition">
 				<template v-slot:activator>
@@ -52,7 +90,7 @@
 						<v-icon v-else> mdi-plus </v-icon>
 					</v-btn>
 				</template>
-				<v-btn fab dark small color="green">
+				<v-btn fab dark small color="green" @click="pdfVisible = true">
 					<v-icon>mdi-file-pdf-box</v-icon>
 				</v-btn>
 				<v-btn fab dark small color="indigo">
@@ -60,13 +98,20 @@
 				</v-btn>
 			</v-speed-dial>
 		</VRow>
+
 		<AddNewPageDialog
-      v-if="page"
+			v-if="editFolderVisivle"
 			:visible="editFolderVisivle"
 			@close="editFolderVisivle = false"
 			:isEditFolder="isEditFolder"
 			:editFolder="page.folder"
 			@update="changedFolder"
+		/>
+		<AddNewPdfDIalog
+			v-if="pdfVisible"
+			:visible="pdfVisible"
+			@close="pdfVisible = false"
+			@onAddPDF="onAddPDF"
 		/>
 	</div>
 </template>
@@ -74,14 +119,19 @@
 <script>
 import { VueEditor } from 'vue2-editor';
 import AddNewPageDialog from '../Layout/AddNewPageDialog';
+import AddNewPdfDIalog from './AddNewPdfDIalog';
 import pageService from '@/request/page/pageService';
 import loader from '@/mixins/loader';
+import VuePdfApp from 'vue-pdf-app';
+import 'vue-pdf-app/dist/icons/main.css';
 
 export default {
 	mixins: [loader],
 	components: {
 		VueEditor,
 		AddNewPageDialog,
+		AddNewPdfDIalog,
+		VuePdfApp,
 	},
 	data: () => ({
 		page: [],
@@ -91,6 +141,8 @@ export default {
 		isEditFolder: false,
 		editFolderVisivle: false,
 		folderName: '',
+		pdfVisible: false,
+		numPages: undefined,
 	}),
 	watch: {
 		$route: {
@@ -100,14 +152,36 @@ export default {
 			},
 		},
 	},
+
 	mounted() {
 		this.getPage();
 	},
 	methods: {
+		afterCreated(pdfjs) {
+			console.log(pdfjs);
+			// non-reactive
+			this.pdfjs = pdfjs;
+			window._pdf = pdfjs;
+		},
+		async onAddPDF(params) {
+			try {
+				this.setLoading(true);
+				const res = await pageService.update(this.$route.params.id, {
+					files: params,
+				});
+				console.log(res.info);
+				this.page = res.info;
+				this.setLoading(false);
+			} catch (e) {
+				alert(e);
+			}
+		},
 		async deletePage() {
 			try {
+				this.setLoading(true);
 				await pageService.delete(this.$route.params.id);
 				this.$router.push({ name: 'admin-permission-guard' });
+				this.setLoading(false);
 			} catch (e) {
 				alert(e);
 			}
@@ -147,10 +221,8 @@ export default {
 	},
 };
 </script>
-
-<style lang="scss" scoped>
-.editor {
-	min-height: 60vh;
-	height: auto;
+<style lang="scss">
+.pdf-app .toolbar {
+	z-index: 100 !important;
 }
 </style>

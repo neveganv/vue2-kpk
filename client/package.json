@@ -18,6 +18,8 @@
     "v-mask": "^2.3.0",
     "vue": "^2.6.11",
     "vue-axios": "^3.4.0",
+    "vue-pdf": "^4.3.0",
+    "vue-pdf-app": "^2.1.0",
     "vue-router": "^3.5.3",
     "vue2-editor": "^2.10.3",
     "vuelidate": "^0.7.6",

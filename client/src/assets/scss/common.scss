@@ -107,3 +107,18 @@ html {
     -o-user-select: none;
     user-select: none;
 }
+  ::-webkit-scrollbar {
+    width: 10px; 
+    height: 10px;
+    background-color: rgb(245, 245, 244);
+  }
+  /* ползунок скроллбара */
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(113, 113, 113);
+    border: 2px solid rgb(245, 245, 244);
+    border-radius: 9em;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: darken(rgb(113, 113, 113),4)
+
+  }

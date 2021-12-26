@@ -69,7 +69,7 @@ exports.update = (req, res) => {
                 res.status(404).send({
                     message: `Cannot update page with id=${id}.`
                 });
-            } else res.send({ message: "Page was updated successfully." });
+            } else res.send({ message: "Page was updated successfully." , info:data});
         })
         .catch(err => {
             res.status(500).send({
