@@ -10,7 +10,7 @@ router.post("/addPage", page.create);
 router.post("/getAllPage", page.findAll);
 
 //Find by value
-router.post("/getById", page.findById);
+router.post("/getByIdPage", page.findById);
 
 //delete a page by id
 router.delete("/:id", page.delete);

@@ -13,7 +13,7 @@ export default {
 		return response?.data
 	},
 	async getOne(params){
-		const response = await requestService.post(`${prefix}/getById`, params)
+		const response = await requestService.post(`${prefix}/getByIdPage`, params)
 		return response?.data
 	},
 	async update(id, params){

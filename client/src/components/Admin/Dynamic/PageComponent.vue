@@ -1,152 +1,156 @@
 <template>
-  <div class="px-3">
-    <VRow no-gutters align="center" justify="space-between">
-      <VRow>
-        <VCol cols="auto"
-          ><VBtn
-            text
-            rounded
-            color="grey darken-1"
-            class="white--text"
-            @click="onChangeFolder"
-          >
-            <VIcon left> mdi-folder-edit-outline </VIcon
-            >{{ folderName || "--" }}</VBtn
-          ></VCol
-        >
-        <VIcon small>mdi-chevron-right</VIcon>
-        <VCol cols="auto"
-          ><VBtn text color="primary" rounded>
-            <VIcon left> mdi-file-edit-outline </VIcon>{{ page.name || "--" }}
-          </VBtn></VCol
-        >
-      </VRow>
-      <div class="d-flex">
-        <VCol cols="auto"
-          ><VBtn rounded color="error" text @click="deletePage"
-            ><VIcon left>mdi-delete</VIcon>Видалити</VBtn
-          ></VCol
-        >
-        <VCol cols="auto"
-          ><VBtn rounded color="пкфн" text @click="onCancel"
-            ><VIcon left>mdi-close</VIcon>Скасувати зміни</VBtn
-          ></VCol
-        >
-        <VCol cols="auto"
-          ><VBtn rounded color="success" @click="onCreate"
-            ><VIcon left>mdi-check-all</VIcon>Зберегти</VBtn
-          ></VCol
-        >
-      </div>
-    </VRow>
-    <VDivider class="mb-5" />
+	<div class="px-3">
+		<VRow no-gutters align="center" justify="space-between">
+			<VRow>
+				<VCol cols="auto"
+					><VBtn
+						text
+						rounded
+						color="grey darken-1"
+						class="white--text"
+						@click="onChangeFolder"
+					>
+						<VIcon left> mdi-folder-edit-outline </VIcon
+						>{{ folderName || '--' }}</VBtn
+					></VCol
+				>
+				<VIcon small>mdi-chevron-right</VIcon>
+				<VCol cols="auto"
+					><VBtn text color="primary" rounded v-if="page">
+						<VIcon left> mdi-file-edit-outline </VIcon>{{ page.name || '--' }}
+					</VBtn></VCol
+				>
+			</VRow>
+			<div class="d-flex">
+				<VCol cols="auto"
+					><VBtn rounded color="error" text @click="deletePage"
+						><VIcon left>mdi-delete</VIcon>Видалити</VBtn
+					></VCol
+				>
+				<VCol cols="auto"
+					><VBtn rounded color="пкфн" text @click="onCancel"
+						><VIcon left>mdi-close</VIcon>Скасувати зміни</VBtn
+					></VCol
+				>
+				<VCol cols="auto"
+					><VBtn rounded color="success" @click="onCreate"
+						><VIcon left>mdi-check-all</VIcon>Зберегти</VBtn
+					></VCol
+				>
+			</div>
+		</VRow>
+		<VDivider class="mb-5" />
 
-    <VRow no-gutters>
-      <vue-editor class="editor w-100 pl-2" v-model="page.html" />
-    </VRow>
-    <VRow justify="end">
-      <v-speed-dial v-model="fab" transition="slide-y-reverse-transition">
-        <template v-slot:activator>
-          <v-btn v-model="fab" color="blue darken-2" dark fab small>
-            <v-icon v-if="fab"> mdi-close </v-icon>
-            <v-icon v-else> mdi-plus </v-icon>
-          </v-btn>
-        </template>
-        <v-btn fab dark small color="green">
-          <v-icon>mdi-file-pdf-box</v-icon>
-        </v-btn>
-        <v-btn fab dark small color="indigo">
-          <v-icon>mdi-calendar-text</v-icon>
-        </v-btn>
-      </v-speed-dial>
-    </VRow>
-    <AddNewPageDialog
-      :visible="editFolderVisivle"
-      @close="editFolderVisivle = false"
-      :isEditFolder="isEditFolder"
-	  :editFolder="page.folder"
-	  @update="changedFolder"
-    />
-  </div>
+		<VRow no-gutters v-if="page">
+			<vue-editor class="editor w-100 pl-2" v-model="page.html" />
+		</VRow>
+		<VRow justify="end">
+			<v-speed-dial v-model="fab" transition="slide-y-reverse-transition">
+				<template v-slot:activator>
+					<v-btn v-model="fab" color="blue darken-2" dark fab small>
+						<v-icon v-if="fab"> mdi-close </v-icon>
+						<v-icon v-else> mdi-plus </v-icon>
+					</v-btn>
+				</template>
+				<v-btn fab dark small color="green">
+					<v-icon>mdi-file-pdf-box</v-icon>
+				</v-btn>
+				<v-btn fab dark small color="indigo">
+					<v-icon>mdi-calendar-text</v-icon>
+				</v-btn>
+			</v-speed-dial>
+		</VRow>
+		<AddNewPageDialog
+      v-if="page"
+			:visible="editFolderVisivle"
+			@close="editFolderVisivle = false"
+			:isEditFolder="isEditFolder"
+			:editFolder="page.folder"
+			@update="changedFolder"
+		/>
+	</div>
 </template>
 
 <script>
-import { VueEditor } from "vue2-editor";
-import AddNewPageDialog from "../Layout/AddNewPageDialog";
-import pageService from "@/request/page/pageService";
-import loader from "@/mixins/loader";
+import { VueEditor } from 'vue2-editor';
+import AddNewPageDialog from '../Layout/AddNewPageDialog';
+import pageService from '@/request/page/pageService';
+import loader from '@/mixins/loader';
 
 export default {
-  mixins: [loader],
-  components: {
-    VueEditor,
-    AddNewPageDialog,
-  },
-  data: () => ({
-    page: [],
-    fab: "",
-    pageId: "",
-    changeFolderVisible: false,
-    isEditFolder: false,
-    editFolderVisivle: false,
-    folderName: "",
-  }),
-  watch: {
-    $route: {
-      deep: true,
-      handler(e) {
-        this.getPage();
-      },
-    },
-  },
-  mounted() {
-    this.getPage();
-  },
-  methods: {
-    async deletePage() {
-      try {
-		  await pageService.delete(this.$route.params.id);
-		  this.$router.push({name: 'admin-page-auth'})
-	  }
-	  catch(e) {
-		  alert(e)
-	  }
-    },
-    async getPage() {
-      this.setLoading(true);
-      const newPage = await pageService.getOne({ _id: this.$route.params.id });
-      this.page = newPage[0];
-      this.folderName = this.page.folder.name;
-      this.setLoading(false);
-    },
-    async onCreate() {
-      const params = [];
-      params.html = this.page.html;
-      try {
-		  await pageService.update(this.$route.params.id, { ...params });
-	  }
-	  catch(e) {
-		  alert(e)
-	  }
-    },
-    onCancel() {
-      this.page = [];
-    },
-    onChangeFolder() {
-      this.isEditFolder = true;
-      this.editFolderVisivle = true;
-    },
-	changedFolder() {
-	  this.getPage()
-      this.editFolderVisivle = false;
-	}
-  },
+	mixins: [loader],
+	components: {
+		VueEditor,
+		AddNewPageDialog,
+	},
+	data: () => ({
+		page: [],
+		fab: '',
+		pageId: '',
+		changeFolderVisible: false,
+		isEditFolder: false,
+		editFolderVisivle: false,
+		folderName: '',
+	}),
+	watch: {
+		$route: {
+			deep: true,
+			handler(e) {
+				this.getPage();
+			},
+		},
+	},
+	mounted() {
+		this.getPage();
+	},
+	methods: {
+		async deletePage() {
+			try {
+				await pageService.delete(this.$route.params.id);
+				this.$router.push({ name: 'admin-permission-guard' });
+			} catch (e) {
+				alert(e);
+			}
+		},
+		async getPage() {
+			this.setLoading(true);
+			const newPage = await pageService.getOne({ _id: this.$route.params.id });
+			this.page = newPage[0];
+			console.log(this.page);
+			if (!this.page) {
+				this.$router.push({ name: 'admin-permission-guard' });
+			} else {
+				this.folderName = this.page.folder.name;
+			}
+			this.setLoading(false);
+		},
+		async onCreate() {
+			const params = [];
+			params.html = this.page.html;
+			try {
+				await pageService.update(this.$route.params.id, { ...params });
+			} catch (e) {
+				alert(e);
+			}
+		},
+		onCancel() {
+			// this.page = [];
+		},
+		onChangeFolder() {
+			this.isEditFolder = true;
+			this.editFolderVisivle = true;
+		},
+		changedFolder() {
+			this.getPage();
+			this.editFolderVisivle = false;
+		},
+	},
 };
 </script>
 
 <style lang="scss" scoped>
 .editor {
-  min-height: 60vh;
-  height: auto;
+	min-height: 60vh;
+	height: auto;
 }
 </style>

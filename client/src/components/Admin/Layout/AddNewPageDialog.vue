@@ -236,8 +236,8 @@ export default {
     },
     async onDeleteFolder() {
       try {
-        await folderService.delete(this.editFolder._id);
-        this.$router.push({ name: "admin-page-auth" });
+       await folderService.delete(this.editFolder._id);
+        this.$router.push({ name: "admin-permission-guard" });
       } catch (e) {
         alert(e);
       }
@@ -246,7 +246,7 @@ export default {
       const params = [];
       params.name = this.editFolder.name;
       params.positions = this.editFolder.positions;
-	  console.log(params)
+	   console.log(params)
       try {
         await folderService.update(this.editFolder._id, { ...params });
       } catch (e) {
