@@ -16,10 +16,7 @@
 		<div class="my-container" style="margin-top: 50px">
 			<VRow no-gutters>
 				<VCol cols="8">
-					<SpecialityInner
-						:specialitie="specialitie"
-						:sceletonLoader="sceletonLoader"
-					/>
+					<PageInner :page="page" :sceletonLoader="sceletonLoader" />
 				</VCol>
 				<VCol cols="4">
 					<AnotherSpecialitiesList
@@ -33,55 +30,50 @@
 </template>
 
 <script>
-import MyHeader from '../UI/my-header.vue';
-import SpecialityInner from './SpecialityInner.vue';
-import AnotherSpecialitiesList from './AnotherSpecialitiesList.vue';
-
+import pageService from '@/request/page/pageService';
 import specialityService from '@/request/specialty/specialtyService';
+import MyHeader from '../UI/my-header.vue';
+import PageInner from './PageInner.vue';
+import AnotherSpecialitiesList from '@/components/Main/speciality/AnotherSpecialitiesList.vue';
 
 export default {
 	data: () => ({
-		specialitie: [],
-		specialities: [],
+		page: [],
 		sceletonLoader: false,
+		specialities: [],
 	}),
-	components: {
-		MyHeader,
-		SpecialityInner,
-		AnotherSpecialitiesList,
-	},
 	watch: {
 		$route: {
 			deep: true,
 			handler(e) {
-				this.getSpeciality();
-				this.getSpecialities();
+				this.getPage();
 			},
 		},
 	},
+	components: {
+		MyHeader,
+		PageInner,
+		AnotherSpecialitiesList,
+	},
 	mounted() {
-		this.getSpeciality();
+		this.getPage();
+		
 	},
 	methods: {
-		async getSpeciality() {
+		async getPage() {
 			this.sceletonLoader = true;
-			const newSpeciality = await specialityService.getById({
-				_id: this.$route.params.id,
-			});
-			this.specialitie = newSpeciality[0];
+			const newPage = await pageService.getOne({ _id: this.$route.params.id });
+			this.page = newPage[0];
+			console.log('my-page', this.page);
 			this.getSpecialities();
 		},
 		async getSpecialities() {
 			this.specialities = await specialityService.getAllSpecialty();
-			this.specialities = this.specialities.filter(
-				e => e._id != this.specialitie._id
-			);
 			this.specialities = this.specialities.splice(0, 4);
-
 			this.sceletonLoader = false;
 		},
 	},
 };
 </script>
 
-<style></style>
+<style lang="scss"></style>
