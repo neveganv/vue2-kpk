@@ -15,17 +15,17 @@
 		</VCol>
 		<h3>Спеціальності</h3>
 		<VCol v-for="spec in filter.specialty" :key="spec._id">
-			<VCard>
+			<VCard @click="$router.push({name: 'main-speciality-page', params:{id: spec._id}})">
 				<VCardTitle>{{ spec.name }}</VCardTitle>
 				<VCardText>{{ spec.content }}</VCardText>
 			</VCard>
 		</VCol>
 		<h3>Сторінки</h3>
 		<VCol v-for="page in filter.page" :key="page._id">
-			<VCard>
+			<VCard @click="$router.push({name: 'main-dynamic-page', params:{id: page._id}})"> 
 				<VCardTitle>{{ page.name }}</VCardTitle>
 				<VCardText></VCardText>
-			</VCard>
+		    </VCard>
 		</VCol>
 	</VCol>
 </template>
