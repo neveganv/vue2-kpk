@@ -144,6 +144,7 @@
 			:addPageVisibility="addPageVisibility"
 			@addedFolder="updateFolders"
 			:folder="selectedFolder"
+			v-if="visible"
 		/>
 	</VApp>
 </template>

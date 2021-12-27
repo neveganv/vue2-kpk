@@ -120,21 +120,20 @@ exports.update = (req, res) => {
           message: "Data to update can not be empty!"
         });
       }
-      const id = req.body.id;
+      const id = req.body.uuid;
       
        User.findByIdAndUpdate(id, {
         name: req.body.name,
         surname: req.body.surname,
         phone: req.body.phone,
-        email: req.body.email,
-        position: new ObjectId(req.body.position)}, 
+        email: req.body.email}, 
         { useFindAndModify: false })
         .then(data => {
           if (!data) {
             res.status(404).send({
               message: `Cannot update user with id=${id}.`
             });
-          } else res.send({ message: "User was updated successfully." });
+          } else res.send({ message: "User was updated successfully." ,info:data});
         })
         .catch(err => {
           res.status(500).send({
@@ -145,7 +144,7 @@ exports.update = (req, res) => {
 };
 
 exports.changePassword = (req, res) => {
-    id = req.body.id;
+    id = req.body.uuid;
     User.findOne({ _id: id }, function (err, user) {
         if (user === null) {
             return res.status(400).send({

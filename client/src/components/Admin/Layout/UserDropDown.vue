@@ -16,12 +16,12 @@
 						<Avatar :name="user.name + ' ' + user.surname" size="50" />
 					</VListItemAvatar>
 					<VListItemContent>
-						<VListItemTitle >{{ user.name }} {{ user.surname }} </VListItemTitle>
+						<VListItemTitle  class="font-weight-medium">{{ user.name }} {{ user.surname }} </VListItemTitle>
 						<VListItemSubtitle>{{ user.positionTitle }}</VListItemSubtitle>
 					</VListItemContent>
 				</VListItem>
 				<VDivider />
-				<VListItem :to="{ path: '/admin-profile' }" dense>
+				<VListItem :to="{ path: '/admin-profile' }" dense color="primary">
 					<VListItemIcon>
 						<VIcon>mdi-cog</VIcon>
 					</VListItemIcon>
