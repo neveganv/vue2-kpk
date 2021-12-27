@@ -1,11 +1,13 @@
 <template>
 	<transition name="fade">
-		<div class="loader-wrapper" v-if="isLoading">
+		    <div class="main-wrapper" v-if="isLoading">
+		<div class="loader-wrapper">
 			<VProgressLinear
 				 indeterminate
                 color="primary"
 			></VProgressLinear>
 		</div>
+			</div>
 	</transition>
 </template>
 
@@ -22,17 +24,23 @@ export default {
 </script>
 
 <style scoped>
+.main-wrapper{
+  width: 100%;
+  height: 64px;
+  left: 0;
+  top: 0;
+  z-index: 200;
+  position: absolute;
+  cursor:wait;
+}
+
 .loader-wrapper {
-	position: absolute;
-	width: 100%;
-	height: auto;
-	left: 0;
-	top: 64px;
-	overflow: hidden;
-	z-index: 200;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  position: absolute;
+  top: 64px;
+  left: 0;
+  height: auto;
+  width: 100%;
+  z-index: 200;
 }
 
 .fade-leave-active {
