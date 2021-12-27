@@ -16,7 +16,11 @@
 		<div class="my-container" style="margin-top: 50px">
 			<VRow no-gutters>
 				<VCol cols="8">
-					<PageInner :page="page" :sceletonLoader="sceletonLoader" />
+					<PageInner
+						:page="page"
+						:sceletonLoader="sceletonLoader"
+						:PageDeleted="PageDeleted"
+					/>
 				</VCol>
 				<VCol cols="4">
 					<AnotherSpecialitiesList
@@ -41,6 +45,7 @@ export default {
 		page: [],
 		sceletonLoader: false,
 		specialities: [],
+		PageDeleted: false,
 	}),
 	watch: {
 		$route: {
@@ -57,7 +62,6 @@ export default {
 	},
 	mounted() {
 		this.getPage();
-		
 	},
 	methods: {
 		async getPage() {
@@ -65,6 +69,11 @@ export default {
 			const newPage = await pageService.getOne({ _id: this.$route.params.id });
 			this.page = newPage[0];
 			console.log('my-page', this.page);
+				console.log(newPage)
+			if (!this.page) {
+				this.PageDeleted = true;
+				this.sceletonLoader = false;
+			}
 			this.getSpecialities();
 		},
 		async getSpecialities() {

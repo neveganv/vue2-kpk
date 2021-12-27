@@ -8,7 +8,6 @@
 						<img :src="require('@/assets/img/logo-admin.svg')" alt="" />
 					</VBadge>
 				</div>
-				<span class="pl-10 ml-10 error--text"> перелогіньтеся</span>
 				<VSpacer></VSpacer>
 				<VBtn icon class="mr-5">
 					<v-badge overlap content="99+">

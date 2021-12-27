@@ -51,7 +51,7 @@
 		<div class="my-container" style="margin-top: 160px">
 			<MainNewsList />
 		</div>
-		<div class="my-container" style="margin-top: 160px">
+		<div class="my-container" >
 			<FooterComponent />
 		</div>
 		<div class="my-4">

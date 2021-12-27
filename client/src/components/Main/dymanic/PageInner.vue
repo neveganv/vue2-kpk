@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div style="min-height: 80vh">
+		<div style="min-height: 970px" v-if="!PageDeleted">
 			<div class="title" no-gutter align="start" v-if="!sceletonLoader">
 				<VRow no-gutters>
 					<span class="text-title" v-if="page.folder">
@@ -16,7 +16,7 @@
 			<VRow v-else class="title" no-gutter align="center">
 				<v-skeleton-loader type="chip" class="pl-2 my-2"></v-skeleton-loader>
 			</VRow>
-			<myDivider class="my-3" :height="1" v-if="page.html" />
+			<myDivider class="my-3" :height="1" v-if="page.html  && !sceletonLoader" />
 			<VRow no-gutters v-if="page && !sceletonLoader" class="h-auto">
 				<div v-if="page.html" class="w-100">
 					<VCard>
@@ -40,7 +40,7 @@
 					<v-skeleton-loader type="article"></v-skeleton-loader>
 				</VCol>
 			</VRow>
-			<myDivider class="my-3" :height="1" v-if="fileCount > 0" />
+			<myDivider class="my-3" :height="1" v-if="fileCount > 0 && !sceletonLoader" />
 			<VRow no-gutters justify="center" v-if="!sceletonLoader">
 				<VCol cols="12">
 					<VCard v-for="pdfFile in page.files" :key="pdfFile.id">
@@ -72,6 +72,11 @@
 					<v-skeleton-loader type="card"></v-skeleton-loader>
 				</VCol>
 			</VRow>
+		</div>
+		<div v-else style="min-height: 970px" class="w-100 text-center">
+			<myDivider class="my-3" :height="1" />
+			<span class="error--text"> На жаль дана сторінка уже видалена </span>
+			<myDivider class="my-3" :height="1" />
 		</div>
 		<footer-component />
 	</div>
@@ -115,6 +120,9 @@ export default {
 			require: true,
 		},
 		sceletonLoader: {
+			require: true,
+		},
+		PageDeleted: {
 			require: true,
 		},
 	},

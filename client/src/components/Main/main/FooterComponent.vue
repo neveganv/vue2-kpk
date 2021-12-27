@@ -1,7 +1,7 @@
 <template>
-	<div class="my-footer">
+	<div class="my-footer" style="margin-top: 160px">
 		<my-divider class="my-3" :height="1" />
-		<VRow no-gutters class="my-footer__inner" v-if="!sceletonLoader">
+		<VRow no-gutters class="my-footer__inner" v-if="folders.length > 0  && !sceletonLoader">
 			<VCol
 				cols="4"
 				class="my-footer__col"
