@@ -1,8 +1,8 @@
 <template>
 <v-main>
     <v-container>
-        <Header @searchQuery="searchQuery"/>
-        <MySearch :search="data"/>
+        <Header/>
+        <MySearch/>
    </v-container>
 </v-main>
 </template>
@@ -15,15 +15,6 @@ export default {
         Header,
         MySearch
     },
-    data: () => ({
-        data: ""
-    }),
-    methods:{
-        searchQuery(e){
-            console.log(e)
-
-        }
-    }
 }
 </script>
 

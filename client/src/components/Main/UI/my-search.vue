@@ -43,19 +43,13 @@ export default {
 			specialty: [],
 		},
 	}),
-	props: {
-		search: {
-			require: true,
-		},
-	},
 	mounted() {
 		this.searchAll();
-        console.log(this.$route);
 	},
 	methods: {
 		async searchAll() {
 			const params = [];
-			params.title = this.$route.params.query;
+			params.title = this.$route.params.query
 			let response = await newsService.searchCoolNews({ ...params });
 			this.filter.news = response;
 			console.log(response);
@@ -70,21 +64,14 @@ export default {
 			console.log(response);
 		},
 	},
-	watch: {
-		Search: {
+	watch:{
+		$route:{
 			deep: true,
-			handler(e) {
-                this.searchAll();
-			},
-		},
-	},
-	computed: {
-		Search: {
-			get() {
-				return this.search;
-			},
-		},
-	},
+			handler(){
+				this.searchAll();
+			}
+		}
+	}
 };
 </script>
 
