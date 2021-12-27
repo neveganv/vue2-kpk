@@ -25,24 +25,10 @@
 			</VCol>
 		</VRow>
 		<VRow v-else no-gutters>
-			<VCol cols="4">
+			<VCol cols="4" v-for="i in 6" :key="i">
 				<v-skeleton-loader type="article"></v-skeleton-loader>
 			</VCol>
-			<VCol cols="4">
-				<v-skeleton-loader type="article"></v-skeleton-loader>
-			</VCol>
-			<VCol cols="4">
-				<v-skeleton-loader type="article"></v-skeleton-loader>
-			</VCol>
-			<VCol cols="4">
-				<v-skeleton-loader type="article"></v-skeleton-loader>
-			</VCol>
-			<VCol cols="4">
-				<v-skeleton-loader type="article"></v-skeleton-loader>
-			</VCol>
-			<VCol cols="4">
-				<v-skeleton-loader type="article"></v-skeleton-loader>
-			</VCol>
+
 		</VRow>
 		<my-divider class="my-3" :height="1" />
 	</div>

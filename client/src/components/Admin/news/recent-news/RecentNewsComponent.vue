@@ -25,12 +25,12 @@ import newsService from '@/request/news/newsService';
 import loader from '@/mixins/loader';
 
 export default {
-	mixins:[loader],
+	mixins: [loader],
 	components: { NewsList, AddNewDialog },
 	data: () => ({
 		visible: false,
 		news: [],
-		sceletonLoader:false
+		sceletonLoader: false,
 	}),
 	mounted() {
 		this.getNews();
@@ -38,9 +38,10 @@ export default {
 	methods: {
 		async deleteNew(e) {
 			try {
-				await newsService.deleteCoolNews({id:e})
-			
-				console.log(	this.news.splice(e,1));
+				this.setLoading(true);
+				await newsService.deleteCoolNews({ id: e });
+				this.news = this.news.filter(news => news._id !== e);
+				this.setLoading(false);
 				// this.getNews();
 			} catch (e) {
 				alert(e);
@@ -52,11 +53,10 @@ export default {
 		},
 		async getNews() {
 			try {
-				this.setLoading(true)
+				this.setLoading(true);
 				this.news = await newsService.getCoolNews();
-				this.setLoading(false)
+				this.setLoading(false);
 			} catch (e) {
-
 				alert(e);
 			}
 		},
