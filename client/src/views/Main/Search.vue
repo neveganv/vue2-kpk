@@ -1,7 +1,7 @@
 <template>
 <v-main>
     <v-container>
-        <Header @search="search"/>
+        <Header @searchQuery="searchQuery"/>
         <MySearch :search="data"/>
    </v-container>
 </v-main>
@@ -19,8 +19,9 @@ export default {
         data: ""
     }),
     methods:{
-        search(e){
-            this.data = e
+        searchQuery(e){
+            console.log(e)
+
         }
     }
 }
