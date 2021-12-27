@@ -85,7 +85,7 @@ exports.update = (req, res) => {
 }
 
 exports.findSpecialty = (req, res) => {
-  console.log("s")
+  console.log(req.body.title)
 	Specialty.find({
 		name:  {$regex: req.body.title}
 	})
