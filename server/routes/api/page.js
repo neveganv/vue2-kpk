@@ -18,4 +18,7 @@ router.delete("/:id", page.delete);
 //update a page
 router.put("/:id", page.update);
 
+//search page
+router.post("/searchPage", page.findPage);
+
 module.exports = router

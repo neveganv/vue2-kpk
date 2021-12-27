@@ -42,6 +42,10 @@ export default {
 		const response = await requestService.post(`${prefix}/getNewsById`, params)
 		return response?.data[0]	   
 	},
+	async searchSimpleNews(params){
+		const response = await requestService.post(`${prefix}/searchNews`, params)
+		return response?.data
+	},
 	async addCoolNews(params){
 		console.log("params: ",params);
 		const response = await requestService.post(`${prefix3}/addCoolNews`, params)

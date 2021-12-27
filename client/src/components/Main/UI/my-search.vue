@@ -1,24 +1,30 @@
 <template>
 <VCol>
-    {{Search}}
+    <h3>Новини</h3>
     <VCol v-for="news in news" :key="news._id">
         <VCard>
             <VCardTitle>{{news.title}}</VCardTitle>
+            <VCardText></VCardText>
         </VCard>
     </VCol>
     <VCol v-for="news in news1" :key="news._id">
         <VCard>
             <VCardTitle>{{news.title}}</VCardTitle>
+            <VCardText></VCardText>
         </VCard>
     </VCol>
-    <VCol v-for="page in page" :key="page._id">
-        <VCard>
-            <VCardTitle>{{page.name}}</VCardTitle>
-        </VCard>
-    </VCol>
+    <h3>Спеціальності</h3>
     <VCol v-for="spec in specialty" :key="spec._id">
         <VCard>
             <VCardTitle>{{spec.name}}</VCardTitle>
+            <VCardText>{{spec.content}}</VCardText>
+        </VCard>
+    </VCol>
+    <h3>Сторінки</h3>
+    <VCol v-for="page in page" :key="page._id">
+        <VCard>
+            <VCardTitle>{{page.name}}</VCardTitle>
+            <VCardText></VCardText>
         </VCard>
     </VCol>
 </VCol>
@@ -42,23 +48,31 @@ export default {
     },
     mounted(){
         this.searchAll();
-        this.getData();
-        console.log(this.Search)
     },
     methods: {
        async searchAll(){
            const params = []
-           params.title = "123"
+           params.title = this.Search;
           let response = await newsService.searchCoolNews({...params})
           this.news = response;
+          console.log(response);
+           response = await newsService.searchSimpleNews({...params})
+          this.news1 = response;
+          console.log(response);
+           response = await pageService.searchPage({...params})
+          this.page = response;
+          console.log(response);
+           response = await specialtyService.searchSpecialty({...params})
+          this.specialty = response;
+          console.log(response);
         },
-        async getData(){
-            let response = await newsService.getCoolNews();
-            this.news1 = response 
-            response = await specialtyService.getAllSpecialty(); 
-            this.specialty = response
-            response = await pageService.getPages();
-            this.page = response
+    },
+    watch:{
+        filter:{
+            deep: true,
+            async handler(){
+                await this.searchAll();
+            }
         }
     },
     computed:{

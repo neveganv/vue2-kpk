@@ -24,4 +24,8 @@ export default {
 		const response = await requestService.delete(`${prefix}/${id}`)
 		return response?.data
 	},
+	async searchPage(params){
+		const response = await requestService.post(`${prefix}/searchPage`, params)
+		return response?.data
+	},
 };

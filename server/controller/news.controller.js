@@ -133,4 +133,19 @@ exports.counter = (req, res) => {
 			message: 'Error updating newsViews with id=' + id,
 		});
 	});
-}
+},
+
+exports.findNews = (req, res) => {
+console.log("news")
+	News.find({
+		title:  {$regex: req.body.title}
+	})
+		.then(data => {
+			res.send(data);
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: 'Не вдалось отримати новини.',
+			});
+		});
+};

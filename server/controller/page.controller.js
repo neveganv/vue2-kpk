@@ -101,3 +101,18 @@ exports.delete = (req, res) => {
       });
   
   };
+
+  exports.findPage = (req, res) => {
+    console.log("page")
+	Page.find({
+		name:  {$regex: req.body.title}
+	})
+		.then(data => {
+			res.send(data);
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: 'Не вдалось отримати новини.',
+			});
+		});
+};

@@ -15,4 +15,6 @@ router.post("/updateSpecialty", specialty.update)
 //Find by value
 router.post("/getById", specialty.findById);
 
+//Search specialty
+router.post("/searchSpecialty", specialty.findSpecialty);
 module.exports = router

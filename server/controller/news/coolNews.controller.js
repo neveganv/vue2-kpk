@@ -101,9 +101,8 @@ exports.deleteCoolNews = (req,res) => {
 };
 
 exports.findCoolNews = (req, res) => {
-	console.log("das");
 	CoolNews.find({
-		title:  req.body.title
+		title:  {$regex: req.body.title}
 	})
 		.then(data => {
 			res.send(data);

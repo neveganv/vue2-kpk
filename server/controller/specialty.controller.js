@@ -83,3 +83,18 @@ exports.update = (req, res) => {
 			});
 		});
 }
+
+exports.findSpecialty = (req, res) => {
+  console.log("s")
+	Specialty.find({
+		name:  {$regex: req.body.title}
+	})
+		.then(data => {
+			res.send(data);
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: 'Не вдалось отримати новини.',
+			});
+		});
+};

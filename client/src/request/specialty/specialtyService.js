@@ -19,6 +19,9 @@ export default {
 	async getById(params){
 		const response = await requestService.post(`${prefix}/getById`,params)
 		return response?.data
-	}
-
+	},
+	async searchSpecialty(params){
+		const response = await requestService.post(`${prefix}/searchSpecialty`, params)
+		return response?.data
+	},
 };
