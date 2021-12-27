@@ -18,5 +18,8 @@ router.post("/updateCoolNews", coolNews.updateCoolNews);
 //Delete news 
 router.post("/deleteCoolNews", coolNews.deleteCoolNews);
 
+//Search news
+router.post("/searchNews", coolNews.findCoolNews);
+
 
 module.exports = router

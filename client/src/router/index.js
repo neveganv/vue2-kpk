@@ -74,6 +74,11 @@ const routes = [
 			},
 		],
 	},
+	{
+		path: '/search',
+		name: 'search',
+		component: () => import('@/views/Main/Search.vue'),	
+	}
 ];
 const router = new VueRouter({
 	mode: 'history',

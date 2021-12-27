@@ -99,3 +99,18 @@ exports.deleteCoolNews = (req,res) => {
       });
 
 };
+
+exports.findCoolNews = (req, res) => {
+	console.log("das");
+	CoolNews.find({
+		title:  req.body.title
+	})
+		.then(data => {
+			res.send(data);
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: 'Не вдалось отримати новини.',
+			});
+		});
+};
