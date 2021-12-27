@@ -22,6 +22,16 @@ const routes = [
 		component: () => import('@/views/Main/Speciality.vue'),
 	},
 	{
+		path: '/page/:id',
+		name: 'main-dynamic-page',
+		component: () => import('@/views/Main/DynamicPage.vue'),
+	},
+	{
+		path: '/search/:query',
+		name: 'search',
+		component: () => import('@/views/Main/Search.vue'),	
+	},
+	{
 		path: '',
 		component: AuthGuard,
 		children: [
@@ -74,11 +84,7 @@ const routes = [
 			},
 		],
 	},
-	{
-		path: '/search/:query',
-		name: 'search',
-		component: () => import('@/views/Main/Search.vue'),	
-	}
+
 ];
 const router = new VueRouter({
 	mode: 'history',

@@ -7,7 +7,7 @@
 			<span>Політехніка звучить гордо</span>
 			<div class="img_wrapper">
 				<v-img
-					class="img"
+					class="img "
 					draggable="false"
 					:src="require('@/assets/img/main-img.jpg')"
 					:lazy-src="require('@/assets/img/main-img.jpg')"
@@ -54,7 +54,9 @@
 		<div class="my-container" style="margin-top: 160px">
 			<FooterComponent />
 		</div>
-		<div style="height: 100vh"></div>
+		<div class="my-4">
+			<my-header />
+		</div>
 	</div>
 </template>
 
@@ -74,7 +76,7 @@ export default {
 		CoolNews,
 		SpecialitiesList,
 		MainNewsList,
-		FooterComponent
+		FooterComponent,
 	},
 	methods: {
 		loadedMain() {
@@ -106,9 +108,10 @@ export default {
 	position: relative;
 	justify-content: center;
 	align-items: flex-start;
+	max-width: 1300px;
+	width: 100%;
 	.glass {
 		top: -100px;
-
 		position: absolute;
 		z-index: 1;
 	}
@@ -129,16 +132,18 @@ export default {
 	font-size: 24px !important;
 }
 .img {
-	width: 1300px;
+	width: 100%;
 	object-fit: cover;
 	height: 740px;
 	z-index: 0;
+	max-width: 1300px;
 }
 .main-glass {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 769.57px;
+	max-width: 769.57px;
+	width: 100%;
 	height: 217.49px;
 	border-radius: 20px;
 	top: -15%;
@@ -148,6 +153,9 @@ export default {
 	border: 1px solid rgba(227, 227, 227, 0.4);
 	background: rgba(242, 242, 242, 0.6);
 	overflow: hidden;
+	img{
+		width: 70%;
+	}
 
 	&::before {
 		content: '';
