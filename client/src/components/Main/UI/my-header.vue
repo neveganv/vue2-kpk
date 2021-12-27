@@ -24,7 +24,7 @@
 				<div class="d-flex justify-center align-center">
 					<VRow>
 						<VTextField dense v-if="searchShow" v-model="search" />
-						<VBtn icon @click="searchShow = !searchShow">
+						<VBtn icon @click="searchData">
 							<VIcon> mdi-magnify</VIcon>
 						</VBtn>
 						<VBtn icon>
@@ -40,16 +40,15 @@
 <script>
 export default {
 	data: () => ({
-		searchShow: false,
+		searchShow: true,
 		search: '',
 	}),
-	watch: {
-		search: {
-			deep: true,
-			handler(e) {
-				this.$emit('searchQuery',e)
-			},
-		},
+	methods: {
+		searchData(){
+		//	if(this.$router.fullPath !== "/search"){
+				this.$router.push({name: 'search', params:{query :this.search}})
+		//	}
+		}
 	},
 };
 </script>
