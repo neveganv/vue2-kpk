@@ -1,5 +1,5 @@
 <template>
-	<VCol>
+	<VCol v-if="filter.news.length > 0 || filter.news1.length > 0 || filter.specialty.length > 0 || filter.page.length > 0">
 		<h3>Новини</h3>
 		<VCol v-for="news in filter.news" :key="news._id">
 			<VCard>
@@ -27,6 +27,10 @@
 				<VCardText></VCardText>
 		    </VCard>
 		</VCol>
+	</VCol>
+	<VCol v-else>
+		<h2>Нічого не знайдено</h2>
+		<span>Вибачте, але нічого не знайшлося. Спробуйте змінити пошуковий запит</span>
 	</VCol>
 </template>
 
