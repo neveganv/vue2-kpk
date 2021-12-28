@@ -1,26 +1,29 @@
 <template>
 	<div>
 		<VRow no-gutters>
-			<VCol cols="8">
+			<VCol cols="7">
 				<div class="my-title">
 					<VBadge top overlap color="error" content="beta">
 						Нещодавні новини
 					</VBadge>
 				</div>
 				<div class="my-sub">
-					Lorem Ipsum is simply dummy text of the printing and typesetting
-					industry. Lorem Ipsum has been the industry's standard dummy text ever
-					since the 1500s, when an unknown printer took a galley of type and
-					scrambled it to make a type specimen book. It has survived not only
-					five centuries, but also the leap into electronic typesetting,
-					remaining essentially unchanged. It was popularised in the 1960s with
-					the release of Letraset sheets containing Lorem Ipsum passages, and
-					more recently with desktop publishing software like Aldus PageMaker
-					including versions of Lorem Ipsum.
+					{{ activeNew.title }}
+
+					{{
+						moment(activeNew.created_time)
+							.locale('uk')
+							.startOf('hours')
+							.fromNow() || '--'
+					}}
 				</div>
 			</VCol>
-			<VCol cols="4">
-				<slider-cards :news="news" v-if="!sceleton" @changeCoolNew="changeCoolNew" />
+			<VCol cols="5">
+				<slider-cards
+					:news="news"
+					v-if="!sceleton"
+					@changeSlider="changeCoolNew"
+				/>
 				<VCard v-else max-width="400">
 					<VCardText>
 						<v-skeleton-loader
@@ -44,23 +47,25 @@ export default {
 	data: () => ({
 		news: [],
 		sceleton: false,
+		activeNew: {},
 	}),
 	async mounted() {
 		try {
 			this.sceleton = true;
 			this.news = await newsService.getCoolNews();
 			this.sceleton = false;
+			this.activeNew = this.news[0];
 			console.log(this.news);
 		} catch (e) {
 			alert(e);
 		}
 		console.log(this.news);
 	},
-	methods:{
-		changeCoolNew(e){
-			console.log(e)
-		}
-	}
+	methods: {
+		changeCoolNew(e) {
+			this.activeNew = this.news[e];
+		},
+	},
 };
 </script>
 

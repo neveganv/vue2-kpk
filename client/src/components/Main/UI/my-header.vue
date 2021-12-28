@@ -5,11 +5,13 @@
 				<div style="width: 50px">
 					<VBadge color="error" overlap right bottom text content="pre-alpha">
 						<img
+							@click="$router.push({path:'/'}).catch(err => err)"
 							:src="require('@/assets/img/main-logo.svg')"
 							width="210"
 							height="81"
 							alt=""
 							class="p-0 m-0"
+							style="cursor:pointer"
 						/>
 					</VBadge>
 				</div>

@@ -1,5 +1,5 @@
 <template>
-	<div class="my-footer" style="margin-top: 160px">
+	<div class="my-footer" style="margin-top: 120px">
 		<my-divider class="my-3" :height="1" />
 		<VRow no-gutters class="my-footer__inner" v-if="folders.length > 0  && !sceletonLoader">
 			<VCol
@@ -14,7 +14,7 @@
 					</VRow>
 					<span
 						:class="{
-							'primary--text font-weight-bold': page._id === $route.params.id,
+							'purple--text  font-weight-medium': page._id === $route.params.id,
 						}"
 						v-for="page in folder.pages"
 						:key="page._id"
