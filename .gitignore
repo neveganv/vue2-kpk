@@ -109,3 +109,5 @@ node_modules
 .idea/workspace.xml
 .idea/workspace.xml
 .DS_Store
+server/.DS_Store
+.DS_Store

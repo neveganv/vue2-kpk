@@ -4,7 +4,7 @@ const cors = require("cors")
 const app = express()
 
 // Middleware
-app.use(express.static("../dist"));
+app.use(express.static(__dirname + "/public"));
 
 app.use(express.urlencoded({
     limit: '15mb',
@@ -19,7 +19,7 @@ app.use(cors())
 
 // SPA
 app.get("*", (req, res) => {
-    res.sendFile("../dist/index.html");
+    res.sendFile(__dirname + "/public/index.html");
 });
 //routes
 app.use('/api/news', require('./routes/api/news'))
