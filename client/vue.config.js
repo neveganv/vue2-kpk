@@ -20,6 +20,6 @@ module.exports = {
     // },
     lintOnSave: false,
 
-    outputDir: path.resolve(__dirname, "../server/public"),
+    outputDir: path.resolve("../dist"),
     productionSourceMap: false,
 };
