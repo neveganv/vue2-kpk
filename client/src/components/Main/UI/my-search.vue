@@ -53,10 +53,10 @@ export default {
 	methods: {
 		async searchAll() {
 			const params = [];
-			params.title = this.$route.params.query
+			params.title = this.$route.params.query.toLowerCase()
 			let response = await newsService.searchCoolNews({ ...params });
 			this.filter.news = response;
-			console.log(response);
+			console.log("news",response);
 			response = await newsService.searchSimpleNews({ ...params });
 			this.filter.news1 = response;
 			console.log(response);

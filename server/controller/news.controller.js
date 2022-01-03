@@ -136,7 +136,6 @@ exports.counter = (req, res) => {
 },
 
 exports.findNews = (req, res) => {
-console.log("news")
 	News.find({
 		title:  {$regex: req.body.title}
 	})
