@@ -4,13 +4,13 @@ module.exports = {
     transpileDependencies: [
         'vuetify',
       ],
-    devServer: {
-        proxy: {
-            '/api': {
-                target: 'http://3.17.162.70/'
-            }
-        }
-    },
+    // devServer: {
+    //     proxy: {
+    //         '/api': {
+    //             target: 'http://3.17.162.70/'
+    //         }
+    //     }
+    // },
     // css: {
     //     loaderOptions: {
     //         scss: {

@@ -1,14 +1,21 @@
 import axios from 'axios';
 
+const API_ENDPOINT = 'http://3.17.162.70'
 export default {
+
     get(url, params = {}, headers = {}) {
-      return axios.get(`${url}`);
+      return axios.get(
+        API_ENDPOINT + url,
+        {
+          params,
+          headers,
+        },
+      );
     },
-    post(url, body = {}, headers = {}, config = {}) {
+    post(url, body = {}, config = {}) {
       return axios.post(
-        url,
+        API_ENDPOINT + url,
         body,
-        headers,
         config,
       );
     },
@@ -17,14 +24,14 @@ export default {
     },
     put(url, body = {}, config = {}) {
       return axios.put(
-        url,
+        API_ENDPOINT + url,
         body,
         config,
       );
     },
     postExternal(url, body = {}, config = {}) {
       return axios.post(
-        url,
+        API_ENDPOINT + url,
         body,
         config,
       );
