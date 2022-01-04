@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_ENDPOINT = 'http://3.122.157.150'
+const API_ENDPOINT = 'http://3.17.162.70'
 export default {
 
     get(url, params = {}, headers = {}) {
