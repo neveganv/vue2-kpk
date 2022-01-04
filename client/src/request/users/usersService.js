@@ -1,5 +1,5 @@
 import requestService from '../requestService';
-
+import axios from 'axios';
 const prefix = '/api/user';
 
 export default {
