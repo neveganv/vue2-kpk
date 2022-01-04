@@ -19,7 +19,7 @@ module.exports = {
     //     }
     // },
     lintOnSave: false,
-
-    outputDir: path.resolve("../dist"),
+    publicPath: '/kpk.dev-ui/',
+    // outputDir: path.resolve("../dist"),
     productionSourceMap: false,
 };
