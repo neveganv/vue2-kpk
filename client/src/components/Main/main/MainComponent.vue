@@ -1,61 +1,71 @@
 <template>
 	<div class="overflow-auto">
 		<!-- header  -->
-		<my-header />
-		<!-- main image -->
-		<div class="first-screen my-container">
-			<span>Політехніка звучить гордо</span>
-			<div class="img_wrapper">
-				<v-img
-					class="img "
-					draggable="false"
-					:src="require('@/assets/img/main-img.jpg')"
-					:lazy-src="require('@/assets/img/main-img.jpg')"
-					alt=""
-					@load="loadedMain"
-				>
-					<template v-slot:placeholder>
-						<v-row class="fill-height ma-0" align="center" justify="center">
-							<v-progress-circular
-								indeterminate
-								color="grey lighten-5"
-							></v-progress-circular>
-						</v-row> </template
-				></v-img>
-
-				<div class="main-glass unselectable">
-					<img
+		<div>
+			<my-header @onBurger="onBurger" :navigationRight="navigationRight" />
+			<!-- main image -->
+			<div class="first-screen my-container">
+				<span>Політехніка звучить гордо</span>
+				<div class="img_wrapper">
+					<v-img
+						class="img"
 						draggable="false"
-						:src="require('@/assets/img/main_text.svg')"
+						:src="require('@/assets/img/main-img.jpg')"
+						:lazy-src="require('@/assets/img/main-img.jpg')"
 						alt=""
-					/>
+						@load="loadedMain"
+					>
+						<template v-slot:placeholder>
+							<v-row class="fill-height ma-0" align="center" justify="center">
+								<v-progress-circular
+									indeterminate
+									color="grey lighten-5"
+								></v-progress-circular>
+							</v-row> </template
+					></v-img>
+
+					<div class="main-glass unselectable">
+						<img
+							draggable="false"
+							:src="require('@/assets/img/main_text.svg')"
+							alt=""
+						/>
+					</div>
 				</div>
 			</div>
+			<!-- cool news -->
+			<div class="my-container" style="margin-top: 150px; margin-bottom: 150px">
+				<CoolNews />
+			</div>
+			<!-- specialities  -->
+			<div class="my-container">
+				<VRow
+					align="center"
+					justify="space-between"
+					style="margin-bottom: 100px"
+				>
+					<VCol class="title">Спеціальності</VCol>
+					<VCol class="sub">
+						Коледж готує фахівців освітньо-професійного ступеня «фаховий
+						молодший бакалавр» за спеціальностями/освітньо-професійними
+						програмами (ОПП)
+					</VCol>
+				</VRow>
+				<SpecialitiesList />
+			</div>
+			<!-- news list -->
+			<div class="my-container" style="margin-top: 160px">
+				<MainNewsList />
+			</div>
+			<div class="my-container">
+				<FooterComponent />
+			</div>
+			<div class="my-4">
+				<my-header />
+			</div>
 		</div>
-		<!-- cool news -->
-		<div class="my-container" style="margin-top: 150px; margin-bottom: 150px">
-			<CoolNews />
-		</div>
-		<!-- specialities  -->
-		<div class="my-container">
-			<VRow align="center" justify="space-between" style="margin-bottom: 100px">
-				<VCol class="title">Спеціальності</VCol>
-				<VCol class="sub">
-					Коледж готує фахівців освітньо-професійного ступеня «фаховий молодший
-					бакалавр» за спеціальностями/освітньо-професійними програмами (ОПП)
-				</VCol>
-			</VRow>
-			<SpecialitiesList />
-		</div>
-		<!-- news list -->
-		<div class="my-container" style="margin-top: 160px">
-			<MainNewsList />
-		</div>
-		<div class="my-container" >
-			<FooterComponent />
-		</div>
-		<div class="my-4">
-			<my-header />
+		<div class="main-navigation-right">
+			<right-navigation @onBurgerNav="onBurger" :navigationRight="navigationRight" />
 		</div>
 	</div>
 </template>
@@ -66,10 +76,12 @@ import CoolNews from './CoolNews.vue';
 import SpecialitiesList from './SpecialitiesList.vue';
 import MainNewsList from './MainNewsList.vue';
 import FooterComponent from './FooterComponent.vue';
+import RightNavigation from './RightNavigation.vue';
 
 export default {
 	data: () => ({
 		mainImage: '../../../assets/img/main-img.jpg',
+		navigationRight: true,
 	}),
 	components: {
 		MyHeader,
@@ -77,10 +89,14 @@ export default {
 		SpecialitiesList,
 		MainNewsList,
 		FooterComponent,
+		RightNavigation,
 	},
 	methods: {
 		loadedMain() {
 			console.log(123);
+		},
+		onBurger() {
+			this.navigationRight = !this.navigationRight;
 		},
 	},
 };
@@ -103,7 +119,7 @@ export default {
 .img_wrapper {
 	background: white;
 	margin-top: 100px;
-	height: 700px;
+	height: 650px;
 	display: flex;
 	position: relative;
 	justify-content: center;
@@ -134,7 +150,7 @@ export default {
 .img {
 	width: 100%;
 	object-fit: cover;
-	height: 740px;
+	height: 100%;
 	z-index: 0;
 	max-width: 1300px;
 }
@@ -153,7 +169,7 @@ export default {
 	border: 1px solid rgba(227, 227, 227, 0.4);
 	background: rgba(242, 242, 242, 0.6);
 	overflow: hidden;
-	img{
+	img {
 		width: 70%;
 	}
 
