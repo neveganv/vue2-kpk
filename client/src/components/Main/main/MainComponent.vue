@@ -65,7 +65,10 @@
 			</div>
 		</div>
 		<div class="main-navigation-right">
-			<right-navigation @onBurgerNav="onBurger" :navigationRight="navigationRight" />
+			<right-navigation
+				@onBurgerNav="onBurger"
+				:navigationRight="navigationRight"
+			/>
 		</div>
 	</div>
 </template>
@@ -170,7 +173,7 @@ export default {
 	background: rgba(242, 242, 242, 0.6);
 	overflow: hidden;
 	img {
-		width: 70%;
+		width: 85%;
 	}
 
 	&::before {

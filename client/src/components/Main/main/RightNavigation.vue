@@ -3,7 +3,7 @@
 		<div class="navigation">
 			<v-sheet>
 				<v-container style="height: auto">
-					<VCardTitle> Навігація </VCardTitle>
+					<!-- <VCardTitle> Навігація </VCardTitle> -->
 					<VSubheader> Спонсори</VSubheader>
 					<div class="sponsor__wrapper">
 						<div
