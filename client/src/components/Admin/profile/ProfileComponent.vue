@@ -2,8 +2,8 @@
 	<div class="p-1">
 		<VRow no-gutters>
 			<VCol class="text-center" cols="12">
-				Профіль користувача  <b>{{ getUser.name || '--' }}
-				{{ getUser.surname || '--' }}</b>
+				Профіль користувача
+				<b>{{ getUser.name || '--' }} {{ getUser.surname || '--' }}</b>
 				<VDivider class="my-3" />
 			</VCol>
 		</VRow>
@@ -105,7 +105,7 @@
 			</VCol>
 			<VDivider vertical />
 			<VCol cols="4"
-				><VBtn rounded text color="primary" @click="showChange = true" 
+				><VBtn rounded text color="primary" @click="showChange = true"
 					><VIcon left>mdi-lock-reset</VIcon>Змінити пароль</VBtn
 				></VCol
 			>
@@ -135,12 +135,12 @@ export default {
 	components: {
 		ChangePassword,
 	},
-	mixins: [user, validationMixin,loader],
+	mixins: [user, validationMixin, loader],
 	data: () => ({
 		showChange: false,
 		user: [],
 		isChanged: false,
-		isLoadingBtn:false
+		isLoadingBtn: false,
 	}),
 	watch: {
 		user: {
@@ -229,8 +229,11 @@ export default {
 					console.log(this.user);
 					this.isChanged = false;
 					this.isLoadingBtn = false;
+					this.inputUser = {
+						...this.user,
+					};
 				} catch (e) {
-						this.isLoadingBtn = false;
+					this.isLoadingBtn = false;
 					alert(e);
 				}
 			}
