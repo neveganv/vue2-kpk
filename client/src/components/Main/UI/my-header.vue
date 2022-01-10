@@ -3,12 +3,12 @@
 		<v-fade-transition>
 			<div class="my-container mt-5">
 				<VRow no-gutters aling="center" justify="space-between" class="py-2">
-					<div style="width: 50px">
+					<div style="width: 90px">
 						<VBadge color="error" overlap right bottom text content="pre-alpha">
 							<img
 								@click="$router.push({ path: '/' }).catch(err => err)"
 								:src="require('@/assets/img/main-logo.svg')"
-								width="210"
+								width="200"
 								height="81"
 								alt=""
 								class="p-0 m-0"
@@ -26,10 +26,36 @@
 
 					<div class="d-flex justify-center align-center">
 						<VRow>
-							<VTextField dense v-if="searchShow" v-model="search" />
-							<VBtn icon @click="searchData">
-								<VIcon> mdi-magnify</VIcon>
-							</VBtn>
+							<v-menu
+								bottom
+								left
+								transition="slide-x-transition"
+								:close-on-content-click="false"
+								content-class="elevation-4"
+							>
+								<template v-slot:activator="{ on, attrs }">
+									<VBtn icon v-bind="attrs" v-on="on">
+										<VIcon> mdi-magnify</VIcon>
+									</VBtn>
+								</template>
+
+								<VTextField
+									dense
+									v-model="search"
+									solo
+									hide-details
+									label="Пошук.."
+								>
+									<template slot="append">
+										<v-slide-x-transition>
+											<VIcon v-if="search.length > 0" @click="searchData">
+												mdi-magnify</VIcon
+											>
+										</v-slide-x-transition>
+									</template>
+								</VTextField>
+							</v-menu>
+
 							<v-fade-transition>
 								<VBtn icon @click="onBurger">
 									<VIcon> mdi-menu</VIcon>
@@ -67,16 +93,16 @@ export default {
 }
 .nav {
 	color: #4b4453;
-
 	font-family: 'Montserrat', sans-serif;
-	max-width: 620px;
+	max-width: 510px;
 	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	font-size: 15px;
 }
 .nav__inner {
-	padding-left: 1rem;
+	padding-left: 0.1rem;
 	cursor: pointer;
 }
 </style>
