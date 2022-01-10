@@ -22,6 +22,11 @@ const routes = [
 		component: () => import('@/views/Main/Speciality.vue'),
 	},
 	{
+		path: '/news-:id',
+		name: 'main-news-page',
+		component: () => import('@/views/Main/News.vue'),
+	},
+	{
 		path: '/page/:id',
 		name: 'main-dynamic-page',
 		component: () => import('@/views/Main/DynamicPage.vue'),

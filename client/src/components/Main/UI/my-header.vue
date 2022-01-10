@@ -18,7 +18,7 @@
 					</div>
 
 					<div class="nav">
-						<div class="nav__inner">Головна</div>
+						<div class="nav__inner" @click="$router.push({ path: '/' }).catch(err => err)">Головна</div>
 						<div class="nav__inner">Про коледж</div>
 						<div class="nav__inner">Студентові</div>
 						<div class="nav__inner">Абітурієнту</div>

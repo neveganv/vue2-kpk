@@ -99,6 +99,7 @@ export default {
 
 <style lang="scss" scoped>
 .speciality {
+	min-height: 100vh;
 	.title {
 		&-number {
 			background: white;

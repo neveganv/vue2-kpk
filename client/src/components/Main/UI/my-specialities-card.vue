@@ -61,7 +61,7 @@ export default {
 	cursor: pointer;
 	display: flex;
 	flex-direction: column;
-	width: 350px;
+	width: 300px;
 	background: #fff;
 	transition: 0.2s ease;
 	position: relative;
@@ -90,8 +90,8 @@ export default {
 	}
 	.card__img {
 		align-self: flex-end;
-		max-width: 450px;
-		height: 300px;
+		max-width: 350px;
+		height:250px;
 		width: 100%;
 
 		img {
@@ -104,7 +104,7 @@ export default {
 		content: '';
 		position: absolute;
 		width: 2px;
-		height: 350px;
+		height: 300px;
 		left: 0;
 		top: 0;
 		background: #b0a8b9;

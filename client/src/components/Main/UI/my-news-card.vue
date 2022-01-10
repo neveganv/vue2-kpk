@@ -1,5 +1,5 @@
 <template>
-	<div class="my-new">
+	<div class="my-new" @click="onClick">
 		<div class="my-new__header" v-if="!sceletonLoader">
 			<b> {{ newItem.category.name || '--' }}</b>
 
@@ -43,6 +43,14 @@ export default {
 			require: false,
 		},
 	},
+	methods:{
+		onClick(){
+
+			this.$router.push({
+				path:`/news-${this.newItem._id}`
+			})
+		}
+	}
 };
 </script>
 

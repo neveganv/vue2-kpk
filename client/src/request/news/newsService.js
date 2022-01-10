@@ -70,6 +70,6 @@ export default {
 	async deleteCoolNews(params){
 		const response = await requestService.post(`${prefix3}/deleteCoolNews`, params)
 		return response?.data
-	}
+	},
 
 };

@@ -65,7 +65,7 @@
 				<FooterComponent />
 			</div>
 			<div class="my-4">
-				<my-header />
+				<my-header  menu="true" @onBurger="onBurger" />
 			</div>
 		</div>
 		<div class="main-navigation-right">

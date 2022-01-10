@@ -16,17 +16,10 @@
 		<div class="my-container" style="margin-top: 50px">
 			<VRow no-gutters>
 				<VCol cols="8">
-					<PageInner
-						:page="page"
-						:sceletonLoader="sceletonLoader"
-						:PageDeleted="PageDeleted"
-					/>
+					<NewsInner :newItem="newItem" :sceletonLoader="sceletonLoader" />
 				</VCol>
 				<VCol cols="4">
-					<AnotherNewsList
-						:news="news"
-						:sceletonLoader="sceletonLoader"
-					/>
+					<AnotherNewsList :news="news" :sceletonLoader="sceletonLoader" />
 				</VCol>
 			</VRow>
 		</div>
@@ -34,48 +27,36 @@
 </template>
 
 <script>
-import pageService from '@/request/page/pageService';
 import MyHeader from '../UI/my-header.vue';
-import PageInner from './PageInner.vue';
+import NewsInner from './NewsInner.vue';
+import AnotherNewsList from './AnotherNewsList.vue';
+
 import newsService from '@/request/news/newsService';
-import AnotherNewsList from '../news/AnotherNewsList.vue';
+
 export default {
 	data: () => ({
-		page: [],
-		sceletonLoader: false,
+		newItem: [],
 		news: [],
-		PageDeleted: false,
+		sceletonLoader: false,
 	}),
+	components: {
+		MyHeader,
+		NewsInner,
+		AnotherNewsList,
+	},
 	watch: {
 		$route: {
 			deep: true,
 			handler(e) {
-				this.getPage();
+				this.getNewItem();
+				this.getNews();
 			},
 		},
 	},
-	components: {
-		MyHeader,
-		PageInner,
-AnotherNewsList,
-
-	},
 	mounted() {
-		this.getPage();
+		this.getNewItem();
 	},
 	methods: {
-		async getPage() {
-			this.sceletonLoader = true;
-			const newPage = await pageService.getOne({ _id: this.$route.params.id });
-			this.page = newPage[0];
-			console.log('my-page', this.page);
-				console.log(newPage)
-			if (!this.page) {
-				this.PageDeleted = true;
-				this.sceletonLoader = false;
-			}
-			this.getNews();
-		},
 		async getNews() {
 			try {
 				this.news = await newsService.getAllNews();
@@ -86,8 +67,20 @@ AnotherNewsList,
 				alert(e);
 			}
 		},
+		async getNewItem() {
+			try {
+				this.sceletonLoader = true;
+				this.newItem = await newsService.getSimpleNewsById({
+					id: this.$route.params.id,
+				});
+				console.log(this.newItem);
+				this.getNews();
+			} catch (e) {
+				alert(e);
+			}
+		},
 	},
 };
 </script>
 
-<style lang="scss"></style>
+<style></style>
