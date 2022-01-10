@@ -56,11 +56,11 @@
 								</VTextField>
 							</v-menu>
 
-							<v-fade-transition>
-								<VBtn icon @click="onBurger">
+
+								<VBtn icon @click="onBurger" v-if="menu">
 									<VIcon> mdi-menu</VIcon>
 								</VBtn>
-							</v-fade-transition>
+
 						</VRow>
 					</div>
 				</VRow>
@@ -75,7 +75,11 @@ export default {
 		searchShow: true,
 		search: '',
 	}),
-	props: ['navigationRight'],
+	props: {
+		menu: {
+			default: false,
+		},
+	},
 	methods: {
 		searchData() {
 			this.$router.push({ name: 'search', params: { query: this.search } });

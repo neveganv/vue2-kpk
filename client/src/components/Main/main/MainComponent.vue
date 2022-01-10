@@ -2,7 +2,11 @@
 	<div class="overflow-auto">
 		<!-- header  -->
 		<div>
-			<my-header @onBurger="onBurger" :navigationRight="navigationRight" />
+			<my-header
+				@onBurger="onBurger"
+				:navigationRight="navigationRight"
+				menu="true"
+			/>
 			<!-- main image -->
 			<div class="first-screen my-container">
 				<span>Політехніка звучить гордо</span>

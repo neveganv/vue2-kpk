@@ -1,5 +1,5 @@
 <template>
-	<v-navigation-drawer fixed right v-model="navVisible" class="overflow-hidden">
+	<v-navigation-drawer fixed right v-model="navVisible" class="overflow-hidden" mobile-breakpoint="1626" >
 		<div class="navigation">
 			<v-sheet>
 				<v-container style="height: auto">
