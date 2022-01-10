@@ -7,7 +7,7 @@
 						Нещодавні новини
 					</VBadge>
 				</div>
-				<div class="my-sub">
+				<div class="my-sub" v-if="!sceleton">
 					{{ activeNew.title }}
 
 					{{
@@ -16,6 +16,13 @@
 							.startOf('hours')
 							.fromNow() || '--'
 					}}
+				</div>
+				<div class="my-sub" v-else>
+					<v-skeleton-loader
+
+						max-width="500"
+						type="article"
+					></v-skeleton-loader>
 				</div>
 			</VCol>
 			<VCol cols="5">

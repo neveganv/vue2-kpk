@@ -22,7 +22,7 @@
 			
 		</div>
 		<div class="my-new__img" v-if="!sceletonLoader">
-			<img :src="newItem.main_img" />
+			<img :src="newItem.main_img" draggable="false" />
 		</div>
 		<div class="my-new__img" v-else>
 			<v-skeleton-loader
