@@ -11,18 +11,29 @@
 								width="200"
 								height="81"
 								alt=""
-								class="p-0 m-0"
+								class="p-0 m-0 logo"
+								:class="{
+									sm: $vuetify.breakpoint.sm,
+									md: $vuetify.breakpoint.md,
+									xs: $vuetify.breakpoint.xs,
+								}"
 								style="cursor: pointer"
 							/>
 						</VBadge>
 					</div>
-
-					<div class="nav">
-						<div class="nav__inner" @click="$router.push({ path: '/' }).catch(err => err)">Головна</div>
-						<div class="nav__inner">Про коледж</div>
-						<div class="nav__inner">Студентові</div>
-						<div class="nav__inner">Абітурієнту</div>
-					</div>
+					<v-fade-transition>
+						<div class="nav" v-if="!$vuetify.breakpoint.mdAndDown">
+							<div
+								class="nav__inner"
+								@click="$router.push({ path: '/' }).catch(err => err)"
+							>
+								Головна
+							</div>
+							<div class="nav__inner">Про коледж</div>
+							<div class="nav__inner">Студентові</div>
+							<div class="nav__inner">Абітурієнту</div>
+						</div>
+					</v-fade-transition>
 
 					<div class="d-flex justify-center align-center">
 						<VRow>
@@ -56,11 +67,9 @@
 								</VTextField>
 							</v-menu>
 
-
-								<VBtn icon @click="onBurger" v-if="menu">
-									<VIcon> mdi-menu</VIcon>
-								</VBtn>
-
+							<VBtn icon @click="onBurger" v-if="menu">
+								<VIcon> mdi-menu</VIcon>
+							</VBtn>
 						</VRow>
 					</div>
 				</VRow>
@@ -94,6 +103,21 @@ export default {
 <style lang="scss" scoped>
 .header {
 	transition: 0.4s ease;
+}
+.logo {
+	transition: 0.4s ease;
+	&.md {
+		width: 170px;
+		height: auto;
+	}
+	&.sm {
+		width: 120px;
+		height: auto;
+	}
+	&.xs {
+		width: 100px;
+		height: auto;
+	}
 }
 .nav {
 	color: #4b4453;

@@ -1,30 +1,44 @@
 <template>
-	<div class="my-new" @click="onClick">
+	<div
+		class="my-new"
+		@click="onClick"
+		:class="{
+			md: $vuetify.breakpoint.md,
+			sm: $vuetify.breakpoint.sm,
+			xs: $vuetify.breakpoint.xs,
+		}"
+	>
 		<div class="my-new__header" v-if="!sceletonLoader">
 			<b> {{ newItem.category.name || '--' }}</b>
-
 			<div class="text-right">
-				<span >
+				<span>
 					{{ moment(newItem.created_time).locale('uk').format('LL') || '--' }}
 				</span>
-				<div class="views" v-if="newItem.views >0 "><VIcon left small>mdi-eye</VIcon>{{ newItem.views }}</div>
-				<div class="views" v-else><VIcon left small>mdi-eye</VIcon>немає переглядів</div>
+				<div class="views" v-if="newItem.views > 0">
+					<VIcon left small>mdi-eye</VIcon>{{ newItem.views }}
+				</div>
+				<div class="views" v-else>
+					<VIcon left small>mdi-eye</VIcon>немає переглядів
+				</div>
 			</div>
 		</div>
-		<div class="my-new__header" v-else>
+
+		<div class="my-new__header" v-if="sceletonLoader">
 			<v-skeleton-loader
 				type="article"
 				style="width: 530px"
 			></v-skeleton-loader>
 		</div>
+
 		<div class="my-new__content" v-if="!sceletonLoader">
 			{{ newItem.title }}
-			
 		</div>
+
 		<div class="my-new__img" v-if="!sceletonLoader">
 			<img :src="newItem.main_img" draggable="false" />
 		</div>
-		<div class="my-new__img" v-else>
+
+		<div class="my-new__img" v-if="sceletonLoader">
 			<v-skeleton-loader
 				type="image"
 				style="width: 530px; padding: 15px"
@@ -43,26 +57,46 @@ export default {
 			require: false,
 		},
 	},
-	methods:{
-		onClick(){
-
-			this.$router.push({
-				path:`/news-${this.newItem._id}`
-			})
-		}
-	}
+	methods: {
+		onClick() {
+			if (!this.sceletonLoader) {
+				this.$router.push({
+					path: `/news-${this.newItem._id}`,
+				});
+			}
+		},
+	},
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .my-new {
 	cursor: pointer;
-	width: 530px;
+	width: 500px;
 	height: 440px;
 	padding-left: 15px;
 	margin: 20px 0 70px 0;
 	position: relative;
-	transition: 0.2s ease;
+	transition: 0.4s ease;
+	&.md {
+		width: 430px;
+	}
+	&.sm {
+		width: 330px;
+		height: 290px;
+		.my-new__img {
+			height: 70%;
+		}
+	}
+	&.xs {
+		max-width: 330px;
+		width: 100%;
+		height: 290px;
+		.my-new__img {
+			height: 70%;
+		}
+	}
+
 	&__header {
 		display: flex;
 		justify-content: space-between;
@@ -77,7 +111,6 @@ export default {
 			color: #000000;
 		}
 		span {
-			
 			font-size: 11px !important;
 			line-height: 13px;
 			font-weight: 300;
@@ -101,8 +134,10 @@ export default {
 		overflow: hidden;
 	}
 	&__img {
-		height: 320px;
-		width: 510px;
+		transition: 0.4s ease;
+		height: 80%;
+		max-width: 510px;
+		width: 100%;
 
 		img {
 			object-fit: cover;
@@ -125,5 +160,16 @@ export default {
 	&:active {
 		transform: scale(0.95);
 	}
+}
+.slide-fade-enter-active {
+	transition: all 2s ease;
+}
+.slide-fade-leave-active {
+	transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+	transform: translateY(30px);
+	opacity: 0;
 }
 </style>

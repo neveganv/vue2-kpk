@@ -1,19 +1,27 @@
 <template>
 	<div class="specialities-card" @click="onClick">
-		<div class="card__title" v-if="!sceletonLoader">
-			<div class="title__number">{{ '0' + indexSpecialitie || '--' }}</div>
-			<div class="title__text">
-				{{ specialitie.name || '--' }} ({{ specialitie.number || '--' }})
+		<v-slide-x-transition>
+			<div class="card__title" v-if="!sceletonLoader">
+				<div class="title__number">{{ '0' + indexSpecialitie || '--' }}</div>
+				<div class="title__text">
+					{{ specialitie.name || '--' }} ({{ specialitie.number || '--' }})
+				</div>
 			</div>
-		</div>
-		<div class="card__title" v-else>
+		</v-slide-x-transition>
+		<div class="card__title" v-if="sceletonLoader">
 			<v-skeleton-loader type="chip"></v-skeleton-loader>
 		</div>
-		<div class="card__img" v-if="!sceletonLoader">
-			<img :src="specialitie.img" />
-		</div>
-		<div  v-else>
-			<v-skeleton-loader type="card" class="mt-7" height="300"></v-skeleton-loader>
+		<v-slide-x-transition>
+			<div class="card__img" v-if="!sceletonLoader">
+				<img :src="specialitie.img" />
+			</div>
+		</v-slide-x-transition>
+		<div v-if="sceletonLoader">
+			<v-skeleton-loader
+				type="card"
+				class="mt-7"
+				height="300"
+			></v-skeleton-loader>
 		</div>
 		<div class="card__arrow" v-if="!edit">
 			<VIcon>mdi-arrow-bottom-left</VIcon>
@@ -91,7 +99,7 @@ export default {
 	.card__img {
 		align-self: flex-end;
 		max-width: 350px;
-		height:250px;
+		height: 250px;
 		width: 100%;
 
 		img {

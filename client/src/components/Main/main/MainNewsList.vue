@@ -1,8 +1,12 @@
 <template>
 	<div>
-		<VRow no-gutters>
-			<div class="my-title">
-					Інформація про коледж
+		<VRow no-gutters justiyfy="center" >
+			<div class="my-title" 	:class="{
+							md: $vuetify.breakpoint.md,
+							sm: $vuetify.breakpoint.sm,
+							xs: $vuetify.breakpoint.xs,
+						}">
+					Новини коледжу
 			</div>
 		</VRow>
 		<div>
@@ -13,7 +17,7 @@
 				:categories="categories"
 			/>
 		</div>
-		<div>
+		<div> 
 			<NewsList :news="SortedNews" :sceletonLoader="sceletonLoader" />
 		</div>
 	</div>

@@ -1,9 +1,18 @@
 <template>
-	<div class="my-footer" style="margin-top: 120px">
+	<div class="my-footer" style="margin-top: 120px" 
+	:class="{
+							md: $vuetify.breakpoint.md,
+							sm: $vuetify.breakpoint.sm,
+							xs: $vuetify.breakpoint.xs,
+						}">
 		<my-divider class="my-3" :height="1" />
+		<v-slide-x-transition>
 		<VRow no-gutters class="my-footer__inner" v-if="folders.length > 0  && !sceletonLoader">
 			<VCol
-				cols="4"
+				cols="12"
+				xl="4"
+				md="4"
+				sm="4"
 				class="my-footer__col"
 				v-for="folder in folders"
 				:key="folder._id"
@@ -24,7 +33,8 @@
 				</VCol>
 			</VCol>
 		</VRow>
-		<VRow v-else no-gutters>
+		</v-slide-x-transition>
+		<VRow v-if="sceletonLoader" no-gutters>
 			<VCol cols="4" v-for="i in 6" :key="i">
 				<v-skeleton-loader type="article"></v-skeleton-loader>
 			</VCol>

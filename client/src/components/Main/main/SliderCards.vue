@@ -6,6 +6,11 @@
 			@swiper="onSwiper"
 			@slideChange="onSlideChange(news)"
 			ref="swiperName"
+			:class="{
+				md: $vuetify.breakpoint.md,
+				sm: $vuetify.breakpoint.sm,
+				xs: $vuetify.breakpoint.xs,
+			}"
 		>
 			<swiper-slide v-for="item in news" :key="item._id">
 				<img :src="item.img" alt="" />
@@ -36,7 +41,7 @@ export default {
 			console.log(swiper);
 		},
 		onSlideChange() {
-			this.$emit('changeSlider',this.$refs.swiperName.$swiper.activeIndex)
+			this.$emit('changeSlider', this.$refs.swiperName.$swiper.activeIndex);
 		},
 	},
 	data: () => ({

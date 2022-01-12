@@ -8,7 +8,14 @@
 				menu="true"
 			/>
 			<!-- main image -->
-			<div class="first-screen my-container">
+			<div
+				class="first-screen my-container"
+				:class="{
+					md: $vuetify.breakpoint.md,
+					sm: $vuetify.breakpoint.sm,
+					xs: $vuetify.breakpoint.xs,
+				}"
+			>
 				<span>Політехніка звучить гордо</span>
 				<div class="img_wrapper">
 					<v-img
@@ -38,7 +45,11 @@
 				</div>
 			</div>
 			<!-- cool news -->
-			<div class="my-container" style="margin-top: 150px; margin-bottom: 150px">
+			<div
+				class="my-container"
+				style="margin-top: 150px; margin-bottom: 150px"
+				:class="{ 'my-10': $vuetify.breakpoint.mdAndDown }"
+			>
 				<CoolNews />
 			</div>
 			<!-- specialities  -->
@@ -47,25 +58,45 @@
 					align="center"
 					justify="space-between"
 					style="margin-bottom: 100px"
+					:class="{ 'mb-10': $vuetify.breakpoint.mdAndDown }"
 				>
-					<VCol class="title">Спеціальності</VCol>
-					<VCol class="sub">
+					<VCol
+						class="title"
+						cols="auto"
+						:class="{
+							md: $vuetify.breakpoint.md,
+							sm: $vuetify.breakpoint.sm,
+							xs: $vuetify.breakpoint.xs,
+						}"
+						>Спеціальності</VCol
+					>
+
+					<VCol
+						class="sub"
+						:class="{
+							md: $vuetify.breakpoint.md,
+							sm: $vuetify.breakpoint.sm,
+							xs: $vuetify.breakpoint.xs,
+						}"
+					>
 						Коледж готує фахівців освітньо-професійного ступеня «фаховий
 						молодший бакалавр» за спеціальностями/освітньо-професійними
 						програмами (ОПП)
 					</VCol>
+	
 				</VRow>
 				<SpecialitiesList />
 			</div>
 			<!-- news list -->
-			<div class="my-container" style="margin-top: 160px">
+			<div class="my-container" style="margin-top: 160px"	:class="{ 'mt-5': $vuetify.breakpoint.mdAndDown }">
+
 				<MainNewsList />
 			</div>
 			<div class="my-container">
 				<FooterComponent />
 			</div>
 			<div class="my-4">
-				<my-header  menu="true" @onBurger="onBurger" />
+				<my-header menu="true" @onBurger="onBurger" />
 			</div>
 		</div>
 		<div class="main-navigation-right">
@@ -113,6 +144,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	transition: 0.5s ease;
 	span {
 		margin-top: 80px;
 		margin-bottom: 40px;
@@ -122,8 +154,66 @@ export default {
 		color: #4b4453;
 		font-size: 41px;
 	}
+	&.md {
+		span {
+			margin-top: 50px;
+			font-size: 30px;
+		}
+		.img_wrapper {
+			margin-top: 30px;
+			height: 500px;
+			max-width: 800px;
+		}
+		.main-glass {
+			max-width: 500px;
+			height: 150px;
+			padding: 20px 30px;
+			border-radius: 10px;
+			top: -8%;
+		}
+	}
+	&.sm {
+		span {
+			margin-top: 50px;
+			font-size: 30px;
+		}
+		.img_wrapper {
+			margin-top: 30px;
+			height: 400px;
+			max-width: 600px;
+		}
+		.main-glass {
+			max-width: 400px;
+			height: 100px;
+			padding: 20px 30px;
+			border-radius: 10px;
+			top: -10%;
+		}
+	}
+	&.xs {
+		span {
+			margin-top: 40px;
+			font-size: 15px;
+		}
+		.img_wrapper {
+			margin-top: 5px;
+			height: 180px;
+			max-width: 320px;
+		}
+		.main-glass {
+			max-width: 170px;
+			height: auto;
+			padding: 20px 10px;
+			border-radius: 5px;
+			top: -20%;
+			img {
+				width: 95%;
+			}
+		}
+	}
 }
 .img_wrapper {
+	transition: 0.5s ease;
 	background: white;
 	margin-top: 100px;
 	height: 650px;
@@ -141,6 +231,7 @@ export default {
 }
 .title,
 .sub {
+	transition: 0.1s ease;
 	font-family: 'Montserrat', sans-serif;
 	font-style: normal;
 	font-weight: 600;
@@ -149,10 +240,33 @@ export default {
 
 	color: #4b4453;
 }
+.title {
+	&.md {
+		font-size: 44px !important;
+	}
+	&.sm {
+		font-size: 34px !important;
+	}
+	&.xs {
+		font-size: 15px !important;
+	}
+}
 .sub {
 	font-weight: 500;
 	line-height: 29px;
 	font-size: 24px !important;
+	&.md {
+		font-size: 15px !important;
+		line-height: 20px;
+	}
+	&.sm {
+		font-size: 10px !important;
+		line-height: 15px;
+	}
+	&.xs {
+		font-size: 10px !important;
+		line-height: 15px;
+	}
 }
 .img {
 	width: 100%;
@@ -162,6 +276,7 @@ export default {
 	max-width: 1300px;
 }
 .main-glass {
+	transition: 0.5s ease;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -174,9 +289,10 @@ export default {
 	position: absolute !important;
 
 	border: 1px solid rgba(227, 227, 227, 0.4);
-	background: rgba(242, 242, 242, 0.6);
+	background: rgba(255, 254, 254, 0.772);
 	overflow: hidden;
 	img {
+		position: absolute;
 		width: 85%;
 	}
 

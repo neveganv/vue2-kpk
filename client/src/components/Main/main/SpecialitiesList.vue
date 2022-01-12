@@ -12,7 +12,7 @@
 				v-for="(specialitie, index) in specialities"
 				:key="index"
 				cols="auto"
-				class="mt-5"
+				class="mt-5 mx-auto"
 			>
 				<MySpecialitiesCard
 					:specialitie="specialitie"
@@ -28,7 +28,7 @@
 			justify-sm="space-around"
 			justify-md="space-around"
 		>
-			<VCol v-for="index in 6" :key="index" cols="auto" class="mt-5">
+			<VCol v-for="index in 6" :key="index" cols="auto" class="mt-5 mx-auto">
 				<MySpecialitiesCard
 					:sceletonLoader="SceletonLoader"
 	

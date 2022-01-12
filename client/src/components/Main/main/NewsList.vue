@@ -2,6 +2,7 @@
 	<div>
 		<VRow
 			no-gutters
+			justify="center"
 			justify-lg="space-between"
 			justify-md="space-around"
 			justify-sm="space-around"
