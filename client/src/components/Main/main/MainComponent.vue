@@ -22,7 +22,7 @@
 						class="img"
 						draggable="false"
 						:src="require('@/assets/img/main-img.jpg')"
-						:lazy-src="require('@/assets/img/main-img.jpg')"
+
 						alt=""
 						@load="loadedMain"
 					>
@@ -30,7 +30,7 @@
 							<v-row class="fill-height ma-0" align="center" justify="center">
 								<v-progress-circular
 									indeterminate
-									color="grey lighten-5"
+									color="grey darken-5"
 								></v-progress-circular>
 							</v-row> </template
 					></v-img>

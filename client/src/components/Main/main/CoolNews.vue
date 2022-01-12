@@ -33,7 +33,7 @@
 					</div>
 				</v-slide-x-transition>
 				<div class="my-sub" v-if="sceleton">
-					<v-skeleton-loader max-width="500" type="article"></v-skeleton-loader>
+					<v-skeleton-loader :max-width="$vuetify.breakpoint.smAndDown ? 700 : 500" type="article"></v-skeleton-loader>
 				</div>
 			</VCol>
 			<VCol cols="12" xl="5" sm="12" md="5">
@@ -49,6 +49,7 @@
 						class="ml-auto mt-10"
 						max-width="300"
 						type="card"
+						:class="{'mx-auto':$vuetify.breakpoint.smAndDown}"
 					></v-skeleton-loader>
 				</VSheet>
 			</VCol>
