@@ -4,7 +4,7 @@
 			<v-sheet>
 				<v-container style="height: auto">
 					<!-- <VCardTitle> Навігація </VCardTitle> -->
-					<VSubheader> Спонсори</VSubheader>
+					<VSubheader>Партнери</VSubheader>
 					<div class="sponsor__wrapper">
 						<div
 							class="sponsor__inner"
