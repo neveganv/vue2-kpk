@@ -30,7 +30,41 @@
 								Головна
 							</div>
 							<div class="nav__inner">Про коледж</div>
-							<div class="nav__inner">Студентові</div>
+							<VMenu
+								offset-y
+								transition="slide-y-transition"
+								rounded="lg"
+								:close-on-content-click="false"
+							>
+								<template v-slot:activator="{ on, attrs }">
+									<div class="nav__inner" v-on="on" v-bind="attrs">
+										Студентові
+									</div>
+								</template>
+								<VSheet :min-width="170" :max-width="300">
+									<v-list dense>
+										<v-list-item-group color="purple">
+											<div v-for="(item, i) in studentsPage" :key="i">
+												<VDivider v-if="i > 0" class="mx-5" />
+												<v-list-item :to="{ name: item.link }">
+													<v-list-item-content>
+														<VRow
+															no-gutters
+															align="center"
+															justify="space-around"
+														>
+															<VCol cols="3">
+																<v-icon v-text="item.icon" dense></v-icon>
+															</VCol>
+															<VCol cols="9" v-text="item.text"></VCol>
+														</VRow>
+													</v-list-item-content>
+												</v-list-item>
+											</div>
+										</v-list-item-group>
+									</v-list>
+								</VSheet>
+							</VMenu>
 							<div class="nav__inner">Абітурієнту</div>
 						</div>
 					</v-fade-transition>
@@ -49,22 +83,21 @@
 										<VIcon> mdi-magnify</VIcon>
 									</VBtn>
 								</template>
-
-								<VTextField
-									dense
-									v-model="search"
-									solo
-									hide-details
-									label="Пошук.."
-								>
-									<template slot="append">
-										<v-slide-x-transition>
-											<VIcon v-if="search.length > 0" @click="searchData">
-												mdi-magnify</VIcon
-											>
-										</v-slide-x-transition>
-									</template>
-								</VTextField>
+									<VTextField
+										dense
+										v-model="search"
+										solo
+										hide-details
+										label="Пошук.."
+									>
+										<template slot="append">
+											<v-slide-x-transition>
+												<VIcon v-if="search.length > 0" @click="searchData">
+													mdi-magnify</VIcon
+												>
+											</v-slide-x-transition>
+										</template>
+									</VTextField>
 							</v-menu>
 
 							<VBtn icon @click="onBurger" v-if="menu">
@@ -83,6 +116,9 @@ export default {
 	data: () => ({
 		searchShow: true,
 		search: '',
+		studentsPage: [
+			{ text: 'Розклад', icon: 'mdi-calendar', link: 'main-student-shedule' },
+		],
 	}),
 	props: {
 		menu: {

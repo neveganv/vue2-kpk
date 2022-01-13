@@ -1,5 +1,5 @@
 <template>
-	<v-sheet height="750">
+	<v-sheet :height="userType === 'client' ? 550 : 750" class="calendar">
 		<v-calendar
 			ref="calendar"
 			:value="today"
@@ -28,9 +28,12 @@
 		>
 			<v-card color="grey lighten-4" min-width="350px" flat>
 				<v-toolbar :color="selectedEvent.color" dark>
-					<v-btn icon @click="OnEdit(selectedEvent._id)">
-						<v-icon>mdi-pencil</v-icon>
-					</v-btn>
+					<div v-if="userType === 'client'">
+						<v-icon left>mdi-calendar-clock</v-icon>
+					</div>
+					<div v-else>
+						<v-icon left @click="OnEdit(selectedEvent._id)">mdi-pencil</v-icon>
+					</div>
 					<v-toolbar-title
 						v-if="selectedEvent.name"
 						v-html="selectedEvent.name"
@@ -86,6 +89,9 @@ export default {
 		setToday: {
 			require: false,
 		},
+		userType: {
+			require: false,
+		},
 	},
 	watch: {
 		next: {
@@ -105,8 +111,8 @@ export default {
 		setToday: {
 			deep: true,
 			handler(e) {
-				console.log(e)
-			this.focus = ''
+				console.log(e);
+				this.focus = '';
 			},
 		},
 	},
@@ -184,6 +190,23 @@ export default {
 </script>
 
 <style lang="scss">
+.v-calendar-daily__scroll-area {
+	&::-webkit-scrollbar {
+		width: 8px !important;
+		height: 12px;
+		background-color: transparent;
+		position: absolute;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: rgba(113, 113, 113, 0.3);
+		border: thin solid rgb(245, 245, 244);
+		border-radius: 9em;
+	}
+	&::-webkit-scrollbar-thumb:hover {
+		background-color: darken(rgba(113, 113, 113, 0.5), 4);
+	}
+}
 .v-current-time {
 	height: 2px;
 	background-color: #ea4335;

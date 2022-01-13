@@ -27,6 +27,19 @@ const routes = [
 		component: () => import('@/views/Main/News.vue'),
 	},
 	{
+		path: '/student',
+		name: 'main-student',
+		component: () => import('../views/Main/Student.vue'),
+
+		children:[
+			{
+				path: 'shedule',
+				name: 'main-student-shedule',
+				component: () => import('../views/Main/Student/Shedule.vue'),
+			  },
+		]
+	},
+	{
 		path: '/page/:id',
 		name: 'main-dynamic-page',
 		component: () => import('@/views/Main/DynamicPage.vue'),
