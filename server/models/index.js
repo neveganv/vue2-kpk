@@ -17,5 +17,6 @@ db.folder = require("./folder")(mongoose);
 db.specialty = require("./specialty")(mongoose);
 db.coolNews = require("./news/coolNews")(mongoose);
 db.prepareCourse = require("./prepareСourse")(mongoose);
+db.partner = require("./partner")(mongoose);
 
 module.exports = db;
