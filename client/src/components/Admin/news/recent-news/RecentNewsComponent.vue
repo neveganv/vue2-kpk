@@ -55,6 +55,7 @@ export default {
 			try {
 				this.setLoading(true);
 				this.news = await newsService.getCoolNews();
+				console.log("news", this.news);
 				this.setLoading(false);
 			} catch (e) {
 				alert(e);

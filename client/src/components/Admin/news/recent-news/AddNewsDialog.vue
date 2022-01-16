@@ -128,7 +128,7 @@ export default {
 					params.title = this.news.title;
 					params.img = this.base64image;
 					params.created_time = this.getCurrentTime;
-
+					params.content = "Test content";
 					const res = await newsService.addCoolNews({
 						...params,
 					});

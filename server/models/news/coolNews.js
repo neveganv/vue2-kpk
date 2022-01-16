@@ -15,6 +15,10 @@ module.exports = mongoose => {
 				type: String,
 				require: true,
 			},
+			content: {
+				type: String,
+				require: true
+			}
 		})
 	);
 	return coolNews;
