@@ -1,7 +1,7 @@
 module.exports = mongoose => {
 	const { Schema } = mongoose;
-	const page = mongoose.model(
-		'page',
+	const prepareCourse = mongoose.model(
+		'prepareCourse',
 		mongoose.Schema({
 			name: {
 				type: String,
@@ -25,5 +25,5 @@ module.exports = mongoose => {
             }
 		})
 	);
-	return page;
+	return prepareCourse;
 };
