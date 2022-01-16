@@ -33,6 +33,7 @@ app.use('/api/page', require('./routes/api/page'))
 app.use('/api/folder', require('./routes/api/folder'))
 app.use('/api/specialty', require('./routes/api/specialty'))
 app.use('/api/coolNews', require('./routes/api/news/coolNews'))
+app.use('/api/prepareCourse', require('./routes/api/prepareCourse'))
 
 //DB
 function start() {
