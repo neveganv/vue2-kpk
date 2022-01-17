@@ -1,7 +1,7 @@
 module.exports = mongoose => {
 	const { Schema } = mongoose;
-	const page = mongoose.model(
-		'page',
+	const partner = mongoose.model(
+		'partner',
 		mongoose.Schema({
             path_img: {
 				type: String,
@@ -17,5 +17,5 @@ module.exports = mongoose => {
 			},
 		})
 	);
-	return page;
+	return partner;
 };
