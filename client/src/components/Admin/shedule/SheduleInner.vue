@@ -1,5 +1,5 @@
 <template>
-	<v-sheet :height="userType === 'client' ? 550 : 750" class="calendar">
+	<v-sheet :height="userType === 'client' ? 650 : 750" class="calendar">
 		<v-calendar
 			ref="calendar"
 			:value="today"

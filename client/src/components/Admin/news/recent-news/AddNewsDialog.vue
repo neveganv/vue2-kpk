@@ -5,7 +5,7 @@
 			<VCardTitle v-else> Створити Круту Новину </VCardTitle>
 			<VCardText>
 				<VRow>
-					<VCol>
+					<VCol class="pb-0">
 						<VTextField
 							label="Заголовок"
 							prepend-icon="mdi-clipboard-text"
@@ -19,8 +19,9 @@
 						</VTextField>
 					</VCol>
 				</VRow>
+
 				<VRow>
-					<VCol>
+					<VCol class="py-0">
 						<v-file-input
 							dense
 							counter
@@ -50,6 +51,23 @@
 						</v-file-input>
 					</VCol>
 				</VRow>
+				<VRow>
+					<VCol>
+						<v-textarea
+							prepend-icon="mdi-information"
+							v-model="news.content"
+							label="Інформація"
+							counter
+							no-resize
+							rows="10"
+							maxlength="1550"
+							outlined
+							:error-messages="ContentError"
+							auto-grow
+						></v-textarea>
+					</VCol>
+				</VRow>
+
 			</VCardText>
 			<VCardActions>
 				<VSpacer />
@@ -103,6 +121,10 @@ export default {
 			main_img: {
 				required,
 			},
+			content: {
+				required,
+				maxLength: maxLength(1550),
+			},
 		},
 	},
 	props: {
@@ -128,7 +150,7 @@ export default {
 					params.title = this.news.title;
 					params.img = this.base64image;
 					params.created_time = this.getCurrentTime;
-					params.content = "Test content";
+					params.content = this.news.content
 					const res = await newsService.addCoolNews({
 						...params,
 					});
@@ -189,6 +211,19 @@ export default {
 			}
 			!this.$v.news.title.required &&
 				errors.push('Заголовок обов`язкове поле для заповнення');
+			return errors;
+		},
+		ContentError() {
+			const errors = [];
+			if (!this.$v.news.content.$dirty) {
+				return errors;
+			}
+			if (!this.$v.news.content.maxLength) {
+				errors.push('Довжина Інфорамації має бути менша за 1550 символів');
+				return errors;
+			}
+			!this.$v.news.content.required &&
+				errors.push('Інформація обов`язкове поле для заповнення');
 			return errors;
 		},
 		MainImageError() {

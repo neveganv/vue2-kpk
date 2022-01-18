@@ -64,7 +64,7 @@
 								</v-btn>
 							</VRow>
 						</VCol>
-						<VCol cols="auto" v-if="!loading">
+						<VCol cols="4" >
 							<VSelect
 								ref="choseGroup"
 								outlined
@@ -77,6 +77,7 @@
 								:items="Object.values(groups)"
 								:item-value="'_id'"
 								:item-text="'name'"
+								:loading="loading"
 							/>
 						</VCol>
 					</VRow>

@@ -22,18 +22,34 @@
 							md: $vuetify.breakpoint.smAndDown,
 						}"
 					>
-						{{ activeNew.title }}
+						<div class="font-weight-bold news__title" >
+							{{ activeNew.title || '--' }}
+						</div>
+						{{ copyActiveNew.content || 'На жаль ця новина поки не заповнена' }}
 
-						{{
+						<!-- {{
 							moment(activeNew.created_time)
 								.locale('uk')
 								.startOf('hours')
 								.fromNow() || '--'
-						}}
+						}} -->
+						<VBtn
+							outlined
+							color="purple lighten-3"
+							rounded
+							v-if="showMoreBtn"
+							@click="onClickMoreBtn"
+							class="mt-1"
+						>
+							Більше
+						</VBtn>
 					</div>
 				</v-slide-x-transition>
 				<div class="my-sub" v-if="sceleton">
-					<v-skeleton-loader :max-width="$vuetify.breakpoint.smAndDown ? 700 : 500" type="article"></v-skeleton-loader>
+					<v-skeleton-loader
+						:max-width="$vuetify.breakpoint.smAndDown ? 700 : 500"
+						type="article"
+					></v-skeleton-loader>
 				</div>
 			</VCol>
 			<VCol cols="12" xl="5" sm="12" md="5">
@@ -49,40 +65,84 @@
 						class="ml-auto mt-10"
 						max-width="300"
 						type="card"
-						:class="{'mx-auto':$vuetify.breakpoint.smAndDown}"
+						:class="{ 'mx-auto': $vuetify.breakpoint.smAndDown }"
 					></v-skeleton-loader>
 				</VSheet>
 			</VCol>
 		</VRow>
+		<cool-news-more-dialog
+			:visible="visibleMoreDialog"
+			@close="visibleMoreDialog = false"
+			:moreDialogContent="activeNew"
+			v-if="visibleMoreDialog"
+		/>
 	</div>
 </template>
 
 <script>
 import SliderCards from './SliderCards.vue';
 import newsService from '@/request/news/newsService';
+import CoolNewsMoreDialog from './CoolNewsMoreDialog.vue';
 
 export default {
-	components: { SliderCards },
+	components: { SliderCards, CoolNewsMoreDialog },
 	data: () => ({
 		news: [],
 		sceleton: false,
 		activeNew: {},
+		showMoreBtn: false,
+		copyActiveNew: {},
+		visibleMoreDialog: false,
 	}),
 	async mounted() {
 		try {
 			this.sceleton = true;
 			this.news = await newsService.getCoolNews();
+			this.news = this.news.reverse()
 			this.sceleton = false;
 			this.activeNew = this.news[0];
-			console.log(this.news);
+
 		} catch (e) {
 			alert(e);
 		}
 		console.log(this.news);
 	},
+	watch: {
+		showMoreBtn: {
+			deep: true,
+			handler(e) {
+				console.log(e);
+			},
+		},
+		activeNew: {
+			deep: true,
+			handler(e) {
+				if (e.content) {
+					if (String(e.content).length >= 375) {
+						this.copyActiveNew = { ...this.activeNew };
+						let str = this.copyActiveNew.content.slice(0, 375);
+						const a = str.split(' ');
+						a.splice(a.length - 1, 1);
+						str = a.join(' ');
+
+						this.copyActiveNew.content = str + ' ...';
+						this.showMoreBtn = true;
+						console.log(this.copyActiveNew);
+					} else {
+						this.showMoreBtn = false;
+					}
+				}
+			},
+		},
+	},
 	methods: {
+		onClickMoreBtn() {
+			this.visibleMoreDialog = true;
+			this.copyActiveNew;
+		},
 		changeCoolNew(e) {
 			this.activeNew = this.news[e];
+			this.copyActiveNew = this.news[e];
 		},
 	},
 };
@@ -121,5 +181,11 @@ export default {
 		font-size: 15px !important;
 		line-height: 24px;
 	}
+}
+.news__title{
+	max-width: 540px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 </style>
