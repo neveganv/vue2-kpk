@@ -11,49 +11,106 @@
 				<v-container style="height: auto">
 					<!-- <VCardTitle> Навігація </VCardTitle> -->
 					<div v-if="$vuetify.breakpoint.mdAndDown">
-						<VMenu
-							offset-y
-							transition="slide-y-transition"
-							rounded="lg"
-							:close-on-content-click="false"
-
-							v-model="activationEvents"
-						>
-							<template v-slot:activator="{ on, attrs }">
-								<VSubheader v-on="on" v-bind="attrs" class="d-flex align-center">
-									<VRow>
-										Студентові
-										<VIcon>{{
-											activationEvents === true ? 'mdi-menu-up' : 'mdi-menu-down'
-										}}</VIcon>
-									</VRow>
-								</VSubheader>
-							</template>
-							<VSheet :min-width="170" :max-width="300">
-								<v-list dense>
-									<v-list-item-group color="purple">
-										<div v-for="(item, i) in studentsPage" :key="i">
-											<VDivider v-if="i > 0" class="mx-5" />
-											<v-list-item :to="{ name: item.link }">
-												<v-list-item-content>
-													<VRow
-														no-gutters
-														align="center"
-														justify="space-around"
-													>
-														<VCol cols="3">
-															<v-icon v-text="item.icon" dense></v-icon>
-														</VCol>
-														<VCol cols="9" v-text="item.text"></VCol>
-													</VRow>
-												</v-list-item-content>
-											</v-list-item>
-										</div>
-									</v-list-item-group>
-								</v-list>
-							</VSheet>
-						</VMenu>
-					<VDivider />
+						<div>
+							<VMenu
+								offset-y
+								transition="slide-y-transition"
+								rounded="lg"
+								:close-on-content-click="false"
+								v-model="activationEvents"
+							>
+								<template v-slot:activator="{ on, attrs }">
+									<VSubheader
+										v-on="on"
+										v-bind="attrs"
+										class="d-flex align-center"
+									>
+										<VRow>
+											Абітурієнту
+											<VIcon>{{
+												activationEvents === true
+													? 'mdi-menu-up'
+													: 'mdi-menu-down'
+											}}</VIcon>
+										</VRow>
+									</VSubheader>
+								</template>
+								<VSheet :min-width="170" :max-width="300">
+									<v-list dense>
+										<v-list-item-group color="purple">
+											<div v-for="(item, i) in entrantPage" :key="i">
+												<VDivider v-if="i > 0" class="mx-5" />
+												<v-list-item :to="{ name: item.link }">
+													<v-list-item-content>
+														<VRow
+															no-gutters
+															align="center"
+															justify="space-around"
+														>
+															<VCol cols="3">
+																<v-icon v-text="item.icon" dense></v-icon>
+															</VCol>
+															<VCol cols="9" v-text="item.text"></VCol>
+														</VRow>
+													</v-list-item-content>
+												</v-list-item>
+											</div>
+										</v-list-item-group>
+									</v-list>
+								</VSheet>
+							</VMenu>
+							<VDivider />
+						</div>
+						<div>
+							<VMenu
+								offset-y
+								transition="slide-y-transition"
+								rounded="lg"
+								:close-on-content-click="false"
+								v-model="activationEventsEntrance"
+							>
+								<template v-slot:activator="{ on, attrs }">
+									<VSubheader
+										v-on="on"
+										v-bind="attrs"
+										class="d-flex align-center"
+									>
+										<VRow>
+											Студентові
+											<VIcon>{{
+												activationEventsEntrance === true
+													? 'mdi-menu-up'
+													: 'mdi-menu-down'
+											}}</VIcon>
+										</VRow>
+									</VSubheader>
+								</template>
+								<VSheet :min-width="170" :max-width="300">
+									<v-list dense>
+										<v-list-item-group color="purple">
+											<div v-for="(item, i) in studentsPage" :key="i">
+												<VDivider v-if="i > 0" class="mx-5" />
+												<v-list-item :to="{ name: item.link }">
+													<v-list-item-content>
+														<VRow
+															no-gutters
+															align="center"
+															justify="space-around"
+														>
+															<VCol cols="3">
+																<v-icon v-text="item.icon" dense></v-icon>
+															</VCol>
+															<VCol cols="9" v-text="item.text"></VCol>
+														</VRow>
+													</v-list-item-content>
+												</v-list-item>
+											</div>
+										</v-list-item-group>
+									</v-list>
+								</VSheet>
+							</VMenu>
+							<VDivider />
+						</div>
 					</div>
 					<VSubheader>Партнери</VSubheader>
 					<div class="sponsor__wrapper">
@@ -87,21 +144,25 @@ export default {
 		},
 	},
 	watch: {
-		activationEvents:{
-			deep:true,
-			handler(e){
-				console.log(e)
-			}
-		},
 		navigationRight: {
 			deep: true,
 			handler(e) {
-				console.log(e);
+				this.navVisible = e;
 			},
 		},
+		navVisible(e) {
+			if (!e) {
+				this.$emit('closeNavigation');
+			}
+		},
+	},
+	mounted() {
+		console.log(this.navigationRight);
 	},
 	data: () => ({
-		activationEvents:false,
+		activationEvents: false,
+		activationEventsEntrance: false,
+		navVisible: '',
 		sponsors: [
 			{
 				id: 1,
@@ -119,17 +180,15 @@ export default {
 		studentsPage: [
 			{ text: 'Розклад', icon: 'mdi-calendar', link: 'main-student-shedule' },
 		],
+		entrantPage: [
+			{
+				text: 'Підготовчі курси',
+				icon: 'mdi-calendar',
+				link: 'main-student-shedule',
+			},
+		],
 	}),
-	computed: {
-		navVisible: {
-			get() {
-				return this.navigationRight;
-			},
-			set(e) {
-				return e;
-			},
-		},
-	},
+
 	props: {
 		navigationRight: {
 			require: true,

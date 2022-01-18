@@ -22,7 +22,6 @@
 						class="img"
 						draggable="false"
 						:src="require('@/assets/img/main-img.jpg')"
-
 						alt=""
 						@load="loadedMain"
 					>
@@ -83,13 +82,15 @@
 						молодший бакалавр» за спеціальностями/освітньо-професійними
 						програмами (ОПП)
 					</VCol>
-	
 				</VRow>
 				<SpecialitiesList />
 			</div>
 			<!-- news list -->
-			<div class="my-container" style="margin-top: 160px"	:class="{ 'mt-5': $vuetify.breakpoint.mdAndDown }">
-
+			<div
+				class="my-container"
+				style="margin-top: 160px"
+				:class="{ 'mt-5': $vuetify.breakpoint.mdAndDown }"
+			>
 				<MainNewsList />
 			</div>
 			<div class="my-container">
@@ -101,6 +102,7 @@
 		</div>
 		<div class="main-navigation-right">
 			<right-navigation
+				@closeNavigation="onCloseNavigation"
 				@onBurgerNav="onBurger"
 				:navigationRight="navigationRight"
 			/>
@@ -119,7 +121,7 @@ import RightNavigation from './RightNavigation.vue';
 export default {
 	data: () => ({
 		mainImage: '../../../assets/img/main-img.jpg',
-		navigationRight: true,
+		navigationRight: '',
 	}),
 	components: {
 		MyHeader,
@@ -129,7 +131,17 @@ export default {
 		FooterComponent,
 		RightNavigation,
 	},
+	mounted() {
+		if (this.$vuetify.breakpoint.mdAndDown) {
+			this.navigationRight = false;
+		} else {
+			this.navigationRight = true;
+		}
+	},
 	methods: {
+		onCloseNavigation() {
+			this.navigationRight = false;
+		},
 		loadedMain() {
 			console.log(123);
 		},
