@@ -1,9 +1,60 @@
 <template>
-	<v-navigation-drawer fixed right v-model="navVisible" class="overflow-hidden" mobile-breakpoint="1626" >
+	<v-navigation-drawer
+		fixed
+		right
+		v-model="navVisible"
+		class="overflow-hidden"
+		mobile-breakpoint="1626"
+	>
 		<div class="navigation">
 			<v-sheet>
 				<v-container style="height: auto">
 					<!-- <VCardTitle> Навігація </VCardTitle> -->
+					<div v-if="$vuetify.breakpoint.mdAndDown">
+						<VMenu
+							offset-y
+							transition="slide-y-transition"
+							rounded="lg"
+							:close-on-content-click="false"
+
+							v-model="activationEvents"
+						>
+							<template v-slot:activator="{ on, attrs }">
+								<VSubheader v-on="on" v-bind="attrs" class="d-flex align-center">
+									<VRow>
+										Студентові
+										<VIcon>{{
+											activationEvents === true ? 'mdi-menu-up' : 'mdi-menu-down'
+										}}</VIcon>
+									</VRow>
+								</VSubheader>
+							</template>
+							<VSheet :min-width="170" :max-width="300">
+								<v-list dense>
+									<v-list-item-group color="purple">
+										<div v-for="(item, i) in studentsPage" :key="i">
+											<VDivider v-if="i > 0" class="mx-5" />
+											<v-list-item :to="{ name: item.link }">
+												<v-list-item-content>
+													<VRow
+														no-gutters
+														align="center"
+														justify="space-around"
+													>
+														<VCol cols="3">
+															<v-icon v-text="item.icon" dense></v-icon>
+														</VCol>
+														<VCol cols="9" v-text="item.text"></VCol>
+													</VRow>
+												</v-list-item-content>
+											</v-list-item>
+										</div>
+									</v-list-item-group>
+								</v-list>
+							</VSheet>
+						</VMenu>
+					<VDivider />
+					</div>
 					<VSubheader>Партнери</VSubheader>
 					<div class="sponsor__wrapper">
 						<div
@@ -17,12 +68,6 @@
 								alt=""
 								draggable="false"
 							/>
-						</div>
-						<div class="w-100 d-flex align-center justify-center">
-							<VBtn color="purple" outlined small>
-								<VIcon small>mdi-handshake</VIcon>
-								Стати спонсором
-							</VBtn>
 						</div>
 					</div>
 				</v-container>
@@ -42,6 +87,12 @@ export default {
 		},
 	},
 	watch: {
+		activationEvents:{
+			deep:true,
+			handler(e){
+				console.log(e)
+			}
+		},
 		navigationRight: {
 			deep: true,
 			handler(e) {
@@ -50,6 +101,7 @@ export default {
 		},
 	},
 	data: () => ({
+		activationEvents:false,
 		sponsors: [
 			{
 				id: 1,
@@ -63,6 +115,9 @@ export default {
 				title: 'testportal',
 				link: 'https://testportal.gov.ua/',
 			},
+		],
+		studentsPage: [
+			{ text: 'Розклад', icon: 'mdi-calendar', link: 'main-student-shedule' },
 		],
 	}),
 	computed: {
