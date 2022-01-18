@@ -40,6 +40,19 @@ const routes = [
 		]
 	},
 	{
+		path: '/entered',
+		name: 'main-student',
+		component: () => import('../views/Main/Entered.vue'),
+
+		children:[
+			{
+				path: 'prepare-course',
+				name: 'main-entered-prepare',
+				component: () => import('../views/Main/Entered/PrepareCourse.vue'),
+			  },
+		]
+	},
+	{
 		path: '/page/:id',
 		name: 'main-dynamic-page',
 		component: () => import('@/views/Main/DynamicPage.vue'),

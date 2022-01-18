@@ -65,7 +65,42 @@
 									</v-list>
 								</VSheet>
 							</VMenu>
-							<div class="nav__inner">Абітурієнту</div>
+							<VMenu
+								offset-y
+								transition="slide-y-transition"
+								rounded="lg"
+								:close-on-content-click="false"
+							>
+								<template v-slot:activator="{ on, attrs }">
+									<div class="nav__inner" v-on="on" v-bind="attrs">
+										Абітурієнту
+									</div>
+								</template>
+								<VSheet :min-width="170" :max-width="300">
+									<v-list dense>
+										<v-list-item-group color="purple">
+											<div v-for="(item, i) in enteredPage" :key="i">
+												<VDivider v-if="i > 0" class="mx-5" />
+												<v-list-item :to="{ name: item.link }">
+													<v-list-item-content>
+														<VRow
+															no-gutters
+															align="center"
+															justify="space-around"
+														>
+															<VCol cols="3">
+																<v-icon v-text="item.icon" dense></v-icon>
+															</VCol>
+															<VCol cols="9" v-text="item.text"></VCol>
+														</VRow>
+													</v-list-item-content>
+												</v-list-item>
+											</div>
+										</v-list-item-group>
+									</v-list>
+								</VSheet>
+							</VMenu>
+
 						</div>
 					</v-fade-transition>
 
@@ -118,6 +153,9 @@ export default {
 		search: '',
 		studentsPage: [
 			{ text: 'Розклад', icon: 'mdi-calendar', link: 'main-student-shedule' },
+		],
+		enteredPage: [
+			{ text: 'Підготовчі курси', icon: 'mdi-school', link:'main-entered-prepare'},
 		],
 	}),
 	props: {
