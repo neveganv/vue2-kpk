@@ -22,10 +22,13 @@
 							md: $vuetify.breakpoint.smAndDown,
 						}"
 					>
-						<div class="font-weight-bold news__title" >
+						<div class="font-weight-bold news__title" :class="{'text-caption': $vuetify.breakpoint.smAndDown}">
 							{{ activeNew.title || '--' }}
 						</div>
+						<div :class="{'text-caption': $vuetify.breakpoint.smAndDown}">
+
 						{{ copyActiveNew.content || 'На жаль ця новина поки не заповнена' }}
+						</div>
 
 						<!-- {{
 							moment(activeNew.created_time)
@@ -40,6 +43,7 @@
 							v-if="showMoreBtn"
 							@click="onClickMoreBtn"
 							class="mt-1"
+							:small="$vuetify.breakpoint.smAndDown"
 						>
 							Більше
 						</VBtn>
@@ -176,7 +180,7 @@ export default {
 	font-style: normal;
 	font-weight: 300;
 	font-size: 20px !important;
-	line-height: 24px;
+
 	&.md {
 		font-size: 15px !important;
 		line-height: 24px;
