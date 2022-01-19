@@ -1,7 +1,7 @@
 <template>
-	<AdminWrapper>
+
 		<ProfileComponent />
-	</AdminWrapper>
+
 </template>
 
 <script>

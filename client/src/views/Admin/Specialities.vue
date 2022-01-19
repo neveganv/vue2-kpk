@@ -1,7 +1,5 @@
 <template>
-	<AdminWrapper>
 		<SpecialitiesComponent />
-	</AdminWrapper>
 </template>
 
 <script>

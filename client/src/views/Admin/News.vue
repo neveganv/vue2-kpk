@@ -1,7 +1,7 @@
 <template>
-	<AdminWrapper>
+
 		 <NewsComponent />
-	</AdminWrapper>
+
 </template>
 
 <script>

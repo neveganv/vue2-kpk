@@ -1,7 +1,7 @@
 <template>
-	<AdminWrapper>
+
 		<PrepareCourseComponent />
-	</AdminWrapper>
+
 </template>
 
 <script>

@@ -1,7 +1,6 @@
 <template>
-	<AdminWrapper>
 		<SheduleComponent />
-	</AdminWrapper>
+
 </template>
 
 <script>

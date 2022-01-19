@@ -1,7 +1,7 @@
 <template>
-	<AdminWrapper>
+
 		 <PageComponent />
-	</AdminWrapper>
+
 </template>
 
 <script>

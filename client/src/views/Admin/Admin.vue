@@ -1,8 +1,8 @@
 <template>
 	<div class="body">
-		<AdminWrapper>
+
 			<AdminComponent />
-		</AdminWrapper>
+
 	</div>
 </template>
 
