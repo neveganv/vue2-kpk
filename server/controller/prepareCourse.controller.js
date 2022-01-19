@@ -9,6 +9,7 @@ exports.create = (req, res) => {
         surname: req.body.surname,
         middle_name: req.body.middle_name,
         parent_phone: req.body.parent_phone,
+        student_phone: req.body.student_phone,
         pass_id: req.body.pass_id,
     });
     prepareCourse
@@ -33,7 +34,7 @@ exports.findPrepareCourseById = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: 'Не вдалось отримати новини за вибраним ід.',
+                message: 'Не вдалось отримати заявку за вибраним ід.',
             });
         });
 };
@@ -52,6 +53,7 @@ exports.update = (req, res) => {
             surname: req.body.surname,
             middle_name: req.body.middle_name,
             parent_phone: req.body.parent_phone,
+            student_phone: req.body.student_phone,
             pass_id: req.body.pass_id,
         },
         { useFindAndModify: false }

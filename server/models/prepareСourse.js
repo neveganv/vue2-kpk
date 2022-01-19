@@ -19,6 +19,10 @@ module.exports = mongoose => {
 				type: String,
 				require: true,
 			},
+			student_phone: {
+				type: String,
+				require: true,
+			},
             pass_id: {
                 type: String,
 				require: true,

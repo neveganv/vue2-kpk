@@ -48,25 +48,6 @@
 									<VCol cols="auto">
 										<span> Подати заявку на курси </span>
 									</VCol>
-									<VCol cols="5">
-										<VSelect
-											outlined
-											small-ships
-											label="Оберіть курс"
-											dense
-											hide-details="auto"
-											:menu-props="{ bottom: true, offsetY: true }"
-											v-model="chosenGroup"
-											:items="Object.values(courses)"
-											:item-value="'_id'"
-											:item-text="'name'"
-											:loading="loading"
-											multiple
-											chips
-											small-chips
-											deletable-chips
-										/>
-									</VCol>
 								</VRow>
 							</VCardTitle>
 							<VDivider />
@@ -132,7 +113,7 @@
 											return-masked-value
 											v-mask="'+38 (###) ##-##-###'"
 											hide-details="auto"
-											v-model="entered.phone"
+											v-model="entered.phoneStudent"
 										>
 										</VTextField>
 									</VCol>
@@ -148,7 +129,7 @@
 											return-masked-value
 											v-mask="'+38 (###) ##-##-###'"
 											hide-details="auto"
-											v-model="entered.phone"
+											v-model="entered.phoneParent"
 										>
 										</VTextField>
 									</VCol>
@@ -167,7 +148,7 @@
 							</v-card-text>
 							<VDivider />
 							<VCardActions class="mb-5">
-								<span class="font-weight-bold mr-1"> Разом:</span>
+								<span class="font-weight-bold mr-1"> Ціна:</span>
 								<span class="font-weight-bold success--text">
 									12312312 грн.</span
 								>
@@ -208,10 +189,6 @@ export default {
 		loading: false,
 		activeTab: 0,
 		entered: {},
-		courses: [
-			{ id: 1, name: 'мова', price: 70 },
-			{ id: 2, name: 'матика', price: 50 },
-		],
 	}),
 
 	mounted() {
