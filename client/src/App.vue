@@ -26,8 +26,6 @@ export default {
 				} else {
 					this.isAdminWrap = false;
 				}
-				console.log(e);
-				console.log(e.includes('admin'));
 			},
 		},
 	},

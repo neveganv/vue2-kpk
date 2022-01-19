@@ -155,7 +155,7 @@ export default {
 			{ text: 'Розклад', icon: 'mdi-calendar', link: 'main-student-shedule' },
 		],
 		enteredPage: [
-			{ text: 'Підготовчі курси', icon: 'mdi-school', link:'main-entered-prepare'},
+			{ text: 'Підготовчі курси', icon: 'mdi-school', link:'main-entrant-prepare'},
 		],
 	}),
 	props: {

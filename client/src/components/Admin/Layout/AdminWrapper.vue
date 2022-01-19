@@ -113,9 +113,8 @@
 						"
 					>
 						<VListItemIcon>
-							<VBadge dot color="error" bottom overlap>
 								<VIcon>mdi-folder-plus-outline</VIcon>
-							</VBadge>
+
 						</VListItemIcon>
 						<VListItemTitle> Додати </VListItemTitle>
 					</VListItem>

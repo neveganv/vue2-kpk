@@ -180,7 +180,7 @@ export default {
       {
         text: "Підготовчі курси",
         icon: "mdi-school",
-        link: "main-entered-prepare",
+        link: "main-entrant-prepare",
       },
     ],
   }),
