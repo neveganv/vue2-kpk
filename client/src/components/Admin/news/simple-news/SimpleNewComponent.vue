@@ -15,6 +15,7 @@
 					hide-details
 					dense
 					rounded
+					:menu-props="{bottom:true,offsetY:true}"
 				>
 					<template #selection="{ item }">
 						<v-chip small color="primary">{{ (tmpGroup = item.name) }}</v-chip>

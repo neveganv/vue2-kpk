@@ -1,6 +1,6 @@
 <template>
   <div class="pa-15">
-    <v-row>
+    <v-row v-if="partners.length">
       <v-col
         class="col-md-3 col-sm-6"
         v-for="partner in partners"
@@ -12,6 +12,11 @@
            <v-card-title v-else class="pa-6"></v-card-title>
         </v-card>
       </v-col>
+    </v-row>
+    <v-row v-else>
+        <div class="text-center w-100">
+          Список партнерів порожній
+        </div>
     </v-row>
   </div>
 </template>

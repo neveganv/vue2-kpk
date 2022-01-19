@@ -56,7 +56,7 @@
 						</v-col>
 					</v-row>
 					<v-row v-else>
-						<div>Ще немає крутих новин</div>
+						<div class="w-100 text-center">Ще немає нещодавних новин</div>
 					</v-row>
 				</div>
 
