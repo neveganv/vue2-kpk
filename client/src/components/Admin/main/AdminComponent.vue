@@ -1,12 +1,13 @@
 <template>
   <div class="h-auto">
     <div class="d-flex justify-space-between p-1 align-center">
-      <VBtn rounded text color="primary" @click="tab = 'user'"
+      <VBtn rounded :text="tab != 'user'" color="primary" @click="tab = 'user'"
         >Список користувачів</VBtn
       >
       <VBtn
         rounded
-        text
+        :text="tab != 'partner'"
+		dark
         class="mr-auto"
         @click="tab = 'partner'"
         color="green darken-2"
