@@ -143,7 +143,7 @@ exports.delete = (req, res) => {
 exports.findPage = (req, res) => {
     console.log("page")
     Page.find({
-        name: { $regex: req.body.title }
+        name:  {$regex: req.body.titleLower} && {$regex: req.body.title}
     })
         .then(data => {
             res.send(data);
