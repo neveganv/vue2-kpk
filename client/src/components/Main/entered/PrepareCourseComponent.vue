@@ -260,7 +260,7 @@
 											:class="{ 'subtitle-2': $vuetify.breakpoint.xs }"
 											class="font-weight-bold success--text"
 										>
-											12312312 грн.</span
+											{{settings.price}} грн.</span
 										>
 									</VCol>
 
