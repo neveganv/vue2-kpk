@@ -40,14 +40,14 @@ const routes = [
 		]
 	},
 	{
-		path: '/entered',
-		name: 'main-entered',
+		path: '/entrant',
+		name: 'main-entrant',
 		component: () => import('../views/Main/Entered.vue'),
 
 		children:[
 			{
 				path: 'prepare-course',
-				name: 'main-entered-prepare',
+				name: 'main-entrant-prepare',
 				component: () => import('../views/Main/Entered/PrepareCourse.vue'),
 			  },
 		]

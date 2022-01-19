@@ -71,7 +71,7 @@
 					>
 
 					<VCol
-						class="sub"
+						class="sub pr-2"
 						:class="{
 							md: $vuetify.breakpoint.md,
 							sm: $vuetify.breakpoint.sm,
@@ -247,7 +247,7 @@ export default {
 	font-family: 'Montserrat', sans-serif;
 	font-style: normal;
 	font-weight: 600;
-	font-size: 64px !important;
+	font-size: 62px !important;
 	line-height: 78px;
 
 	color: #4b4453;
