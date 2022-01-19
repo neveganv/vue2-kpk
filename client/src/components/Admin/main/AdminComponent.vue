@@ -1,13 +1,18 @@
 <template>
 	<div class="h-auto">
 		<div class="d-flex justify-space-between p-1 align-center">
-			<VBtn rounded text color="primary">Список користувачів</VBtn>
-			<VBtn rounded color="primary" outlined @click="visible = true">
+			<VBtn rounded text color="primary" @click="tab = 'user'">Список користувачів</VBtn>
+			<VBtn rounded text class="mr-auto" @click="tab = 'partner'" color="green darken-2">Список партнерів</VBtn>
+			<VBtn rounded color="green darken-2" v-if="tab == 'partner'" outlined @click="visible = true">
+				<VIcon left>mdi-account-plus</VIcon>Додати нового партнера</VBtn
+			>
+			<VBtn rounded color="primary" v-if="tab == 'user'" outlined @click="visible = true">
 				<VIcon left>mdi-account-plus</VIcon>Додати нового користувача</VBtn
 			>
 		</div>
 		<VDivider />
-		<UsersList :users="users" @showEdit="showEdit" @deleteUser="deleteUser" />
+		<UsersList v-if="tab == 'user'" :users="users" @showEdit="showEdit" @deleteUser="deleteUser" />
+		<PartnersList v-if="tab == 'partner'"  @showEdit="showEdit" @deleteUser="deleteUser" />
 		<add-users-dialog
 			:visible="visible"
 			@close="
@@ -25,12 +30,13 @@
 <script>
 import AddUsersDialog from './AddUsersDialog.vue';
 import UsersList from './UsersList.vue';
+import PartnersList from './PartnersList.vue';
 import usersService from '@/request/users/usersService';
 import loader from '@/mixins/loader';
 
 export default {
 	mixins: [loader],
-	components: { AddUsersDialog, UsersList },
+	components: { AddUsersDialog, UsersList, PartnersList },
 
 	mounted() {
 		this.getUser();
@@ -78,6 +84,7 @@ export default {
 		visibleEdit: false,
 		users: [],
 		chosenId: null,
+		tab: "user"
 	}),
 };
 </script>
