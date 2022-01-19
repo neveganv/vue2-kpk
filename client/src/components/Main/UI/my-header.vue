@@ -4,7 +4,7 @@
 			<div class="my-container mt-5">
 				<VRow no-gutters aling="center" justify="space-between" class="py-2">
 					<div style="width: 90px">
-						<VBadge color="error" overlap right bottom text content="pre-alpha">
+						<VBadge color="error" overlap right bottom text content="beta">
 							<img
 								@click="$router.push({ path: '/' }).catch(err => err)"
 								:src="require('@/assets/img/main-logo.svg')"
@@ -29,7 +29,7 @@
 							>
 								Головна
 							</div>
-							<div class="nav__inner">Про коледж</div>
+							<!-- <div class="nav__inner">Про коледж</div> -->
 							<VMenu
 								offset-y
 								transition="slide-y-transition"
