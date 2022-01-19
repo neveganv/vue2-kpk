@@ -103,7 +103,7 @@ exports.deleteCoolNews = (req,res) => {
 
 exports.findCoolNews = (req, res) => {
 	CoolNews.find({
-		title: {$regex: req.body.titleLower} && {$regex: req.body.title}
+		title:{ $regex : new RegExp(`${req.body.title}`, "i") }
 	})
 		.then(data => {
 			res.send(data);

@@ -87,7 +87,6 @@ export default {
     async searchAll() {
       const params = [];
       params.title = this.$route.params.query;
-      params.titleLower = this.$route.params.query.toLowerCase();
       let response = await newsService.searchCoolNews({ ...params });
       this.filter.news = response;
       response = await newsService.searchSimpleNews({ ...params });
