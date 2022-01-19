@@ -27,8 +27,8 @@
 						><VIcon left>mdi-delete</VIcon>Видалити</VBtn
 					></VCol
 				>
-				<VCol cols="auto"
-					><VBtn rounded color="пкфн" text @click="onCancel"
+				<VCol cols="auto" 
+					><VBtn rounded color="gray" text @click="onCancel" :disabled="!cancelDisabled"
 						><VIcon left>mdi-close</VIcon>Скасувати зміни</VBtn
 					></VCol
 				>
@@ -135,6 +135,8 @@ export default {
 	},
 	data: () => ({
 		page: [],
+		oldPage: [],
+		cancelDisabled: false,
 		fab: '',
 		pageId: '',
 		changeFolderVisible: false,
@@ -150,6 +152,17 @@ export default {
 			handler(e) {
 				this.getPage();
 			},
+		},
+		page: {
+			deep: true,
+			handler(newPage){
+				if (newPage.html != this.oldPage.html || newPage.files != this.oldPage.files) {
+					this.cancelDisabled = true
+				}
+				else {
+					this.cancelDisabled = false
+				}
+     		},
 		},
 	},
 
@@ -190,6 +203,8 @@ export default {
 			this.setLoading(true);
 			const newPage = await pageService.getOne({ _id: this.$route.params.id });
 			this.page = newPage[0];
+			this.oldPage = {...newPage[0]}
+			this.cancelDisabled = false
 			console.log(this.page);
 			if (!this.page) {
 				this.$router.push({ name: 'admin-permission-guard' });
@@ -208,7 +223,7 @@ export default {
 			}
 		},
 		onCancel() {
-			// this.page = [];
+			this.page = {...this.oldPage}
 		},
 		onChangeFolder() {
 			this.isEditFolder = true;
