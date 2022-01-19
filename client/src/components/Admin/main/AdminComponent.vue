@@ -3,10 +3,10 @@
 		<div class="d-flex justify-space-between p-1 align-center">
 			<VBtn rounded text color="primary" @click="tab = 'user'">Список користувачів</VBtn>
 			<VBtn rounded text class="mr-auto" @click="tab = 'partner'" color="green darken-2">Список партнерів</VBtn>
-			<VBtn rounded color="green darken-2" v-if="tab == 'partner'" outlined @click="visible = true">
+			<VBtn rounded color="green darken-2" v-if="tab == 'partner'" outlined @click="visiblePartner = true">
 				<VIcon left>mdi-account-plus</VIcon>Додати нового партнера</VBtn
 			>
-			<VBtn rounded color="primary" v-if="tab == 'user'" outlined @click="visible = true">
+			<VBtn rounded color="primary" v-if="tab == 'user'" outlined @click="visibleUser = true">
 				<VIcon left>mdi-account-plus</VIcon>Додати нового користувача</VBtn
 			>
 		</div>
@@ -14,14 +14,23 @@
 		<UsersList v-if="tab == 'user'" :users="users" @showEdit="showEdit" @deleteUser="deleteUser" />
 		<PartnersList v-if="tab == 'partner'"  @showEdit="showEdit" @deleteUser="deleteUser" />
 		<add-users-dialog
-			:visible="visible"
+			:visible="visibleUser"
 			@close="
-				visible = false;
+				visibleUser = false;
 				chosenId = null;
 			"
-			v-if="visible"
+			v-if="visibleUser"
 			@addUser="addUser"
 			:chosenUser="chosenId"
+			@updateUser="updateUser"
+		/>
+		<add-partners-dialog
+			:visible="visiblePartner"
+			@close="
+				visiblePartner = false;
+			"
+			v-if="visiblePartner"
+			@addUser="addUser"
 			@updateUser="updateUser"
 		/>
 	</div>
@@ -29,6 +38,7 @@
 
 <script>
 import AddUsersDialog from './AddUsersDialog.vue';
+import AddPartnersDialog from './AddPartnersDialog.vue';
 import UsersList from './UsersList.vue';
 import PartnersList from './PartnersList.vue';
 import usersService from '@/request/users/usersService';
@@ -36,7 +46,7 @@ import loader from '@/mixins/loader';
 
 export default {
 	mixins: [loader],
-	components: { AddUsersDialog, UsersList, PartnersList },
+	components: { AddUsersDialog, UsersList, PartnersList, AddPartnersDialog },
 
 	mounted() {
 		this.getUser();
@@ -80,7 +90,8 @@ export default {
 		},
 	},
 	data: () => ({
-		visible: false,
+		visibleUser: false,
+		visiblePartner: false,
 		visibleEdit: false,
 		users: [],
 		chosenId: null,
