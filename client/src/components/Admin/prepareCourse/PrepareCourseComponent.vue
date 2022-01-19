@@ -1,7 +1,22 @@
 <template>
 	<div class="h-auto">
 		<VRow no-gutters class="p-1">
-			<VBtn rounded text color="primary">Список учнів на підготовчі курси</VBtn>
+			<VCol>
+				<VBtn rounded text color="primary"
+					>Список учнів на підготовчі курси</VBtn
+				>
+			</VCol>
+			<VCol cols="auto">
+				<VBtn
+					color="grey darken-2"
+					outlined
+					rounded
+					@click="visibleSettingDialog = true"
+				>
+					<VIcon left>mdi-cog</VIcon>
+					Налаштування</VBtn
+				></VCol
+			>
 		</VRow>
 		<VDivider />
 		<VRow no-gutters class="pa-3">
@@ -56,11 +71,16 @@
 			/>
 		</VRow>
 		<prepare-course-info-dialog
-		@updatedStatus="updatedStatus"
+			@updatedStatus="updatedStatus"
 			:visible="visibleDialog"
 			@close="visibleDialog = false"
 			:item="userActive"
 			:statusList="statusList"
+		/>
+		<course-setting-dialog
+			:visible="visibleSettingDialog"
+			@close="visibleSettingDialog = false"
+
 		/>
 	</div>
 </template>
@@ -69,15 +89,21 @@ import prepareCourseService from '@/request/prepareCourse/prepareCourseService';
 import PrepareCourseList from './PrepareCourseList.vue';
 import PrepareCourseInfoDialog from './PrepareCourseInfoDialog.vue';
 import loader from '@/mixins/loader';
+import CourseSettingDialog from './CourseSettingDialog.vue';
 
 export default {
-	components: { PrepareCourseList, PrepareCourseInfoDialog },
+	components: {
+		PrepareCourseList,
+		PrepareCourseInfoDialog,
+		CourseSettingDialog,
+	},
 	mixins: [loader],
 	data: () => ({
 		searchQuery: '',
 		studentsList: [],
 		selectedStatus: '',
 		userActive: '',
+		visibleSettingDialog: false,
 		visibleDialog: false,
 		statusList: [
 			{ id: 1, title: 'Новий' },
@@ -90,8 +116,8 @@ export default {
 		this.getAllPrepareUser();
 	},
 	methods: {
-		updatedStatus(){
-			this.getAllPrepareUser()
+		updatedStatus() {
+			this.getAllPrepareUser();
 		},
 		clickUserInfo(e) {
 			this.visibleDialog = true;

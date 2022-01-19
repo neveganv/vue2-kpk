@@ -156,7 +156,7 @@
 					:disabled="isLoading"
 					:loading="isLoading"
 				>
-					 Оновити</VBtn
+					Оновити</VBtn
 				>
 				<VBtn
 					color="primary"
@@ -273,11 +273,10 @@ export default {
 					params.main_img = this.base64image;
 					params.content = this.news.content;
 					params.created_time = this.getCurrentTime;
-					await newsService.addSimpleNew({ ...params })
-					;
+					await newsService.addSimpleNew({ ...params });
 					this.news = [];
 					this.$v.$reset();
-					
+
 					this.$emit('addNews');
 					this.isLoading = false;
 				} catch (e) {
