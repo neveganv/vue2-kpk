@@ -10,9 +10,8 @@
 						xs: $vuetify.breakpoint.xs,
 					}"
 				>
-					<VBadge top overlap color="error" content="beta">
 						Нещодавні новини
-					</VBadge>
+
 				</div>
 				<v-slide-x-transition>
 					<div
