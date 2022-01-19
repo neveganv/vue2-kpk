@@ -52,7 +52,7 @@
     </VRow>
     <div v-if="page.files">
       <VDivider class="my-5" />
-      <Vcard>
+      <VCard>
         <v-tabs centered @change="checkPdf" show-arrows>
           <v-tab v-for="pdfFile in page.files" :key="pdfFile.id">{{
             pdfFile.title
