@@ -10,7 +10,12 @@
 			>
 				<VCol cols="6">
 					<VRow align="center" v-if="chosenGroup">
-						<VCardTitle>Розклад занять</VCardTitle>
+						<VCardTitle>
+										<VCardTitle>
+							<VIcon left color="grey darken-2" dense> mdi-calendar </VIcon>
+							<span class="grey--text text--darken-2"> Розклад занять </span>
+						</VCardTitle>
+						</VCardTitle>
 
 						<VCol cols="auto">
 							<v-btn

@@ -1,26 +1,38 @@
 <template>
 	<div style="overflow: hidden">
 		<my-header />
+		<v-snackbar v-model="snackbar" top color="success" rounded elevation="10">
+			Заявка на підготовчі курси успішно подана. <br />
+			Очікуйте дзвінка від менеджера
+
+			<template v-slot:action="{ attrs }">
+				<v-btn icon v-bind="attrs" @click="snackbar = false">
+					<VIcon>mdi-close</VIcon>
+				</v-btn>
+			</template>
+		</v-snackbar>
 		<div class="my-container">
 			<VRow
-				class="content mt-5"
+				class="content mt-5 mb-0"
 				no-gutters
 				align="center"
 				justify="space-between"
 			>
-				<VCol cols="6">
+				<VCol cols="12">
 					<VRow align="center">
 						<VCardTitle>
-							<VIcon left color="black" dense> mdi-school </VIcon>
-							Підготовчі курси
+							<VIcon left color="grey darken-2" dense> mdi-school </VIcon>
+							<span class="grey--text text--darken-2"> Підготовчі курси </span>
 						</VCardTitle>
 					</VRow>
 				</VCol>
 			</VRow>
-			<VDivider class="mb-5 mt-1" />
-			<VRow>
+			<VDivider class="mb-0 mt-1" />
+
+			<VRow no-gutters>
 				<v-tabs
-					vertical
+					show-arrows
+					:vertical="$vuetify.breakpoint.smAndDown ? false : true"
 					color="purple darken-1"
 					v-model="activeTab"
 					@change="changeTab"
@@ -29,24 +41,77 @@
 					<v-tab> Подати заявку </v-tab>
 
 					<v-tab-item>
-						<v-card flat>
-							<VCardTitle>
-								Набір на Підготовчі курси до вступу в коледж у 2022 році
-							</VCardTitle>
-							<v-card-text>
-								Підготовка слухачів здійснюється за такими дисциплінами:<br />
-								Укр мова - 60годин<br />
-								Математика - 90годин<br />
-								(навчання розпочинається по мірі комплекутації групи)<br />
-							</v-card-text>
-						</v-card>
-					</v-tab-item>
-					<v-tab-item>
+						<VDivider v-if="$vuetify.breakpoint.smAndDown" />
 						<v-card flat>
 							<VCardTitle>
 								<VRow justify="space-between" align="center">
 									<VCol cols="auto">
-										<span> Подати заявку на курси </span>
+										<span :class="{ 'subtitle-1': $vuetify.breakpoint.xs }">
+											Набір на Підготовчі курси до вступу в коледж у 2022 році
+										</span>
+									</VCol>
+								</VRow>
+							</VCardTitle>
+							<VDivider />
+							<v-card-text>
+					1914 translation by H. Rackham
+"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"
+
+Section 1.10.33 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
+"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+
+1914 translation by H. Rackham
+"On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desi1914 translation by H. Rackham
+"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"
+
+Section 1.10.33 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
+"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+
+1914 translation by H. Rackham
+"On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains."re, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains."
+							</v-card-text>
+							<VDivider />
+							<VCardActions class="mb-5">
+								<VRow justify="space-between">
+									<VCol>
+										<span
+											:class="{ 'subtitle-2': $vuetify.breakpoint.xs }"
+											class="font-weight-medium mr-1"
+										>
+											Вартість навчання за весь курс:</span
+										>
+										<span
+											:class="{ 'subtitle-2': $vuetify.breakpoint.xs }"
+											class="font-weight-bold success--text"
+										>
+											12312312 грн.</span
+										>
+									</VCol>
+
+									<VCol cols="12" md="auto" sm="auto">
+										<VBtn
+											color="purple darken-1"
+											class="white--text text-capitalize"
+											dense
+											@click="activeTab = 1"
+											:block="$vuetify.breakpoint.xs"
+										>
+											Подати заявку
+										</VBtn>
+									</VCol>
+								</VRow>
+							</VCardActions>
+						</v-card>
+					</v-tab-item>
+					<v-tab-item>
+						<VDivider v-if="$vuetify.breakpoint.smAndDown" />
+						<v-card flat>
+							<VCardTitle>
+								<VRow justify="space-between" align="center">
+									<VCol cols="auto">
+										<span :class="{ 'subtitle-1': $vuetify.breakpoint.xs }">
+											Подати заявку на курс
+										</span>
 									</VCol>
 								</VRow>
 							</VCardTitle>
@@ -54,108 +119,180 @@
 
 							<v-card-text>
 								<VRow justify="center">
-									<VCol cols="4">
+									<VCol cols="12" xl="4" md="4" sm="6">
 										<VTextField
-											label="Ім'я"
-											dense
-											prepend-icon="mdi-account-box-outline"
-											hide-details="auto"
-											outlined
-											v-model="entered.name"
-											color="purple darken-1"
-										/>
-									</VCol>
-									<VCol cols="4">
-										<VTextField
-											prepend-icon="mdi-account-box-outline"
+											:prepend-icon="
+												$vuetify.breakpoint.smAndDown
+													? ''
+													: 'mdi-account-box-outline'
+											"
+											:prepend-inner-icon="
+												$vuetify.breakpoint.smAndDown
+													? 'mdi-account-box-outline'
+													: ''
+											"
 											label="Прізвище"
 											dense
 											hide-details="auto"
 											outlined
-											v-model="entered.name"
+											v-model="entered.surname"
 											color="purple darken-1"
+											:error-messages="SurnameError"
 										/>
 									</VCol>
-									<VCol cols="4">
+									<VCol cols="12" xl="4" md="4" sm="6">
 										<VTextField
-											prepend-icon="mdi-account-box-outline"
+											label="Ім'я"
+											dense
+											:prepend-icon="
+												$vuetify.breakpoint.smAndDown
+													? ''
+													: 'mdi-account-box-outline'
+											"
+											:prepend-inner-icon="
+												$vuetify.breakpoint.smAndDown
+													? 'mdi-account-box-outline'
+													: ''
+											"
+											hide-details="auto"
+											outlined
+											v-model="entered.name"
+											color="purple darken-1"
+											:error-messages="NameError"
+										/>
+									</VCol>
+
+									<VCol cols="12" xl="4" md="4" sm="12">
+										<VTextField
+											:prepend-icon="
+												$vuetify.breakpoint.smAndDown
+													? ''
+													: 'mdi-account-box-outline'
+											"
+											:prepend-inner-icon="
+												$vuetify.breakpoint.smAndDown
+													? 'mdi-account-box-outline'
+													: ''
+											"
 											label="По-батькові"
 											dense
 											hide-details="auto"
 											outlined
-											v-model="entered.name"
+											v-model="entered.middle_name"
 											color="purple darken-1"
+											:error-messages="MiddleNameError"
 										/>
 									</VCol>
 								</VRow>
 								<VRow>
-									<VCol cols="6">
+									<VCol cols="12" xl="6" md="6" sm="12">
 										<VTextField
-											prepend-icon="mdi-phone-outline"
-											label="Мобільний телефон учня"
+											:prepend-icon="
+												$vuetify.breakpoint.smAndDown ? '' : 'mdi-phone-outline'
+											"
+											:prepend-inner-icon="
+												$vuetify.breakpoint.smAndDown ? 'mdi-phone-outline' : ''
+											"
+											label="Телефон учня"
 											outlined
 											dense
 											color="purple darken-1"
 											return-masked-value
 											v-mask="'+38 (###) ##-##-###'"
 											hide-details="auto"
-											v-model="entered.phone"
+											v-model="entered.student_phone"
+											:error-messages="StudentPhoneError"
 										>
 										</VTextField>
 									</VCol>
-									<VCol cols="6">
+									<VCol cols="12" xl="6" md="6" sm="12">
 										<VTextField
-											label="Мобільний телефон одного з батьків"
-											prepend-icon="mdi-phone-outline"
+											label="Телефон одного з батьків"
+											:prepend-icon="
+												$vuetify.breakpoint.smAndDown ? '' : 'mdi-phone-outline'
+											"
+											:prepend-inner-icon="
+												$vuetify.breakpoint.smAndDown ? 'mdi-phone-outline' : ''
+											"
 											outlined
 											dense
 											color="purple darken-1"
 											return-masked-value
 											v-mask="'+38 (###) ##-##-###'"
 											hide-details="auto"
-											v-model="entered.phoneStudent"
-										>
-										</VTextField>
-									</VCol>
-								</VRow>
-								<VRow>
-									<VCol cols="5">
-										<VTextField
-											prepend-icon="mdi-id-card"
-											label="Серія та номер паспорта/ID карти "
-											outlined
-											dense
-											color="purple darken-1"
-											return-masked-value
-											v-mask="'+38 (###) ##-##-###'"
-											hide-details="auto"
-											v-model="entered.phoneParent"
+											v-model="entered.parent_phone"
+											:error-messages="ParentPhoneError"
 										>
 										</VTextField>
 									</VCol>
 								</VRow>
 								<VRow>
-									<VCol>
+									<VCol cols="12" xl="5" md="5" sm="12">
+										<VTextField
+											:prepend-icon="
+												$vuetify.breakpoint.smAndDown ? '' : 'mdi-id-card'
+											"
+											:prepend-inner-icon="
+												$vuetify.breakpoint.smAndDown ? 'mdi-id-card' : ''
+											"
+											label="Номер паспорта/ID карти"
+											outlined
+											dense
+											color="purple darken-1"
+											return-masked-value
+											v-mask="'#########'"
+											hide-details="auto"
+											v-model="entered.pass_id"
+											:error-messages="PassIdError"
+										>
+										</VTextField>
+									</VCol>
+								</VRow>
+								<VRow>
+									<VCol cols="auto">
 										<v-checkbox
-											v-model="ex4"
+											v-model="acceptPersonalData"
 											label="Даю згоду на обробку моїх персональних даних"
-											color="indigo"
-											value="indigo"
+											color="purple darken-1"
 											hide-details
+											:error-messages="acceptPersonalDataError"
+											:indeterminate="!acceptPersonalData"
 										></v-checkbox>
 									</VCol>
 								</VRow>
 							</v-card-text>
 							<VDivider />
 							<VCardActions class="mb-5">
-								<span class="font-weight-bold mr-1"> Ціна:</span>
-								<span class="font-weight-bold success--text">
-									12312312 грн.</span
-								>
-								<VSpacer />
-								<VBtn color="purple darken-1" class="white--text" dense>
-									Подати заявку
-								</VBtn>
+								<VRow justify="space-between">
+									<VCol>
+										<span
+											:class="{ 'subtitle-2': $vuetify.breakpoint.xs }"
+											class="font-weight-medium mr-1"
+										>
+											Ціна:</span
+										>
+										<span
+											:class="{ 'subtitle-2': $vuetify.breakpoint.xs }"
+											class="font-weight-bold success--text"
+										>
+											12312312 грн.</span
+										>
+									</VCol>
+
+									<VCol cols="12" md="auto" sm="auto">
+										<VBtn
+											color="purple darken-1"
+											class="white--text text-capitalize"
+											dense
+											@click="onClickSend"
+											:disabled="disableBtn"
+											:loading="disableBtn"
+											:block="$vuetify.breakpoint.xs"
+										>
+											Подати заявку
+										</VBtn>
+									</VCol>
+								</VRow>
 							</VCardActions>
 						</v-card>
 					</v-tab-item>
@@ -179,18 +316,44 @@
 </template>
 
 <script>
-import sheduleService from '@/request/shedule/sheduleService';
-import groupService from '@/request/shedule/groupService';
+import prepareCourseService from '@/request/prepareCourse/prepareCourseService';
 import myHeader from '../UI/my-header.vue';
 import SheduleInner from '../../Admin/shedule/SheduleInner.vue';
+import { validationMixin } from 'vuelidate';
+import { required, sameAs } from 'vuelidate/lib/validators';
+import { invalid } from 'moment';
+
+const validPhone = value => value.replace(/[^+\d]/g, '').length === 13;
+
 export default {
+	mixins: [validationMixin],
 	components: { myHeader, SheduleInner },
 	data: () => ({
+		disableBtn: false,
+		snackbar: false,
 		loading: false,
 		activeTab: 0,
-		entered: {},
+		entered: {
+			surname: '',
+			name: '',
+			middle_name: '',
+			student_phone: '',
+			parent_phone: '',
+			pass_id: '',
+		},
+		acceptPersonalData: false,
 	}),
-
+	validations: {
+		entered: {
+			surname: { required },
+			name: { required },
+			middle_name: { required },
+			student_phone: { required, validPhone },
+			parent_phone: { required, validPhone },
+			pass_id: { required },
+		},
+		acceptPersonalData: { sameAs: sameAs(() => true) },
+	},
 	mounted() {
 		const tabLocalStorage = window.localStorage.getItem('activeTabEntered');
 		if (Number(tabLocalStorage)) {
@@ -198,10 +361,121 @@ export default {
 		}
 	},
 	watch: {},
-	computed: {},
 	methods: {
 		changeTab() {
 			window.localStorage.setItem('activeTabEntered', this.activeTab);
+		},
+		async onClickSend() {
+			this.$v.$touch();
+			if (!this.$v.$invalid) {
+				try {
+					this.disableBtn = true;
+					await prepareCourseService.sendRequest({
+						surname: this.entered.surname,
+						name: this.entered.name,
+						middle_name: this.entered.middle_name,
+						student_phone: this.entered.student_phone,
+						parent_phone: this.entered.parent_phone,
+						pass_id: this.entered.pass_id,
+					});
+					this.$v.$reset();
+					this.entered = {};
+					this.acceptPersonalData = false;
+					this.snackbar = true;
+					this.disableBtn = false;
+				} catch (e) {
+					alert(e);
+				}
+			}
+		},
+	},
+	computed: {
+		NameError() {
+			const errors = [];
+			if (!this.$v.entered.name.$dirty) {
+				return errors;
+			}
+
+			!this.$v.entered.name.required &&
+				errors.push('Ім`я обов`язкове поле для заповнення');
+			return errors;
+		},
+		SurnameError() {
+			const errors = [];
+			if (!this.$v.entered.surname.$dirty) {
+				return errors;
+			}
+
+			!this.$v.entered.surname.required &&
+				errors.push('Прізвище обов`язкове поле для заповнення');
+			return errors;
+		},
+		MiddleNameError() {
+			const errors = [];
+			if (!this.$v.entered.middle_name.$dirty) {
+				return errors;
+			}
+
+			!this.$v.entered.middle_name.required &&
+				errors.push('По-батькові обов`язкове поле для заповнення');
+			return errors;
+		},
+		MiddleNameError() {
+			const errors = [];
+			if (!this.$v.entered.middle_name.$dirty) {
+				return errors;
+			}
+
+			!this.$v.entered.middle_name.required &&
+				errors.push('По-батькові обов`язкове поле для заповнення');
+			return errors;
+		},
+		StudentPhoneError() {
+			const errors = [];
+			if (!this.$v.entered.student_phone.$dirty) {
+				return errors;
+			}
+			if (this.entered.student_phone) {
+				if (!this.$v.entered.student_phone.validPhone) {
+					errors.push('Телефон повинен бути валідним');
+					return errors;
+				}
+			}
+			!this.$v.entered.student_phone.required &&
+				errors.push('Телефон учня обов`язкове поле для заповнення');
+			return errors;
+		},
+		ParentPhoneError() {
+			const errors = [];
+			if (!this.$v.entered.parent_phone.$dirty) {
+				return errors;
+			}
+			if (this.entered.parent_phone) {
+				if (!this.$v.entered.parent_phone.validPhone) {
+					errors.push('Телефон повинен бути валідним');
+					return errors;
+				}
+			}
+			!this.$v.entered.parent_phone.required &&
+				errors.push('Телефон одного з батьків обов`язкове поле для заповнення');
+			return errors;
+		},
+		PassIdError() {
+			const errors = [];
+			if (!this.$v.entered.pass_id.$dirty) {
+				return errors;
+			}
+			!this.$v.entered.pass_id.required &&
+				errors.push('Серія паспорта обов`язкове поле для заповнення');
+			return errors;
+		},
+		acceptPersonalDataError() {
+			const errors = [];
+			if (!this.$v.acceptPersonalData.$dirty) {
+				return errors;
+			}
+			!this.$v.acceptPersonalData.sameAs && errors.push(' ');
+			return errors;
 		},
 	},
 };
