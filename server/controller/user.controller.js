@@ -120,7 +120,7 @@ exports.update = (req, res) => {
           message: "Data to update can not be empty!"
         });
       }
-      const id = req.body.uuid;
+      const id = req.body.id;
       
        User.findByIdAndUpdate(id, {
         name: req.body.name,
