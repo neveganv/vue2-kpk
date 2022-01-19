@@ -223,7 +223,7 @@ export default {
 			this.addPageVisibility = false;
 		},
 		updateFolders(folder) {
-			this.folders.push(folder);
+			this.getFolders();
 			console.log(folder);
 		},
 		async getFolders() {

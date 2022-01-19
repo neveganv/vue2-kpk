@@ -28,7 +28,12 @@ exports.create = (req, res) => {
 
 // find all pages
 exports.findAll = (req, res) => {
-    Folder.find()
+    Folder.find({
+        positions: {
+            $in: [req.body.position]
+            
+        }
+    })
         .populate('positions')
         .then(data => {
             res.send(data);
@@ -64,7 +69,7 @@ exports.update = (req, res) => {
     }
     const id = req.params.id;
 
-    Folder.findOne({_id: id})
+    Folder.findOne({ _id: id })
         .then(data => {
             data.positions = []
             for (i = 0; i < req.body.positions.length; i++) {
