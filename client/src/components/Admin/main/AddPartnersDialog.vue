@@ -1,5 +1,5 @@
 <template>
-  <VDialog v-model="visibility" :persistent="edit">
+  <VDialog v-model="visibility">
     <VCard width="700">
       <VCardTitle> Додати партнера</VCardTitle>
       <VCardText>
@@ -26,7 +26,6 @@
               :hide-details="!linkError.length"
               :error-messages="linkError"
               v-model="partner.link"
-              @input.native="$v.partner.link.$touch()"
             >
             </VTextField>
           </VCol>
@@ -69,17 +68,7 @@
         <VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
         <VBtn
           color="primary"
-          @click="onUpdate"
-          v-if="edit"
-          :disabled="isLoading"
-          :loading="isLoading"
-        >
-          Оновити
-        </VBtn>
-        <VBtn
-          color="primary"
           @click="onCreate"
-          v-else
           :disabled="isLoading"
           :loading="isLoading"
         >
@@ -93,7 +82,7 @@
 <script>
 import partnersService from "@/request/partners/partnersService";
 import { validationMixin } from "vuelidate";
-import { required } from "vuelidate/lib/validators";
+import { required,url } from "vuelidate/lib/validators";
 
 export default {
   name: "add-users-dialog",
@@ -118,6 +107,7 @@ export default {
     partner: {
       link: {
         required,
+        url
       },
       image: {
         required,
@@ -177,6 +167,11 @@ export default {
       if (!this.$v.partner.link.$dirty) {
         return errors;
       }
+      	if (this.partner.link) {
+				!this.$v.partner.link.url &&
+					errors.push('Посилання повинне бути валідним');
+				return errors;
+			}
       !this.$v.partner.link.required &&
         errors.push("Посилання обов`язкове поле для заповнення");
       return errors;
