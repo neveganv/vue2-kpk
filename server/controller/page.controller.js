@@ -53,6 +53,35 @@ exports.findById = (req, res) => {
 
 };
 
+//delete pdf file 
+exports.deletePdf = (req, res) => {
+    if (!req.body) {
+        return res.status(400).send({
+            message: "Data to update can not be empty!"
+        });
+    }
+
+    const id = req.params.id;
+
+    Page.updateOne(
+        { _id: id },
+        {
+            $pull: { files: { id: req.body.idPdf }}
+        },
+    ).then(data => {
+        if (!data) {
+            res.status(404).send({
+                message: `Cannot update page with id=${id}.`
+            });
+        } else res.send({ message: "Page was updated successfully.", info: data });
+    })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating Page with id=" + id
+            });
+        });
+};
+
 // Update a page by the id in the request
 exports.update = (req, res) => {
     if (!req.body) {

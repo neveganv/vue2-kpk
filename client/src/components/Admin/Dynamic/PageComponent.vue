@@ -58,40 +58,35 @@
             pdfFile.title
           }}</v-tab>
         </v-tabs>
-		<div  v-if="page.files && pdf">
-        <VCardTitle>
-          <VRow justify="space-between" align="center">
-            <VCol class="text-left" cols="auto">{{ title }}</VCol>
-            <VRow no-gutters justify="end" align="center">
-              <VCol class="text-right mx-1" cols="auto"
-                ><VBtn dense color="warning" rounded
-                  ><VIcon left dense>mdi-pencil</VIcon>Змінити</VBtn
-                ></VCol
-              >
-              <VCol class="text-right mx-1" cols="auto"
-                ><VBtn color="error" fab small
-                  ><VIcon dense>mdi-close</VIcon></VBtn
-                ></VCol
-              >
+        <div v-if="page.files && pdf">
+          <VCardTitle>
+            <VRow justify="space-between" align="center">
+              <VCol class="text-left" cols="auto">{{ title }}</VCol>
+              <VRow no-gutters justify="end" align="center">
+                <VCol class="text-right mx-1" cols="auto"
+                  ><VBtn color="error" fab small @click="deletePdf"
+                    ><VIcon dense>mdi-close</VIcon></VBtn
+                  ></VCol
+                >
+              </VRow>
             </VRow>
+          </VCardTitle>
+          <VCardSubtitle>PDF-файл</VCardSubtitle>
+          <VCardText> </VCardText>
+          <VRow no-gutters justify="center">
+            <VCol cols="8">
+              <VuePdfApp
+                v-show="pdf"
+                style="height: 80vh"
+                page-scale="40"
+                theme="light"
+                :pdf="pdf"
+                file-name="name"
+              />
+            </VCol>
           </VRow>
-        </VCardTitle>
-        <VCardSubtitle>PDF-файл</VCardSubtitle>
-        <VCardText> </VCardText>
-        <VRow no-gutters justify="center">
-          <VCol cols="8">
-            <VuePdfApp
-              v-show="pdf"
-              style="height: 80vh"
-              page-scale="40"
-              theme="light"
-              :pdf="pdf"
-              file-name="name"
-            />
-          </VCol>
-        </VRow>
-		</div>
-      </Vcard>
+        </div>
+      </VCard>
     </div>
     <VRow justify="end">
       <v-speed-dial v-model="fab" transition="slide-y-reverse-transition">
@@ -156,6 +151,7 @@ export default {
     folderName: "",
     pdf: "",
     title: "",
+    idPdf: 0,
     pdfVisible: false,
     numPages: undefined,
   }),
@@ -164,10 +160,10 @@ export default {
       deep: true,
       handler(e) {
         this.getPage();
-		this.pdf = ""
-		if (this.page.files) {
-			checkPdf(0)
-		}
+        this.pdf = "";
+        if (this.page.files) {
+          checkPdf(0);
+        }
       },
     },
     page: {
@@ -194,6 +190,7 @@ export default {
       if (typeof e !== "undefined") {
         this.title = this.page.files[e].title;
         this.pdf = this.page.files[e].file;
+        this.idPdf = this.page.files[e].id;
       }
     },
     async onAddPDF(params) {
@@ -205,6 +202,18 @@ export default {
         console.log(res.info);
         this.page.files.push(params);
         this.setLoading(false);
+      } catch (e) {
+        alert(e);
+      }
+    },
+    async deletePdf() {
+      try {
+        const params = [];
+        params.idPdf = this.idPdf;
+		console.log(params)
+        await pageService.deletePdf(this.$route.params.id, {...params}).then(()=>{
+			this.page.files = this.page.files.filter((item) => item.id !== this.idPdf);
+		});
       } catch (e) {
         alert(e);
       }

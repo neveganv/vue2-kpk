@@ -24,6 +24,11 @@ export default {
 		const response = await requestService.delete(`${prefix}/${id}`)
 		return response?.data
 	},
+	async deletePdf(idPage, params){
+		console.log(params)
+		const response = await requestService.post(`${prefix}/deletePdf/${idPage}`, params)
+		return response?.data
+	},
 	async searchPage(params){
 		const response = await requestService.post(`${prefix}/searchPage`, params)
 		return response?.data

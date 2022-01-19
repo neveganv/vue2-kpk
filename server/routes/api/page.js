@@ -18,6 +18,9 @@ router.delete("/:id", page.delete);
 //update a page
 router.put("/:id", page.update);
 
+//update a page
+router.post("/deletePdf/:id", page.deletePdf);
+
 //search page
 router.post("/searchPage", page.findPage);
 
