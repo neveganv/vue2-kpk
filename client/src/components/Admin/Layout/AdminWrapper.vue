@@ -113,8 +113,7 @@
 						"
 					>
 						<VListItemIcon>
-								<VIcon>mdi-folder-plus-outline</VIcon>
-
+							<VIcon>mdi-folder-plus-outline</VIcon>
 						</VListItemIcon>
 						<VListItemTitle> Додати </VListItemTitle>
 					</VListItem>
@@ -229,16 +228,17 @@ export default {
 		},
 		async getFolders() {
 			try {
-				this.foldersLoader = true
+				this.foldersLoader = true;
 				const newPage = await pageService.getPages();
-				const newFolder = await folderService.getFolders();
-					this.folders = newFolder;
-					this.folders.forEach(item => {
-              item.pages = newPage.filter(e => e.folder._id == item._id);
+				const newFolder = await folderService.getFolders({
+					position: this.getUser.positionUUID,
+				});
+				this.folders = newFolder;
+				this.folders.forEach(item => {
+					item.pages = newPage.filter(e => e.folder._id == item._id);
+				});
 
-					});
-
-					this.foldersLoader = false;
+				this.foldersLoader = false;
 			} catch (e) {
 				alert(e);
 			}

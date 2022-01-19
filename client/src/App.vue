@@ -12,21 +12,25 @@ import AdminWrapper from '@/components/Admin/Layout/AdminWrapper.vue';
 import user from '@/mixins/user';
 
 export default {
-	mixins:[user],
+	mixins: [user],
 	name: 'App',
-	data:()=> ({
+	data: () => ({
 		isAdminWrap: false,
 	}),
 	components: {
 		AdminWrapper,
 	},
 	watch: {
-		'$route.path': {
+		$route: {
 			handler(e) {
-					console.log(e)
-				if (e.includes('/admin') && localStorage.token && this.getUser) {
-					this.isAdminWrap = true;
-				} else {
+				console.log(e);
+				if (e.name !== 'admin-login') {
+					if (e.path.includes('/admin')) {
+						this.isAdminWrap = true;
+					} else {
+						this.isAdminWrap = false;
+					}
+				}else{
 					this.isAdminWrap = false;
 				}
 			},
