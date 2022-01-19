@@ -63,14 +63,23 @@ exports.update = (req, res) => {
 
     const id = req.params.id;
 
-    Page.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
-        .then(data => {
-            if (!data) {
-                res.status(404).send({
-                    message: `Cannot update page with id=${id}.`
-                });
-            } else res.send({ message: "Page was updated successfully." , info:data});
-        })
+    Page.updateOne(
+        { _id: id },
+        {
+            $set:
+            {
+                html: req.body.html,
+                name: req.body.name,
+            },
+            $push: { files: req.body.files }
+        },
+    ).then(data => {
+        if (!data) {
+            res.status(404).send({
+                message: `Cannot update page with id=${id}.`
+            });
+        } else res.send({ message: "Page was updated successfully.", info: data });
+    })
         .catch(err => {
             res.status(500).send({
                 message: "Error updating Page with id=" + id
@@ -81,38 +90,38 @@ exports.update = (req, res) => {
 // Delete a page by id
 exports.delete = (req, res) => {
     const id = req.params.id;
-  
-    Page.findByIdAndRemove(id)
-      .then(data => {
-        if (!data) {
-          res.status(404).send({
-            message: `Cannot delete page with id=${id}. Maybe Page was not found!`
-          });
-        } else {
-          res.send({
-            message: "Page was deleted successfully!"
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Could not delete page with id=" + id
-        });
-      });
-  
-  };
 
-  exports.findPage = (req, res) => {
+    Page.findByIdAndRemove(id)
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot delete page with id=${id}. Maybe Page was not found!`
+                });
+            } else {
+                res.send({
+                    message: "Page was deleted successfully!"
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete page with id=" + id
+            });
+        });
+
+};
+
+exports.findPage = (req, res) => {
     console.log("page")
-	Page.find({
-		name:  {$regex: req.body.title}
-	})
-		.then(data => {
-			res.send(data);
-		})
-		.catch(err => {
-			res.status(500).send({
-				message: 'Не вдалось отримати новини.',
-			});
-		});
+    Page.find({
+        name: { $regex: req.body.title }
+    })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: 'Не вдалось отримати новини.',
+            });
+        });
 };

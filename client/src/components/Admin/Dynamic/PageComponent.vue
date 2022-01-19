@@ -47,7 +47,7 @@
 		</VRow>
 		<div v-if="page.files">
 			<VDivider class="my-5" />
-			<VCard v-for="pdfFile in page.files" :key="pdfFile.id">
+			<VCard class="my-10" v-for="pdfFile in page.files" :key="pdfFile.id">
 				<VCardTitle>
 					<VRow justify="space-between" align="center">
 						<VCol class="text-left" cols="auto">{{ pdfFile.title }}</VCol>
@@ -183,7 +183,7 @@ export default {
 					files: params,
 				});
 				console.log(res.info);
-				this.page.files = {params}
+				this.page.files.push(params)
 				this.setLoading(false);
 			} catch (e) {
 				alert(e);
