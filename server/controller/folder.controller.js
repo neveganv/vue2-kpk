@@ -83,8 +83,8 @@ exports.update = (req, res) => {
 // Delete a folder by id
 exports.delete = (req, res) => {
     const id = req.params.id;
-
-    Page.deleteOne({ folder: id }).then(() => {
+    console.log('folder id', id)
+    Page.deleteMany({ folder: id }).then(() => {
         Folder.findByIdAndRemove(id)
             .then(data => {
                 if (!data) {

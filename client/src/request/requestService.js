@@ -20,7 +20,7 @@ export default {
       );
     },
     delete(url, config = {}) {
-      return axios.delete(url, config);
+      return axios.delete(API_ENDPOINT + url, config);
     },
     put(url, body = {}, config = {}) {
       return axios.put(
