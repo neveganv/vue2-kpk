@@ -49,7 +49,7 @@ export default {
 		},
 		deleteUser(e) {
 			console.log(e);
-			// this.$emit('deleteUser', e);
+			this.$emit('deleteUser', e);
 		},
 	},
 };

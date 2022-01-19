@@ -183,8 +183,8 @@ export default {
 		entrantPage: [
 			{
 				text: 'Підготовчі курси',
-				icon: 'mdi-calendar',
-				link: 'main-student-shedule',
+				icon: 'mdi-school',
+				link: 'main-entered-prepare',
 			},
 		],
 	}),

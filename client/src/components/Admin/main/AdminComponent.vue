@@ -53,7 +53,6 @@ export default {
 				params.id = e;
 				await usersService.deleteUser({ ...params });
 				this.getUser();
-				this.setLoading(false);
 			} catch (e) {
 				alert(e);
 			}

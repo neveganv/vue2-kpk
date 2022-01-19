@@ -76,7 +76,7 @@
 										Абітурієнту
 									</div>
 								</template>
-								<VSheet :min-width="170" :max-width="300">
+								<VSheet :min-width="200" :max-width="400">
 									<v-list dense>
 										<v-list-item-group color="purple">
 											<div v-for="(item, i) in enteredPage" :key="i">

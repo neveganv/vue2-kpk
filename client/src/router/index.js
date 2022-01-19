@@ -41,7 +41,7 @@ const routes = [
 	},
 	{
 		path: '/entered',
-		name: 'main-student',
+		name: 'main-entered',
 		component: () => import('../views/Main/Entered.vue'),
 
 		children:[
