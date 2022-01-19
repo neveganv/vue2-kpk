@@ -26,6 +26,10 @@ module.exports = mongoose => {
             pass_id: {
                 type: String,
 				require: true,
+            },
+			status: {
+                type: String,
+				default: 'Новий',
             }
 		})
 	);

@@ -18,7 +18,11 @@ module.exports = mongoose => {
 			content: {
 				type: String,
 				require: true
-			}
+			},
+			isArchived: {
+                type: Number,
+				default: 0,
+            }
 		})
 	);
 	return coolNews;
