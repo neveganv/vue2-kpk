@@ -9,7 +9,7 @@ import store from '@/store';
 export default {
 	name: 'AuthGuard',
 	beforeRouteEnter(to, from, next) {
-		if (store.state.auth.user) {
+		if (store.state.auth.user && localStorage.token) {
 			next({ name: 'admin-permission-guard' });
 		} else {
 			next();
