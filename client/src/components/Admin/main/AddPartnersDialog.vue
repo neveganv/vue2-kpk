@@ -6,6 +6,19 @@
         <VRow>
           <VCol>
             <VTextField
+              label="Назва"
+              prepend-icon="mdi-account"
+              outlined
+              dense
+              hide-details
+              v-model="partner.name"
+            >
+            </VTextField>
+          </VCol>
+        </VRow>
+        <VRow>
+          <VCol>
+            <VTextField
               label="Посилання"
               prepend-icon="mdi-link"
               outlined
@@ -19,7 +32,7 @@
           </VCol>
         </VRow>
         <VRow>
-          <VCol class="py-0">
+          <VCol>
             <v-file-input
               dense
               counter
@@ -78,7 +91,7 @@
 </template>
 
 <script>
-//import usersService from '@/request/users/usersService';
+import partnersService from "@/request/partners/partnersService";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 
@@ -98,6 +111,7 @@ export default {
         !value || value.size < 3000000 || "Зображення повинне бути менше 3 MB!",
     ],
     partner: [],
+    base64image: '',
     isLoading: false,
   }),
   validations: {
@@ -117,29 +131,36 @@ export default {
       this.$v.$reset();
       this.$emit("close");
     },
+    onFileChange(files) {
+      if (files) {
+        const reader = new FileReader();
+        reader.readAsDataURL(files);
+        reader.onload = (e) => {
+          this.base64image = e.target.result;
+        };
+      }
+    },
     async onCreate() {
       this.$v.$touch();
-      // if (!this.$v.$invalid) {
-      // 	try {
-      // 		this.isLoading = true;
-      // 		const params = [];
-      // 		params.name = this.user.name;
-      // 		params.surname = this.user.surname;
-      // 		params.email = this.user.email;
-      // 		params.phone = this.user.phone;
-      // 		params.position = this.user.permission;
+      if (!this.$v.$invalid) {
+        try {
+          this.isLoading = true;
+          const params = [];
+          params.partner_name = this.partner.name;
+          params.path_img = this.base64image;
+          params.path_link = this.partner.link;
 
-      // 		await usersService.addNewUser({
-      // 			...params,
-      // 		});
-      // 		this.user = [];
-      // 		this.$emit('addUser');
-      // 		this.$v.$reset();
-      // 		this.isLoading = false;
-      // 	} catch (e) {
-      // 		alert(e);
-      // 	}
-      // }
+          await partnersService.addNewPartner({
+            ...params,
+          });
+          this.partner = [];
+          this.$emit("addPartner");
+          this.$v.$reset();
+          this.isLoading = false;
+        } catch (e) {
+          alert(e);
+        }
+      }
     },
   },
   computed: {
