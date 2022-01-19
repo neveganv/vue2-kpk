@@ -10,6 +10,9 @@ router.post("/add", prepareCourse.create);
 router.post("/update", prepareCourse.update);
 
 //Find prepare course by id
-router.post("/getNewsById", prepareCourse.findPrepareCourseById)
+router.post("/getPrepareCourseById", prepareCourse.findPrepareCourseById)
+
+//Get all
+router.post("/getAllPrepareCourse", prepareCourse.findAll)
 
 module.exports = router
