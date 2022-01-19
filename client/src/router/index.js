@@ -99,6 +99,11 @@ const routes = [
 				component: () => import('@/views/Admin/Shedule.vue'),
 			},
 			{
+				path: '/admin-prepareCourse',
+				name: 'admin-page-prepareCourse',
+				component: () => import('@/views/Admin/PrepareCourse.vue'),
+			},
+			{
 				path: '/admin-profile',
 				name: 'admin-page-profile',
 				component: () => import('@/views/Admin/Profile.vue'),

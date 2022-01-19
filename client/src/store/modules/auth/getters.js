@@ -14,6 +14,7 @@ export default {
 			can_edit_news: isNewsEditor() || isOwner(),
 			can_edit_shedule: isSheduleEditor() || isOwner(),
 			can_edit_specialities: isSpecialitiesEditor() || isOwner(),
+			can_edit_prepareCourse:  isOwner(),
 		};
 	},
 };

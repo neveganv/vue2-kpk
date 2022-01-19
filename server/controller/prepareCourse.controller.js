@@ -55,6 +55,7 @@ exports.update = (req, res) => {
             parent_phone: req.body.parent_phone,
             student_phone: req.body.student_phone,
             pass_id: req.body.pass_id,
+            status:req.body.status
         },
         { useFindAndModify: false }
     )

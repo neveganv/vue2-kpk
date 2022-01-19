@@ -256,7 +256,7 @@
 													? 'mdi-account-box-outline'
 													: ''
 											"
-											label="По-батькові"
+											label="По батькові"
 											dense
 											hide-details="auto"
 											outlined
@@ -499,7 +499,7 @@ export default {
 			}
 
 			!this.$v.entered.middle_name.required &&
-				errors.push('По-батькові обов`язкове поле для заповнення');
+				errors.push('По батькові обов`язкове поле для заповнення');
 			return errors;
 		},
 		MiddleNameError() {
@@ -509,7 +509,7 @@ export default {
 			}
 
 			!this.$v.entered.middle_name.required &&
-				errors.push('По-батькові обов`язкове поле для заповнення');
+				errors.push('По батькові обов`язкове поле для заповнення');
 			return errors;
 		},
 		StudentPhoneError() {

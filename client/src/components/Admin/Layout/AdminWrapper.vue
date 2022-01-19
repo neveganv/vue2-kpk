@@ -62,6 +62,15 @@
 						</VListItemIcon>
 						<VListItemTitle>Розклад</VListItemTitle>
 					</VListItem>
+					<VListItem
+						:to="{ path: '/admin-prepareCourse' }"
+						v-if="permissions.can_edit_prepareCourse"
+					>
+						<VListItemIcon>
+							<VIcon>mdi-school-outline</VIcon>
+						</VListItemIcon>
+						<VListItemTitle>Підготовчі курси</VListItemTitle>
+					</VListItem>
 				</VListItemGroup>
 				<div v-if="!foldersLoader">
 					<VListGroup
