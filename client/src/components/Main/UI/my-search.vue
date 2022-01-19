@@ -87,33 +87,15 @@ export default {
     async searchAll() {
       const params = [];
       params.title = this.$route.params.query;
-	  const paramsTitle = [];
-      paramsTitle.title = this.$route.params.query.toLowerCase();
+      params.titleLower = this.$route.params.query.toLowerCase();
       let response = await newsService.searchCoolNews({ ...params });
       this.filter.news = response;
-	  response = await newsService.searchCoolNews({ ...paramsTitle });
-	  if(response.length){
-		  this.filter.news = response;
-	  }
       response = await newsService.searchSimpleNews({ ...params });
       this.filter.news1 = response;
-	  response = await newsService.searchSimpleNews({ ...paramsTitle });
-	  if(response.length){
-		  this.filter.news1 = response;
-		  }
       response = await pageService.searchPage({ ...params });
       this.filter.page = response;
-	  response = await pageService.searchPage({ ...paramsTitle });
-	  if(response.length){
-		  this.filter.page = response;
-	  }
       response = await specialtyService.searchSpecialty({ ...params });
       this.filter.specialty = response;
-	  response = await specialtyService.searchSpecialty({ ...paramsTitle });
-	  if(response.length){
-		  this.filter.specialty = response;
-	  }
-      
 	  this.loading = false
     },
   },

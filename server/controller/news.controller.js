@@ -137,7 +137,7 @@ exports.counter = (req, res) => {
 
 exports.findNews = (req, res) => {
 	News.find({
-		title:  {$regex: req.body.title}
+		title:  {$regex: req.body.titleLower} && {$regex: req.body.title}
 	})
 		.then(data => {
 			res.send(data);

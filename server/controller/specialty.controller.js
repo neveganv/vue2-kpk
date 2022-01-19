@@ -87,7 +87,7 @@ exports.update = (req, res) => {
 exports.findSpecialty = (req, res) => {
   console.log(req.body.title)
 	Specialty.find({
-		name:  {$regex: req.body.title}
+		name:  {$regex: req.body.titleLower} && {$regex: req.body.title}
 	})
 		.then(data => {
 			res.send(data);
