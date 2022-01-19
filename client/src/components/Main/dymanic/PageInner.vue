@@ -43,28 +43,34 @@
 			<myDivider class="my-3" :height="1" v-if="fileCount > 0 && !sceletonLoader" />
 			<VRow no-gutters justify="center" v-if="!sceletonLoader">
 				<VCol cols="12">
-					<VCard v-for="pdfFile in page.files" :key="pdfFile.id">
-						<VCardTitle>
-							<VRow justify="space-between" align="center">
-								<VCol class="text-left" cols="auto">{{ pdfFile.title }}</VCol>
-							</VRow>
-						</VCardTitle>
-						<VCardSubtitle>PDF-файл</VCardSubtitle>
-						<VCardText>
-							<VRow no-gutters>
-								<VCol cols="12">
-									<VuePdfApp
-										@after-created="afterCreated"
-										style="height: 80vh"
-										page-scale="40"
-										theme="light"
-										:pdf="pdfFile.file"
-										:file-name="pdfFile.title"
-									/>
-								</VCol>
-							</VRow>
-						</VCardText>
-					</VCard>
+					<VCard class="pa-5" v-if="pdf">
+        <v-tabs centered @change="checkPdf" show-arrows>
+          <v-tab v-for="pdfFile in page.files" :key="pdfFile.id">{{
+            pdfFile.title
+          }}</v-tab>
+        </v-tabs>
+        <div v-if="page.files && pdf">
+          <VCardTitle>
+            <VRow justify="space-between" align="center">
+              <VCol class="text-left" cols="auto">{{ title }}</VCol>
+            </VRow>
+          </VCardTitle>
+          <VCardSubtitle>PDF-файл</VCardSubtitle>
+          <VCardText> </VCardText>
+          <VRow no-gutters justify="center">
+            <VCol cols="11">
+              <VuePdfApp
+                v-show="pdf"
+                style="height: 80vh"
+                page-scale="40"
+                theme="light"
+                :pdf="pdf"
+                file-name="name"
+              />
+            </VCol>
+          </VRow>
+        </div>
+      </VCard>
 				</VCol>
 			</VRow>
 			<VRow v-else class="title" no-gutter align="center">
@@ -103,15 +109,41 @@ export default {
 			this.pdfjs = pdfjs;
 			window._pdf = pdfjs;
 		},
+		checkPdf(e) {
+      //console.log(e)
+      if (typeof e !== "undefined") {
+        this.title = this.page.files[e].title;
+        this.pdf = this.page.files[e].file;
+        this.idPdf = this.page.files[e].id;
+      }
+    },
+	},
+	mounted() {
+		this.fileCount = this.page.files.length;
+		if (this.page.files) {
+				this.checkPdf(0)
+			}
+			else {
+				this.pdf = ""
+			}
 	},
 	data: () => ({
 		fileCount: 0,
+		pdf: "",
+		title: "",
 	}),
 	watch: {
 		page: {
 			deep: true,
 			handler(e) {
 				this.fileCount = e.files.length;
+				if (e.files.length > 0) {
+					this.checkPdf(0)
+				}
+				else {
+					this.pdf = ""
+				}
+				
 			},
 		},
 	},
