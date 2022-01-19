@@ -213,6 +213,9 @@ export default {
 		console.log(params)
         await pageService.deletePdf(this.$route.params.id, {...params}).then(()=>{
 			this.page.files = this.page.files.filter((item) => item.id !== this.idPdf);
+			if (this.page.files.length < 1) {
+				this.pdf = ""
+			}
 		});
       } catch (e) {
         alert(e);
