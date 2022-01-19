@@ -253,6 +253,8 @@ export default {
       params.html = this.page.html;
       try {
         await pageService.update(this.$route.params.id, { ...params });
+		this.oldPage = {...this.page}
+		this.cancelDisabled = false
       } catch (e) {
         alert(e);
       }
