@@ -1,9 +1,9 @@
 <template>
-	<VMenu offset-y v-if="user">
+	<VMenu offset-y v-if="getUser">
 		<template v-slot:activator="{ on, attrs }">
 			<span v-bind="attrs" v-on="on">
 				<span class="d-flex align-center">
-					<Avatar :name="user.name + ' ' + user.surname" size="40"  />
+					<Avatar :name="getUser.name + ' ' + getUser.surname" size="40"  />
 					<VIcon v-if="attrs['aria-expanded'] === 'false'">mdi-menu-down</VIcon>
 					<VIcon v-else>mdi-menu-up</VIcon>
 				</span>
@@ -13,11 +13,11 @@
 			<VList >
 				<VListItem>
 					<VListItemAvatar>
-						<Avatar :name="user.name + ' ' + user.surname" size="50" />
+						<Avatar :name="getUser.name + ' ' + getUser.surname" size="50" />
 					</VListItemAvatar>
 					<VListItemContent>
-						<VListItemTitle  class="font-weight-medium">{{ user.name }} {{ user.surname }} </VListItemTitle>
-						<VListItemSubtitle>{{ user.positionTitle }}</VListItemSubtitle>
+						<VListItemTitle  class="font-weight-medium">{{ getUser.name }} {{ getUser.surname }} </VListItemTitle>
+						<VListItemSubtitle>{{ getUser.positionTitle }}</VListItemSubtitle>
 					</VListItemContent>
 				</VListItem>
 				<VDivider />
@@ -42,12 +42,12 @@
 import Avatar from './Avatar.vue';
 import user from '@/mixins/user'
 export default {
-	props: {
-		user: {
-			type: Object,
-			require: true,
-		},
-	},
+	// props: {
+	// 	user: {
+	// 		type: Object,
+	// 		require: true,
+	// 	},
+	// },
 	components: {
 		Avatar,
 	},
