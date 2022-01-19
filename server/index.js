@@ -21,6 +21,7 @@ app.use(cors())
 app.get("*", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
+
 //routes
 app.use('/api/news', require('./routes/api/news'))
 app.use('/api/user', require('./routes/api/user'))
@@ -35,6 +36,7 @@ app.use('/api/specialty', require('./routes/api/specialty'))
 app.use('/api/coolNews', require('./routes/api/news/coolNews'))
 app.use('/api/prepareCourse', require('./routes/api/prepareCourse'))
 app.use('/api/partner' , require('./routes/api/partner'))
+app.use('/api/entrantInfo' , require('./routes/api/entrantInfo'))
 
 //DB
 function start() {

@@ -18,5 +18,6 @@ db.specialty = require("./specialty")(mongoose);
 db.coolNews = require("./news/coolNews")(mongoose);
 db.prepareCourse = require("./prepareСourse")(mongoose);
 db.partner = require("./partner")(mongoose);
+db.entrantInfo = require("./entrantInfo")(mongoose);
 
 module.exports = db;

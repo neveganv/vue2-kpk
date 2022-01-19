@@ -47,110 +47,13 @@
 								<VRow justify="space-between" align="center">
 									<VCol cols="auto">
 										<span :class="{ 'subtitle-1': $vuetify.breakpoint.xs }">
-											Набір на Підготовчі курси до вступу в коледж у 2022 році
+											{{settings.title}}
 										</span>
 									</VCol>
 								</VRow>
 							</VCardTitle>
 							<VDivider />
-							<v-card-text>
-								1914 translation by H. Rackham "But I must explain to you how
-								all this mistaken idea of denouncing pleasure and praising pain
-								was born and I will give you a complete account of the system,
-								and expound the actual teachings of the great explorer of the
-								truth, the master-builder of human happiness. No one rejects,
-								dislikes, or avoids pleasure itself, because it is pleasure, but
-								because those who do not know how to pursue pleasure rationally
-								encounter consequences that are extremely painful. Nor again is
-								there anyone who loves or pursues or desires to obtain pain of
-								itself, because it is pain, but because occasionally
-								circumstances occur in which toil and pain can procure him some
-								great pleasure. To take a trivial example, which of us ever
-								undertakes laborious physical exercise, except to obtain some
-								advantage from it? But who has any right to find fault with a
-								man who chooses to enjoy a pleasure that has no annoying
-								consequences, or one who avoids a pain that produces no
-								resultant pleasure?" Section 1.10.33 of "de Finibus Bonorum et
-								Malorum", written by Cicero in 45 BC "At vero eos et accusamus
-								et iusto odio dignissimos ducimus qui blanditiis praesentium
-								voluptatum deleniti atque corrupti quos dolores et quas
-								molestias excepturi sint occaecati cupiditate non provident,
-								similique sunt in culpa qui officia deserunt mollitia animi, id
-								est laborum et dolorum fuga. Et harum quidem rerum facilis est
-								et expedita distinctio. Nam libero tempore, cum soluta nobis est
-								eligendi optio cumque nihil impedit quo minus id quod maxime
-								placeat facere possimus, omnis voluptas assumenda est, omnis
-								dolor repellendus. Temporibus autem quibusdam et aut officiis
-								debitis aut rerum necessitatibus saepe eveniet ut et voluptates
-								repudiandae sint et molestiae non recusandae. Itaque earum rerum
-								hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus
-								maiores alias consequatur aut perferendis doloribus asperiores
-								repellat." 1914 translation by H. Rackham "On the other hand, we
-								denounce with righteous indignation and dislike men who are so
-								beguiled and demoralized by the charms of pleasure of the
-								moment, so blinded by desi1914 translation by H. Rackham "But I
-								must explain to you how all this mistaken idea of denouncing
-								pleasure and praising pain was born and I will give you a
-								complete account of the system, and expound the actual teachings
-								of the great explorer of the truth, the master-builder of human
-								happiness. No one rejects, dislikes, or avoids pleasure itself,
-								because it is pleasure, but because those who do not know how to
-								pursue pleasure rationally encounter consequences that are
-								extremely painful. Nor again is there anyone who loves or
-								pursues or desires to obtain pain of itself, because it is pain,
-								but because occasionally circumstances occur in which toil and
-								pain can procure him some great pleasure. To take a trivial
-								example, which of us ever undertakes laborious physical
-								exercise, except to obtain some advantage from it? But who has
-								any right to find fault with a man who chooses to enjoy a
-								pleasure that has no annoying consequences, or one who avoids a
-								pain that produces no resultant pleasure?" Section 1.10.33 of
-								"de Finibus Bonorum et Malorum", written by Cicero in 45 BC "At
-								vero eos et accusamus et iusto odio dignissimos ducimus qui
-								blanditiis praesentium voluptatum deleniti atque corrupti quos
-								dolores et quas molestias excepturi sint occaecati cupiditate
-								non provident, similique sunt in culpa qui officia deserunt
-								mollitia animi, id est laborum et dolorum fuga. Et harum quidem
-								rerum facilis est et expedita distinctio. Nam libero tempore,
-								cum soluta nobis est eligendi optio cumque nihil impedit quo
-								minus id quod maxime placeat facere possimus, omnis voluptas
-								assumenda est, omnis dolor repellendus. Temporibus autem
-								quibusdam et aut officiis debitis aut rerum necessitatibus saepe
-								eveniet ut et voluptates repudiandae sint et molestiae non
-								recusandae. Itaque earum rerum hic tenetur a sapiente delectus,
-								ut aut reiciendis voluptatibus maiores alias consequatur aut
-								perferendis doloribus asperiores repellat." 1914 translation by
-								H. Rackham "On the other hand, we denounce with righteous
-								indignation and dislike men who are so beguiled and demoralized
-								by the charms of pleasure of the moment, so blinded by desire,
-								that they cannot foresee the pain and trouble that are bound to
-								ensue; and equal blame belongs to those who fail in their duty
-								through weakness of will, which is the same as saying through
-								shrinking from toil and pain. These cases are perfectly simple
-								and easy to distinguish. In a free hour, when our power of
-								choice is untrammelled and when nothing prevents our being able
-								to do what we like best, every pleasure is to be welcomed and
-								every pain avoided. But in certain circumstances and owing to
-								the claims of duty or the obligations of business it will
-								frequently occur that pleasures have to be repudiated and
-								annoyances accepted. The wise man therefore always holds in
-								these matters to this principle of selection: he rejects
-								pleasures to secure other greater pleasures, or else he endures
-								pains to avoid worse pains."re, that they cannot foresee the
-								pain and trouble that are bound to ensue; and equal blame
-								belongs to those who fail in their duty through weakness of
-								will, which is the same as saying through shrinking from toil
-								and pain. These cases are perfectly simple and easy to
-								distinguish. In a free hour, when our power of choice is
-								untrammelled and when nothing prevents our being able to do what
-								we like best, every pleasure is to be welcomed and every pain
-								avoided. But in certain circumstances and owing to the claims of
-								duty or the obligations of business it will frequently occur
-								that pleasures have to be repudiated and annoyances accepted.
-								The wise man therefore always holds in these matters to this
-								principle of selection: he rejects pleasures to secure other
-								greater pleasures, or else he endures pains to avoid worse
-								pains."
+							<v-card-text v-html="settings.content">
 							</v-card-text>
 							<VDivider />
 							<VCardActions class="mb-5">
@@ -166,7 +69,7 @@
 											:class="{ 'subtitle-2': $vuetify.breakpoint.xs }"
 											class="font-weight-bold success--text"
 										>
-											12312312 грн.</span
+											{{settings.price}} грн</span
 										>
 									</VCol>
 
@@ -404,7 +307,7 @@ import SheduleInner from '../../Admin/shedule/SheduleInner.vue';
 import { validationMixin } from 'vuelidate';
 import { required, sameAs } from 'vuelidate/lib/validators';
 import { invalid } from 'moment';
-
+import entrantInfoService from '@/request/entrantInfo/entrantInfoService';
 const validPhone = value => value.replace(/[^+\d]/g, '').length === 13;
 
 export default {
@@ -414,6 +317,7 @@ export default {
 		disableBtn: false,
 		snackbar: false,
 		loading: false,
+		settings: {},
 		activeTab: 0,
 		entered: {
 			surname: '',
@@ -441,11 +345,17 @@ export default {
 		if (Number(tabLocalStorage)) {
 			this.activeTab = Number(tabLocalStorage);
 		}
+		this.getEntrantInfo()
 	},
 	watch: {},
 	methods: {
 		changeTab() {
 			window.localStorage.setItem('activeTabEntered', this.activeTab);
+		},
+		async getEntrantInfo(){
+			let settings = await entrantInfoService.getAll()
+			this.settings = settings[0]
+			console.log(this.settings)
 		},
 		async onClickSend() {
 			this.$v.$touch();

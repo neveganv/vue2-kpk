@@ -52,7 +52,7 @@
 
 <script>
 import { VueEditor } from 'vue2-editor';
-
+import entrantInfoService from '@/request/entrantInfo/entrantInfoService';
 export default {
 	components: {
 		VueEditor,
@@ -62,12 +62,30 @@ export default {
 			require: true,
 		},
 	},
+	mounted(){
+		this.getEntrantInfo()
+	},
 	methods: {
-		onUpdate() {
-			console.log(123);
+		async getEntrantInfo(){
+			let settings = await entrantInfoService.getAll()
+			this.settings = settings[0]
+			console.log(this.settings)
+		},
+		async onUpdate() {
+			try {
+			const params = []
+			params.title = this.settings.title
+			params.content = this.settings.content
+			params.price = this.settings.price
+			await entrantInfoService.update(this.settings._id, {...params})
+			this.$emit('close')
+			}
+			catch(e) {
+				alert (e)
+			}
 		},
 		onCancel() {
-			console.log(123);
+			this.$emit('close')
 		},
 	},
 	data: () => ({
