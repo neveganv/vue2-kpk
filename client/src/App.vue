@@ -9,8 +9,10 @@
 
 <script>
 import AdminWrapper from '@/components/Admin/Layout/AdminWrapper.vue';
+import user from '@/mixins/user';
 
 export default {
+	mixins:[user],
 	name: 'App',
 	data:()=> ({
 		isAdminWrap: false,
@@ -21,7 +23,8 @@ export default {
 	watch: {
 		'$route.path': {
 			handler(e) {
-				if (e.includes('/admin')) {
+					console.log(e)
+				if (e.includes('/admin') && localStorage.token && this.getUser) {
 					this.isAdminWrap = true;
 				} else {
 					this.isAdminWrap = false;
