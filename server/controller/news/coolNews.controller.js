@@ -38,7 +38,7 @@ exports.findCoolNewsById = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-	CoolNews.find()
+	CoolNews.find().sort({ 'created_time': 'desc' })
 		.then(data => {
 			res.send(data);
 		})

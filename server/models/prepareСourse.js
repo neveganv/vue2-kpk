@@ -23,6 +23,10 @@ module.exports = mongoose => {
 				type: String,
 				require: true,
 			},
+			created: {
+				type: Date,
+				default: Date.now()
+			},
             pass_id: {
                 type: String,
 				require: true,

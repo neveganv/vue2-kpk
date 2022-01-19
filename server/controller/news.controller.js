@@ -53,7 +53,7 @@ exports.findNewsById = (req, res) => {
 
 exports.findAll = (req, res) => {
 	News.find()
-		.populate('category')
+		.populate('category').sort({ 'created_time': 'desc' })
 		.then(data => {
 			res.send(data);
 		})

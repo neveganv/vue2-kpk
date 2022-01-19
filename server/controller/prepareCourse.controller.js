@@ -73,7 +73,7 @@ exports.update = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-	PrepareCourse.find()
+	PrepareCourse.find().sort({ 'created': 'desc' })
 		.then(data => {
 			res.send(data);
 		})
