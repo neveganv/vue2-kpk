@@ -28,12 +28,15 @@ exports.create = (req, res) => {
 
 // find all pages
 exports.findAll = (req, res) => {
-    Folder.find({
-        positions: {
-            $in: [req.body.position]
-            
+    let options = {}
+    if (req.body.position) {
+        options = {
+            positions: {
+                $in: [req.body.position]
+            }
         }
-    })
+    }
+    Folder.find(options)
         .populate('positions')
         .then(data => {
             res.send(data);
