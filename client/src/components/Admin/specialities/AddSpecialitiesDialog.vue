@@ -185,8 +185,9 @@ export default {
 						content: '',
 						number: '',
 					};
-					this.isLoading = true;
+					this.isLoading = false;
 				} catch (e) {
+					this.isLoading = false;
 					alert(e);
 				}
 			}
