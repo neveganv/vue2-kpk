@@ -120,7 +120,8 @@ exports.update = (req, res) => {
           message: "Data to update can not be empty!"
         });
       }
-      const id = req.body.id;
+      console.log(req.body.uuid)
+      const id = req.body.uuid;
       
        User.findByIdAndUpdate(id, {
         name: req.body.name,
@@ -144,7 +145,7 @@ exports.update = (req, res) => {
 };
 
 exports.changePassword = (req, res) => {
-    id = req.body.uuid;
+    id = req.body.id;
     User.findOne({ _id: id }, function (err, user) {
         if (user === null) {
             return res.status(400).send({

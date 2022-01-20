@@ -1,8 +1,8 @@
 <template>
 	<VDialog v-model="visibility" @click:outside="$v.$reset()">
 		<VCard width="700">
-			<VCardTitle v-if="chosenNews"> Оновити Круту Новину </VCardTitle>
-			<VCardTitle v-else> Створити Круту Новину </VCardTitle>
+			<VCardTitle v-if="chosenNews"> Оновити Нещодавну Новину </VCardTitle>
+			<VCardTitle v-else> Створити Нещодавну Новину </VCardTitle>
 			<VCardText>
 				<VRow>
 					<VCol class="pb-0">

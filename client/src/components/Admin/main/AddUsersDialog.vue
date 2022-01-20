@@ -250,7 +250,7 @@ export default {
 				try {
 					this.isLoading = true;
 					const params = [];
-					params.id = this.user._id;
+					params.uuid = this.user._id;
 					params.name = this.user.name;
 					params.surname = this.user.surname;
 					params.email = this.user.email;

@@ -120,7 +120,7 @@
               :key="sponsor._id"
               @click="onClickSponsor(sponsor.path_link)"
             >
-              <v-img height="60" cover :src="sponsor.path_img" alt="" draggable="false" />
+              <img height="60" cover :src="sponsor.path_img" alt="" draggable="false" />
             </div>
           </div>
         </v-container>

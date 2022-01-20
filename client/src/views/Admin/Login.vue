@@ -55,8 +55,10 @@
 import usersService from '@/request/users/usersService';
 import * as actionTypes from '@/store/modules/auth/types/actions';
 import { mapActions, mapGetters } from 'vuex';
+import user from '@/mixins/user';
 
 export default {
+	mixins: [user],
 	data: () => ({
 		password: null,
 		email: null,
@@ -79,10 +81,10 @@ export default {
 				localStorage.token = JSON.stringify(token);
 				this.logIn(token);
 
-				setTimeout(function () {
-					location.reload();
-					this.loading = false;
-				}, 100);
+					setTimeout(function () {
+						location.reload();
+						this.loading = false;
+					}, 300);
 			} catch (e) {
 				this.loading = false;
 				alert(e);
