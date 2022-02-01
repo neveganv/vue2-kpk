@@ -4,7 +4,10 @@
 			<VCol cols="auto" class="title-number">
 				{{ specialitie.number || '--' }}
 			</VCol>
-			<VCol class="title-text">
+			<VCol
+				class="title-text"
+				:class="{ 'text-subtitle-1': $vuetify.breakpoint.smAndDown }"
+			>
 				{{ specialitie.name || '--' }}
 			</VCol>
 		</VRow>
@@ -18,29 +21,31 @@
 		</VRow>
 		<VRow no-gutters v-if="!sceletonLoader">
 			<div
-				class="main-img"
+				class="main-img mt-10"
 				v-bind:style="{ 'background-image': 'url(' + specialitie.img + ')' }"
 			>
 				<!-- <img :src="specialitie.img" alt="" /> -->
 			</div>
 		</VRow>
 		<VRow no-gutters v-else>
-			<div class="w-100" style="margin-top: 50px">
+			<div class="w-100 mt-10">
 				<v-skeleton-loader type="image"></v-skeleton-loader>
 			</div>
 		</VRow>
 
 		<VCol
 			no-gutters
-			style="margin-top: 50px"
-			class="content"
+			class="content mt-5"
 			v-if="specialitie.content && !sceletonLoader"
 		>
 			<VRow align="center" class="content-title">
-				<VCol cols="auto">
+				<VCol cols="auto" class="pr-0">
 					<VIcon color="black" size="30">mdi-information-outline</VIcon></VCol
 				>
-				<VCol cols="auto" class="black--text"
+				<VCol
+					cols="auto"
+					class="black--text"
+					:class="{ 'text-subtitle-1': $vuetify.breakpoint.smAndDown }"
 					>Інформація про спеціальність</VCol
 				>
 			</VRow>
@@ -54,15 +59,19 @@
 		</VCol>
 		<VCol
 			no-gutters
-			style="margin-top: 50px"
-			class="content"
+			class="content ье-5"
 			v-if="specialitie.courses && !sceletonLoader"
 		>
 			<VRow align="center" class="content-title">
-				<VCol cols="auto">
+				<VCol cols="auto" class="pr-0">
 					<VIcon color="black" size="30">mdi-school-outline</VIcon></VCol
 				>
-				<VCol cols="auto" class="black--text">Освітній процес</VCol>
+				<VCol
+					cols="auto"
+					class="black--text"
+					:class="{ 'text-subtitle-1': $vuetify.breakpoint.smAndDown }"
+					>Освітній процес</VCol
+				>
 			</VRow>
 			<VRow no-gutters style="margin-top: 30px; margin-bottom: 50px">
 				<v-expansion-panels v-model="panel" multiple>
@@ -71,7 +80,7 @@
 						:key="i"
 					>
 						<v-expansion-panel-header> {{ i }} курс </v-expansion-panel-header>
-						<v-expansion-panel-content style="word-break:break-all">
+						<v-expansion-panel-content style="word-break: break-all">
 							{{ course }}
 						</v-expansion-panel-content>
 					</v-expansion-panel>
@@ -115,7 +124,6 @@ export default {
 	.main-img {
 		width: 100%;
 		height: 226px;
-		margin-top: 50px;
 		position: relative;
 		overflow: hidden;
 		background-size: cover;

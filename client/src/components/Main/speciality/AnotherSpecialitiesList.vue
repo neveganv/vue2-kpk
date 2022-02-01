@@ -1,5 +1,5 @@
 <template>
-	<div class="another">
+	<div class="another" v-if="!$vuetify.breakpoint.smAndDown">
 		<VRow no-gutters class="font-weight-medium" v-if="!sceletonLoader">
 			Інші спеціальності
 		</VRow>
@@ -19,11 +19,31 @@
 					style="height: 140px"
 				></v-skeleton-loader>
 				<VRow no-gutters class="my-1" style="height: 44px">
-					<v-skeleton-loader type="chip" class="pl-2" ></v-skeleton-loader>
+					<v-skeleton-loader type="chip" class="pl-2"></v-skeleton-loader>
 					<VSpacer />
-					<v-skeleton-loader type="button" class="pr-2 "></v-skeleton-loader>
+					<v-skeleton-loader type="button" class="pr-2"></v-skeleton-loader>
 				</VRow>
 			</VCard>
+		</div>
+	</div>
+	<div v-else>
+		<VCol class="py-0"> Інші спеціальності </VCol>
+		<VCol v-if="!sceletonLoader" class="py-0">
+			<v-carousel height="auto" hide-delimiter-background>
+				<v-carousel-item
+					v-for="specialitieItem in specialities"
+					:key="specialitieItem._id"
+				>
+					<mySpecialitiesCardSm :specialitie="specialitieItem" :slider="true" />
+				</v-carousel-item>
+			</v-carousel>
+		</VCol>
+		<div v-else>
+			<v-skeleton-loader
+				type="image"
+				class="my-4"
+				style="height: 140px"
+			></v-skeleton-loader>
 		</div>
 	</div>
 </template>

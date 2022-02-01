@@ -122,18 +122,6 @@ export default {
 			opacity: 0.9;
 		}
 	}
-	&.card-2 {
-		margin-top: 200px;
-	}
-	&.card-3 {
-		margin-left: 200px;
-	}
-	&.card-4 {
-		margin-top: 600px;
-	}
-	&.card-5 {
-		margin-top: -300px;
-	}
 	&:active {
 		transform: scale(0.95);
 	}
@@ -141,6 +129,6 @@ export default {
 .card__arrow {
 	position: absolute;
 	top: 0;
-	right: 0;
+	right: -10px;
 }
 </style>

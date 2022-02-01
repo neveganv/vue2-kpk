@@ -1,5 +1,5 @@
 <template>
-	<div class="header">
+	<div class="header pr-5">
 		<v-fade-transition>
 			<div class="my-container mt-5">
 				<VRow no-gutters aling="center" justify="space-between" class="py-2">

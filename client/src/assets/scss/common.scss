@@ -92,11 +92,15 @@ html {
 	padding: 14px 23px !important;
 }
 .my-container {
+
 	max-width: 1100px;
 	margin: auto;
 	width: 100%;
 	@media screen and (	max-width: 1100px){
 		padding: 0 40px
+	}
+	&.small{
+		padding: 0 10px!important
 	}
 }
 .m {
