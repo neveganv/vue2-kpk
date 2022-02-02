@@ -6,12 +6,13 @@
 // eslint-disable-next-line import/no-cycle
 import store from '@/store';
 import * as getterTypes from '@/store/modules/auth/types/getters';
-('@/mixins/user');
+import user from '@/mixins/user';
 
 export default {
 	name: 'PermissionGuard',
+	mixins: [user],
 	beforeRouteEnter(to, from, next) {
-		if (store.state.auth.user) {
+		if (store.state.auth) {
 			if (store.state.auth.user.position == 'admin') {
 				next({ name: 'admin-page-main' });
 			} else if (store.state.auth.user.position == 'redaktor_novyn') {
@@ -26,6 +27,9 @@ export default {
 		} else {
 			next({ name: 'admin-login' });
 		}
+	},
+	mounted() {
+		console.log(this.permissions || false);
 	},
 };
 </script>

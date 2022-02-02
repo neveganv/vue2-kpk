@@ -172,14 +172,8 @@ export default {
 		MainLoaderLine,
 	},
 	mixins: [user],
-	created() {
-		window.addEventListener('scroll', this.handleScroll);
-	},
-	destroyed() {
-		window.removeEventListener('scroll', this.handleScroll);
-		clearInterval(this.intervalFetchData);
-		console.log('destroyed');
-	},
+	created() {},
+	destroyed() {},
 	mounted() {
 		this.getFolders();
 		console.log('userInfo', this.getUser);
@@ -228,26 +222,30 @@ export default {
 		},
 		async getFolders() {
 			try {
-				this.foldersLoader = true;
-				const newPage = await pageService.getPages();
-				const newFolder = await folderService.getFolders({
-					position: this.getUser.positionUUID,
-				});
-				this.folders = newFolder;
-				this.folders.forEach(item => {
-					item.pages = newPage.filter(e => e.folder._id == item._id);
-				});
-
+				if (localStorage.token) {
+					this.foldersLoader = true;
+					if(this.getUser.positionUUID){
+						const newPage = await pageService.getPages();
+						const newFolder = await folderService.getFolders({
+							position: this.getUser.positionUUID,
+						});
+						this.folders = newFolder;
+						this.folders.forEach(item => {
+						item.pages = newPage.filter(e => e.folder._id == item._id);
+					});
+					}
+				}
 				this.foldersLoader = false;
 			} catch (e) {
-				alert(e);
+				this.foldersLoader = false;
+				console.log(e)
 			}
 		},
 	},
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .listGroupMenu {
 	.v-list-group__items {
 		padding-left: 18px;
@@ -291,5 +289,9 @@ export default {
 		min-height: calc(100vh - 94px);
 		height: auto;
 	}
+}
+body,
+html {
+	overflow: hidden !important;
 }
 </style>
