@@ -1,5 +1,6 @@
 <template>
-	<div class="specialities-card" @click="onClick">
+	<div class="specialities-card" >
+		<div @click="onClick">
 		<v-slide-x-transition>
 			<div class="card__title" v-if="!sceletonLoader">
 				<div class="title__number">{{ '0' + indexSpecialitie || '--' }}</div>
@@ -23,12 +24,13 @@
 				height="300"
 			></v-skeleton-loader>
 		</div>
+		</div>
 		<div class="card__arrow" v-if="!edit">
 			<VIcon>mdi-arrow-bottom-left</VIcon>
 		</div>
 
 		<div class="card__arrow" v-else>
-			<VBtn color="primary">
+			<VBtn @click="$emit('edit', specialitie._id)" color="primary">
 				<VIcon>mdi-square-edit-outline</VIcon>
 			</VBtn>
 		</div>

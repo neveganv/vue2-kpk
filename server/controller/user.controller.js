@@ -8,7 +8,7 @@ const { ObjectId } = require("bson");
 require("dotenv").config();
 
 
-// Create a new optionsList
+// Create a new User
 exports.create = (req, res) => {
 
     // generate pass

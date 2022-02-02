@@ -1,7 +1,8 @@
 <template>
 	<VDialog v-model="visibility" scrollable @click:outside="$v.$reset()">
 		<VCard width="700">
-			<VCardTitle> Додати нову спеціальність </VCardTitle>
+			<VCardTitle v-if="edit[0].edit">Змінити спеціальність</VCardTitle>
+			<VCardTitle v-else> Додати нову спеціальність </VCardTitle>
 			<VCardText>
 				<VRow class="my-5">
 					<VCol>
@@ -100,7 +101,8 @@
 			<VCardActions>
 				<VSpacer />
 				<VBtn text color="error" @click="onCancel">Скасувати</VBtn>
-				<VBtn color="primary" @click="onCreate" :loading="isLoading" :disabled="isLoading">Додати</VBtn>
+				<VBtn v-if="edit[0].edit" color="primary" @click="onUpdate" :loading="isLoading" :disabled="isLoading">Оновити</VBtn>
+				<VBtn v-else color="primary" @click="onCreate" :loading="isLoading" :disabled="isLoading">Додати</VBtn>
 			</VCardActions>
 		</VCard>
 	</VDialog>
@@ -119,8 +121,11 @@ export default {
 	mixins: [validationMixin],
 	props: {
 		visible: {
-			require: true,
+			require: false,
 		},
+		edit: {
+			require: true,
+		}
 	},
 	validations: {
 		specialities: {
@@ -205,6 +210,63 @@ export default {
 				};
 			}
 		},
+		async onUpdate(){
+			this.$v.$touch();
+			if (!this.$v.$invalid) {
+				try {
+					this.isLoading = true;
+					const params = [];
+					params.id =  this.edit[0].id;
+					params.name = this.specialities.title;
+					params.img = this.base64image;
+					params.courses = this.specialities.courses;
+					params.content = this.specialities.content;
+					params.number = this.specialities.number;
+					const res = await specialityService.updateSpecialty({ ...params });
+					console.log(res);
+					this.$emit('close')
+					this.$v.$reset();
+					this.specialities = {
+						title: '',
+						img: null,
+						courses: {},
+						content: '',
+						number: '',
+					};
+					this.isLoading = false;
+				} catch (e) {
+					this.isLoading = false;
+					alert(e);
+				}
+			}
+		},
+		async getSpecialty(){
+			try {
+				this.isLoading = true;
+				const params = [];
+				params.id = this.edit[0].id;
+				const res = await specialityService.getById({...params});
+				this.specialities.title = res[0].name;
+				this.specialities.number = res[0].number;
+				this.specialities.courses = res[0].courses;
+				this.specialities.content = res[0].content;
+				this.isLoading = false;
+			}
+			catch(e){
+				alert(e);
+			}
+		}
+	},
+	watch:{
+		edit:{
+			deep: true,
+			handler(){
+				console.log("ediid",this.edit);
+				if(this.edit[0].edit){
+					this.getSpecialty();
+				}
+			}
+		}
 	},
 	computed: {
 		visibility: {
@@ -214,6 +276,14 @@ export default {
 			set() {
 				return this.$emit('close');
 			},
+		},
+		edits: {
+			get(){
+				return this.edit[0];
+			},
+			set(){
+				return this.$emit('close');
+			}
 		},
 		TitleError() {
 			const errors = [];

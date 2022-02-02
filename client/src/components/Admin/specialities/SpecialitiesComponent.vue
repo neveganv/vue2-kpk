@@ -14,12 +14,15 @@
 		<SpecialitiesList
 			:specialitites="specialities"
 			:SceletonLoader="SceletonLoader"
+			@edit="editSpeciality"
 		/>
 
 		<AddSpecialitiesDialog
+		    :edit="edit"
 			:visible="visible"
-			@close="visible = false"
+			@close="close"
 			@addSpeciality="addSpeciality"
+			@editSpeciality="editSpeciality"
 		/>
 	</div>
 </template>
@@ -34,6 +37,7 @@ export default {
 	mixins:[loader],
 	components: { AddSpecialitiesDialog, SpecialitiesList },
 	data: () => ({
+		edit: [],
 		visible: false,
 		specialities: [],
 		SceletonLoader: false,
@@ -42,6 +46,23 @@ export default {
 		this.getSpecialities();
 	},
 	methods: {
+		close(){
+			this.edit = [],
+			this.edit.push({
+				id: '',
+				edit: false
+			});
+			this.visible = false
+			this.getSpecialities();
+		},
+		editSpeciality(id){
+			this.edit = [],
+			this.edit.push({
+				id: id,
+				edit: true
+			})
+			this.visible = true;
+		},
 		addSpeciality(e) {
 			this.visible = false;
 			this.specialities.push(e);

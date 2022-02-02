@@ -17,4 +17,8 @@ router.post("/getById", specialty.findById);
 
 //Search specialty
 router.post("/searchSpecialty", specialty.findSpecialty);
+
+//Delete specialty
+router.post("/deleteSpecialty", specialty.deleteSpecialty);
+
 module.exports = router

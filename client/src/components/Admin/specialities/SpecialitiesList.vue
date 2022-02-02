@@ -11,6 +11,7 @@
 					:specialitie="specialitie"
 					:indexSpecialitie="index + 1"
 					:edit="true"
+					@edit="editSpecialities"
 				/>
 			</VCol>
 		</VRow>
@@ -29,6 +30,11 @@ export default {
 			require: true,
 		},
 	},
+	methods: {
+		editSpecialities(id){
+			this.$emit('edit', id)
+		}
+	}
 };
 </script>
 
