@@ -85,10 +85,13 @@
 				</VRow>
 				<SpecialitiesList />
 			</div>
+			<div class="my-10">
+
+			<about-component />
+			</div>
 			<!-- news list -->
 			<div
 				class="my-container"
-				style="margin-top: 160px"
 				:class="{ 'mt-5': $vuetify.breakpoint.mdAndDown }"
 			>
 				<MainNewsList />
@@ -117,6 +120,7 @@ import SpecialitiesList from './specialities/SpecialitiesList.vue';
 import MainNewsList from './simpleNews/MainNewsList.vue';
 import FooterComponent from './footer/FooterComponent.vue';
 import RightNavigation from '../UI/RightNavigation.vue';
+import AboutComponent from './about/AboutComponent.vue';
 
 export default {
 	data: () => ({
@@ -130,6 +134,7 @@ export default {
 		MainNewsList,
 		FooterComponent,
 		RightNavigation,
+AboutComponent,
 	},
 	mounted() {
 		if (this.$vuetify.breakpoint.mdAndDown) {
