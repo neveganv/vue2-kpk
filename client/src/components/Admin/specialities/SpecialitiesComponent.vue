@@ -57,10 +57,8 @@ export default {
 		},
 		editSpeciality(id){
 			this.edit = [],
-			this.edit.push({
-				id: id,
-				edit: true
-			})
+			this.edit.edit = true,
+			this.edit.id = id
 			this.visible = true;
 		},
 		addSpeciality(e) {

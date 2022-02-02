@@ -1,7 +1,7 @@
 <template>
 	<VDialog v-model="visibility" scrollable @click:outside="$v.$reset()">
 		<VCard width="700">
-			<VCardTitle v-if="edit[0].edit">Змінити спеціальність</VCardTitle>
+			<VCardTitle v-if="edits">Змінити спеціальність</VCardTitle>
 			<VCardTitle v-else> Додати нову спеціальність </VCardTitle>
 			<VCardText>
 				<VRow class="my-5">
@@ -101,7 +101,7 @@
 			<VCardActions>
 				<VSpacer />
 				<VBtn text color="error" @click="onCancel">Скасувати</VBtn>
-				<VBtn v-if="edit[0].edit" color="primary" @click="onUpdate" :loading="isLoading" :disabled="isLoading">Оновити</VBtn>
+				<VBtn v-if="edits" color="primary" @click="onUpdate" :loading="isLoading" :disabled="isLoading">Оновити</VBtn>
 				<VBtn v-else color="primary" @click="onCreate" :loading="isLoading" :disabled="isLoading">Додати</VBtn>
 			</VCardActions>
 		</VCard>
@@ -124,7 +124,7 @@ export default {
 			require: false,
 		},
 		edit: {
-			require: true,
+			require: false,
 		}
 	},
 	validations: {
@@ -216,7 +216,7 @@ export default {
 				try {
 					this.isLoading = true;
 					const params = [];
-					params.id =  this.edit[0].id;
+					params.id =  this.edit.id;
 					params.name = this.specialities.title;
 					params.img = this.base64image;
 					params.courses = this.specialities.courses;
@@ -244,12 +244,10 @@ export default {
 			try {
 				this.isLoading = true;
 				const params = [];
-				params.id = this.edit[0].id;
+				params.id = this.edit.id;
 				const res = await specialityService.getById({...params});
+				this.specialities = res[0];
 				this.specialities.title = res[0].name;
-				this.specialities.number = res[0].number;
-				this.specialities.courses = res[0].courses;
-				this.specialities.content = res[0].content;
 				this.isLoading = false;
 			}
 			catch(e){
@@ -261,8 +259,7 @@ export default {
 		edit:{
 			deep: true,
 			handler(){
-				console.log("ediid",this.edit);
-				if(this.edit[0].edit){
+				if(this.edits){
 					this.getSpecialty();
 				}
 			}
@@ -279,7 +276,7 @@ export default {
 		},
 		edits: {
 			get(){
-				return this.edit[0];
+				return this.edit.edit;
 			},
 			set(){
 				return this.$emit('close');
