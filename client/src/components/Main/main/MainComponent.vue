@@ -112,11 +112,11 @@
 
 <script>
 import MyHeader from '../UI/my-header.vue';
-import CoolNews from './CoolNews.vue';
-import SpecialitiesList from './SpecialitiesList.vue';
-import MainNewsList from './MainNewsList.vue';
-import FooterComponent from './FooterComponent.vue';
-import RightNavigation from './RightNavigation.vue';
+import CoolNews from './coolNews/CoolNews.vue';
+import SpecialitiesList from './specialities/SpecialitiesList.vue';
+import MainNewsList from './simpleNews/MainNewsList.vue';
+import FooterComponent from './footer/FooterComponent.vue';
+import RightNavigation from '../UI/RightNavigation.vue';
 
 export default {
 	data: () => ({

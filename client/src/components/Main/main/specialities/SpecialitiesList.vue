@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import MySpecialitiesCard from './../UI/my-specialities-card.vue';
+import MySpecialitiesCard from '../../UI/my-specialities-card.vue';
 import specialityService from '@/request/specialty/specialtyService';
 
 export default {

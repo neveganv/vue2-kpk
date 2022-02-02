@@ -29,7 +29,7 @@
 							>
 								Головна
 							</div>
-							<!-- <div class="nav__inner">Про коледж</div> -->
+							<div class="nav__inner">Про коледж</div>
 							<VMenu
 								offset-y
 								transition="slide-y-transition"

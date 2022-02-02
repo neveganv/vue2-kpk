@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import myDivider from '../UI/my-divider.vue';
+import myDivider from '../../UI/my-divider.vue';
 import folderService from '@/request/folders/folderService';
 import pageService from '@/request/page/pageService';
 export default {

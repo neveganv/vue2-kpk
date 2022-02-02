@@ -112,7 +112,7 @@
               <VDivider />
             </div>
           </div>
-          <VSubheader>Партнери</VSubheader>
+          <VSubheader>Корисні посилання</VSubheader>
           <div class="sponsor__wrapper">
             <div
               class="sponsor__inner"
@@ -121,6 +121,7 @@
               @click="onClickSponsor(sponsor.path_link)"
             >
               <img height="60" cover :src="sponsor.path_img" alt="" draggable="false" />
+
             </div>
           </div>
         </v-container>

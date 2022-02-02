@@ -46,7 +46,7 @@ import MyHeader from '../UI/my-header.vue';
 import PageInner from './PageInner.vue';
 import newsService from '@/request/news/newsService';
 import AnotherNewsList from '../news/AnotherNewsList.vue';
-import FooterComponent from '../main/FooterComponent.vue';
+import FooterComponent from '../main/footer/FooterComponent.vue';
 
 export default {
 	data: () => ({
