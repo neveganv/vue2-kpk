@@ -1,7 +1,7 @@
 <template>
   <VDialog v-model="visibility">
     <VCard width="700">
-      <VCardTitle> Додати партнера</VCardTitle>
+      <VCardTitle> Додати посилання</VCardTitle>
       <VCardText>
         <VRow>
           <VCol>
