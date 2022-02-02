@@ -1,5 +1,5 @@
 <template>
-	<div class="my-footer" style="margin-top: 120px" 
+	<div class="my-footer"
 	:class="{
 							md: $vuetify.breakpoint.md,
 							sm: $vuetify.breakpoint.sm,
@@ -84,6 +84,7 @@ export default {
 
 <style lang="scss" scoped>
 .my-footer {
+	width: 100%;
 	&__col-title {
 		line-height: 18px;
 		color: #757575;

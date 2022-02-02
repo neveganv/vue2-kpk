@@ -84,7 +84,7 @@
 			<span class="error--text"> На жаль дана сторінка уже видалена </span>
 			<myDivider class="my-3" :height="1" />
 		</div>
-		<footer-component />
+		
 	</div>
 </template>
 
@@ -94,13 +94,11 @@ import { VueEditor } from 'vue2-editor';
 import VuePdfApp from 'vue-pdf-app';
 
 import 'vue-pdf-app/dist/icons/main.css';
-import FooterComponent from '../main/FooterComponent.vue';
 export default {
 	components: {
 		VueEditor,
 		VuePdfApp,
 		myDivider,
-		FooterComponent,
 	},
 	methods: {
 		afterCreated(pdfjs) {

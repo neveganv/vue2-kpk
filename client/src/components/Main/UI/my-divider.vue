@@ -27,6 +27,7 @@ export default {
 	height: 0;
 	max-height: 0;
 	border: thin solid #a1a1a1;
+	background: #a1a1a1;
 	transition: inherit;
 	border-radius: 7px 7px 7px 7px;
 	&.h-1 {

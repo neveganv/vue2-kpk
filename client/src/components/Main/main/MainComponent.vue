@@ -93,7 +93,7 @@
 			>
 				<MainNewsList />
 			</div>
-			<div class="my-container">
+			<div class="my-container" style="margin-top:120px">
 				<FooterComponent />
 			</div>
 			<div class="my-4">
