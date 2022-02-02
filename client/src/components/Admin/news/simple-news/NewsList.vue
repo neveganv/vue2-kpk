@@ -6,16 +6,14 @@
 					<v-row
 						v-if="news.length > 0"
 						no-gutters
-						justify="space-around"
-						justify-lg="space-between"
-						justify-md="space-between"
+						justify="start"
 					>
 						<v-col v-for="newItem in news" :key="newItem._id" cols="auto">
 							<v-item v-slot="{ active }">
 								<v-card
 									width="auto"
 									:color="active ? '' : ''"
-									class="align-end mb-10 new-card"
+									class="align-end mb-10 new-card ma-3"
 									@click="detailNew(newItem)"
 								>
 									<v-btn

@@ -23,6 +23,7 @@
 					<td>{{ item.parent_phone || '--' }}</td>
 					<td class="text-center">
 						<VChip
+						small
 							:color="
 								item.status === 'Новий'
 									? 'info'

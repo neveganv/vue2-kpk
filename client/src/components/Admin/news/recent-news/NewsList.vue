@@ -3,11 +3,11 @@
 		<VCol>
 			<v-item-group>
 				<div>
-					<v-row v-if="news.length > 0" justify="space-around" justify-lg="space-between">
+					<v-row v-if="news.length > 0" justify="start">
 						<v-col v-for="item in news" :key="item._id" cols="auto">
 							<v-item v-slot="{ active, toggle }">
 								<v-card
-									width="auto"
+									width="300"
 									:color="active ? '' : ''"
 									@click="toggle"
 									class="align-end new-card"

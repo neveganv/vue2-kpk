@@ -1,6 +1,6 @@
 <template>
 	<div class="h-auto">
-		<div class="d-flex justify-space-between p-1 pb-0 align-center">
+		<div class="d-flex justify-space-between  pb-0 align-center">
 			<v-tabs
 				v-model="listTab"
 				:color="listTab === 0 ? 'primary' : 'green darken-2'"

@@ -13,9 +13,9 @@
 					rounded
 					@click="visibleSettingDialog = true"
 				>
-					<VIcon left>mdi-cog</VIcon>
-					Налаштування</VBtn
-				></VCol
+					<VIcon left>mdi-information-outline</VIcon>
+					Інформація 
+				</VBtn></VCol
 			>
 		</VRow>
 		<VDivider />
@@ -80,7 +80,6 @@
 		<course-setting-dialog
 			:visible="visibleSettingDialog"
 			@close="visibleSettingDialog = false"
-
 		/>
 	</div>
 </template>

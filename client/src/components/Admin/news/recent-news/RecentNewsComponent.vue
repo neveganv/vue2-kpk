@@ -5,10 +5,15 @@
 				<v-icon left> mdi-newspaper-plus </v-icon>Створити Нещодавну новину
 			</VBtn>
 		</VRow>
-		<VRow>
+		<VRow v-if="!loading">
 			<VCol>
 				<NewsList :news="news" @deleteNew="deleteNew" />
 			</VCol>
+		</VRow>
+		<VRow v-else>
+			<div class="w-100 text-center">
+				<v-progress-circular color="primary" indeterminate />
+			</div>
 		</VRow>
 		<AddNewDialog
 			:visible="visible"
@@ -31,6 +36,7 @@ export default {
 		visible: false,
 		news: [],
 		sceletonLoader: false,
+		loading: false,
 	}),
 	mounted() {
 		this.getNews();
@@ -53,10 +59,10 @@ export default {
 		},
 		async getNews() {
 			try {
-				this.setLoading(true);
+				this.loading = true;
 				this.news = await newsService.getCoolNews();
-				console.log("news", this.news);
-				this.setLoading(false);
+				console.log('news', this.news);
+				this.loading = false;
 			} catch (e) {
 				alert(e);
 			}
