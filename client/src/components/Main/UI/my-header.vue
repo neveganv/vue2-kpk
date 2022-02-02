@@ -1,7 +1,7 @@
 <template>
 	<div class="header pr-5">
 		<v-fade-transition>
-			<div class="my-container mt-5">
+			<div class="my-container mt-5" :class="{'small' : $vuetify.breakpoint.smAndDown}">
 				<VRow no-gutters aling="center" justify="space-between" class="py-2">
 					<div style="width: 90px">
 						<VBadge color="error" overlap right bottom text content="beta">

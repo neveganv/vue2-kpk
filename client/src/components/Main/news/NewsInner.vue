@@ -2,12 +2,13 @@
 	<div class="news">
 		<div v-if="!sceletonLoader">
 			<VRow class="title" no-gutter align="center">
-				<VCol class="title-text">
+				<VCol class="title-text"
+				:class="{ 'text-subtitle-1': $vuetify.breakpoint.smAndDown }">
 					{{ newItem.title || '--' }}
 				</VCol>
 			</VRow>
 			<VRow no-gutters class="mt-4">
-				<VCol cols="3">
+				<VCol cols="auto" class="mr-5">
 					<VRow no-gutters
 						><VIcon left>mdi-clock-outline</VIcon>
 						{{
@@ -15,7 +16,7 @@
 						}}</VRow
 					>
 				</VCol>
-				<VCol>
+				<VCol cols="auto">
 					<VRow no-gutters
 						><VIcon left>mdi-eye</VIcon>{{ newItem.views || '--' }}</VRow
 					>

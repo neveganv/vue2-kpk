@@ -1,24 +1,26 @@
 <template>
 	<div>
 		<my-header />
-		<div class="my-container" style="margin-top: 50px">
-			<VRow no-gutters
+		<div class="my-container mt-5" :class="{'small' : $vuetify.breakpoint.smAndDown}">
+			<VRow no-gutters align="center"
 				><VBtn
-					rounded
+					:class="{'x-small' : $vuetify.breakpoint.smAndDown}"
+					small
 					color="primary"
 					text
 					@click="$router.push({ path: '/' })"
 				>
 					<VIcon left>mdi-arrow-left</VIcon> На головну</VBtn
-				></VRow
+				>
+					<VDivider /></VRow
 			>
 		</div>
-		<div class="my-container" style="margin-top: 50px">
+		<div class="my-container mt-10"  :class="{'small' : $vuetify.breakpoint.smAndDown}">
 			<VRow no-gutters>
-				<VCol cols="8">
+				<VCol cols="12" xl="8" lg="8" md="8" sm="12">
 					<NewsInner :newItem="newItem" :sceletonLoader="sceletonLoader" />
 				</VCol>
-				<VCol cols="4">
+				<VCol cols="12" xl="4" lg="4" md="4" sm="12">
 					<AnotherNewsList :news="news" :sceletonLoader="sceletonLoader" />
 				</VCol>
 			</VRow>

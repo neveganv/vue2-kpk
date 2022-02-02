@@ -1,5 +1,5 @@
 <template>
-	<VCard class="another-card" ripple @click="onClick">
+	<VCard class="another-card" ripple @click="onClick" :class="{'slider' : slider}">
 		<div no-gutters>
 			<img
 				class="another-card-img unselectable"
@@ -22,6 +22,10 @@
 <script>
 export default {
 	props: {
+		slider:{
+			require:false,
+			default:false
+		},
 		newItem: {
 			type: Object,
 			require: true,
@@ -64,6 +68,9 @@ export default {
         text-align: left;
 		white-space: nowrap;
 		font-weight: 500;
+	}
+	&.slider{
+		width: 100%;
 	}
 }
 </style>
