@@ -69,7 +69,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .about {
 	&__wrapper {
 		overflow: hidden;
@@ -124,5 +124,13 @@ export default {
 			height: 150px;
 		}
 	}
+}
+.flicking-camera {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+    will-change: transform;
 }
 </style>
