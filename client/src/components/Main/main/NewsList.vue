@@ -10,14 +10,20 @@
 			v-if="!sceletonLoader && news.length > 0"
 		
 		>
-			<VCol cols="auto" v-for="newItem in news" :key="newItem._id" @click="counter(newItem)">
+			<VCol cols="12" xl="6" lg="6" md="6" sm="12" v-for="newItem in news" :key="newItem._id" @click="counter(newItem)">
 				<my-news-card :newItem="newItem" />
 			</VCol>
 		</VRow>
-		<VRow v-else-if="sceletonLoader" justify="space-between">
-			<div v-for="item in 4" :key="item" >
+		<VRow v-else-if="sceletonLoader" 
+		no-gutters
+			justify="center"
+			justify-lg="space-between"
+			justify-md="space-around"
+			justify-sm="space-around"
+			align="center">
+			<VCol cols="12" xl="6" lg="6" md="6" sm="12" v-for="item in $vuetify.breakpoint.smAndDown ? 2 : 4" :key="item" >
 				<my-news-card :sceletonLoader="sceletonLoader" :newItem="item" />
-			</div>
+			</VCol>
 		</VRow>
 		<VRow v-else align="center" justify="center">
 			<div>Список новин порожній</div>

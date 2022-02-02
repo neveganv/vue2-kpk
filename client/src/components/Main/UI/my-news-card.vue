@@ -41,7 +41,6 @@
 		<div class="my-new__img" v-if="sceletonLoader">
 			<v-skeleton-loader
 				type="image"
-				style="width: 530px; padding: 15px"
 			></v-skeleton-loader>
 		</div>
 	</div>
@@ -72,10 +71,10 @@ export default {
 <style lang="scss">
 .my-new {
 	cursor: pointer;
-	width: 500px;
+	width: 450px;
 	height: 440px;
 	padding-left: 15px;
-	margin: 20px 0 70px 0;
+	margin: 20px auto 70px auto;
 	position: relative;
 	transition: 0.4s ease;
 	&.md {
@@ -135,7 +134,7 @@ export default {
 	}
 	&__img {
 		transition: 0.4s ease;
-		height: 80%;
+		height:70%;
 		max-width: 510px;
 		width: 100%;
 
@@ -151,7 +150,7 @@ export default {
 		width: 2px;
 		left: 0;
 		top: 0;
-		height: 90%;
+		height: 85%;
 		background: #757575;
 	}
 	&:hover {

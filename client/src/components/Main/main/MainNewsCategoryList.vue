@@ -4,7 +4,8 @@
 		<VRow
 			no-gutters
 			justify="center"
-			class="category__wrapper"
+			class="category__wrapper mb-10"
+			
 			v-if="!sceletonLoader"
 			:class="{
 				xs: $vuetify.breakpoint.xs,
@@ -27,7 +28,7 @@
 		</VRow>
 			</v-slide-x-transition>
 		<VRow v-if="sceletonLoader" no-gutters justify="center" class="category__wrapper m-auto">
-			<div class="category__inner" v-for="item in 4" :key="item">
+			<div class="category__inner mb-10" v-for="item in  $vuetify.breakpoint.smAndDown ? 1 : 4" :key="item">
 				<v-skeleton-loader
 					type="chip"
 					style="padding: 15px"
@@ -65,7 +66,6 @@ export default {
 <style lang="scss" scoped>
 .category__wrapper {
 	margin-top: 30px;
-	margin-bottom: 90px;
 	&.xs {
 		margin-bottom: 20px;
 	}
