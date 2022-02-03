@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/common.scss';
+
 html,
 body {
 	font-weight: 400;

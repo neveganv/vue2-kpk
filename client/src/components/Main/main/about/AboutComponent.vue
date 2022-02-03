@@ -43,7 +43,17 @@
 			</div>
 		</div>
 		<VRow class="about__slider" :class="{ sm: $vuetify.breakpoint.smAndDown }">
-			<flicking :options="{ gap: 10, moveType: 'freeScroll' }">
+			<flicking
+				:options="{
+					moveType: 'freeScroll',
+					easing: x => 1 - Math.pow(1 - x, 3),
+					interruptable: true,
+
+
+				}"
+				:viewportTag="'div'"
+				:cameraTag="'div'"
+			>
 				<img
 					class="about__slider__inner"
 					:class="{ sm: $vuetify.breakpoint.smAndDown }"
@@ -55,7 +65,7 @@
 				/>
 			</flicking>
 		</VRow>
-		<about-dialog  :visible="isVisible" @close="isVisible = false"/>
+		<about-dialog :visible="isVisible" @close="isVisible = false" />
 	</div>
 </template>
 
@@ -69,7 +79,7 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .about {
 	&__wrapper {
 		overflow: hidden;
@@ -125,12 +135,7 @@ export default {
 		}
 	}
 }
-.flicking-camera {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    z-index: 1;
-    white-space: nowrap;
-    will-change: transform;
+.flicking-camera{
+	display: flex;
 }
 </style>
