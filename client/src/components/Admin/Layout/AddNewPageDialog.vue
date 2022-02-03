@@ -146,9 +146,9 @@ export default {
       name: {
         required,
       },
-      positions: {
-        required,
-      },
+      // positions: {
+      //   required,
+      // },
     },
   },
   props: {
@@ -192,7 +192,9 @@ export default {
           this.setLoading(true);
           const params = [];
           params.name = this.page.name;
-          this.page.positions.push(this.getUser.positionUUID)
+          if(!this.page.positions){
+              this.page.positions = []
+          }this.page.positions.push(this.getUser.positionUUID)
           params.positions = this.page.positions;
           await folderService
             .addFolder({
@@ -251,16 +253,15 @@ export default {
       }
     },
     async onUpdateFolder() {
-      const params = [];
-      params.name = this.editFolder.name;
-      params.positions = this.editFolder.positions;
-	   console.log(params)
       try {
+        const params = [];
+        params.name = this.editFolder.name;
+        params.positions = this.editFolder.positions;
         await folderService.update(this.editFolder._id, { ...params });
+        this.$emit('update')
       } catch (e) {
         alert(e);
       }
-	  this.$emit('update')
     },
   },
   computed: {
@@ -281,13 +282,13 @@ export default {
     },
     PermisiionError() {
       const errors = [];
-      if (this.isEditFolder) {
-        if (!this.$v.page.positions.$dirty) {
-          return errors;
-        }
-        !this.$v.page.positions.required &&
-          errors.push("Права доступу обов`язкове поле для заповнення");
-      }
+      // if (this.isEditFolder) {
+      //   if (!this.$v.page.positions.$dirty) {
+      //     return errors;
+      //   }
+      //   !this.$v.page.positions.required &&
+      //     errors.push("Права доступу обов`язкове поле для заповнення");
+      // }
       return errors;
     },
     visibility: {
