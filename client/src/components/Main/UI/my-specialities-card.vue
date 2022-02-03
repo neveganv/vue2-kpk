@@ -1,10 +1,10 @@
 <template>
-	<div class="specialities-card" >
+	<div class="specialities-card"  :class="{'edit' : edit}">
 		<div @click="onClick">
 		<v-slide-x-transition>
 			<div class="card__title" v-if="!sceletonLoader">
 				<div class="title__number">{{ '0' + indexSpecialitie || '--' }}</div>
-				<div class="title__text">
+				<div class="title__text" :class="{'edit' : edit}">
 					{{ specialitie.name || '--' }} ({{ specialitie.number || '--' }})
 				</div>
 			</div>
@@ -29,10 +29,9 @@
 			<VIcon>mdi-arrow-bottom-left</VIcon>
 		</div>
 
-		<div class="card__arrow" v-else>
-			<VBtn @click="$emit('edit', specialitie._id)" color="primary">
-				<VIcon>mdi-square-edit-outline</VIcon>
-			</VBtn>
+		<div class="card__arrow" v-else @click="onClick">
+
+				<VIcon color="primary">mdi-square-edit-outline</VIcon>
 		</div>
 	</div>
 </template>
@@ -57,10 +56,14 @@ export default {
 	},
 	methods: {
 		onClick() {
-			this.$router.push({
-				name: 'main-speciality-page',
+			if(!this.edit){
+				this.$router.push({
+					name: 'main-speciality-page',
 				params: { id: this.specialitie._id },
 			});
+		}else{
+			this.$emit('edit', this.specialitie._id)
+		}
 		},
 	},
 };
@@ -81,7 +84,7 @@ export default {
 		display: flex;
 		justify-content: flex-start;
 		padding-top: 7px;
-		max-width: 350px;
+		max-width: 320px;
 		.title__number {
 			font-weight: 800;
 			font-size: 21px;
@@ -96,6 +99,9 @@ export default {
 			font-weight: 600;
 			font-size: 15px;
 			line-height: 15px;
+			&.edit{
+				max-width: 230px;
+			}
 		}
 	}
 	.card__img {

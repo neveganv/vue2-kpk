@@ -1,23 +1,47 @@
 <template>
-	<VDialog v-model="visibility" scrollable @click:outside="$v.$reset()">
+	<VDialog v-model="visibility" @click:outside="$v.$reset()" scrollable>
 		<VCard width="700">
-			<VCardTitle v-if="edits">Змінити спеціальність</VCardTitle>
-			<VCardTitle v-else> Додати нову спеціальність </VCardTitle>
+			<VCardTitle v-if="edit">
+				Змінити спеціальність
+				<VSpacer />
+				<v-tooltip bottom>
+					<template v-slot:activator="{ on, attrs }">
+						<VBtn
+							v-on:dblclick="onDelete"
+							text
+							color="error"
+							v-on="on"
+							v-bind="attrs"
+						>
+							<VIcon left> mdi-delete </VIcon>
+							видалити
+						</VBtn>
+					</template>
+					<span>Щоб видалити, потрібно натиснути двічі</span>
+				</v-tooltip>
+				<VIcon color="primary"> mdi-square-edit-outline </VIcon>
+			</VCardTitle>
+			<VCardTitle v-else>
+				Додати нову спеціальність
+				<VSpacer />
+				<VIcon color="primary"> mdi-folder-account </VIcon>
+			</VCardTitle>
+			<VDivider class="mx-5" />
 			<VCardText>
 				<VRow class="my-5">
-					<VCol>
+					<VCol class="pb-0">
 						<VTextField
 							label="Назва спеціальності"
 							prepend-icon="mdi-clipboard-text"
 							outlined
 							dense
-							v-model="specialities.title"
-							counter="70"
+							v-model="specialities.name"
+							counter="150"
 							:error-messages="TitleError"
 						>
 						</VTextField>
 					</VCol>
-					<VCol>
+					<VCol class="pb-0">
 						<VTextField
 							label="Номер спеціальності"
 							prepend-icon="mdi-counter"
@@ -30,8 +54,9 @@
 						</VTextField>
 					</VCol>
 				</VRow>
-				<VRow>
-					<VCol>
+
+				<VRow v-if="!edit">
+					<VCol class="py-0">
 						<v-file-input
 							dense
 							counter
@@ -61,6 +86,42 @@
 						</v-file-input>
 					</VCol>
 				</VRow>
+				<VCard v-else>
+					<v-img
+						height="140"
+						:lazy-src="specialities.img"
+						:src="specialities.img"
+					>
+						<template v-slot:placeholder>
+							<v-row class="fill-height ma-0" align="center" justify="center">
+								<v-progress-circular
+									indeterminate
+									color="primary "
+								></v-progress-circular>
+							</v-row>
+						</template>
+					</v-img>
+					<v-card-actions>
+						Головна картинка
+						<v-spacer></v-spacer>
+						<!-- <v-btn icon color="error">
+							<v-icon>mdi-delete</v-icon>
+						</v-btn> -->
+						<v-btn text color="primary" @click="onEditImage" small>
+							<v-icon left>mdi-square-edit-outline</v-icon>
+							Редагувати
+						</v-btn>
+					</v-card-actions>
+					<input
+						v-show="false"
+						type="file"
+						ref="image"
+						accept="image/png, image/jpeg, image/svg"
+						@change="onChangeEditImg"
+					/>
+				</VCard>
+
+				<VDivider class="mt-5" />
 				<v-subheader>Опис Інформація на кожному курсі</v-subheader>
 				<VRow>
 					<VCol>
@@ -98,11 +159,18 @@
 					>
 				</VRow>
 			</VCardText>
+			<VDivider class="mx-5" />
 			<VCardActions>
 				<VSpacer />
 				<VBtn text color="error" @click="onCancel">Скасувати</VBtn>
-				<VBtn v-if="edits" color="primary" @click="onUpdate" :loading="isLoading" :disabled="isLoading">Оновити</VBtn>
-				<VBtn v-else color="primary" @click="onCreate" :loading="isLoading" :disabled="isLoading">Додати</VBtn>
+				<VBtn
+					color="primary"
+					:loading="isLoading"
+					:disabled="isLoading"
+					@click="edit ? onUpdate() : onCreate()"
+				>
+					{{ edit ? 'Оновити' : 'Додати' }}
+				</VBtn>
 			</VCardActions>
 		</VCard>
 	</VDialog>
@@ -125,12 +193,15 @@ export default {
 		},
 		edit: {
 			require: false,
-		}
+		},
+		specialityId: {
+			require: false,
+		},
 	},
 	validations: {
 		specialities: {
-			title: {
-				maxLength: maxLength(70),
+			name: {
+				maxLength: maxLength(150),
 				required,
 			},
 			img: {
@@ -142,9 +213,9 @@ export default {
 		},
 	},
 	data: () => ({
-		isLoading:false,
+		isLoading: false,
 		specialities: {
-			title: '',
+			name: '',
 			img: null,
 			courses: {},
 			content: '',
@@ -157,11 +228,24 @@ export default {
 		],
 		panel: [0, 1, 2, 3],
 	}),
+	mounted() {
+		if (this.edit) {
+			this.getSpecialty();
+		}
+	},
 	methods: {
+		onDelete() {
+			this.$emit('onDelete');
+		},
+		onEditImage() {
+			this.$nextTick(function () {
+				this.$refs.image.click();
+			});
+		},
 		onCancel() {
-			this.$emit('close');
+			this.$emit('close', this.edit);
 			this.specialities = {
-				title: '',
+				name: '',
 				img: null,
 				courses: {},
 				content: '',
@@ -175,7 +259,7 @@ export default {
 				try {
 					this.isLoading = true;
 					const params = [];
-					params.name = this.specialities.title;
+					params.name = this.specialities.name;
 					params.img = this.base64image;
 					params.courses = this.specialities.courses;
 					params.content = this.specialities.content;
@@ -184,7 +268,7 @@ export default {
 					this.$emit('addSpeciality', res);
 					this.$v.$reset();
 					this.specialities = {
-						title: '',
+						name: '',
 						img: null,
 						courses: {},
 						content: '',
@@ -204,30 +288,32 @@ export default {
 				reader.readAsDataURL(files);
 				reader.onload = e => {
 					this.base64image = e.target.result;
-					// if (this.chosenSpecialities) {
-					// 	this.specialities.main_img = this.base64image;
-					// }
+					if (this.edit) {
+						this.specialities.img = this.base64image;
+					}
 				};
 			}
 		},
-		async onUpdate(){
+		onChangeEditImg(e) {
+			this.onFileChange(e.target.files[0]);
+		},
+		async onUpdate() {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				try {
 					this.isLoading = true;
 					const params = [];
-					params.id =  this.edit.id;
-					params.name = this.specialities.title;
+					params.id = this.specialityId;
+					params.name = this.specialities.name;
 					params.img = this.base64image;
 					params.courses = this.specialities.courses;
 					params.content = this.specialities.content;
 					params.number = this.specialities.number;
-					const res = await specialityService.updateSpecialty({ ...params });
-					console.log(res);
-					this.$emit('close')
+					await specialityService.updateSpecialty({ ...params });
+					this.$emit('specialitiesModified');
 					this.$v.$reset();
 					this.specialities = {
-						title: '',
+						name: '',
 						img: null,
 						courses: {},
 						content: '',
@@ -240,30 +326,35 @@ export default {
 				}
 			}
 		},
-		async getSpecialty(){
+		async getSpecialty() {
 			try {
 				this.isLoading = true;
-				const params = [];
-				params.id = this.edit.id;
-				const res = await specialityService.getById({...params});
-				this.specialities = res[0];
-				this.specialities.title = res[0].name;
+				const res = await specialityService.getById({ id: this.specialityId });
+				// this.specialities = res[0]
+				this.specialities.name = res.name;
+				this.specialities.number = res.number;
+				this.specialities.img = res.img;
+				this.specialities.content = res.content;
+				if (res.courses) {
+					this.specialities.courses = res.courses;
+				}
+				console.log(res);
 				this.isLoading = false;
-			}
-			catch(e){
+			} catch (e) {
+				this.isLoading = false;
 				alert(e);
 			}
-		}
+		},
 	},
-	watch:{
-		edit:{
+	watch: {
+		edit: {
 			deep: true,
-			handler(){
-				if(this.edits){
+			handler(e) {
+				if (e) {
 					this.getSpecialty();
 				}
-			}
-		}
+			},
+		},
 	},
 	computed: {
 		visibility: {
@@ -271,27 +362,19 @@ export default {
 				return this.visible;
 			},
 			set() {
-				return this.$emit('close');
+				return this.$emit('close', this.edit);
 			},
-		},
-		edits: {
-			get(){
-				return this.edit.edit;
-			},
-			set(){
-				return this.$emit('close');
-			}
 		},
 		TitleError() {
 			const errors = [];
-			if (!this.$v.specialities.title.$dirty) {
+			if (!this.$v.specialities.name.$dirty) {
 				return errors;
 			}
-			if (!this.$v.specialities.title.maxLength) {
-				errors.push('Довжина заголовку має бути менша за 70 символів');
+			if (!this.$v.specialities.name.maxLength) {
+				errors.push('Довжина заголовку має бути менша за 150 символів');
 				return errors;
 			}
-			!this.$v.specialities.title.required &&
+			!this.$v.specialities.name.required &&
 				errors.push('Заголовок обов`язкове поле для заповнення');
 			return errors;
 		},

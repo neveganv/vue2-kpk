@@ -18,10 +18,14 @@ export default {
 	},
 	async getById(params){
 		const response = await requestService.post(`${prefix}/getById`,params)
-		return response?.data
+		return response?.data[0]
 	},
 	async searchSpecialty(params){
 		const response = await requestService.post(`${prefix}/searchSpecialty`, params)
+		return response?.data
+	},
+	async deleteSpecialty(params){
+		const response = await requestService.post(`${prefix}/deleteSpecialty`, params)
 		return response?.data
 	},
 };

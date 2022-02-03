@@ -56,7 +56,8 @@ export default {
 	methods: {
 		async getSpecialities() {
 			this.SceletonLoader = true;
-			this.specialities = await specialityService.getAllSpecialty();
+			const newItem = await specialityService.getAllSpecialty()
+			console.log(this.specialities = newItem.reverse())
 			this.SceletonLoader = false;
 			console.log(this.specialities);
 		},
