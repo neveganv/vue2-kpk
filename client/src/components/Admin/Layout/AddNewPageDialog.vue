@@ -132,8 +132,11 @@ import positionService from "@/request/positions/positionService";
 import loader from "@/mixins/loader";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
+import user from '@/mixins/user';
+
+
 export default {
-  mixins: [loader, validationMixin],
+  mixins: [loader, validationMixin,user],
   data: () => ({
     page: [],
     categories: [],
@@ -174,6 +177,9 @@ export default {
         console.log(e);
       },
     },
+    page(e){
+      console.log(e)
+    }
   },
   mounted() {
     this.getPositions();
@@ -186,6 +192,7 @@ export default {
           this.setLoading(true);
           const params = [];
           params.name = this.page.name;
+          this.page.positions.push(this.getUser.positionUUID)
           params.positions = this.page.positions;
           await folderService
             .addFolder({
@@ -205,7 +212,8 @@ export default {
     },
     async getPositions() {
       try {
-        this.categories = await positionService.getAll();
+        const newItems = await positionService.getAll();
+        this.categories = newItems.filter(e => e._id !== this.getUser.positionUUID)
       } catch (e) {
         alert(e);
       }

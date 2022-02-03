@@ -78,6 +78,7 @@
 						:value="specialitiesSelector"
 						v-for="folder in folders"
 						:key="folder._id"
+						
 					>
 						<template v-slot:activator>
 							<VListItemIcon>
@@ -94,6 +95,7 @@
 							</VListItem>
 						</div>
 						<VListItem
+								v-if="permissions.owner"
 							@click="
 								visible = true;
 								addPageVisibility = true;
@@ -107,6 +109,7 @@
 						</VListItem>
 					</VListGroup>
 					<VListItem
+					v-if="permissions.owner"
 						@click="
 							visible = true;
 							addPageVisibility = false;
