@@ -115,11 +115,13 @@
 							<v-card-actions>
 								Головна картинка
 								<v-spacer></v-spacer>
-								<v-btn icon color="error">
+								<!-- <v-btn icon color="error">
 									<v-icon>mdi-delete</v-icon>
-								</v-btn>
-								<v-btn icon color="primary" @click="onEditImage">
-									<v-icon>mdi-square-edit-outline</v-icon>
+								</v-btn> -->
+								<v-btn text color="primary" @click="onEditImage" small>
+									<v-icon left>mdi-square-edit-outline
+									</v-icon>
+										Редагувати
 								</v-btn>
 							</v-card-actions>
 							<input

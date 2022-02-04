@@ -5,17 +5,21 @@
 				<div>
 					<v-row v-if="news.length > 0" justify="start">
 						<v-col v-for="item in news" :key="item._id" cols="auto">
-							<v-item v-slot="{ active, toggle }">
 								<v-card
 									width="300"
-									:color="active ? '' : ''"
+									:color="item.isArchived === 0 ? 'white' : 'grey lighten-3'"
 									class="align-end new-card"
 									@click="detailNew(item)"
 								>
-									<v-img height="140"  cover :lazy-src="item.img" :src="item.img">
+									<v-img
+										height="140"
+										cover
+										:lazy-src="item.img"
+										:src="item.img"
+									>
 										<template v-slot:placeholder>
 											<v-row
-												class="fill-height ma-0 "
+												class="fill-height ma-0"
 												align="center"
 												justify="center"
 											>
@@ -43,23 +47,29 @@
 
 										<v-spacer></v-spacer>
 
-										<v-btn
-											icon
-											@click.stop="deleteNew(item._id)"
-											color="error darken-1"
-										>
-											<v-icon>mdi-delete</v-icon>
-										</v-btn>
+										<v-tooltip bottom>
+											<template v-slot:activator="{ on, attrs }">
+												<VBtn
+													icon
+													color="error darken-1"
+													v-on:dblclick="deleteNew(item._id)"
+													v-on="on"
+													v-bind="attrs"
+													@click.stop
+												>
+													<VIcon> mdi-delete</VIcon></VBtn
+												>
+											</template>
+											<span>Щоб видалити, потрібно натиснути двічі</span>
+										</v-tooltip>
 									</v-card-actions>
 								</v-card>
-							</v-item>
 						</v-col>
 					</v-row>
 					<v-row v-else>
 						<div class="w-100 text-center">Ще немає нещодавних новин</div>
 					</v-row>
 				</div>
-
 			</v-item-group>
 		</VCol>
 	</VRow>
@@ -71,7 +81,6 @@ export default {
 		news: {
 			require: true,
 		},
-	
 	},
 	watch: {
 		news: {
@@ -81,7 +90,7 @@ export default {
 			},
 		},
 	},
-	methods: { 
+	methods: {
 		detailNew(e) {
 			this.$emit('show', e);
 		},
@@ -93,7 +102,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.new-card{
+.new-card {
 	max-width: 300px;
 }
 .new-title {

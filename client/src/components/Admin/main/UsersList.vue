@@ -20,12 +20,31 @@
 					<td>{{ user.position.title || '--' }}</td>
 					<td>
 						<VRow justify="center">
-							<VBtn fab elevation="3" x-small color="primary" @click="editUser(user)">
+							<VBtn
+								fab
+								elevation="3"
+								x-small
+								color="primary"
+								@click="editUser(user)"
+							>
 								<VIcon> mdi-account-edit</VIcon></VBtn
 							>
-							<VBtn fab x-small elevation="3"  color="error" @click="deleteUser(user._id)" >
-								<VIcon> mdi-delete</VIcon></VBtn
-							>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<VBtn
+										fab
+										x-small
+										elevation="3"
+										color="error"
+										v-on:dblclick="deleteUser(user._id)"
+										v-on="on"
+										v-bind="attrs"
+									>
+										<VIcon> mdi-delete</VIcon></VBtn
+									>
+								</template>
+								<span>Щоб видалити, потрібно натиснути двічі</span>
+							</v-tooltip>
 						</VRow>
 					</td>
 				</tr>

@@ -20,9 +20,21 @@
 							</v-card-subtitle>
 						</VCol>
 						<VCol cols="4" class="text-right">
-							<VBtn icon color="error" @click.stop="onDelete">
-								<VIcon> mdi-delete </VIcon>
-							</VBtn>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<VBtn
+										v-on:dblclick="onDelete"
+										icon
+										color="error"
+										v-on="on"
+										v-bind="attrs"
+										@click.stop
+									>
+										<VIcon> mdi-delete </VIcon>
+									</VBtn>
+								</template>
+								<span>Щоб видалити, потрібно натиснути двічі</span>
+							</v-tooltip>
 						</VCol>
 					</VRow>
 				</v-card>
