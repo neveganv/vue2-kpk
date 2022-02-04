@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility" @click:outside="$v.$reset()" scrollable>
-		<VCard width="700" :color="isArchived === 0 ? 'white' : 'grey lighten-3'" :disabled="isLoading">
+		<VCard width="700" :color="isArchived === 0 ? 'white' : 'grey lighten-3'" :disable="isLoading" :loading="isLoading">
 			<VCardTitle v-if="chosenNews">
 				Оновити Нещодавну Новину
 				<VSpacer />
@@ -230,6 +230,7 @@ export default {
 					this.$v.$reset();
 					this.isLoading = false;
 				} catch (e) {
+					this.isLoading = false;
 					alert(e);
 				}
 			}
@@ -251,6 +252,7 @@ export default {
 				this.$emit('update', this.chosenNews);
 				this.isLoading = false;
 			} catch (e) {
+					this.isLoading = false;
 				alert(e);
 			}
 		},

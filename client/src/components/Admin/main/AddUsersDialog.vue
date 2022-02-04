@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility" :persistent="edit">
-		<VCard width="700">
+		<VCard width="700" :disable="isLoading" :loading="isLoading">
 			<VCardTitle v-if="edit"> Редагувати користувача </VCardTitle>
 			<VCardTitle v-else> Додати користувача </VCardTitle>
 			<VCardText>
@@ -84,6 +84,7 @@
 							:hide-details="!PermissionError.length"
 							:error-messages="PermissionError"
 							clearable
+							:menu-props="{bottom:true,offsetY:true}"
 						>
 							<template #selection="{ item }">
 								<v-chip small color="primary">{{ item.title }}</v-chip>

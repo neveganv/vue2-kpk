@@ -1,6 +1,6 @@
 <template>
   <VDialog v-model="visibility">
-    <VCard width="700">
+    <VCard width="700" :disable="isLoading" :loading="isLoading">
       <VCardTitle> Додати посилання</VCardTitle>
       <VCardText>
         <VRow>

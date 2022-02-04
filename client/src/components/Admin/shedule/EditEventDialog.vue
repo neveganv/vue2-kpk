@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility">
-		<VCard>
+		<VCard :disable="isLoading" :loading="isLoading">
 			<VCardTitle> Оновлення Події </VCardTitle>
 			<VCardText>
 				<VRow>
@@ -18,13 +18,24 @@
 							clearable
 							dense
 							:color="event.name ? event.name.color : 'primary'"
+							:menu-props="{bottom:true,offsetY:true}"
 						>
 							<template #selection="{ item }">
-								<v-chip small :color="item.name ? item.color : 'primary'">{{
+								<v-chip small :color="item.name ? item.color : 'primary'" class="white--text">{{
 									item.name
 								}}</v-chip>
-							</template></v-select
-						>
+							</template>
+							<template slot="item" slot-scope="data">
+								<VRow>
+									<span
+										class="mr-1 span"
+										:style="`background: ${data.item.color}`"
+									></span>
+
+									{{ data.item.name }}
+								</VRow>
+							</template>
+						</v-select>
 					</VCol>
 					<VCol cols="6">
 						<VBtn text color="primary" @click="visibleAddClass = true">
@@ -72,6 +83,7 @@
 								></v-text-field>
 							</template>
 							<v-date-picker
+								no-title
 								v-model="event.start_date"
 								locale="uk-UA"
 								@input="menu = false"
@@ -104,6 +116,7 @@
 								></v-text-field>
 							</template>
 							<v-time-picker
+								no-title
 								v-if="menu2"
 								v-model="event.start_time"
 								full-width

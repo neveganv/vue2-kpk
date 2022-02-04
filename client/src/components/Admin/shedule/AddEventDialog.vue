@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility" @click:outside="outsideClick">
-		<VCard width="700">
+		<VCard width="700" :disable="isLoading" :loading="isLoading">
 			<v-stepper v-model="e1">
 				<v-stepper-header>
 					<v-stepper-step :complete="e1 > 1" step="1" v-if="!event.group">
@@ -32,6 +32,7 @@
 											outlined
 											clearable
 											dense
+											:menu-props="{bottom:true,offsetY:true}"
 										>
 											<template #selection="{ item }">
 												<v-chip small color="primary">{{
@@ -75,9 +76,10 @@
 											clearable
 											dense
 											:color="event.name ? event.name.color : 'primary'"
+											:menu-props="{bottom:true,offsetY:true}"
 										>
 											<template #selection="{ item }">
-												<v-chip :color="item.name ? item.color : 'primary'">{{
+												<v-chip :color="item.name ? item.color : 'primary'" class="white--text" small>{{
 													item.name
 												}}</v-chip>
 											</template>
@@ -470,7 +472,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .span {
 	width: 22px;
 	height: 22px;

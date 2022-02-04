@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility" @click:outside="$v.$reset()" scrollable>
-		<VCard width="700">
+		<VCard width="700" :disable="isLoading" :loading="isLoading">
 			<VCardTitle v-if="edit">
 				Змінити спеціальність
 				<VSpacer />
