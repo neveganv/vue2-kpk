@@ -38,6 +38,7 @@ export default {
     activeCategory: "all",
     sceletonLoader: false,
 	newsLength: 0,
+	recentPage: 1,
 	page: 1,
     news: [],
     changeNews: [],
@@ -52,7 +53,8 @@ export default {
   },
   methods: {
 	changePage(e) {
-		if (this.page != e) {
+		if (this.recentPage != e) {
+			this.recentPage = e
 			this.getNews()
 		}
 	},
