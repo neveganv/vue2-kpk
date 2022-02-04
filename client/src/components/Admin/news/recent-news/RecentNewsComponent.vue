@@ -1,6 +1,6 @@
 <template>
 	<div class="simple-new">
-		<VRow justify="space-between" class="p-1">
+		<VRow justify="space-between">
 			<VCol cols="3">
 				<v-select
 					prepend-inner-icon="mdi-filter-variant"
