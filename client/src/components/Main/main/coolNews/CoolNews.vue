@@ -26,7 +26,7 @@
 						</div>
 						<div :class="{'text-caption': $vuetify.breakpoint.smAndDown}">
 
-						{{ copyActiveNew.content || 'На жаль ця новина поки не заповнена' }}
+						{{ activeNew.content || 'На жаль ця новина поки не заповнена' }}
 						</div>
 
 						<!-- {{
