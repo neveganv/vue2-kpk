@@ -1,3 +1,4 @@
+import { findByStatus } from '../../../../server/controller/news/coolNews.controller';
 import requestService from '../requestService';
 
 const prefix = '/api/news';
@@ -71,5 +72,8 @@ export default {
 		const response = await requestService.post(`${prefix3}/deleteCoolNews`, params)
 		return response?.data
 	},
-
+	async findByStatusCollNews(params){
+		const response = await requestService.post(`${prefix3}/findByStatus`, params)
+		return response?.data
+	}
 };

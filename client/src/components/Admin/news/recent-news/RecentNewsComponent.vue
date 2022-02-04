@@ -76,7 +76,9 @@ export default {
 		async getNews() {
 			try {
 				this.loading = true;
-				this.news = await newsService.getCoolNews();
+				const params = [];
+				params.isArchived = 0;
+				this.news = await newsService.findByStatusCollNews({...params});
 				console.log('news', this.news);
 				this.loading = false;
 			} catch (e) {

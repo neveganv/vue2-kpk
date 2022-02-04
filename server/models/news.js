@@ -24,7 +24,10 @@ module.exports = mongoose =>{
                 type:Number,
                 default: 0
             },
-
+            isArchived: {
+                type: Number,
+				default: 0,
+            }
         })
     )
 return news;

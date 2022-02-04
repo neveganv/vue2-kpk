@@ -87,6 +87,19 @@
 				</VCard>
 				<VRow>
 					<VCol>
+						<v-autocomplete 
+						outlined
+						dense
+						prepend-icon="mdi-archive"
+						v-model="news.isArchived"
+						:items="Object.values(archived)"
+					    :item-value="'value'"
+					    :item-text="'text'"
+						label="Архівувати"/>
+					</VCol>
+				</VRow>
+				<VRow>
+					<VCol>
 						<v-textarea
 							prepend-icon="mdi-information"
 							v-model="news.content"
@@ -145,6 +158,11 @@ export default {
 		isLoading: false,
 		news: [],
 		base64image: '',
+		archived: 
+		[
+			{text: 'Так', value: 1},
+			{text: 'Ні', value: 0}
+		]
 	}),
 	validations: {
 		news: {
@@ -214,6 +232,7 @@ export default {
 			params.title = this.news.title;
 			params.img = this.base64image || this.news.img;
 			params.content = this.news.content
+			params.isArchived = this.news.isArchived;
 			this.$emit('close', this.chosenNews);
 			await newsService.updateCoolNews({
 				...params,

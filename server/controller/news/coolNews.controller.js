@@ -3,7 +3,7 @@ const CoolNews = db.coolNews;
 
 // Create a new news
 exports.create = (req, res) => {
-	console.log("coolNews",req.body)
+	console.log("coolNews", req.body)
 	const coolNews = new CoolNews({
 		title: req.body.title,
 		img: req.body.img,
@@ -55,14 +55,14 @@ exports.updateCoolNews = (req, res) => {
 			message: 'Data to update can not be empty!',
 		});
 	}
-	console.log(req.body);
 	const id = req.body.id;
 	CoolNews.findByIdAndUpdate(
 		id,
 		{
 			title: req.body.title,
 			img: req.body.img,
-			content: req.body.content
+			content: req.body.content,
+			isArchived: req.body.isArchived
 		},
 		{ useFindAndModify: false }
 	)
@@ -79,32 +79,32 @@ exports.updateCoolNews = (req, res) => {
 			});
 		});
 };
-exports.deleteCoolNews = (req,res) => {
-    const id = req.body.id;
+exports.deleteCoolNews = (req, res) => {
+	const id = req.body.id;
 
-    CoolNews.findByIdAndRemove(id)
-      .then(data => {
-        if (!data) {
-          res.status(404).send({
-            message: `Cannot delete news with id=${id}.`
-          });
-        } else {
-          res.send({
-            message: "News was deleted successfully!"
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Could not delete news with id=" + id
-        });
-      });
+	CoolNews.findByIdAndRemove(id)
+		.then(data => {
+			if (!data) {
+				res.status(404).send({
+					message: `Cannot delete news with id=${id}.`
+				});
+			} else {
+				res.send({
+					message: "News was deleted successfully!"
+				});
+			}
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: "Could not delete news with id=" + id
+			});
+		});
 
 };
 
 exports.findCoolNews = (req, res) => {
 	CoolNews.find({
-		title:{ $regex : new RegExp(`${req.body.title}`, "i") }
+		title: { $regex: new RegExp(`${req.body.title}`, "i") }
 	})
 		.then(data => {
 			res.send(data);
@@ -115,3 +115,18 @@ exports.findCoolNews = (req, res) => {
 			});
 		});
 };
+
+exports.findByStatus = (req, res) => {
+	console.log(req.body.isArchived);
+	CoolNews.find({
+		isArchived: req.body.isArchived
+	})
+		.then(data => {
+			res.send(data);
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: 'Не вдалось отримати новини.',
+			});
+		});
+}
