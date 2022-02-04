@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility" @click:outside="$v.$reset()" scrollable>
-		<VCard width="700" :color="isArchived === 0 ? 'white' : 'grey lighten-3'">
+		<VCard width="700" :color="isArchived === 0 ? 'white' : 'grey lighten-3'" :disabled="isLoading">
 			<VCardTitle v-if="chosenNews">
 				Оновити Нещодавну Новину
 				<VSpacer />
@@ -235,16 +235,24 @@ export default {
 			}
 		},
 		async onUpdate() {
-			const params = [];
-			params.id = this.news._id;
-			params.title = this.news.title;
-			params.img = this.base64image || this.news.img;
-			params.content = this.news.content;
-			params.isArchived = this.isArchived;
-			await newsService.updateCoolNews({
-				...params,
-			});
-			this.$emit('update', this.chosenNews);
+			this.$v.$touch();
+			try {
+				this.isLoading = true;
+				const params = [];
+				params.id = this.news._id;
+				params.title = this.news.title;
+				params.img = this.base64image || this.news.img;
+				params.content = this.news.content;
+				params.isArchived = this.isArchived;
+				this.$v.$reset();
+				await newsService.updateCoolNews({
+					...params,
+				});
+				this.$emit('update', this.chosenNews);
+				this.isLoading = false;
+			} catch (e) {
+				alert(e);
+			}
 		},
 		onFileChange(files) {
 			if (files) {
@@ -263,9 +271,9 @@ export default {
 		chosenNews: {
 			deep: true,
 			handler(e) {
-				console.log(this.detailNews)
+				console.log(this.detailNews);
 				this.news = this.detailNews;
-				this.isArchived = this.news.isArchived
+				this.isArchived = this.news.isArchived;
 			},
 		},
 	},

@@ -1,5 +1,5 @@
 <template>
-	<VDialog v-model="visibility" @click:outside="$v.$reset()">
+	<VDialog v-model="visibility" @click:outside="$v.$reset()" scrollable>
 		<VCard width="700">
 			<VCardTitle v-if="chosenNews">
 				<VRow align="center">
@@ -17,8 +17,9 @@
 					</div> </VRow
 			></VCardTitle>
 			<VCardTitle v-else> Створити Новину </VCardTitle>
+			<VDivider class="mx-5" />
 			<VCardText>
-				<VRow>
+				<VRow class="mt-5">
 					<VCol cols="6">
 						<v-select
 							prepend-icon="mdi-shape"
@@ -119,9 +120,8 @@
 									<v-icon>mdi-delete</v-icon>
 								</v-btn> -->
 								<v-btn text color="primary" @click="onEditImage" small>
-									<v-icon left>mdi-square-edit-outline
-									</v-icon>
-										Редагувати
+									<v-icon left>mdi-square-edit-outline </v-icon>
+									Редагувати
 								</v-btn>
 							</v-card-actions>
 							<input
@@ -148,6 +148,7 @@
 					>
 				</VRow>
 			</VCardText>
+			<VDivider class="mx-5" />
 			<VCardActions v-if="news.created_time || !chosenNews">
 				<VSpacer />
 				<VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
@@ -170,6 +171,7 @@
 					Створити
 				</VBtn>
 			</VCardActions>
+
 			<VCardActions v-else>
 				<VSpacer />
 				<v-skeleton-loader type="actions"></v-skeleton-loader>
