@@ -70,9 +70,9 @@ export default {
 		async getSpeciality() {
 			this.sceletonLoader = true;
 			const newSpeciality = await specialityService.getById({
-				_id: this.$route.params.id,
+				id: this.$route.params.id,
 			});
-			this.specialitie = newSpeciality[0];
+			this.specialitie = newSpeciality;
 			this.getSpecialities();
 		},
 		async getSpecialities() {
