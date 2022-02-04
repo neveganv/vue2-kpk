@@ -78,23 +78,23 @@ exports.update = (req, res) => {
         });
 };
 exports.deletePartner = (req, res) => {
-    const id = req.body.id;
+    const id = req.params.id;
 
     Partner.findByIdAndRemove(id)
         .then(data => {
             if (!data) {
                 res.status(404).send({
-                    message: `Cannot delete news with id=${id}.`
+                    message: `Cannot delete partner with id=${id}.`
                 });
             } else {
                 res.send({
-                    message: "News was deleted successfully!"
+                    message: "Partner was deleted successfully!"
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete news with id=" + id
+                message: "Could not delete partner with id=" + id
             });
         });
 

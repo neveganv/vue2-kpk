@@ -10,4 +10,8 @@ export default {
 		const response = await requestService.post(`${prefix}/getAllPartner`)
 		return response?.data
 	},
+	async deletePartner(id){
+		const response = await requestService.delete(`${prefix}/deletePartner/` + id)
+		return response?.data
+	},
 };

@@ -23,9 +23,9 @@
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
 									<VBtn
-										v-on:dblclick="onDelete"
 										icon
 										color="error"
+										v-on:dblclick="onDelete(partner._id)"
 										v-on="on"
 										v-bind="attrs"
 										@click.stop
@@ -55,8 +55,8 @@ export default {
 		},
 	},
 	methods: {
-		onDelete() {
-			console.log('del');
+		onDelete(id) {
+			this.$emit('deletePartner', id);
 		},
 		onClick() {
 			console.log('open');

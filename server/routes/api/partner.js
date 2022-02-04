@@ -13,7 +13,7 @@ router.post("/getByIdPartner", partner.findPartnerById);
 router.post("/getAllPartner", partner.findAll)
 
 //delete a partner by id
-router.delete("deletePartner/:id", partner.deletePartner);
+router.delete("/deletePartner/:id", partner.deletePartner);
 
 //update a partner
 router.put("updatePartner/:id", partner.update);

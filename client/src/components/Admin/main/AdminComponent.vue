@@ -28,7 +28,7 @@
 				/>
 			</v-tab-item>
 			<v-tab-item>
-				<PartnersList :partners="partners" />
+				<PartnersList :partners="partners" @deletePartner="deletePartner" />
 			</v-tab-item>
 		</v-tabs-items>
 
@@ -109,6 +109,15 @@ export default {
 				params.id = e;
 				await usersService.deleteUser({ ...params });
 				this.getUser();
+			} catch (e) {
+				alert(e);
+			}
+		},
+		async deletePartner(e) {
+			try {
+				this.setLoading(true);
+				await partnersService.deletePartner(e);
+				this.getPartners();
 			} catch (e) {
 				alert(e);
 			}
