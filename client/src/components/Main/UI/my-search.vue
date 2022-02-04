@@ -15,13 +15,25 @@
     >
       <h3 v-if="filter.news.length > 0 || filter.news1.length > 0">Новини</h3>
       <VCol v-for="news in filter.news" :key="news._id">
-        <VCard>
+        <VCard
+        @click="
+            $router.push({
+              name: 'main-news-page',
+              params: { id: news._id },
+            })
+          ">
           <VCardTitle>{{ news.title }}</VCardTitle>
           <VCardText></VCardText>
         </VCard>
       </VCol>
       <VCol v-for="news in filter.news1" :key="news._id">
-        <VCard>
+        <VCard 
+        @click="
+            $router.push({
+              name: 'main-news-page',
+              params: { id: news._id },
+            })
+          ">
           <VCardTitle>{{ news.title }}</VCardTitle>
           <VCardText></VCardText>
         </VCard>
