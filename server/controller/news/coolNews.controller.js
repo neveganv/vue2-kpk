@@ -38,7 +38,15 @@ exports.findCoolNewsById = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-	CoolNews.find().sort({ 'created_time': 'desc' })
+	let search = {}
+	console.log(req.body.status)
+	if (req.body.status == "available") {
+		search = {isArchived: 0}
+	}
+	else if (req.body.status == "archived") {
+		search = {isArchived: 1}
+	}
+	CoolNews.find(search).sort({ 'created_time': 'desc' })
 		.then(data => {
 			res.send(data);
 		})

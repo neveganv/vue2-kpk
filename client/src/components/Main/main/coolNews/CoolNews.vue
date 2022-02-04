@@ -100,7 +100,9 @@ export default {
 	async mounted() {
 		try {
 			this.sceleton = true;
-			this.news = await newsService.getCoolNews();
+			let params = []
+			params.status = "available"
+			this.news = await newsService.getCoolNews({...params});
 			this.news = this.news
 			this.sceleton = false;
 			this.activeNew = this.news[0];
