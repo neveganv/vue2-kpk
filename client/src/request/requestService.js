@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-//  const API_ENDPOINT = 'http://localhost:8000'
-const API_ENDPOINT = 'http://18.185.103.245'
+const API_ENDPOINT = 'http://localhost:8000'
+//const API_ENDPOINT = 'http://18.185.103.245'
 
 export default {
 

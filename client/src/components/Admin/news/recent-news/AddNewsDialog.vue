@@ -20,7 +20,7 @@
 					</VCol>
 				</VRow>
 
-				<VRow>
+				<VRow v-if="!chosenNews">
 					<VCol class="py-0">
 						<v-file-input
 							dense
@@ -51,6 +51,40 @@
 						</v-file-input>
 					</VCol>
 				</VRow>
+				<VCard v-else class="mt-5 mb-5">
+					<v-img
+						height="140"
+						:lazy-src="news.img"
+						:src="news.img"
+					>
+						<template v-slot:placeholder>
+							<v-row class="fill-height ma-0" align="center" justify="center">
+								<v-progress-circular
+									indeterminate
+									color="primary "
+								></v-progress-circular>
+							</v-row>
+						</template>
+					</v-img>
+					<v-card-actions>
+						Головна картинка
+						<v-spacer></v-spacer>
+						<!-- <v-btn icon color="error">
+							<v-icon>mdi-delete</v-icon>
+						</v-btn> -->
+						<v-btn text color="primary" @click="onEditImage" small>
+							<v-icon left>mdi-square-edit-outline</v-icon>
+							Редагувати
+						</v-btn>
+					</v-card-actions>
+					<input
+						v-show="false"
+						type="file"
+						ref="image"
+						accept="image/png, image/jpeg, image/svg"
+						@change="onChangeEditImg"
+					/>
+				</VCard>
 				<VRow>
 					<VCol>
 						<v-textarea
@@ -134,12 +168,23 @@ export default {
 		chosenNews: {
 			require: false,
 		},
+		detailNews: {
+			require: false,
+		}
 	},
 	methods: {
 		onCancel() {
 			this.news = [];
-			this.$emit('close');
+			this.$emit('close', this.chosenNews);
 			this.$v.$reset();
+		},
+		onEditImage() {
+			this.$nextTick(function () {
+				this.$refs.image.click();
+			});
+		},
+		onChangeEditImg(e) {
+			this.onFileChange(e.target.files[0]);
 		},
 		async onCreate() {
 			this.$v.$touch();
@@ -165,9 +210,11 @@ export default {
 		},
 		async onUpdate() {
 			const params = [];
+			params.id = this.news._id;
 			params.title = this.news.title;
-			params.img = this.base64image;
-			this.$emit('close');
+			params.img = this.base64image || this.news.img;
+			params.content = this.news.content
+			this.$emit('close', this.chosenNews);
 			await newsService.updateCoolNews({
 				...params,
 			});
@@ -185,13 +232,21 @@ export default {
 			}
 		},
 	},
+	watch:{
+		chosenNews:{
+			deep:true,
+			handler(){
+				this.news = this.detailNews;
+			}
+		}
+	},
 	computed: {
 		visibility: {
 			get() {
 				return this.visible;
 			},
 			set() {
-				this.$emit('close');
+				this.$emit('close', this.chosenNews);
 			},
 		},
 		getCurrentTime() {

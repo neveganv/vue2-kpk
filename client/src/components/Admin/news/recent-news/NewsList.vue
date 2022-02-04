@@ -9,8 +9,8 @@
 								<v-card
 									width="300"
 									:color="active ? '' : ''"
-									@click="toggle"
 									class="align-end new-card"
+									@click="detailNew(item)"
 								>
 									<v-img height="140"  cover :lazy-src="item.img" :src="item.img">
 										<template v-slot:placeholder>
@@ -81,7 +81,10 @@ export default {
 			},
 		},
 	},
-	methods: {
+	methods: { 
+		detailNew(e) {
+			this.$emit('show', e);
+		},
 		deleteNew(e) {
 			this.$emit('deleteNew', e);
 		},

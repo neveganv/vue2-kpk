@@ -55,13 +55,14 @@ exports.updateCoolNews = (req, res) => {
 			message: 'Data to update can not be empty!',
 		});
 	}
+	console.log(req.body);
 	const id = req.body.id;
 	CoolNews.findByIdAndUpdate(
 		id,
 		{
 			title: req.body.title,
 			img: req.body.img,
-     	   
+			content: req.body.content
 		},
 		{ useFindAndModify: false }
 	)

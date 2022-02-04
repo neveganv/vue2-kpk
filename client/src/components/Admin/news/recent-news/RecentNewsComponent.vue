@@ -7,7 +7,7 @@
 		</VRow>
 		<VRow v-if="!loading">
 			<VCol>
-				<NewsList :news="news" @deleteNew="deleteNew" />
+				<NewsList :news="news" @show="showNews" @deleteNew="deleteNew" />
 			</VCol>
 		</VRow>
 		<VRow v-else>
@@ -17,7 +17,9 @@
 		</VRow>
 		<AddNewDialog
 			:visible="visible"
-			@close="visible = false"
+			:detailNews="detailNews"
+			:chosenNews="isEdit"
+			@close="close"
 			@create="createNews"
 		/>
 	</div>
@@ -35,6 +37,8 @@ export default {
 	data: () => ({
 		visible: false,
 		news: [],
+		detailNews: [],
+		isEdit: false,
 		sceletonLoader: false,
 		loading: false,
 	}),
@@ -42,6 +46,18 @@ export default {
 		this.getNews();
 	},
 	methods: {
+		showNews(e){
+			this.detailNews = e;
+			this.visible = true;
+			this.isEdit = true;
+		},
+		close(isEdit) {
+			if(isEdit) {
+				this.isEdit = false;
+			}
+			this.detailNews = [];
+			this.visible = false;
+		},
 		async deleteNew(e) {
 			try {
 				this.setLoading(true);
