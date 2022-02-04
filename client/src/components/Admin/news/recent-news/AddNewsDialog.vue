@@ -1,10 +1,24 @@
 <template>
-	<VDialog v-model="visibility" @click:outside="$v.$reset()">
-		<VCard width="700">
-			<VCardTitle v-if="chosenNews"> Оновити Нещодавну Новину </VCardTitle>
+	<VDialog v-model="visibility" @click:outside="$v.$reset()" scrollable>
+		<VCard width="700" :color="isArchived === 0 ? 'white' : 'grey lighten-3'">
+			<VCardTitle v-if="chosenNews">
+				Оновити Нещодавну Новину
+				<VSpacer />
+				<VBtn
+					@click="isArchived === 0 ? (isArchived = 1) : (isArchived = 0)"
+					text
+					:color="isArchived === 0 ? 'error' : 'grey darken-1'"
+				>
+					<VIcon left>
+						{{ ` mdi-package-${isArchived === 0 ? 'down' : 'up'}` }}
+					</VIcon>
+					{{ isArchived === 0 ? 'Архівувати' : 'Розархівувати' }}
+				</VBtn>
+			</VCardTitle>
 			<VCardTitle v-else> Створити Нещодавну Новину </VCardTitle>
+			<VDivider class="mx-5" />
 			<VCardText>
-				<VRow>
+				<VRow class="my-5">
 					<VCol class="pb-0">
 						<VTextField
 							label="Заголовок"
@@ -21,7 +35,7 @@
 				</VRow>
 
 				<VRow v-if="!chosenNews">
-					<VCol class="py-0">
+					<VCol class="pt-0">
 						<v-file-input
 							dense
 							counter
@@ -51,12 +65,8 @@
 						</v-file-input>
 					</VCol>
 				</VRow>
-				<VCard v-else class="mt-5 mb-5">
-					<v-img
-						height="140"
-						:lazy-src="news.img"
-						:src="news.img"
-					>
+				<VCard v-else :color="isArchived === 0 ? 'white' : 'grey lighten-3'">
+					<v-img height="140" :lazy-src="news.img" :src="news.img">
 						<template v-slot:placeholder>
 							<v-row class="fill-height ma-0" align="center" justify="center">
 								<v-progress-circular
@@ -85,23 +95,25 @@
 						@change="onChangeEditImg"
 					/>
 				</VCard>
-				<VRow>
+				<VDivider v-if="chosenNews" class="my-5" />
+				<!-- <VRow>
 					<VCol>
-						<v-autocomplete 
-						outlined
-						dense
-						prepend-icon="mdi-archive"
-						v-model="news.isArchived"
-						:items="Object.values(archived)"
-					    :item-value="'value'"
-					    :item-text="'text'"
-						label="Архівувати"/>
+						<v-autocomplete
+							outlined
+							dense
+							prepend-icon="mdi-archive"
+							v-model="news.isArchived"
+							:items="Object.values(archived)"
+							:item-value="'value'"
+							:item-text="'text'"
+							label="Архівувати"
+						/>
 					</VCol>
-				</VRow>
+				</VRow> -->
 				<VRow>
 					<VCol>
 						<v-textarea
-							prepend-icon="mdi-information"
+							append-icon="mdi-information"
 							v-model="news.content"
 							label="Інформація"
 							counter
@@ -114,8 +126,8 @@
 						></v-textarea>
 					</VCol>
 				</VRow>
-
 			</VCardText>
+			<VDivider class="mx-5" />
 			<VCardActions>
 				<VSpacer />
 				<VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
@@ -158,11 +170,7 @@ export default {
 		isLoading: false,
 		news: [],
 		base64image: '',
-		archived: 
-		[
-			{text: 'Так', value: 1},
-			{text: 'Ні', value: 0}
-		]
+		isArchived: 0,
 	}),
 	validations: {
 		news: {
@@ -188,7 +196,7 @@ export default {
 		},
 		detailNews: {
 			require: false,
-		}
+		},
 	},
 	methods: {
 		onCancel() {
@@ -213,7 +221,7 @@ export default {
 					params.title = this.news.title;
 					params.img = this.base64image;
 					params.created_time = this.getCurrentTime;
-					params.content = this.news.content
+					params.content = this.news.content;
 					const res = await newsService.addCoolNews({
 						...params,
 					});
@@ -231,12 +239,12 @@ export default {
 			params.id = this.news._id;
 			params.title = this.news.title;
 			params.img = this.base64image || this.news.img;
-			params.content = this.news.content
-			params.isArchived = this.news.isArchived;
-			this.$emit('close', this.chosenNews);
+			params.content = this.news.content;
+			params.isArchived = this.isArchived;
 			await newsService.updateCoolNews({
 				...params,
 			});
+			this.$emit('update', this.chosenNews);
 		},
 		onFileChange(files) {
 			if (files) {
@@ -251,13 +259,15 @@ export default {
 			}
 		},
 	},
-	watch:{
-		chosenNews:{
-			deep:true,
-			handler(){
+	watch: {
+		chosenNews: {
+			deep: true,
+			handler(e) {
+				console.log(this.detailNews)
 				this.news = this.detailNews;
-			}
-		}
+				this.isArchived = this.news.isArchived
+			},
+		},
 	},
 	computed: {
 		visibility: {

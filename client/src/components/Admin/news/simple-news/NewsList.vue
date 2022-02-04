@@ -3,11 +3,7 @@
 		<VCol>
 			<v-item-group>
 				<div>
-					<v-row
-						v-if="news.length > 0"
-						no-gutters
-						justify="start"
-					>
+					<v-row v-if="news.length > 0" no-gutters justify="start">
 						<v-col v-for="newItem in news" :key="newItem._id" cols="auto">
 							<v-item v-slot="{ active }">
 								<v-card
@@ -86,14 +82,21 @@
 											</VCol>
 										</VRow>
 										<v-spacer></v-spacer>
-
-										<v-btn
-											icon
-											@click.stop="onDelete(newItem)"
-											color="error darken-1"
-										>
-											<v-icon>mdi-delete</v-icon>
-										</v-btn>
+										<v-tooltip bottom>
+											<template v-slot:activator="{ on, attrs }">
+												<VBtn
+													icon
+													color="error darken-1"
+													v-on:dblclick="onDelete(newItem)"
+													v-on="on"
+													v-bind="attrs"
+													@click.stop
+												>
+													<VIcon> mdi-delete</VIcon></VBtn
+												>
+											</template>
+											<span>Щоб видалити, потрібно натиснути двічі</span>
+										</v-tooltip>
 									</v-card-actions>
 								</v-card>
 							</v-item>
@@ -136,7 +139,6 @@ export default {
 <style lang="scss" scoped>
 .new-card {
 	max-width: 300px;
-
 }
 .new-title {
 	max-width: 90%;
