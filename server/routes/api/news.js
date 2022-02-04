@@ -27,4 +27,7 @@ router.post("/counterViews", news.counter)
 //Search news
 router.post("/searchNews", news.findNews);
 
+//Find by status
+router.post("/findByStatus", news.findByStatus);
+
 module.exports = router

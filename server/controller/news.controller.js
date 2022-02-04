@@ -148,3 +148,18 @@ exports.findNews = (req, res) => {
 			});
 		});
 };
+
+exports.findByStatus = (req, res) => {
+	News.find({
+		isArchived: req.body.isArchived
+	})
+		.then(data => {
+			res.send(data);
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: 'Не вдалось отримати новини.',
+			});
+		});
+}
+
