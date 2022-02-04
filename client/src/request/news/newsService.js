@@ -11,8 +11,8 @@ export default {
 		const response = await requestService.post(`${prefix}/add`,params)
 		return response?.data
 	},
-	async getAllNews(){
-		const response = await requestService.post(`${prefix}/getAllNews`)
+	async getAllNews(params){
+		const response = await requestService.post(`${prefix}/getAllNews`, params)
 		return response?.data
 	},
 	async addSimpleNewCategory(params){

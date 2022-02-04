@@ -52,10 +52,27 @@ exports.findNewsById = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-	News.find()
+	let search = {}
+	let skip = 0
+	let limit = 0
+	if (req.body.category) {
+		search = {category : req.body.category}
+	}
+	if (req.body.page && req.body.limit) {
+		skip = req.body.limit * (req.body.page - 1)
+		limit = req.body.limit
+	}
+	let countNews = 0
+	News.count(search, (err, count) => {
+		countNews = count;
+	})
+	News.find(search).limit(limit).skip(skip)
 		.populate('category').sort({ 'created_time': 'desc' })
 		.then(data => {
-			res.send(data);
+			let body = {}
+			body.result = data
+			body.length = countNews
+			res.send(body);
 		})
 		.catch(err => {
 			res.status(500).send({

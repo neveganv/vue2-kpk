@@ -30,7 +30,7 @@
 		</VRow>
 		<VRow>
 			<VCol>
-				<NewsList :news="sortedNews" @show="showNews" @deleteNew="deleteNew" />
+				<NewsList :news="news" @show="showNews" @deleteNew="deleteNew" />
 			</VCol>
 		</VRow>
 		<AddNewDialog
@@ -113,7 +113,9 @@ export default {
 		async getNews() {
 			try {
 				this.setLoading(true);
-				this.news = await newsService.getAllNews();
+				await newsService.getAllNews().then((res) => {
+					this.news = res.result
+				});
 				this.changeNews = this.news;
 				this.setLoading(false);
 			} catch (e) {
