@@ -87,10 +87,12 @@ export default {
 		},
 		async getNews() {
 			try {
-				this.news = await newsService.getAllNews();
-				this.news = this.news.filter(e => e._id !== this.$route.params.id);
-				this.news.sort((a, b) => b.views - a.views);
-				this.sceletonLoader = false;
+				await newsService.getAllNews().then((res) => {
+					this.news = res.result
+					this.news = this.news.filter(e => e._id !== this.$route.params.id);
+					this.news.sort((a, b) => b.views - a.views);
+					this.sceletonLoader = false;
+				});
 			} catch (e) {
 				alert(e);
 			}
