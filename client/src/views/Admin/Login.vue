@@ -132,7 +132,7 @@ export default {
 
 				this.logIn(token);
 				// setTimeout(function () {
-				// 	location.reload();			// це найкраща частина коду в цьому проекті, не видаляйте його пліз (це Віка писала)
+				// 	location.reload();			// це найкраща частина коду в цьому проекті, не видаляйте його пліз (це Ростік писав)
 				// 	this.loading = false;
 				// }, 300);
 			} catch (e) {
