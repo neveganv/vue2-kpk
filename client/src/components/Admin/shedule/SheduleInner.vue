@@ -1,5 +1,15 @@
 <template>
 	<v-sheet :height="userType === 'client' ? 650 : 750" class="calendar">
+		<v-snackbar
+			v-model="isShowCopied"
+			top
+			:color="selectedEvent.color"
+			rounded
+			elevation="4"
+			:timeout="2000"
+		>
+			Посилання скопійовано успішно <br />
+		</v-snackbar>
 		<v-calendar
 			ref="calendar"
 			:value="today"
@@ -35,33 +45,43 @@
 						<v-icon left @click="OnEdit(selectedEvent._id)">mdi-pencil</v-icon>
 					</div>
 					<v-toolbar-title
+						class="text-truncate w-75"
 						v-if="selectedEvent.name"
 						v-html="selectedEvent.name"
 					></v-toolbar-title>
 				</v-toolbar>
 				<v-card-text>
 					<VRow v-if="selectedEvent.start && selectedEvent.end">
-						<VCol cols="2">Час:</VCol>
-						<VCol>
+						<VCol cols="auto">Час:</VCol>
+						<VCol cols="auto">
 							<b> {{ selectedEvent.start.substr(10, 10) }}</b>
 							<VIcon>mdi-minus</VIcon>
 							<b> {{ selectedEvent.end.substr(10, 10) }}</b>
 						</VCol>
 					</VRow>
 					<VRow>
-						<VCol>
+						<VCol cols="auto">
 							<p v-if="selectedEvent.content">{{ selectedEvent.content }}</p>
 						</VCol>
 					</VRow>
 					<VRow v-if="selectedEvent.link">
 						<VCol>
 							<VBtn
+								class="btn-link"
 								:href="selectedEvent.link"
 								outlined
 								target="blank"
 								:color="selectedEvent.color"
 							>
 								<VIcon left>mdi-link </VIcon> Посилання
+							</VBtn>
+							<VBtn
+								@click="copyToClipboard(selectedEvent.link)"
+								:color="selectedEvent.color"
+								class="white--text btn-clipboard"
+								:elevation="0"
+							>
+								<VIcon> mdi-content-copy </VIcon>
 							</VBtn>
 						</VCol>
 					</VRow>
@@ -124,8 +144,13 @@ export default {
 		selectedElement: null,
 		selectedOpen: false,
 		today: new Date().toISOString().substr(0, 10),
+		isShowCopied: false,
 	}),
 	methods: {
+		copyToClipboard(text) {
+			navigator.clipboard.writeText(text);
+			this.isShowCopied = true;
+		},
 		OnEdit(e) {
 			this.$emit('editEvent', e);
 		},
@@ -224,6 +249,16 @@ export default {
 		border-radius: 50%;
 		margin-top: -5px;
 		margin-left: -6.5px;
+	}
+}
+.btn {
+	&-clipboard {
+		border-top-left-radius: 0 !important;
+		border-bottom-left-radius: 0 !important;
+	}
+	&-link {
+		border-top-right-radius: 0 !important;
+		border-bottom-right-radius: 0 !important;
 	}
 }
 </style>
