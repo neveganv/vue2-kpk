@@ -101,7 +101,7 @@ export default {
 		try {
 			this.sceleton = true;
 			this.news = await newsService.getCoolNews();
-			this.news = this.news.reverse()
+			this.news = this.news
 			this.sceleton = false;
 			this.activeNew = this.news[0];
 
@@ -171,7 +171,7 @@ export default {
 	&.xs {
 		font-size: 25px !important;
 		line-height: 10px;
-		margin-bottom: 5px;
+		margin-bottom: 35px;
 	}
 }
 .my-sub {
