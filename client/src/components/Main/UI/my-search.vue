@@ -101,8 +101,9 @@ export default {
       params.title = this.$route.params.query;
       let response = await newsService.searchCoolNews({ ...params });
       this.filter.news = response;
-      response = await newsService.searchSimpleNews({ ...params });
-      this.filter.news1 = response;
+      await newsService.searchSimpleNews({ ...params }).then((res) => {
+        this.filter.news1 = res;
+      });
       response = await pageService.searchPage({ ...params });
       this.filter.page = response;
       response = await specialtyService.searchSpecialty({ ...params });

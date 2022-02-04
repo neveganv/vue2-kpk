@@ -60,7 +60,7 @@ export default {
       try {
         this.sceletonLoader = true;
 		let params = []
-		params.limit = 2
+		params.limit = 4
 		params.page = this.page
 		if (this.activeCategory != "all")
 		{
@@ -68,7 +68,7 @@ export default {
 		}
         await newsService.getAllNews({...params}).then((res => {
 			this.news = res.result
-			this.newsLength = (res.length / params.limit).toFixed(0)
+			this.newsLength = parseInt((res.length / params.limit).toFixed(0), 10)
 		}));
         this.changeNews = this.news;
         this.getCategories();
