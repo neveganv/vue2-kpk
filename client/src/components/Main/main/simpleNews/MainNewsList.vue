@@ -22,7 +22,7 @@
     </div>
     <div>
       <NewsList :news="news" :sceletonLoader="sceletonLoader" />
-      <v-pagination color="#ff8066" @input="getNews" circle v-model="page" :length="newsLength" :total-visible="5">
+      <v-pagination color="#ff8066" @input="changePage" circle v-model="page" :length="newsLength" :total-visible="5">
       </v-pagination>
     </div>
   </div>
@@ -51,10 +51,17 @@ export default {
     this.getNews();
   },
   methods: {
+	changePage(e) {
+		if (this.page != e) {
+			this.getNews()
+		}
+	},
     clickCategory(e) {
-      this.activeCategory = e;
-	  this.page = 1
-	  this.getNews()
+		if (this.activeCategory != e) {
+			this.activeCategory = e;
+	  		this.page = 1
+	  		this.getNews()
+		}
     },
     async getNews() {
       try {
