@@ -1,7 +1,10 @@
 <template>
 	<div class="header pr-5">
 		<v-fade-transition>
-			<div class="my-container mt-5" :class="{'small' : $vuetify.breakpoint.smAndDown}">
+			<div
+				class="my-container mt-5"
+				:class="{ small: $vuetify.breakpoint.smAndDown }"
+			>
 				<VRow no-gutters aling="center" justify="space-between" class="py-2">
 					<div style="width: 90px">
 						<VBadge color="error" overlap right bottom text content="beta">
@@ -29,7 +32,7 @@
 							>
 								Головна
 							</div>
-							<div class="nav__inner">Про коледж</div>
+							<div class="nav__inner" @click="onClickAboutCol">Про коледж</div>
 							<VMenu
 								offset-y
 								transition="slide-y-transition"
@@ -100,7 +103,6 @@
 									</v-list>
 								</VSheet>
 							</VMenu>
-
 						</div>
 					</v-fade-transition>
 
@@ -118,21 +120,21 @@
 										<VIcon> mdi-magnify</VIcon>
 									</VBtn>
 								</template>
-									<VTextField
-										dense
-										v-model="search"
-										solo
-										hide-details
-										label="Пошук.."
-									>
-										<template slot="append">
-											<v-slide-x-transition>
-												<VIcon v-if="search.length > 0" @click="searchData">
-													mdi-magnify</VIcon
-												>
-											</v-slide-x-transition>
-										</template>
-									</VTextField>
+								<VTextField
+									dense
+									v-model="search"
+									solo
+									hide-details
+									label="Пошук.."
+								>
+									<template slot="append">
+										<v-slide-x-transition>
+											<VIcon v-if="search.length > 0" @click="searchData">
+												mdi-magnify</VIcon
+											>
+										</v-slide-x-transition>
+									</template>
+								</VTextField>
 							</v-menu>
 
 							<VBtn icon @click="onBurger" v-if="menu">
@@ -155,7 +157,11 @@ export default {
 			{ text: 'Розклад', icon: 'mdi-calendar', link: 'main-student-shedule' },
 		],
 		enteredPage: [
-			{ text: 'Підготовчі курси', icon: 'mdi-school', link:'main-entrant-prepare'},
+			{
+				text: 'Підготовчі курси',
+				icon: 'mdi-school',
+				link: 'main-entrant-prepare',
+			},
 		],
 	}),
 	props: {
@@ -164,6 +170,16 @@ export default {
 		},
 	},
 	methods: {
+		onClickAboutCol() {
+			console.log();
+			let AboutComponent = document.querySelector('#AboutComponent');
+			if (this.$route.name !== 'main-page') {
+				this.$router.push({ name: 'main-page', params: { isAbout: true } });
+				return;
+			}
+			console.log(AboutComponent.offsetTop)
+			window.scrollTo(0, AboutComponent.offsetTop);
+		},
 		searchData() {
 			this.$router.push({ name: 'search', params: { query: this.search } });
 		},

@@ -2,9 +2,10 @@
   <v-navigation-drawer
     fixed
     right
-    v-model="navVisible"
+    v-model="isDraw"
     class="overflow-hidden"
     mobile-breakpoint="1626"
+    :persistant="$vuetify.breakpoint.mdAndDown"
   >
     <div class="navigation">
       <v-sheet>
@@ -156,7 +157,7 @@ export default {
     navigationRight: {
       deep: true,
       handler(e) {
-        this.navVisible = e;
+        this.isDraw = e;
       },
     },
     navVisible(e) {
@@ -172,7 +173,7 @@ export default {
   data: () => ({
     activationEvents: false,
     activationEventsEntrance: false,
-    navVisible: "",
+    isDraw: true,
     sponsors: [],
     studentsPage: [
       { text: "Розклад", icon: "mdi-calendar", link: "main-student-shedule" },
