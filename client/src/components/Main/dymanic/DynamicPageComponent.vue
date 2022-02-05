@@ -1,6 +1,10 @@
 <template>
 	<div>
-		<my-header />
+		<my-header
+			@onBurger="onBurger"
+			:navigationRight="navigationRight"
+			menu="true"
+		/>
 		<div
 			class="my-container mt-5"
 			:class="{ small: $vuetify.breakpoint.smAndDown }"
@@ -15,8 +19,8 @@
 				>
 					<VIcon left>mdi-arrow-left</VIcon> На головну</VBtn
 				>
-				<VDivider /></VRow
-			>
+				<VDivider
+			/></VRow>
 		</div>
 		<div
 			class="my-container mt-10"
@@ -30,12 +34,18 @@
 						:PageDeleted="PageDeleted"
 					/>
 				</VCol>
-				
+
 				<VCol cols="12" xl="4" lg="4" md="4" sm="12">
 					<AnotherNewsList :news="news" :sceletonLoader="sceletonLoader" />
 				</VCol>
 				<footer-component />
 			</VRow>
+		</div>
+		<div class="main-navigation-right">
+			<right-navigation
+				@onBurgerNav="onBurgerNav"
+				:navigationRight="navigationRight"
+			/>
 		</div>
 	</div>
 </template>
@@ -47,6 +57,7 @@ import PageInner from './PageInner.vue';
 import newsService from '@/request/news/newsService';
 import AnotherNewsList from '../news/AnotherNewsList.vue';
 import FooterComponent from '../main/footer/FooterComponent.vue';
+import RightNavigation from '../UI/RightNavigation.vue';
 
 export default {
 	data: () => ({
@@ -54,6 +65,7 @@ export default {
 		sceletonLoader: false,
 		news: [],
 		PageDeleted: false,
+		navigationRight:'',
 	}),
 	watch: {
 		$route: {
@@ -68,11 +80,18 @@ export default {
 		PageInner,
 		AnotherNewsList,
 		FooterComponent,
+		RightNavigation,
 	},
 	mounted() {
 		this.getPage();
 	},
 	methods: {
+		onBurgerNav(e) {
+			this.navigationRight = e;
+		},
+		onBurger() {
+			this.navigationRight = !this.navigationRight;
+		},
 		async getPage() {
 			this.sceletonLoader = true;
 			const newPage = await pageService.getOne({ _id: this.$route.params.id });
@@ -87,8 +106,8 @@ export default {
 		},
 		async getNews() {
 			try {
-				await newsService.getAllNews().then((res) => {
-					this.news = res.result
+				await newsService.getAllNews().then(res => {
+					this.news = res.result;
 					this.news = this.news.filter(e => e._id !== this.$route.params.id);
 					this.news.sort((a, b) => b.views - a.views);
 					this.sceletonLoader = false;

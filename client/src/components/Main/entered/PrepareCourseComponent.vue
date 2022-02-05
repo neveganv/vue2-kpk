@@ -1,6 +1,10 @@
 <template>
 	<div style="overflow: hidden">
-		<my-header />
+		<my-header
+			@onBurger="onBurger"
+			:navigationRight="navigationRight"
+			menu="true"
+		/>
 		<v-snackbar v-model="snackbar" top color="success" rounded elevation="10">
 			Заявка на підготовчі курси успішно подана. <br />
 			Очікуйте дзвінка від менеджера
@@ -47,14 +51,13 @@
 								<VRow justify="space-between" align="center">
 									<VCol cols="auto">
 										<span :class="{ 'subtitle-1': $vuetify.breakpoint.xs }">
-											{{settings.title}}
+											{{ settings.title }}
 										</span>
 									</VCol>
 								</VRow>
 							</VCardTitle>
 							<VDivider />
-							<v-card-text v-html="settings.content">
-							</v-card-text>
+							<v-card-text v-html="settings.content"> </v-card-text>
 							<VDivider />
 							<VCardActions class="mb-5">
 								<VRow justify="space-between">
@@ -69,7 +72,7 @@
 											:class="{ 'subtitle-2': $vuetify.breakpoint.xs }"
 											class="font-weight-bold success--text"
 										>
-											{{settings.price}} грн</span
+											{{ settings.price }} грн</span
 										>
 									</VCol>
 
@@ -260,7 +263,7 @@
 											:class="{ 'subtitle-2': $vuetify.breakpoint.xs }"
 											class="font-weight-bold success--text"
 										>
-											{{settings.price}} грн.</span
+											{{ settings.price }} грн.</span
 										>
 									</VCol>
 
@@ -297,6 +300,12 @@
 				></v-progress-circular>
 			</VRow>
 		</div>
+		<div class="main-navigation-right">
+			<right-navigation
+				@onBurgerNav="onBurgerNav"
+				:navigationRight="navigationRight"
+			/>
+		</div>
 	</div>
 </template>
 
@@ -308,11 +317,13 @@ import { validationMixin } from 'vuelidate';
 import { required, sameAs } from 'vuelidate/lib/validators';
 import { invalid } from 'moment';
 import entrantInfoService from '@/request/entrantInfo/entrantInfoService';
+import RightNavigation from '../UI/RightNavigation.vue';
+
 const validPhone = value => value.replace(/[^+\d]/g, '').length === 13;
 
 export default {
 	mixins: [validationMixin],
-	components: { myHeader, SheduleInner },
+	components: { myHeader, SheduleInner, RightNavigation },
 	data: () => ({
 		disableBtn: false,
 		snackbar: false,
@@ -328,6 +339,7 @@ export default {
 			pass_id: '',
 		},
 		acceptPersonalData: false,
+		navigationRight: '',
 	}),
 	validations: {
 		entered: {
@@ -345,17 +357,23 @@ export default {
 		if (Number(tabLocalStorage)) {
 			this.activeTab = Number(tabLocalStorage);
 		}
-		this.getEntrantInfo()
+		this.getEntrantInfo();
 	},
 	watch: {},
 	methods: {
+		onBurgerNav(e) {
+			this.navigationRight = e;
+		},
+		onBurger() {
+			this.navigationRight = !this.navigationRight;
+		},
 		changeTab() {
 			window.localStorage.setItem('activeTabEntered', this.activeTab);
 		},
-		async getEntrantInfo(){
-			let settings = await entrantInfoService.getAll()
-			this.settings = settings[0]
-			console.log(this.settings)
+		async getEntrantInfo() {
+			let settings = await entrantInfoService.getAll();
+			this.settings = settings[0];
+			console.log(this.settings);
 		},
 		async onClickSend() {
 			this.$v.$touch();

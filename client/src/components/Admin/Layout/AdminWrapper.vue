@@ -3,7 +3,7 @@
 		<div>
 			<v-app-bar color="white" style="height: 65px; top: 0; z-index: 1">
 				<VAppBarNavIcon @click="mini = !mini"></VAppBarNavIcon>
-				<div class="admin-logo ml-4" >
+				<div class="admin-logo ml-4">
 					<VBadge color="error" overlap right bottom text content="beta">
 						<img :src="require('@/assets/img/logo-admin.svg')" alt="" />
 					</VBadge>
@@ -78,7 +78,6 @@
 						:value="specialitiesSelector"
 						v-for="folder in folders"
 						:key="folder._id"
-						
 					>
 						<template v-slot:activator>
 							<VListItemIcon>
@@ -95,7 +94,7 @@
 							</VListItem>
 						</div>
 						<VListItem
-								v-if="permissions.owner"
+							v-if="permissions.owner"
 							@click="
 								visible = true;
 								addPageVisibility = true;
@@ -109,7 +108,7 @@
 						</VListItem>
 					</VListGroup>
 					<VListItem
-					v-if="permissions.owner"
+						v-if="permissions.owner"
 						@click="
 							visible = true;
 							addPageVisibility = false;
@@ -227,21 +226,21 @@ export default {
 			try {
 				if (localStorage.token) {
 					this.foldersLoader = true;
-					if(this.getUser.positionUUID){
+					if (this.getUser.positionUUID) {
 						const newPage = await pageService.getPages();
 						const newFolder = await folderService.getFolders({
 							position: this.getUser.positionUUID,
 						});
 						this.folders = newFolder;
 						this.folders.forEach(item => {
-						item.pages = newPage.filter(e => e.folder._id == item._id);
-					});
+							item.pages = newPage.filter(e => e.folder._id == item._id);
+						});
 					}
 				}
 				this.foldersLoader = false;
 			} catch (e) {
 				this.foldersLoader = false;
-				console.log(e)
+				console.log(e);
 			}
 		},
 	},

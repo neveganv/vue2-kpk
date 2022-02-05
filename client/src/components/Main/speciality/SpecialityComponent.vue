@@ -1,11 +1,18 @@
 <template>
 	<div>
-		<my-header />
+		<my-header
+			@onBurger="onBurger"
+			:navigationRight="navigationRight"
+			menu="true"
+		/>
 
-		<div class="my-container mt-5" :class="{'small' : $vuetify.breakpoint.smAndDown}">
+		<div
+			class="my-container mt-5"
+			:class="{ small: $vuetify.breakpoint.smAndDown }"
+		>
 			<VRow no-gutters align="center"
 				><VBtn
-					:class="{'x-small' : $vuetify.breakpoint.smAndDown}"
+					:class="{ 'x-small': $vuetify.breakpoint.smAndDown }"
 					color="primary"
 					small
 					text
@@ -13,11 +20,13 @@
 				>
 					<VIcon left>mdi-arrow-left</VIcon> На головну</VBtn
 				>
-				<VDivider /></VRow
-			>
-
+				<VDivider
+			/></VRow>
 		</div>
-		<div class="my-container mt-10" :class="{'small' : $vuetify.breakpoint.smAndDown}">
+		<div
+			class="my-container mt-10"
+			:class="{ small: $vuetify.breakpoint.smAndDown }"
+		>
 			<VRow no-gutters>
 				<VCol cols="12" xl="8" lg="8" md="8" sm="12">
 					<SpecialityInner
@@ -33,6 +42,12 @@
 				</VCol>
 			</VRow>
 		</div>
+		<div class="main-navigation-right">
+			<right-navigation
+				@onBurgerNav="onBurgerNav"
+				:navigationRight="navigationRight"
+			/>
+		</div>
 	</div>
 </template>
 
@@ -40,7 +55,7 @@
 import MyHeader from '../UI/my-header.vue';
 import SpecialityInner from './SpecialityInner.vue';
 import AnotherSpecialitiesList from './AnotherSpecialitiesList.vue';
-
+import RightNavigation from '../UI/RightNavigation.vue';
 import specialityService from '@/request/specialty/specialtyService';
 
 export default {
@@ -48,11 +63,13 @@ export default {
 		specialitie: [],
 		specialities: [],
 		sceletonLoader: false,
+		navigationRight: '',
 	}),
 	components: {
 		MyHeader,
 		SpecialityInner,
 		AnotherSpecialitiesList,
+		RightNavigation,
 	},
 	watch: {
 		$route: {
@@ -67,6 +84,13 @@ export default {
 		this.getSpeciality();
 	},
 	methods: {
+		onBurgerNav(e) {
+			this.navigationRight = e;
+		},
+
+		onBurger() {
+			this.navigationRight = !this.navigationRight;
+		},
 		async getSpeciality() {
 			this.sceletonLoader = true;
 			const newSpeciality = await specialityService.getById({

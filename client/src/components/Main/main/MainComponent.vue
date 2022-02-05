@@ -6,6 +6,7 @@
 				@onBurger="onBurger"
 				:navigationRight="navigationRight"
 				menu="true"
+				@onCloseNavigation="onCloseNavigation"
 			/>
 			<!-- main image -->
 			<div
@@ -22,6 +23,7 @@
 						class="img"
 						draggable="false"
 						:src="require('@/assets/img/main-img.jpg')"
+						:lazy-src="require('@/assets/img/main-img.jpg')"
 						alt=""
 						@load="loadedMain"
 					>
@@ -104,8 +106,7 @@
 		</div>
 		<div class="main-navigation-right">
 			<right-navigation
-				@closeNavigation="onCloseNavigation"
-				@onBurgerNav="onBurger"
+				@onBurgerNav="onBurgerNav"
 				:navigationRight="navigationRight"
 			/>
 		</div>
@@ -144,7 +145,9 @@ export default {
 		}
 		setTimeout(() => {
 			let AboutComponent = document.querySelector('#AboutComponent');
+			
 			if (this.$route.params.isAbout) {
+				this.navigationRight = false;
 				window.scrollTo(0, AboutComponent.offsetTop);
 			}
 		}, 500);
@@ -152,6 +155,9 @@ export default {
 	methods: {
 		onCloseNavigation() {
 			this.navigationRight = false;
+		},
+		onBurgerNav(e){
+			this.navigationRight = e
 		},
 		loadedMain() {
 			console.log(123);

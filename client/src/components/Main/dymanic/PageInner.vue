@@ -117,7 +117,9 @@ export default {
     },
 	},
 	mounted() {
-		this.fileCount = this.page.files.length;
+		if(this.page.files){
+			this.fileCount = this.page.files.length;
+		}
 		if (this.page.files) {
 				this.checkPdf(0)
 			}

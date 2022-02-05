@@ -1,10 +1,17 @@
 <template>
 	<div>
-		<my-header />
-		<div class="my-container mt-5" :class="{'small' : $vuetify.breakpoint.smAndDown}">
+		<my-header
+			@onBurger="onBurger"
+			:navigationRight="navigationRight"
+			menu="true"
+		/>
+		<div
+			class="my-container mt-5"
+			:class="{ small: $vuetify.breakpoint.smAndDown }"
+		>
 			<VRow no-gutters align="center"
 				><VBtn
-					:class="{'x-small' : $vuetify.breakpoint.smAndDown}"
+					:class="{ 'x-small': $vuetify.breakpoint.smAndDown }"
 					small
 					color="primary"
 					text
@@ -12,10 +19,13 @@
 				>
 					<VIcon left>mdi-arrow-left</VIcon> На головну</VBtn
 				>
-					<VDivider /></VRow
-			>
+				<VDivider
+			/></VRow>
 		</div>
-		<div class="my-container mt-10"  :class="{'small' : $vuetify.breakpoint.smAndDown}">
+		<div
+			class="my-container mt-10"
+			:class="{ small: $vuetify.breakpoint.smAndDown }"
+		>
 			<VRow no-gutters>
 				<VCol cols="12" xl="8" lg="8" md="8" sm="12">
 					<NewsInner :newItem="newItem" :sceletonLoader="sceletonLoader" />
@@ -25,6 +35,12 @@
 				</VCol>
 			</VRow>
 		</div>
+		<div class="main-navigation-right">
+			<right-navigation
+				@onBurgerNav="onBurgerNav"
+				:navigationRight="navigationRight"
+			/>
+		</div>
 	</div>
 </template>
 
@@ -32,6 +48,7 @@
 import MyHeader from '../UI/my-header.vue';
 import NewsInner from './NewsInner.vue';
 import AnotherNewsList from './AnotherNewsList.vue';
+import RightNavigation from '../UI/RightNavigation.vue';
 
 import newsService from '@/request/news/newsService';
 
@@ -40,11 +57,13 @@ export default {
 		newItem: [],
 		news: [],
 		sceletonLoader: false,
+		navigationRight:'',
 	}),
 	components: {
 		MyHeader,
 		NewsInner,
 		AnotherNewsList,
+		RightNavigation,
 	},
 	watch: {
 		$route: {
@@ -59,10 +78,16 @@ export default {
 		this.getNewItem();
 	},
 	methods: {
+		onBurgerNav(e) {
+			this.navigationRight = e;
+		},
+		onBurger() {
+			this.navigationRight = !this.navigationRight;
+		},
 		async getNews() {
 			try {
-				await newsService.getAllNews().then((res) => {
-					this.news = res.result
+				await newsService.getAllNews().then(res => {
+					this.news = res.result;
 					this.news = this.news.filter(e => e._id !== this.$route.params.id);
 					this.news.sort((a, b) => b.views - a.views);
 					this.sceletonLoader = false;

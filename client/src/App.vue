@@ -23,6 +23,7 @@ export default {
 	watch: {
 		$route: {
 			handler(e) {
+				window.scrollTo(0, 0)
 				console.log(e);
 				if (e.name !== 'admin-login') {
 					if (e.path.includes('/admin')) {

@@ -44,7 +44,7 @@
 										Студентові
 									</div>
 								</template>
-								<VSheet :min-width="170" :max-width="300">
+								<VSheet :min-width="200" :max-width="400">
 									<v-list dense>
 										<v-list-item-group color="purple">
 											<div v-for="(item, i) in studentsPage" :key="i">
@@ -154,7 +154,11 @@ export default {
 		searchShow: true,
 		search: '',
 		studentsPage: [
-			{ text: 'Розклад', icon: 'mdi-calendar', link: 'main-student-shedule' },
+			{
+				text: 'Розклад занять',
+				icon: 'mdi-calendar',
+				link: 'main-student-shedule',
+			},
 		],
 		enteredPage: [
 			{
@@ -177,8 +181,10 @@ export default {
 				this.$router.push({ name: 'main-page', params: { isAbout: true } });
 				return;
 			}
-			console.log(AboutComponent.offsetTop)
+			console.log(AboutComponent.offsetTop);
 			window.scrollTo(0, AboutComponent.offsetTop);
+			this.$emit('onCloseNavigation')
+
 		},
 		searchData() {
 			this.$router.push({ name: 'search', params: { query: this.search } });

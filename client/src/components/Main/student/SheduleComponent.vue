@@ -1,6 +1,10 @@
 <template>
 	<div style="overflow: hidden">
-		<my-header />
+		<my-header
+			@onBurger="onBurger"
+			:navigationRight="navigationRight"
+			menu="true"
+		/>
 		<div class="my-container">
 			<VRow
 				class="content mt-5"
@@ -10,14 +14,21 @@
 			>
 				<VCol cols="12" lg="auto" md="auto" sm="12">
 					<VRow align="center" v-if="chosenGroup" no-gutters>
-						<VCol  cols="12" md="auto" xl="auto" lg="auto"  sm="12">
-							<VCardTitle :class="{'pb-0' : $vuetify.breakpoint.smAndDown}">
+						<VCol cols="12" md="auto" xl="auto" lg="auto" sm="12">
+							<VCardTitle :class="{ 'pb-0': $vuetify.breakpoint.smAndDown }">
 								<VIcon left color="grey darken-2" dense> mdi-calendar </VIcon>
 								<span class="grey--text text--darken-2"> Розклад занять </span>
 							</VCardTitle>
 							<VDivider v-if="$vuetify.breakpoint.smAndDown" />
 						</VCol>
-						<VCol cols="12" md="auto" xl="auto" lg="auto"  sm="12" class="my-3 text-center">
+						<VCol
+							cols="12"
+							md="auto"
+							xl="auto"
+							lg="auto"
+							sm="12"
+							class="my-3 text-center"
+						>
 							<VRow no-gutters aling="center">
 								<VCol cols="auto">
 									<v-btn
@@ -46,9 +57,8 @@
 								</VCol>
 							</VRow>
 						</VCol>
-						
 					</VRow>
-						<VDivider v-if="$vuetify.breakpoint.smAndDown"  class="pb-2"/>
+					<VDivider v-if="$vuetify.breakpoint.smAndDown" class="pb-2" />
 				</VCol>
 				<VCol cols="12" lg="auto" md="auto" sm="12">
 					<VRow no-gutters justify="end" align="center">
@@ -131,6 +141,12 @@
 				>
 			</VRow>
 		</div>
+		<div class="main-navigation-right">
+			<right-navigation
+				@onBurgerNav="onBurgerNav"
+				:navigationRight="navigationRight"
+			/>
+		</div>
 	</div>
 </template>
 
@@ -139,8 +155,10 @@ import sheduleService from '@/request/shedule/sheduleService';
 import groupService from '@/request/shedule/groupService';
 import myHeader from '../UI/my-header.vue';
 import SheduleInner from '../../Admin/shedule/SheduleInner.vue';
+import RightNavigation from '../UI/RightNavigation.vue';
+
 export default {
-	components: { myHeader, SheduleInner },
+	components: { myHeader, SheduleInner, RightNavigation },
 	data: () => ({
 		chosenGroup: '',
 		groups: [],
@@ -150,6 +168,7 @@ export default {
 		events: [],
 		prev: '',
 		next: '',
+		navigationRight: '',
 		typeToLabel: {
 			month: 'Місяць',
 			week: 'Тиждень',
@@ -175,6 +194,12 @@ export default {
 		},
 	},
 	methods: {
+		onBurgerNav(e) {
+			this.navigationRight = e;
+		},
+		onBurger() {
+			this.navigationRight = !this.navigationRight;
+		},
 		getDate(e) {
 			this.calendarTitle = e;
 		},
