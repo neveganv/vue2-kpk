@@ -87,7 +87,7 @@
 				</VRow>
 				<SpecialitiesList />
 			</div>
-			<div class="my-10" id="AboutComponent">
+			<div class="my-10" id="AboutComponent" v-intersect="onIntersect">
 				<about-component />
 			</div>
 			<!-- news list -->
@@ -153,6 +153,12 @@ export default {
 		}, 500);
 	},
 	methods: {
+		onIntersect(entries, observer){
+			console.log(entries)
+			if(!this.$vuetify.breakpoint.mdAndDown){
+				this.navigationRight = !entries[0].isIntersecting
+			}
+		},	
 		onCloseNavigation() {
 			this.navigationRight = false;
 		},

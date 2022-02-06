@@ -7,7 +7,7 @@
 			>
 				<VRow no-gutters aling="center" justify="space-between" class="py-2">
 					<div style="width: 90px">
-						<VBadge color="error" overlap right bottom text content="beta">
+						<VBadge color="error" overlap right bottom text content="Beta">
 							<img
 								@click="$router.push({ path: '/' }).catch(err => err)"
 								:src="require('@/assets/img/main-logo.svg')"
@@ -106,7 +106,7 @@
 						</div>
 					</v-fade-transition>
 
-					<div class="d-flex justify-center align-center">
+					<div class="d-flex justify-center align-center" >
 						<VRow>
 							<v-menu
 								bottom
@@ -116,7 +116,7 @@
 								content-class="elevation-4"
 							>
 								<template v-slot:activator="{ on, attrs }">
-									<VBtn icon v-bind="attrs" v-on="on">
+									<VBtn icon v-bind="attrs" v-on="on" v-if="false">
 										<VIcon> mdi-magnify</VIcon>
 									</VBtn>
 								</template>
