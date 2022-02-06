@@ -1,5 +1,5 @@
 <template>
-	<v-sheet :height="userType === 'client' ? 650 : 750" class="calendar">
+	<v-sheet :height="userType === 'client' ? 600 : 750" class="calendar">
 		<v-snackbar
 			v-model="isShowCopied"
 			top
@@ -18,18 +18,37 @@
 			color="primary"
 			:type="type"
 			:short-weekdays="false"
-			first-time="7:30"
+			first-time="6:30"
 			locale="uk-UA"
 			:weekdays="[1, 2, 3, 4, 5, 6, 0]"
 			v-model="focus"
+			:class="
+				userType === 'client' && $vuetify.breakpoint.smAndDown
+					? 'hide-header'
+					: ''
+			"
 		>
 			<template v-slot:day-body="{ date, week }">
 				<div
 					class="v-current-time"
 					:class="{ first: date === week[0].date }"
 					:style="{ top: nowY }"
-				></div> </template
-		></v-calendar>
+				></div>
+			</template>
+
+			<!-- <template v-slot:day-header="{ week }">
+				<div v-if="false">
+					
+				{{ tmpDayDate = week[0].date }}
+				</div>
+			</template> -->
+			<template v-slot:day-header="{ date }">
+				<div v-show="false" v-if="userType === 'client'">
+					{{ (tmpDayDate = date) }}
+				</div>
+			</template>
+		</v-calendar>
+
 		<v-menu
 			v-model="selectedOpen"
 			:close-on-content-click="false"
@@ -42,7 +61,9 @@
 						<v-icon left>mdi-calendar-clock</v-icon>
 					</div>
 					<div v-else>
-						<v-icon left @click="OnEdit(selectedEvent._id)">mdi-pencil</v-icon>
+						<VBtn fab small color="white">
+						<v-icon :color="selectedEvent.color" @click="OnEdit(selectedEvent._id)">mdi-pencil</v-icon>
+						</VBtn>
 					</div>
 					<v-toolbar-title
 						class="text-truncate w-75"
@@ -114,18 +135,26 @@ export default {
 		},
 	},
 	watch: {
+		tmpDayDate(e) {
+			console.log(e);
+			this.$emit('getDate', this.tmpDayDate);
+		},
 		next: {
 			deep: true,
 			handler(e) {
 				this.$refs.calendar.next();
-				this.$emit('getDate', this.$refs.calendar.title);
+				// if (this.userType !== 'client' && $vuetify.breakpoint.smAndDown) {
+				// 	this.$emit('getDate', this.$refs.calendar.title);
+				// }
 			},
 		},
 		prev: {
 			deep: true,
 			handler() {
 				this.$refs.calendar.prev();
-				this.$emit('getDate', this.$refs.calendar.title);
+				// if (this.userType !== 'client' && $vuetify.breakpoint.smAndDown) {
+				// 	this.$emit('getDate', this.$refs.calendar.title);
+				// }
 			},
 		},
 		setToday: {
@@ -137,6 +166,7 @@ export default {
 		},
 	},
 	data: () => ({
+		tmpDayDate: '',
 		focus: '',
 		value: '',
 		ready: false,
@@ -189,7 +219,7 @@ export default {
 			const time = this.getCurrentTime();
 			const first = Math.max(0, time - (time % 30) - 30);
 
-			this.cal.scrollToTime(first);
+			// this.cal.scrollToTime(first);
 		},
 		updateTime() {
 			setInterval(() => this.cal.updateTimes(), 60 * 1000);
@@ -204,12 +234,13 @@ export default {
 		},
 	},
 	mounted() {
-		this.$emit('getDate', this.$refs.calendar.title);
 		this.ready = true;
 		this.scrollToTime();
 		this.updateTime();
 		this.$refs.calendar.checkChange();
-		console.log(this.selectedEvent);
+	
+		this.$emit('getDate', this.userType === 'client' ? 	this.tmpDayDate : 	this.$refs.calendar.title);
+		console.log(this.tmpDayDate)
 	},
 };
 </script>
@@ -259,6 +290,11 @@ export default {
 	&-link {
 		border-top-right-radius: 0 !important;
 		border-bottom-right-radius: 0 !important;
+	}
+}
+.hide-header {
+	.v-calendar-daily_head-day-label {
+		display: none;
 	}
 }
 </style>

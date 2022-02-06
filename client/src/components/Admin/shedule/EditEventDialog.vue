@@ -116,7 +116,6 @@
 								></v-text-field>
 							</template>
 							<v-time-picker
-								no-title
 								v-if="menu2"
 								v-model="event.start_time"
 								full-width

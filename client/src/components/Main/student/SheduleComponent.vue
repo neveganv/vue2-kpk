@@ -1,5 +1,5 @@
 <template>
-	<div style="overflow: hidden">
+	<div>
 		<my-header
 			@onBurger="onBurger"
 			:navigationRight="navigationRight"
@@ -15,9 +15,18 @@
 				<VCol cols="12" lg="auto" md="auto" sm="12">
 					<VRow align="center" v-if="chosenGroup" no-gutters>
 						<VCol cols="12" md="auto" xl="auto" lg="auto" sm="12">
-							<VCardTitle :class="{ 'pb-0': $vuetify.breakpoint.smAndDown }">
-								<VIcon left color="grey darken-2" dense> mdi-calendar </VIcon>
-								<span class="grey--text text--darken-2"> Розклад занять </span>
+							<VCardTitle :class="{ 'py-0': $vuetify.breakpoint.smAndDown }">
+								<VIcon
+									left
+									color="grey darken-2"
+									dense
+									v-if="!$vuetify.breakpoint.smAndDown"
+								>
+									mdi-calendar
+								</VIcon>
+								<span class="grey--text text--darken-2 mx-auto">
+									Розклад занять
+								</span>
 							</VCardTitle>
 							<VDivider v-if="$vuetify.breakpoint.smAndDown" />
 						</VCol>
@@ -29,27 +38,34 @@
 							sm="12"
 							class="my-3 text-center"
 						>
-							<VRow no-gutters aling="center">
-								<VCol cols="auto">
+							<VRow no-gutters aling="center" justify="space-between">
+								<VCol cols="3" xl="auto" lg="auto" md="auto" sm="4">
 									<v-btn
-										icon
-										small
-										color="grey darken-2"
+										:icon="!$vuetify.breakpoint.smAndDown"
+										:small="!$vuetify.breakpoint.smAndDown"
+										color="#7961B6"
+										:outlined="$vuetify.breakpoint.smAndDown"
+										:block="$vuetify.breakpoint.smAndDown"
 										@click="prev = Date.now()"
 									>
 										<v-icon small> mdi-chevron-left </v-icon>
 									</v-btn>
 								</VCol>
-								<VCol cols="auto">
-									<v-toolbar-title v-if="calendarTitle">
-										{{ calendarTitle || '--' }}
-									</v-toolbar-title>
+								<VCol cols="auto" class="d-flex align-center mx-1">
+									<span v-if="calendarTitle">
+										{{
+											moment(calendarTitle).locale('uk').format(titleFormat) ||
+											'--'
+										}}
+									</span>
 								</VCol>
-								<VCol cols="auto">
+								<VCol cols="3" xl="auto" lg="auto" md="auto" sm="4">
 									<v-btn
-										icon
-										small
-										color="grey darken-2"
+										:icon="!$vuetify.breakpoint.smAndDown"
+										:small="!$vuetify.breakpoint.smAndDown"
+										color="#7961B6"
+										:outlined="$vuetify.breakpoint.smAndDown"
+										:block="$vuetify.breakpoint.smAndDown"
 										@click="next = Date.now()"
 									>
 										<v-icon small> mdi-chevron-right </v-icon>
@@ -60,13 +76,13 @@
 					</VRow>
 					<VDivider v-if="$vuetify.breakpoint.smAndDown" class="pb-2" />
 				</VCol>
-				<VCol cols="12" lg="auto" md="auto" sm="12">
+				<VCol cols="12" lg="5" md="5" sm="12">
 					<VRow no-gutters justify="end" align="center">
 						<VCol cols="4" lg="auto" md="auto" sm="4">
 							<v-btn
 								outlined
 								class="mr-4 my-1"
-								color="grey darken-2"
+								color="grey darken-1"
 								@click="setToday = Date.now()"
 								v-if="chosenGroup"
 							>
@@ -90,6 +106,7 @@
 								:item-value="'_id'"
 								:item-text="'name'"
 								:loading="loading"
+								color="#7961B6"
 							/>
 						</VCol>
 					</VRow>
@@ -181,10 +198,20 @@ export default {
 	},
 	watch: {
 		chosenGroup(e) {
+			this.$route.params.groupID = e;
+			this.$router.push({ query: { group: e } });
+
 			this.changeGroup(e);
 		},
 	},
 	computed: {
+		titleFormat() {
+			if (!this.$vuetify.breakpoint.smAndDown) {
+				return 'MMMM YYYY';
+			} else {
+				return 'LL';
+			}
+		},
 		getCalendarType() {
 			if (this.$vuetify.breakpoint.smAndDown) {
 				return 'day';
@@ -212,6 +239,9 @@ export default {
 				if (lsGroup) {
 					this.chosenGroup = lsGroup;
 				}
+				if (this.$route.query.group) {
+					this.chosenGroup = this.$route.query.group;
+				}
 				this.loading = false;
 			} catch (e) {
 				this.loading = false;
@@ -236,4 +266,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>

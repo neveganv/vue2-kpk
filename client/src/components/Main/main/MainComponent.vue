@@ -174,7 +174,7 @@ export default {
 	},
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 .first-screen {
 	display: flex;
 	flex-direction: column;
@@ -344,4 +344,5 @@ export default {
 		margin: -20px;
 	}
 }
+
 </style>
