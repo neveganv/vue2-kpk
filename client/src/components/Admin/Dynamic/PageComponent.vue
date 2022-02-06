@@ -38,7 +38,11 @@
 					></VCol
 				>
 				<VCol cols="auto"
-					><VBtn rounded color="success" @click="onCreate" 	:disabled="!cancelDisabled"
+					><VBtn
+						rounded
+						color="success"
+						@click="onCreate"
+						:disabled="!cancelDisabled"
 						><VIcon left>mdi-check-all</VIcon>Зберегти</VBtn
 					></VCol
 				>
@@ -47,7 +51,12 @@
 		<VDivider class="mb-5" />
 		<VRow no-gutters v-if="page" class="h-auto">
 			<VCol>
-				<vue-editor class="editor w-100 pl-2" v-model="page.html" />
+				<!-- <vue-editor class="editor w-100 pl-2" v-model="page.html" /> -->
+				<ckeditor
+					:editor="editor"
+					v-model="page.html"
+					class="editor"
+				></ckeditor>
 			</VCol>
 		</VRow>
 		<div v-if="page.files">
@@ -60,7 +69,7 @@
 						}}</v-tab>
 					</v-tabs>
 				</div>
-				<div v-else class="py-5 text-center w-100 ">Список Файлів порожній</div>
+				<div v-else class="py-5 text-center w-100">Список Файлів порожній</div>
 				<div v-if="page.files && pdf">
 					<VCardTitle>
 						<VRow justify="space-between" align="center">
@@ -133,6 +142,7 @@ import pageService from '@/request/page/pageService';
 import loader from '@/mixins/loader';
 import VuePdfApp from 'vue-pdf-app';
 import 'vue-pdf-app/dist/icons/main.css';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
 	mixins: [loader],
@@ -143,6 +153,7 @@ export default {
 		VuePdfApp,
 	},
 	data: () => ({
+		editor: ClassicEditor,
 		page: [],
 		oldPage: [],
 		cancelDisabled: false,
@@ -157,6 +168,7 @@ export default {
 		idPdf: 0,
 		pdfVisible: false,
 		numPages: undefined,
+
 	}),
 	watch: {
 		$route: {
@@ -191,9 +203,11 @@ export default {
 		checkPdf(e) {
 			//console.log(e)
 			if (typeof e !== 'undefined') {
-				this.title = this.page.files[e].title;
-				this.pdf = this.page.files[e].file;
-				this.idPdf = this.page.files[e].id;
+				if (this.page.files[e]) {
+					this.title = this.page.files[e].title;
+					this.pdf = this.page.files[e].file;
+					this.idPdf = this.page.files[e].id;
+				}
 			}
 		},
 		async onAddPDF(params) {
@@ -283,5 +297,9 @@ export default {
 <style lang="scss">
 .pdf-app .toolbar {
 	z-index: 100 !important;
+}
+.ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable,
+.ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners {
+	min-height: 300px;
 }
 </style>

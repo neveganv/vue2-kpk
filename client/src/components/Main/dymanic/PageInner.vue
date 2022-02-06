@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="page-inner">
 		<div style="min-height: 970px" v-if="!PageDeleted">
 			<div class="title" no-gutter align="start" v-if="!sceletonLoader">
 				<VRow no-gutters>
@@ -16,7 +16,7 @@
 			<VRow v-else class="title" no-gutter align="center">
 				<v-skeleton-loader type="chip" class="pl-2 my-2"></v-skeleton-loader>
 			</VRow>
-			<myDivider class="my-3" :height="1" v-if="page.html  && !sceletonLoader" />
+			<myDivider class="my-3" :height="1" v-if="page.html && !sceletonLoader" />
 			<VRow no-gutters v-if="page && !sceletonLoader" class="h-auto">
 				<div v-if="page.html" class="w-100">
 					<VCard>
@@ -40,37 +40,41 @@
 					<v-skeleton-loader type="article"></v-skeleton-loader>
 				</VCol>
 			</VRow>
-			<myDivider class="my-3" :height="1" v-if="fileCount > 0 && !sceletonLoader" />
+			<myDivider
+				class="my-3"
+				:height="1"
+				v-if="fileCount > 0 && !sceletonLoader"
+			/>
 			<VRow no-gutters justify="center" v-if="!sceletonLoader">
 				<VCol cols="12">
 					<VCard class="pa-5" v-if="pdf">
-        <v-tabs centered @change="checkPdf" show-arrows>
-          <v-tab v-for="pdfFile in page.files" :key="pdfFile.id">{{
-            pdfFile.title
-          }}</v-tab>
-        </v-tabs>
-        <div v-if="page.files && pdf">
-          <VCardTitle>
-            <VRow justify="space-between" align="center">
-              <VCol class="text-left" cols="auto">{{ title }}</VCol>
-            </VRow>
-          </VCardTitle>
-          <VCardSubtitle>PDF-файл</VCardSubtitle>
-          <VCardText> </VCardText>
-          <VRow no-gutters justify="center">
-            <VCol cols="11">
-              <VuePdfApp
-                v-show="pdf"
-                style="height: 80vh"
-                page-scale="40"
-                theme="light"
-                :pdf="pdf"
-                file-name="name"
-              />
-            </VCol>
-          </VRow>
-        </div>
-      </VCard>
+						<v-tabs centered @change="checkPdf" show-arrows>
+							<v-tab v-for="pdfFile in page.files" :key="pdfFile.id">{{
+								pdfFile.title
+							}}</v-tab>
+						</v-tabs>
+						<div v-if="page.files && pdf">
+							<VCardTitle>
+								<VRow justify="space-between" align="center">
+									<VCol class="text-left" cols="auto">{{ title }}</VCol>
+								</VRow>
+							</VCardTitle>
+							<VCardSubtitle>PDF-файл</VCardSubtitle>
+							<VCardText> </VCardText>
+							<VRow no-gutters justify="center">
+								<VCol cols="11">
+									<VuePdfApp
+										v-show="pdf"
+										style="height: 80vh"
+										page-scale="40"
+										theme="light"
+										:pdf="pdf"
+										file-name="name"
+									/>
+								</VCol>
+							</VRow>
+						</div>
+					</VCard>
 				</VCol>
 			</VRow>
 			<VRow v-else class="title" no-gutter align="center">
@@ -84,7 +88,6 @@
 			<span class="error--text"> На жаль дана сторінка уже видалена </span>
 			<myDivider class="my-3" :height="1" />
 		</div>
-		
 	</div>
 </template>
 
@@ -108,29 +111,28 @@ export default {
 			window._pdf = pdfjs;
 		},
 		checkPdf(e) {
-      //console.log(e)
-      if (typeof e !== "undefined") {
-        this.title = this.page.files[e].title;
-        this.pdf = this.page.files[e].file;
-        this.idPdf = this.page.files[e].id;
-      }
-    },
+			//console.log(e)
+			if (typeof e !== 'undefined') {
+				this.title = this.page.files[e].title;
+				this.pdf = this.page.files[e].file;
+				this.idPdf = this.page.files[e].id;
+			}
+		},
 	},
 	mounted() {
-		if(this.page.files){
+		if (this.page.files) {
 			this.fileCount = this.page.files.length;
 		}
 		if (this.page.files) {
-				this.checkPdf(0)
-			}
-			else {
-				this.pdf = ""
-			}
+			this.checkPdf(0);
+		} else {
+			this.pdf = '';
+		}
 	},
 	data: () => ({
 		fileCount: 0,
-		pdf: "",
-		title: "",
+		pdf: '',
+		title: '',
 	}),
 	watch: {
 		page: {
@@ -138,12 +140,10 @@ export default {
 			handler(e) {
 				this.fileCount = e.files.length;
 				if (e.files.length > 0) {
-					this.checkPdf(0)
+					this.checkPdf(0);
+				} else {
+					this.pdf = '';
 				}
-				else {
-					this.pdf = ""
-				}
-				
 			},
 		},
 	},
@@ -161,21 +161,38 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.text {
-	&-title {
-		font-family: Montserrat;
-		font-style: normal;
-		font-weight: 600;
-		font-size: 15px;
-		color: #4b4453;
+<style lang="scss">
+.page-inner {
+	.text {
+		&-title {
+			font-family: Montserrat;
+			font-style: normal;
+			font-weight: 600;
+			font-size: 15px;
+			color: #4b4453;
+		}
+		&-subtitle {
+			font-family: Montserrat;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 15px;
+			color: #4b4453;
+		}
 	}
-	&-subtitle {
-		font-family: Montserrat;
-		font-style: normal;
-		font-weight: 500;
-		font-size: 15px;
-		color: #4b4453;
+}
+.editor {
+	table {
+
+		border-collapse: collapse;
+		th,
+		td {
+
+			padding: 4px;
+			border: 1px solid #615a6975;
+		}
+		th {
+			background: #F2F2F2;
+		}
 	}
 }
 </style>

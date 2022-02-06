@@ -61,7 +61,7 @@
 						<v-icon left>mdi-calendar-clock</v-icon>
 					</div>
 					<div v-else>
-						<VBtn fab small color="white">
+						<VBtn fab small color="white" class="mr-3">
 						<v-icon :color="selectedEvent.color" @click="OnEdit(selectedEvent._id)">mdi-pencil</v-icon>
 						</VBtn>
 					</div>

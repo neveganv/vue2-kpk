@@ -10,7 +10,9 @@ Vue.use(Flicking);
 import vuetify from './plugins/vuetify';
 import vuelidate from 'vuelidate'
 import moment from 'moment'
+import CKEditor from '@ckeditor/ckeditor5-vue2';
 
+Vue.use( CKEditor );
 
 //DIRECTIVES
 import { VueMaskDirective } from 'v-mask';
