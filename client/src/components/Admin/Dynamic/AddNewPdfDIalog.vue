@@ -11,7 +11,7 @@
 							outlined
 							dense
 							v-model="pdf.title"
-							counter="70"
+							counter="150"
 							maxlength="150"
 							@blur="$v.pdf.title.$touch()"
 							hide-details="auto"
@@ -33,7 +33,6 @@
 							:rules="rules"
 							v-model="pdf.file"
 							@change="onFileChange"
-							@blur="$v.pdf.file.$touch()"
 							hide-details="auto"
 							:error-messages="FileError"
 						>
@@ -78,15 +77,15 @@ export default {
 		rules: [
 			value =>
 				!value ||
-				value.size < 1000000 ||
-				'Розмір файлу повинен бути менше 10 MB!',
+				value.size < 5e7 ||
+				'Розмір файлу повинен бути менше 50 MB!',
 		],
 	}),
 	validations: {
 		pdf: {
 			title: {
 				required,
-				maxLength: maxLength(70),
+				maxLength: maxLength(150),
 			},
 			file: {
 				required,
@@ -140,7 +139,7 @@ export default {
 				return errors;
 			}
 			if (!this.$v.pdf.title.maxLength) {
-				errors.push('Довжина заголовку має бути менша за 70 символів');
+				errors.push('Довжина заголовку має бути менша за 150 символів');
 				return errors;
 			}
 			!this.$v.pdf.title.required &&
