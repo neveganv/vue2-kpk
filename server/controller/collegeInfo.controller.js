@@ -24,7 +24,9 @@ exports.update = (req, res) => {
     const id = req.params.id;
     CollegeInfo.findByIdAndUpdate(
         id,
-        req.body,
+        {
+         info: req.body.info, 
+        },
         { useFindAndModify: false }
     )
         .then(data => {

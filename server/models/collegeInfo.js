@@ -8,7 +8,6 @@ module.exports = mongoose => {
             images: {
                 type: Array
             },
-
         })
     )
     return collegeInfo;
