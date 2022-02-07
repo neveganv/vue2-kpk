@@ -13,7 +13,7 @@
 					rounded
 					@click="visibleSettingDialog = true"
 				>
-					<VIcon left>mdi-information-outline</VIcon>
+					<VIcon left>mdi-clipboard-edit-outline</VIcon>
 					Інформація 
 				</VBtn></VCol
 			>

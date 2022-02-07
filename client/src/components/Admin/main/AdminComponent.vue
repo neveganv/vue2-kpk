@@ -7,6 +7,7 @@
 			>
 				<v-tab>Користувачі</v-tab>
 				<v-tab>Корисні посилання</v-tab>
+				<v-tab>Історія коледжу</v-tab>
 			</v-tabs>
 			<VBtn
 				rounded
@@ -37,6 +38,9 @@
 			<v-tab-item>
 				<PartnersList :partners="partners" @deletePartner="deletePartner" />
 			</v-tab-item>
+			<v-tab-item>
+				<about-col-component />
+			</v-tab-item>
 		</v-tabs-items>
 
 		<add-users-dialog
@@ -56,6 +60,12 @@
 			v-if="visiblePartner"
 			@addPartner="addPartner"
 		/>
+		<edit-info-col-dialog
+			:visible="true"
+			@close="visibleAboutCol = false"
+			v-if="visibleAboutCol"
+			@changeInfoCol="changeInfoCol"
+		/>
 	</div>
 </template>
 
@@ -67,10 +77,19 @@ import PartnersList from './PartnersList.vue';
 import usersService from '@/request/users/usersService';
 import partnersService from '@/request/partners/partnersService';
 import loader from '@/mixins/loader';
+import AboutColComponent from './AboutColComponent.vue';
+import EditInfoColDialog from './editInfoColDialog.vue';
 
 export default {
 	mixins: [loader],
-	components: { AddUsersDialog, UsersList, PartnersList, AddPartnersDialog },
+	components: {
+		AddUsersDialog,
+		UsersList,
+		PartnersList,
+		AddPartnersDialog,
+		AboutColComponent,
+		EditInfoColDialog,
+	},
 
 	mounted() {
 		this.getUser();
@@ -84,15 +103,24 @@ export default {
 			if (this.listTab === 1) {
 				return 'Додати нове посилання';
 			}
+			if (this.listTab === 2) {
+				return 'Інформація про коледж';
+			}
 		},
 	},
 	methods: {
+		changeInfoCol(){
+
+		},
 		onClickAdd() {
 			if (this.listTab === 0) {
 				this.visibleUser = true;
 			}
 			if (this.listTab === 1) {
 				this.visiblePartner = true;
+			}
+			if (this.listTab === 2) {
+				this.visibleAboutCol = true;
 			}
 		},
 		addUser() {
@@ -162,6 +190,7 @@ export default {
 		visibleUser: false,
 		visiblePartner: false,
 		visibleEdit: false,
+		visibleAboutCol: false,
 		users: [],
 		partners: [],
 		chosenId: null,
