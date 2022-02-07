@@ -6,8 +6,8 @@ export default {
 		const response = await requestService.post(`${prefix}`)
 		return response?.data[0]
 	},
-	async update(params){
-		const response = await requestService.put(`${prefix}/${params.id}`, params.info)
+	async update(id,params){
+		const response = await requestService.put(`${prefix}/${id}`, params)
 		return response?.data
 	},
 };

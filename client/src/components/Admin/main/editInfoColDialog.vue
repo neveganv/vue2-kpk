@@ -74,8 +74,9 @@ export default {
 			if (!this.$v.$invalid) {
 				try {
 					this.isLoading = true;
-
-					await collegeInfoServices.update({id: this.collegeInfo._id,info: this.collegeInfo.info,});
+                    const params = {}
+                    params.info = this.collegeInfo.info
+					await collegeInfoServices.update(this.collegeInfo._id,params);
 					this.partner = [];
 					this.$emit('addPartner');
 					this.$v.$reset();
