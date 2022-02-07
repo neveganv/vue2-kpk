@@ -9,7 +9,7 @@
 			justify-md="space-around"
 		>
 			<VCol
-				v-for="(specialitie, index) in specialities"
+				v-for="(specialitie, index) in getPaginateSpeciality"
 				:key="index"
 				cols="auto"
 				class="mt-5 mx-auto"
@@ -19,6 +19,13 @@
 					:indexSpecialitie="index + 1"
 				/>
 			</VCol>
+			<VRow no-gutters class="w-100 mt-3" v-if="isLoadMore" >
+				<VCol cols="12" class="text-center" >
+					<VBtn outlined color="#EF876D" rounded @click="onEmitPage">
+						Показати більше
+					</VBtn>
+				</VCol>
+			</VRow>
 		</VRow>
 		<VRow
 			no-gutters
@@ -28,11 +35,8 @@
 			justify-sm="space-around"
 			justify-md="space-around"
 		>
-			<VCol v-for="index in 6" :key="index" cols="auto" class="mt-5 mx-auto">
-				<MySpecialitiesCard
-					:sceletonLoader="SceletonLoader"
-	
-				/>
+			<VCol v-for="index in this.$vuetify.breakpoint.smAndDown ? 2 : 6" :key="index" cols="auto" class="mt-5 mx-auto">
+				<MySpecialitiesCard :sceletonLoader="SceletonLoader" />
 			</VCol>
 		</VRow>
 	</div>
@@ -46,6 +50,8 @@ export default {
 	data: () => ({
 		specialities: [],
 		SceletonLoader: false,
+		page: 1,
+		isLoadMore: false,
 	}),
 	components: {
 		MySpecialitiesCard,
@@ -54,13 +60,38 @@ export default {
 		this.getSpecialities();
 	},
 	methods: {
+		onEmitPage() {
+			this.page += 1;
+		},
 		async getSpecialities() {
 			this.SceletonLoader = true;
-			const newItem = await specialityService.getAllSpecialty()
-			console.log(this.specialities = newItem.reverse())
+			const newItem = await specialityService.getAllSpecialty();
+			this.specialities = newItem;
+			this.specialitiesCopy = this.specialities;
 			this.SceletonLoader = false;
 			console.log(this.specialities);
 		},
+	},
+	computed: {
+		getPaginateSpeciality() {
+			this.isLoadMore = this.specialities.length > this.page * this.limit;
+			const newSpecialities = [...this.specialities].splice(
+				 0 ,
+				this.limit * this.page
+			);
+
+				this.specialitiesCopy = newSpecialities;
+
+			return this.specialitiesCopy;
+		},
+		limit(){
+			if(this.$vuetify.breakpoint.smAndDown){
+				return 2
+			}else{
+				return 6
+			}
+		}
+
 	},
 };
 </script>

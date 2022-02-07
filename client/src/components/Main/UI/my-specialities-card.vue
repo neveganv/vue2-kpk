@@ -1,5 +1,5 @@
 <template>
-	<div class="specialities-card"  :class="{'edit' : edit}">
+	<div class="specialities-card mt-5 mx-1"  :class="{'edit' : edit}" >
 		<div @click="onClick">
 		<v-slide-x-transition>
 			<div class="card__title" v-if="!sceletonLoader">
@@ -20,8 +20,8 @@
 		<div v-if="sceletonLoader">
 			<v-skeleton-loader
 				type="card"
-				class="mt-7"
-				height="300"
+				class="mt-5"
+				height="250"
 			></v-skeleton-loader>
 		</div>
 		</div>
@@ -62,7 +62,9 @@ export default {
 				params: { id: this.specialitie._id },
 			});
 		}else{
-			this.$emit('edit', this.specialitie._id)
+			if(!sceletonLoader){
+				this.$emit('edit', this.specialitie._id)
+			}
 		}
 		},
 	},
@@ -79,7 +81,6 @@ export default {
 	transition: 0.2s ease;
 	position: relative;
 	padding-left: 15px;
-	margin: 20px 10px 20px 0;
 	.card__title {
 		display: flex;
 		justify-content: flex-start;

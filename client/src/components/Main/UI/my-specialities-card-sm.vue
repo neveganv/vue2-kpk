@@ -9,7 +9,7 @@
 			/>
 		</div>
 		<VCardActions>
-			<div class="another-card-title unselectable">
+			<div class="another-card-title unselectable text-truncate">
 				{{ specialitie.name }}
 			</div>
 			<VSpacer />

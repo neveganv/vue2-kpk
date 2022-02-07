@@ -87,7 +87,7 @@ export default {
 			try {
 				this.setLoading(true);
 				const newItem = await specialityService.getAllSpecialty();
-				console.log((this.specialities = newItem.reverse()));
+				this.specialities = newItem
 				this.setLoading(false);
 			} catch (e) {
 				this.setLoading(false);
