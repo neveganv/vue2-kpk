@@ -18,6 +18,7 @@
     "@egjs/vue-flicking": "^4.5.1",
     "@eshengsky/vue-card-swipe": "^1.0.2",
     "axios": "^0.24.0",
+    "ckeditor4-vue": "^1.5.0",
     "core-js": "^3.6.5",
     "cyrillic-to-translit-js": "^3.1.0",
     "moment": "^2.29.1",

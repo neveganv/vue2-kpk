@@ -5,7 +5,7 @@
 			:navigationRight="navigationRight"
 			menu="true"
 		/>
-		<div class="my-container">
+		<div class="my-container small">
 			<VRow
 				class="content mt-5"
 				no-gutters
@@ -106,6 +106,7 @@
 								:item-value="'_id'"
 								:item-text="'name'"
 								:loading="loading"
+								:disabled="loading"
 								color="#7961B6"
 							/>
 						</VCol>
@@ -198,8 +199,7 @@ export default {
 	},
 	watch: {
 		chosenGroup(e) {
-			this.$route.params.groupID = e;
-			this.$router.push({ query: { group: e } });
+			this.$router.push({ query: { group: e } }).catch(() => {});
 
 			this.changeGroup(e);
 		},

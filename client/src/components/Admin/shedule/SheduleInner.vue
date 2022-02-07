@@ -136,7 +136,6 @@ export default {
 	},
 	watch: {
 		tmpDayDate(e) {
-			console.log(e);
 			this.$emit('getDate', this.tmpDayDate);
 		},
 		next: {
@@ -160,7 +159,7 @@ export default {
 		setToday: {
 			deep: true,
 			handler(e) {
-				console.log(e);
+
 				this.focus = '';
 			},
 		},
@@ -185,7 +184,7 @@ export default {
 			this.$emit('editEvent', e);
 		},
 		test() {
-			console.log(this.$refs);
+
 			this.$refs.calendar.prev();
 		},
 		showEvent({ nativeEvent, event }) {
@@ -208,7 +207,6 @@ export default {
 			nativeEvent.stopPropagation();
 		},
 		getEvents(e) {
-			console.log(e.event.link);
 		},
 		getCurrentTime() {
 			return this.cal
@@ -240,7 +238,6 @@ export default {
 		this.$refs.calendar.checkChange();
 	
 		this.$emit('getDate', this.userType === 'client' ? 	this.tmpDayDate : 	this.$refs.calendar.title);
-		console.log(this.tmpDayDate)
 	},
 };
 </script>
