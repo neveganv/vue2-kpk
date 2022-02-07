@@ -44,12 +44,11 @@
 		</div>
 		<VRow class="about__slider" :class="{ sm: $vuetify.breakpoint.smAndDown }">
 			<flicking
+				:plugins="plugins"
 				:options="{
 					moveType: 'freeScroll',
 					easing: x => 1 - Math.pow(1 - x, 3),
 					interruptable: true,
-
-
 				}"
 				:viewportTag="'div'"
 				:cameraTag="'div'"
@@ -57,12 +56,13 @@
 				<img
 					class="about__slider__inner"
 					:class="{ sm: $vuetify.breakpoint.smAndDown }"
-					v-for="(game, index) in 5"
+					v-for="(image, index) in images"
 					v-bind:key="index"
 					draggable="false"
-					src="@/assets/img/test.png"
+					:src="require(`@/assets/img/${image.path}`)"
 					alt="test"
 				/>
+				<div slot="viewport" class="flicking-pagination"></div>
 			</flicking>
 		</VRow>
 		<about-dialog :visible="isVisible" @close="isVisible = false" />
@@ -71,10 +71,18 @@
 
 <script>
 import aboutDialog from './aboutDialog.vue';
+import { Pagination } from '@egjs/flicking-plugins';
+import '@egjs/flicking-plugins/dist/pagination.css';
 export default {
 	components: { aboutDialog },
 	data: () => ({
+		images: [
+			{ id: 1, path: 'second.jpg' },
+			{ id: 2, path: 'third.jpg' },
+			{ id: 3, path: 'first.png' },
+		],
 		isVisible: false,
+		plugins: [new Pagination({ type: 'bullet' })],
 	}),
 };
 </script>
@@ -125,8 +133,8 @@ export default {
 
 		&__inner {
 			margin: 0px 40px 40px 0;
-			width: 570px;
-			height: 430px;
+			width: 470px;
+			height: 350px;
 			object-fit: cover;
 		}
 		.sm {
@@ -135,7 +143,12 @@ export default {
 		}
 	}
 }
-.flicking-camera{
+.flicking-camera {
 	display: flex;
+}
+.flicking-pagination {
+	.flicking-pagination-bullet-active {
+		background: white;
+	}
 }
 </style>
