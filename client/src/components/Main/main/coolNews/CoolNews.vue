@@ -26,22 +26,18 @@
 						</div>
 						<div :class="{'text-caption': $vuetify.breakpoint.smAndDown}">
 
-						{{ activeNew.content || 'На жаль ця новина поки не заповнена' }}
+						{{ copyActiveNew.content || 'На жаль ця новина поки не заповнена' }}
 						</div>
 
-						<!-- {{
-							moment(activeNew.created_time)
-								.locale('uk')
-								.startOf('hours')
-								.fromNow() || '--'
-						}} -->
 						<VBtn
 							outlined
 							color="purple lighten-3"
-							rounded
+							:rounded="!$vuetify.breakpoint.smAndDown"
 							v-if="showMoreBtn"
 							@click="onClickMoreBtn"
 							class="mt-1"
+							:class="{'my-5': $vuetify.breakpoint.smAndDown}"
+							:block="$vuetify.breakpoint.smAndDown"
 							:small="$vuetify.breakpoint.smAndDown"
 						>
 							Більше
@@ -106,17 +102,16 @@ export default {
 			this.news = this.news
 			this.sceleton = false;
 			this.activeNew = this.news[0];
+			this.copyActiveNew = {...this.activeNew}
 
 		} catch (e) {
 			alert(e);
 		}
-		console.log(this.news);
 	},
 	watch: {
 		showMoreBtn: {
 			deep: true,
 			handler(e) {
-				console.log(e);
 			},
 		},
 		activeNew: {
@@ -130,9 +125,8 @@ export default {
 						a.splice(a.length - 1, 1);
 						str = a.join(' ');
 
-						this.copyActiveNew.content = str + ' ...';
+						this.copyActiveNew.content = str + '...';
 						this.showMoreBtn = true;
-						console.log(this.copyActiveNew);
 					} else {
 						this.showMoreBtn = false;
 					}
