@@ -19,7 +19,7 @@
 					:indexSpecialitie="index + 1"
 				/>
 			</VCol>
-			<VRow no-gutters class="w-100 mt-3" v-if="isLoadMore" >
+			<VRow no-gutters class="w-100 mt-5" v-if="isLoadMore" >
 				<VCol cols="12" class="text-center" >
 					<VBtn outlined color="#EF876D" rounded @click="onEmitPage">
 						Показати більше

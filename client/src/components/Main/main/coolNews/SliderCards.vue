@@ -1,5 +1,9 @@
 <template>
-	<div class="my-swiper">
+	<div class="my-swiper" 		:class="{
+				md: $vuetify.breakpoint.md,
+				sm: $vuetify.breakpoint.sm,
+				xs: $vuetify.breakpoint.xs,
+			}">
 		<swiper
 			class="swiper"
 			:options="swiperOption"
@@ -12,7 +16,15 @@
 				xs: $vuetify.breakpoint.xs,
 			}"
 		>
-			<swiper-slide v-for="item in news" :key="item._id">
+			<swiper-slide
+				v-for="item in news"
+				:key="item._id"
+				:class="{
+					md: $vuetify.breakpoint.md,
+					sm: $vuetify.breakpoint.sm,
+					xs: $vuetify.breakpoint.xs,
+				}"
+			>
 				<img :src="item.img" alt="" />
 				<div style="display: none">{{ item._id }}</div>
 			</swiper-slide>
@@ -62,11 +74,15 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .my-swiper {
 	position: relative;
 	overflow: hidden;
 	height: 380px;
+		&.xs {
+		height: 280px!important;
+
+	}
 }
 
 .swiper {
@@ -77,6 +93,10 @@ export default {
 	top: 50%;
 	margin-left: -150px;
 	margin-top: -150px;
+	&.xs {
+		height: 230px!important;
+		width: 300px!important;
+	}
 
 	.swiper-slide {
 		display: flex;
@@ -89,6 +109,9 @@ export default {
 		background-position: center;
 		background-size: cover;
 		color: white;
+		&.xs {
+			width: 300px!important;
+		}
 		img {
 			width: 100%;
 			height: 100%;
@@ -111,7 +134,7 @@ export default {
 
 	.swiper-pagination {
 		.swiper-pagination-bullet.swiper-pagination-bullet-active {
-			background-color: white;
+			background-color: rgba(255, 255, 255, 0.767);
 		}
 	}
 }
