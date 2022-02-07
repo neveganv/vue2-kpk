@@ -1,6 +1,6 @@
 <template>
 	<div class="h-auto">
-		<div class="d-flex justify-space-between  pb-0 align-center">
+		<div class="d-flex justify-space-between pb-0 align-center">
 			<v-tabs
 				v-model="listTab"
 				:color="listTab === 0 ? 'primary' : 'green darken-2'"
@@ -20,12 +20,19 @@
 		</div>
 		<VDivider />
 		<v-tabs-items v-model="listTab">
-			<v-tab-item>
+			<v-tab-item v-if="users.length">
 				<UsersList
 					:users="users"
 					@showEdit="showEdit"
 					@deleteUser="deleteUser"
 				/>
+			</v-tab-item>
+			<v-tab-item v-else>
+				<div class="py-10 px-5">
+					<VRow>
+						<div class="text-center w-100">Список користувачів порожній</div>
+					</VRow>
+				</div>
 			</v-tab-item>
 			<v-tab-item>
 				<PartnersList :partners="partners" @deletePartner="deletePartner" />
@@ -80,14 +87,14 @@ export default {
 		},
 	},
 	methods: {
-    onClickAdd(){
-      if(this.listTab === 0){
-        this.visibleUser = true
-      }
-      if(this.listTab === 1){
-        this.visiblePartner = true
-      }
-    },
+		onClickAdd() {
+			if (this.listTab === 0) {
+				this.visibleUser = true;
+			}
+			if (this.listTab === 1) {
+				this.visiblePartner = true;
+			}
+		},
 		addUser() {
 			this.getUser();
 			this.visibleUser = false;
@@ -126,6 +133,7 @@ export default {
 			try {
 				this.setLoading(true);
 				this.users = await usersService.getAll();
+				console.log(this.users);
 				this.users = this.users.filter(
 					user => user.token !== JSON.parse(localStorage.token)
 				);
