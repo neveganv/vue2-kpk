@@ -19,5 +19,6 @@ db.coolNews = require("./news/coolNews")(mongoose);
 db.prepareCourse = require("./prepareСourse")(mongoose);
 db.partner = require("./partner")(mongoose);
 db.entrantInfo = require("./entrantInfo")(mongoose);
+db.collegeInfo = require("./collegeInfo")(mongoose);
 
 module.exports = db;

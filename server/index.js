@@ -37,6 +37,7 @@ app.use('/api/coolNews', require('./routes/api/news/coolNews'))
 app.use('/api/prepareCourse', require('./routes/api/prepareCourse'))
 app.use('/api/partner' , require('./routes/api/partner'))
 app.use('/api/entrantInfo' , require('./routes/api/entrantInfo'))
+app.use('/api/collegeInfo', require('./routes/api/collegeInfo'))
 
 //DB
 function start() {
