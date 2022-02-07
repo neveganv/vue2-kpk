@@ -10,6 +10,16 @@
 		>
 			Посилання скопійовано успішно <br />
 		</v-snackbar>
+		<v-snackbar
+			v-model="isShowError"
+			top
+			color="error"
+			rounded
+			elevation="4"
+			:timeout="2000"
+		>
+			Помилка копіювання <br />
+		</v-snackbar>
 		<v-calendar
 			ref="calendar"
 			:value="today"
@@ -62,7 +72,11 @@
 					</div>
 					<div v-else>
 						<VBtn fab small color="white" class="mr-3">
-						<v-icon :color="selectedEvent.color" @click="OnEdit(selectedEvent._id)">mdi-pencil</v-icon>
+							<v-icon
+								:color="selectedEvent.color"
+								@click="OnEdit(selectedEvent._id)"
+								>mdi-pencil</v-icon
+							>
 						</VBtn>
 					</div>
 					<v-toolbar-title
@@ -97,10 +111,12 @@
 								<VIcon left>mdi-link </VIcon> Посилання
 							</VBtn>
 							<VBtn
-								@click="copyToClipboard(selectedEvent.link)"
 								:color="selectedEvent.color"
 								class="white--text btn-clipboard"
 								:elevation="0"
+								v-clipboard:copy="selectedEvent.link"
+								v-clipboard:success="onCopy"
+								v-clipboard:error="onError"
 							>
 								<VIcon> mdi-content-copy </VIcon>
 							</VBtn>
@@ -159,7 +175,6 @@ export default {
 		setToday: {
 			deep: true,
 			handler(e) {
-
 				this.focus = '';
 			},
 		},
@@ -174,17 +189,21 @@ export default {
 		selectedOpen: false,
 		today: new Date().toISOString().substr(0, 10),
 		isShowCopied: false,
+		isShowError:false
 	}),
 	methods: {
-		copyToClipboard(text) {
-			navigator.clipboard.writeText(text);
+		onCopy() {
+			console.log('copy')
 			this.isShowCopied = true;
+		},
+		onError() {
+			console.log('copy')
+			this.isShowError = true;
 		},
 		OnEdit(e) {
 			this.$emit('editEvent', e);
 		},
 		test() {
-
 			this.$refs.calendar.prev();
 		},
 		showEvent({ nativeEvent, event }) {
@@ -206,8 +225,7 @@ export default {
 
 			nativeEvent.stopPropagation();
 		},
-		getEvents(e) {
-		},
+		getEvents(e) {},
 		getCurrentTime() {
 			return this.cal
 				? this.cal.times.now.hour * 60 + this.cal.times.now.minute
@@ -236,8 +254,11 @@ export default {
 		this.scrollToTime();
 		this.updateTime();
 		this.$refs.calendar.checkChange();
-	
-		this.$emit('getDate', this.userType === 'client' ? 	this.tmpDayDate : 	this.$refs.calendar.title);
+
+		this.$emit(
+			'getDate',
+			this.userType === 'client' ? this.tmpDayDate : this.$refs.calendar.title
+		);
 	},
 };
 </script>

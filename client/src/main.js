@@ -11,7 +11,9 @@ import vuetify from './plugins/vuetify';
 import vuelidate from 'vuelidate'
 import moment from 'moment'
 import CKEditor from '@ckeditor/ckeditor5-vue2';
+import VueClipboard from 'vue-clipboard2'
 
+Vue.use(VueClipboard)
 Vue.use( CKEditor );
 
 //DIRECTIVES
