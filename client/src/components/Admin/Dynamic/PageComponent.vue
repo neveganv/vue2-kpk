@@ -9,6 +9,7 @@
 						color="grey darken-1"
 						class="white--text"
 						@click="onChangeFolder"
+						:disabled="!permissions.owner"
 					>
 						<VIcon left> mdi-folder-edit-outline </VIcon
 						>{{ folderName || '--' }}</VBtn
@@ -143,9 +144,10 @@ import loader from '@/mixins/loader';
 import VuePdfApp from 'vue-pdf-app';
 import 'vue-pdf-app/dist/icons/main.css';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import user from '@/mixins/user';
 
 export default {
-	mixins: [loader],
+	mixins: [loader,user],
 	components: {
 		VueEditor,
 		AddNewPageDialog,
