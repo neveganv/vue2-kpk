@@ -20,5 +20,6 @@ db.prepareCourse = require("./prepareСourse")(mongoose);
 db.partner = require("./partner")(mongoose);
 db.entrantInfo = require("./entrantInfo")(mongoose);
 db.collegeInfo = require("./collegeInfo")(mongoose);
+db.collegePhoto = require("./collegePhoto")(mongoose);
 
 module.exports = db;
