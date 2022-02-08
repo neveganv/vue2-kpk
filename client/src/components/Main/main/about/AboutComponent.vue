@@ -43,29 +43,50 @@
 			</div>
 		</div>
 		<VRow class="about__slider" :class="{ sm: $vuetify.breakpoint.smAndDown }">
-			<flicking
-				:plugins="plugins"
-				:options="{
-					moveType: 'freeScroll',
-					easing: x => 1 - Math.pow(1 - x, 3),
-					interruptable: true,
-				}"
-				:viewportTag="'div'"
-				:cameraTag="'div'"
+			<VSlideXReverseTransition>
+				<flicking
+					v-if="!loading"
+					:plugins="plugins"
+					:options="{
+						moveType: 'freeScroll',
+						easing: x => 1 - Math.pow(1 - x, 3),
+						interruptable: true,
+					}"
+					:viewportTag="'div'"
+					:cameraTag="'div'"
+				>
+					<v-img
+						class="about__slider__inner"
+						:class="{ sm: $vuetify.breakpoint.smAndDown }"
+						v-for="(image, index) in images"
+						v-bind:key="index"
+						:lazy-src="image.img"
+						draggable="false"
+						:src="image.img"
+					/>
+					<div slot="viewport" class="flicking-pagination"></div>
+				</flicking>
+			</VSlideXReverseTransition>
+			<VRow
+				v-if="loading"
+				justify="start"
+				align="center"
+				class="my-image-scelet"
+				style="height: 30vh"
 			>
-				<img
-					class="about__slider__inner"
-					:class="{ sm: $vuetify.breakpoint.smAndDown }"
-					v-for="(image, index) in images"
-					v-bind:key="index"
-					draggable="false"
-					:src="require(`@/assets/img/${image.path}`)"
-					alt="test"
-				/>
-				<div slot="viewport" class="flicking-pagination"></div>
-			</flicking>
+				<VCol cols="12" class="text-center">
+					<v-progress-circular
+						indeterminate
+						color="white"
+					></v-progress-circular>
+				</VCol>
+			</VRow>
 		</VRow>
-		<about-dialog :visible="isVisible" @close="isVisible = false" />
+		<about-dialog
+			:visible="isVisible"
+			@close="isVisible = false"
+			v-if="isVisible"
+		/>
 	</div>
 </template>
 
@@ -73,15 +94,29 @@
 import aboutDialog from './aboutDialog.vue';
 import { Pagination } from '@egjs/flicking-plugins';
 import '@egjs/flicking-plugins/dist/pagination.css';
+import collegeInfoServices from '@/request/collegeInfo/collegeInfoServices';
+
 export default {
 	components: { aboutDialog },
+	mounted() {
+		this.getAllImages();
+	},
+	methods: {
+		async getAllImages() {
+			try {
+				this.loading = true;
+				const newItem = await collegeInfoServices.getPhotos();
+				this.images = newItem.reverse();
+				this.loading = false;
+			} catch (e) {
+				alert(e);
+			}
+		},
+	},
 	data: () => ({
-		images: [
-			{ id: 1, path: 'second.jpg' },
-			{ id: 2, path: 'third.jpg' },
-			{ id: 3, path: 'first.png' },
-		],
+		images: [],
 		isVisible: false,
+		loading: false,
 		plugins: [new Pagination({ type: 'bullet' })],
 	}),
 };

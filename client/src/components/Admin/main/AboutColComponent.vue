@@ -86,7 +86,8 @@ export default {
 		async getAllImages() {
 			try {
 				this.loading = true;
-				this.images = await collegeInfoServices.getPhotos();
+				const newItem = await collegeInfoServices.getPhotos()
+				this.images = newItem.reverse()
 				this.loading = false;
 			} catch (e) {
 				alert(e);
