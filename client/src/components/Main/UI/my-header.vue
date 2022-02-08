@@ -103,7 +103,7 @@
 									</v-list>
 								</VSheet>
 							</VMenu>
-									<div
+									<!-- <div
 								class="nav__inner d-flex  align-center"
 								@click="$router.push({ path: '/' }).catch(err => err)"
 							>
@@ -111,7 +111,7 @@
 								mdi-information-outline
 								</VIcon>
 								Інформація
-							</div>
+							</div> -->
 						</div>
 					</v-fade-transition>
 

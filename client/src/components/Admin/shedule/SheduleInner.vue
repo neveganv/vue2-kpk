@@ -32,6 +32,10 @@
 			locale="uk-UA"
 			:weekdays="[1, 2, 3, 4, 5, 6, 0]"
 			v-model="focus"
+			v-touch="{
+				left: () => $refs.calendar.next(),
+				right: () => $refs.calendar.prev(),
+			}"
 			:class="
 				userType === 'client' && $vuetify.breakpoint.smAndDown
 					? 'hide-header'
@@ -189,15 +193,15 @@ export default {
 		selectedOpen: false,
 		today: new Date().toISOString().substr(0, 10),
 		isShowCopied: false,
-		isShowError:false
+		isShowError: false,
 	}),
 	methods: {
 		onCopy() {
-			console.log('copy')
+			console.log('copy');
 			this.isShowCopied = true;
 		},
 		onError() {
-			console.log('copy')
+			console.log('copy');
 			this.isShowError = true;
 		},
 		OnEdit(e) {
