@@ -1,22 +1,28 @@
 <template>
-	<VDialog v-model="visibility">
+	<VDialog v-model="visibility" scrollable>
 		<VCard width="700" :disable="isLoading" :loading="isLoading">
 			<VCardTitle>
 				Інформація про коледж
 				<VSpacer />
-				<VBtn text :disabled="!isChanged"> Скасувати зміни </VBtn>
+				<VBtn text :disabled="isChanged" @click="onReset">
+					Скасувати зміни
+				</VBtn>
 			</VCardTitle>
-			<VCardText>
-				<vue-editor v-model="collegeInfo.info"></vue-editor>
+			<VDivider class="mx-10" />
+			<VCardText class="mt-5">
+				<vue-editor
+					v-model="collegeInfo.info"
+					:disable="isLoading"
+				></vue-editor>
 			</VCardText>
-			<VDivider />
+			<VDivider class="mx-5" />
 			<VCardActions>
 				<VSpacer />
 				<VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
 				<VBtn
 					color="primary"
 					@click="onUpdate"
-					:disabled="isLoading"
+					:disabled="isLoading || isChanged"
 					:loading="isLoading"
 				>
 					Оновити
@@ -47,14 +53,28 @@ export default {
 	data: () => ({
 		collegeInfo: [],
 		isLoading: false,
-		isChanged: false,
+		isChanged: null,
 	}),
 	validations: {},
 	mounted() {
 		this.getInfo();
 	},
+	watch: {
+		collegeInfo: {
+			deep: true,
+			handler(e) {
+				this.isChanged = this.infoCopy.info === this.collegeInfo.info;
+			},
+		},
+	},
 	methods: {
+		onReset() {
+			this.collegeInfo = {
+				...this.infoCopy,
+			};
+		},
 		onCancel() {
+			this.collegeInfo = this.infoCopy;
 			this.$v.$reset();
 			this.$emit('close');
 		},
@@ -63,7 +83,9 @@ export default {
 				this.isLoading = true;
 				const newItem = await collegeInfoServices.getAll();
 				this.collegeInfo = newItem;
-				console.log(this.collegeInfo);
+				this.infoCopy = {
+					...this.collegeInfo,
+				};
 				this.isLoading = false;
 			} catch (e) {
 				alert(e);
@@ -74,11 +96,11 @@ export default {
 			if (!this.$v.$invalid) {
 				try {
 					this.isLoading = true;
-                    const params = {}
-                    params.info = this.collegeInfo.info
-					await collegeInfoServices.update(this.collegeInfo._id,params);
+					const params = {};
+					params.info = this.collegeInfo.info;
+					await collegeInfoServices.update(this.collegeInfo._id, params);
 					this.partner = [];
-					this.$emit('addPartner');
+					this.$emit('changeInfoCol');
 					this.$v.$reset();
 					this.isLoading = false;
 				} catch (e) {

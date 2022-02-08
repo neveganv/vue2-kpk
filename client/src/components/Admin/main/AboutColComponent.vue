@@ -26,7 +26,7 @@
 				>
 					<VCardText class="text-center unselectable pa-0">
 						<VIcon>mdi-plus</VIcon>
-						Додати картинку
+						Додати Зображення
 					</VCardText>
 				</VCard>
 			</VCol>

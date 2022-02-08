@@ -110,6 +110,7 @@ export default {
 	},
 	methods: {
 		changeInfoCol(){
+			this.visibleAboutCol = false
 
 		},
 		onClickAdd() {
