@@ -34,7 +34,7 @@ exports.create = (req, res) => {
 exports.delete = (req,res) => {
     const id = req.body.id;
 
-    collegePhoto.findByIdAndRemove(id)
+    CollegePhoto.findByIdAndRemove(id)
       .then(data => {
         if (!data) {
           res.status(404).send({

@@ -10,6 +10,6 @@ router.post("/", collegePhoto.findAll)
 router.post("/createPhoto", collegePhoto.create);
 
 //Delete photo
-router.delete("/deletePhoto", collegePhoto.delete);
+router.post("/deletePhoto", collegePhoto.delete);
 
 module.exports = router
