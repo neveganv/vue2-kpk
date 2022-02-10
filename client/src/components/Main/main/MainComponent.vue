@@ -151,7 +151,7 @@ export default {
 	},
 	watch: {
 		windowTop(e) {
-			if (this.oldValueTop > e && e > 500) {
+			if (this.oldValueTop > e && e > 0) {
 				this.onActiveHeader = true
 			} else {
 				this.onActiveHeader = false;

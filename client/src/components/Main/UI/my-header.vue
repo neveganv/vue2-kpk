@@ -1,13 +1,13 @@
 <template>
-	<div class="header pr-5"
+	<div class="header "
 		:class="{
 						small: $vuetify.breakpoint.smAndDown,
 					}">
 		<v-fade-transition>
 			<div
 				no-gutters
-				:class="{ 'active-header pr-5': onActiveHeader }"
-				class="not-active"
+				:class="{ 'active-header': onActiveHeader }"
+				class="not-active pr-5 w-100"
 			>
 				<div
 					class="my-container"
@@ -17,19 +17,20 @@
 					}"
 				>
 					<VRow no-gutters aling="center" justify="space-between" class="py-2">
-						<div :style="onActiveHeader ? 'width: 41px' : ' width:90px'">
+						<div :style="onActiveHeader ? 'width: 45px' : ' width:90px'">
 							<VBadge color="error" overlap right bottom text content="Beta">
 								<img
 									@click="$router.push({ path: '/' }).catch(err => err)"
 									:src="require('@/assets/img/main-logo.svg')"
-									:height="onActiveHeader ? 40 : 81"
-									:width="onActiveHeader ? 100 : 200"
+									:height="onActiveHeader ? 45 : 80"
+									:width="onActiveHeader ? 130 : 200"
 									alt="logo"
 									class="p-0 m-0 logo"
 									:class="{
 										sm: $vuetify.breakpoint.sm,
 										md: $vuetify.breakpoint.md,
 										xs: $vuetify.breakpoint.xs,
+										 'logo_active-header': onActiveHeader 
 									}"
 									style="cursor: pointer"
 								/>
@@ -245,23 +246,23 @@ export default {
 
 <style lang="scss" scoped>
 .not-active {
-	transition: 0.4s ease;
 
 }
 .active-header {
 	background: white;
 	position: fixed;
 	top: 0;
-	left: 0;
 	width: 100%;
 	margin: auto;
 	z-index: 100;
-	transition: 0.4s ease;
 	box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.247);
+	transition: .4s;
+	transform:translateY(-100%);
+	transform:translateY(0);
 }
 .header {
 	height: 128px;
-	transition: 0.4s ease;
+	// transition: 0.4s ease;
 
 	&.small {
 		margin-top: 5px;
@@ -270,6 +271,9 @@ export default {
 }
 .logo {
 	transition: 0.4s ease;
+	&_active-header{
+			transition: 0s ease;
+	}
 	&.md {
 		width: 170px;
 		height: auto;
