@@ -62,7 +62,7 @@ export default {
 				params: { id: this.specialitie._id },
 			});
 		}else{
-			if(!sceletonLoader){
+			if(!this.sceletonLoader){
 				this.$emit('edit', this.specialitie._id)
 			}
 		}
