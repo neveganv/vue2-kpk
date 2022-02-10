@@ -69,7 +69,6 @@ export default {
 			this.specialities = newItem;
 			this.specialitiesCopy = this.specialities;
 			this.SceletonLoader = false;
-			console.log(this.specialities);
 		},
 	},
 	computed: {

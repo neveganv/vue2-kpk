@@ -7,6 +7,7 @@
 				:navigationRight="navigationRight"
 				menu="true"
 				@onCloseNavigation="onCloseNavigation"
+				:onActiveHeader="onActiveHeader"
 			/>
 			<!-- main image -->
 			<div
@@ -97,7 +98,11 @@
 			>
 				<MainNewsList />
 			</div>
-			<div class="my-container" style="margin-top: 120px"  id="InformationComponent">
+			<div
+				class="my-container"
+				style="margin-top: 120px"
+				id="InformationComponent"
+			>
 				<FooterComponent />
 			</div>
 			<div class="my-4">
@@ -108,6 +113,7 @@
 			<right-navigation
 				@onBurgerNav="onBurgerNav"
 				:navigationRight="navigationRight"
+				:onActiveHeader="onActiveHeader"
 			/>
 		</div>
 	</div>
@@ -126,6 +132,9 @@ export default {
 	data: () => ({
 		mainImage: '../../../assets/img/main-img.jpg',
 		navigationRight: '',
+		windowTop: 0,
+		oldValueTop: 0,
+		onActiveHeader: false,
 	}),
 	components: {
 		MyHeader,
@@ -137,7 +146,20 @@ export default {
 		AboutComponent,
 	},
 
+	beforeDestroy() {
+		window.removeEventListener('scroll', this.onScroll);
+	},
+	watch: {
+		windowTop(e) {
+			if (this.oldValueTop > e && e > 500) {
+				this.onActiveHeader = true
+			} else {
+				this.onActiveHeader = false;
+			}
+		},
+	},
 	mounted() {
+		window.addEventListener('scroll', this.onScroll);
 		if (this.$vuetify.breakpoint.mdAndDown) {
 			this.navigationRight = false;
 		} else {
@@ -145,36 +167,39 @@ export default {
 		}
 		setTimeout(() => {
 			let AboutComponent = document.querySelector('#AboutComponent');
-			
+
 			if (this.$route.params.isAbout) {
 				this.navigationRight = false;
 				window.scrollTo(0, AboutComponent.offsetTop);
 			}
 		}, 500);
-
 		setTimeout(() => {
-			let InformationComponent = document.querySelector('#InformationComponent');
-			
+			let InformationComponent = document.querySelector(
+				'#InformationComponent'
+			);
+
 			if (this.$route.params.isInformation) {
 				window.scrollTo(0, InformationComponent.offsetTop);
 			}
 		}, 500);
 	},
 	methods: {
-		onIntersect(entries, observer){
-			console.log(entries)
-			if(!this.$vuetify.breakpoint.mdAndDown){
-				this.navigationRight = !entries[0].isIntersecting
+		onScroll(e) {
+			this.oldValueTop = this.windowTop;
+			this.windowTop = e.target.documentElement.scrollTop;
+		},
+		onIntersect(entries, observer) {
+			if (!this.$vuetify.breakpoint.mdAndDown) {
+				this.navigationRight = !entries[0].isIntersecting;
 			}
-		},	
+		},
 		onCloseNavigation() {
 			this.navigationRight = false;
 		},
-		onBurgerNav(e){
-			this.navigationRight = e
+		onBurgerNav(e) {
+			this.navigationRight = e;
 		},
 		loadedMain() {
-			console.log(123);
 		},
 		onBurger() {
 			this.navigationRight = !this.navigationRight;
@@ -182,7 +207,7 @@ export default {
 	},
 };
 </script>
-<style lang="scss" >
+<style lang="scss">
 .first-screen {
 	display: flex;
 	flex-direction: column;
@@ -352,5 +377,4 @@ export default {
 		margin: -20px;
 	}
 }
-
 </style>

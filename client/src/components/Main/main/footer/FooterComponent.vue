@@ -59,7 +59,6 @@ export default {
 	}),
 	methods: {
 		onClickPage(e) {
-			console.log(e);
 			this.$router.push({ path: `/page/${e}` });
 		},
 		async getFolders() {
@@ -73,7 +72,6 @@ export default {
 				});
 				this.sceletonLoader = false;
 
-				console.log(this.folders);
 			} catch (e) {
 				alert(e);
 			}

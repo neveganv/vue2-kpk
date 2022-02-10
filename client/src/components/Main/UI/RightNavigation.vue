@@ -6,6 +6,7 @@
 		class="overflow-hidden"
 		mobile-breakpoint="1626"
 		:persistant="$vuetify.breakpoint.mdAndDown"
+		:style="onActiveHeader ? 'padding-top:62px; transition:.4s' : 'transition:.4s'"
 	>
 		<div class="navigation">
 			<v-sheet>
@@ -124,6 +125,7 @@
 			</v-sheet>
 		</div>
 	</v-navigation-drawer>
+
 </template>
 
 <script>
@@ -157,7 +159,7 @@ export default {
 			}
 			console.log(InformationComponent.offsetTop);
 			window.scrollTo(0, InformationComponent.offsetTop);
-				if (this.$vuetify.breakpoint.mdAndDown) {
+			if (this.$vuetify.breakpoint.mdAndDown) {
 				this.isDraw = false;
 			}
 		},
@@ -225,6 +227,9 @@ export default {
 	}),
 
 	props: {
+		onActiveHeader: {
+			require: true,
+		},
 		navigationRight: {
 			require: true,
 		},
