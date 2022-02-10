@@ -103,15 +103,15 @@
 									</v-list>
 								</VSheet>
 							</VMenu>
-									<!-- <div
+									<div
 								class="nav__inner d-flex  align-center"
-								@click="$router.push({ path: '/' }).catch(err => err)"
+								@click="onClickInformation"
 							>
 							<VIcon small>
 								mdi-information-outline
 								</VIcon>
 								Інформація
-							</div> -->
+							</div>
 						</div>
 					</v-fade-transition>
 
@@ -183,8 +183,17 @@ export default {
 		},
 	},
 	methods: {
+		onClickInformation(){
+			let InformationComponent = document.querySelector('#InformationComponent');
+			if (this.$route.name !== 'main-page') {
+				this.$router.push({ name: 'main-page', params: { isInformation: true } });
+				return;
+			}
+			console.log(InformationComponent.offsetTop);
+			window.scrollTo(0, InformationComponent.offsetTop);
+		},
+
 		onClickAboutCol() {
-			console.log();
 			let AboutComponent = document.querySelector('#AboutComponent');
 			if (this.$route.name !== 'main-page') {
 				this.$router.push({ name: 'main-page', params: { isAbout: true } });
@@ -193,7 +202,6 @@ export default {
 			console.log(AboutComponent.offsetTop);
 			window.scrollTo(0, AboutComponent.offsetTop);
 			this.$emit('onCloseNavigation')
-
 		},
 		searchData() {
 			this.$router.push({ name: 'search', params: { query: this.search } });

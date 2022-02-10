@@ -97,7 +97,7 @@
 			>
 				<MainNewsList />
 			</div>
-			<div class="my-container" style="margin-top: 120px">
+			<div class="my-container" style="margin-top: 120px"  id="InformationComponent">
 				<FooterComponent />
 			</div>
 			<div class="my-4">
@@ -149,6 +149,14 @@ export default {
 			if (this.$route.params.isAbout) {
 				this.navigationRight = false;
 				window.scrollTo(0, AboutComponent.offsetTop);
+			}
+		}, 500);
+
+		setTimeout(() => {
+			let InformationComponent = document.querySelector('#InformationComponent');
+			
+			if (this.$route.params.isInformation) {
+				window.scrollTo(0, InformationComponent.offsetTop);
 			}
 		}, 500);
 	},

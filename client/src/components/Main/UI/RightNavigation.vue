@@ -22,7 +22,9 @@
 									</v-list-item-content>
 								</v-list-item>
 								<v-list-item @click="onClickAboutCol">
-									<v-list-item-icon style="margin-right: 15px;margin-left:1px">
+									<v-list-item-icon
+										style="margin-right: 15px; margin-left: 1px"
+									>
 										<v-icon dense>mdi-information-outline</v-icon>
 									</v-list-item-icon>
 									<v-list-item-content>
@@ -68,8 +70,16 @@
 									</v-list-item-icon>
 								</v-list-item>
 							</v-list-group>
+							<v-list-item @click="onClickInformation">
+								<v-list-item-icon style="margin-right: 15px; margin-left: 1px">
+									<v-icon dense>mdi-information-outline</v-icon>
+								</v-list-item-icon>
+								<v-list-item-content>
+									<v-list-item-title>Інформація</v-list-item-title>
+								</v-list-item-content>
+							</v-list-item>
 						</v-list>
-            <VDivider class="mx-5"/>
+						<VDivider class="mx-5" />
 					</div>
 
 					<VSubheader>Корисні посилання</VSubheader>
@@ -128,12 +138,30 @@ export default {
 				this.$router.push({ name: 'main-page', params: { isAbout: true } });
 				return;
 			}
-			console.log(AboutComponent.offsetTop);
 			window.scrollTo(0, AboutComponent.offsetTop);
 			if (this.$vuetify.breakpoint.mdAndDown) {
 				this.isDraw = false;
 			}
 		},
+
+		onClickInformation() {
+			let InformationComponent = document.querySelector(
+				'#InformationComponent'
+			);
+			if (this.$route.name !== 'main-page') {
+				this.$router.push({
+					name: 'main-page',
+					params: { isInformation: true },
+				});
+				return;
+			}
+			console.log(InformationComponent.offsetTop);
+			window.scrollTo(0, InformationComponent.offsetTop);
+				if (this.$vuetify.breakpoint.mdAndDown) {
+				this.isDraw = false;
+			}
+		},
+
 		onClickMain() {
 			this.$router.push({ path: '/' }).catch(() => {});
 			if (this.$vuetify.breakpoint.mdAndDown) {
