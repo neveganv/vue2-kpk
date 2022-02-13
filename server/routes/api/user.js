@@ -4,7 +4,7 @@ const router = express.Router()
 const user = require("../../controller/user.controller");
 const token = require("../../middleware/checkToken")
 
-//Create new Mews
+//Create new User
 router.post("/add", user.create);
 
 //Find all News

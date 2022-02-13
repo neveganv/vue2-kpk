@@ -1,6 +1,7 @@
 const db = require('../models');
 const collegePhoto = require('../models/collegePhoto');
 const CollegePhoto = db.collegePhoto;
+const guardToken = require("../middleware/guardToken")
 
 // find all
 exports.findAll = (req, res) => {
@@ -16,6 +17,8 @@ exports.findAll = (req, res) => {
 };
 
 exports.create = (req, res) => {
+  if(guardToken.guardToken(req,res)) return  false
+
 	const collegePhoto = new CollegePhoto({
 		img: req.body.img
 	});
@@ -32,6 +35,8 @@ exports.create = (req, res) => {
 };
 
 exports.delete = (req,res) => {
+  if(guardToken.guardToken(req,res)) return  false
+
     const id = req.body.id;
 
     CollegePhoto.findByIdAndRemove(id)

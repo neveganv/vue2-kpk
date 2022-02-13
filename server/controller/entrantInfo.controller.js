@@ -1,5 +1,6 @@
 const db = require('../models');
 const EntrantInfo = db.entrantInfo;
+const guardToken = require("../middleware/guardToken")
 
 // find entrant info by id
 exports.findAll = (req, res) => {
@@ -16,6 +17,8 @@ exports.findAll = (req, res) => {
 
 // update entrant info by id
 exports.update = (req, res) => {
+    if(guardToken.guardToken(req,res)) return  false
+
     if (!req.body) {
         return res.status(400).send({
             message: 'Data to update can not be empty!',

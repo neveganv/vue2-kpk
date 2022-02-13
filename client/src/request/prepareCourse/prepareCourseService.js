@@ -11,7 +11,7 @@ export default {
 		const response = await requestService.post(`${prefix}/getAllPrepareCourse`)
 		return response?.data
 	},
-	async getPrepareCourseById(params){
+	async аgetPrepareCourseById(params){
 		const response = await requestService.post(`${prefix}/getPrepareCourseById`,params)
 		return response?.data
 	},

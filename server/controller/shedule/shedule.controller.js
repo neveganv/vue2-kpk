@@ -2,9 +2,12 @@ const db = require('../../models');
 const Event = db.shedul;
 const { ObjectId } = require('bson');
 const { classes } = require('../../models');
+const guardToken = require("../../middleware/guardToken")
 
 // Create a new Event
 exports.create = (req, res) => {
+	if(guardToken.guardToken(req,res)) return  false
+
 	const event = new Event({
 		name: req.body.class,
 		group: req.body.group,
@@ -62,6 +65,8 @@ exports.findEventById = (req, res) => {
 };
 
 exports.updateEvent = (req, res) => {
+	if(guardToken.guardToken(req,res)) return  false
+
 	if (!req.body) {
 		return res.status(400).send({
 			message: 'Data to update can not be empty!',

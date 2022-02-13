@@ -1,9 +1,11 @@
 const db = require('../models');
 const Partner = db.partner;
 const partner = require('../models/partner');
+const guardToken = require("../middleware/guardToken")
 
 // Create a partner 
 exports.create = (req, res) => {
+    if(guardToken.guardToken(req,res)) return  false
     const partner = new Partner({
         path_img: req.body.path_img,
         path_link: req.body.path_link,
@@ -22,6 +24,7 @@ exports.create = (req, res) => {
 };
 
 exports.findPartnerById = (req, res) => {
+    if(guardToken.guardToken(req,res)) return  false
     Partner.find({
         _id: req.body.id,
 
@@ -49,6 +52,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
+    if(guardToken.guardToken(req,res)) return  false
     if (!req.body) {
         return res.status(400).send({
             message: 'Data to update can not be empty!',
@@ -78,6 +82,7 @@ exports.update = (req, res) => {
         });
 };
 exports.deletePartner = (req, res) => {
+    if(guardToken.guardToken(req,res)) return  false
     const id = req.params.id;
 
     Partner.findByIdAndRemove(id)

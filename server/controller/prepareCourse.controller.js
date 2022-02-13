@@ -1,9 +1,12 @@
 const db = require('../models');
 const PrepareCourse = db.prepareCourse;
 const prepareСourse = require('../models/prepareСourse');
+const guardToken = require("../middleware/guardToken")
 
 // Create a new optionsList
 exports.create = (req, res) => {
+    if(guardToken.guardToken(req,res)) return  false
+
     const prepareCourse = new PrepareCourse({
         name: req.body.name,
         surname: req.body.surname,
@@ -40,6 +43,8 @@ exports.findPrepareCourseById = (req, res) => {
 };
 
 exports.update = (req, res) => {
+    if(guardToken.guardToken(req,res)) return  false
+
     if (!req.body) {
         return res.status(400).send({
             message: 'Data to update can not be empty!',
@@ -74,6 +79,7 @@ exports.update = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
+    if(guardToken.guardToken(req,res)) return  false
 	PrepareCourse.find().sort({ 'created': 'desc' })
 		.then(data => {
 			res.send(data);

@@ -1,10 +1,10 @@
 const db = require("../../models");
 const Group = db.group
-
+const guardToken = require("../../middleware/guardToken")
 
 // Create a new optionsList
 exports.createGroup = (req, res) => {
-    console.log("Категорія:",req.body.name)
+    if(guardToken.guardToken(req,res)) return  false
       const group = new Group({
           name: req.body.name
       });

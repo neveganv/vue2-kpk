@@ -1,14 +1,16 @@
 const db = require('../../models');
 const CoolNews = db.coolNews;
+const guardToken = require('../../middleware/guardToken');
 
 // Create a new news
 exports.create = (req, res) => {
-	console.log("coolNews", req.body)
+	if (guardToken.guardToken(req, res)) return false;
+
 	const coolNews = new CoolNews({
 		title: req.body.title,
 		img: req.body.img,
 		created_time: req.body.created_time,
-		content: req.body.content
+		content: req.body.content,
 	});
 	coolNews
 		.save(coolNews)
@@ -25,7 +27,6 @@ exports.create = (req, res) => {
 exports.findCoolNewsById = (req, res) => {
 	CoolNews.find({
 		_id: req.body.id,
-
 	})
 		.then(data => {
 			res.send(data);
@@ -38,15 +39,15 @@ exports.findCoolNewsById = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-	let search = {}
-	console.log(req.body.status)
-	if (req.body.status == "available") {
-		search = {isArchived: 0}
+	let search = {};
+	console.log(req.body.status);
+	if (req.body.status == 'available') {
+		search = { isArchived: 0 };
+	} else if (req.body.status == 'archived') {
+		search = { isArchived: 1 };
 	}
-	else if (req.body.status == "archived") {
-		search = {isArchived: 1}
-	}
-	CoolNews.find(search).sort({ 'created_time': 'desc' })
+	CoolNews.find(search)
+		.sort({ created_time: 'desc' })
 		.then(data => {
 			res.send(data);
 		})
@@ -58,6 +59,8 @@ exports.findAll = (req, res) => {
 };
 
 exports.updateCoolNews = (req, res) => {
+	if(guardToken.guardToken(req,res)) return  false
+
 	if (!req.body) {
 		return res.status(400).send({
 			message: 'Data to update can not be empty!',
@@ -70,7 +73,7 @@ exports.updateCoolNews = (req, res) => {
 			title: req.body.title,
 			img: req.body.img,
 			content: req.body.content,
-			isArchived: req.body.isArchived
+			isArchived: req.body.isArchived,
 		},
 		{ useFindAndModify: false }
 	)
@@ -88,31 +91,32 @@ exports.updateCoolNews = (req, res) => {
 		});
 };
 exports.deleteCoolNews = (req, res) => {
+	if(guardToken.guardToken(req,res)) return  false
+
 	const id = req.body.id;
 
 	CoolNews.findByIdAndRemove(id)
 		.then(data => {
 			if (!data) {
 				res.status(404).send({
-					message: `Cannot delete news with id=${id}.`
+					message: `Cannot delete news with id=${id}.`,
 				});
 			} else {
 				res.send({
-					message: "News was deleted successfully!"
+					message: 'News was deleted successfully!',
 				});
 			}
 		})
 		.catch(err => {
 			res.status(500).send({
-				message: "Could not delete news with id=" + id
+				message: 'Could not delete news with id=' + id,
 			});
 		});
-
 };
 
 exports.findCoolNews = (req, res) => {
 	CoolNews.find({
-		title: { $regex: new RegExp(`${req.body.title}`, "i") }
+		title: { $regex: new RegExp(`${req.body.title}`, 'i') },
 	})
 		.then(data => {
 			res.send(data);
@@ -126,8 +130,11 @@ exports.findCoolNews = (req, res) => {
 
 exports.findByStatus = (req, res) => {
 	console.log(req.body.isArchived);
+	if(req.body.isArchived != 0){
+		if(guardToken.guardToken(req,res)) return  false
+	}
 	CoolNews.find({
-		isArchived: req.body.isArchived
+		isArchived: req.body.isArchived,
 	})
 		.then(data => {
 			res.send(data);
@@ -137,4 +144,4 @@ exports.findByStatus = (req, res) => {
 				message: 'Не вдалось отримати новини.',
 			});
 		});
-}
+};

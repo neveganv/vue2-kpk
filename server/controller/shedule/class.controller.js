@@ -1,10 +1,10 @@
 const db = require("../../models");
 const Classes = db.classes
-
+const guardToken = require("../../middleware/guardToken")
 
 // Create a new optionsList
 exports.create = (req, res) => {
-    console.log("Категорія:",req.body.name)
+    if(guardToken.guardToken(req,res)) return  false
       const classes = new Classes({
           name: req.body.name,
           color: req.body.color

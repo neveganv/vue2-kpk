@@ -1,9 +1,12 @@
 const db = require('../models');
 const News = db.news;
 const { ObjectId } = require('bson');
+const guardToken = require("../middleware/guardToken")
 
 // Create a new optionsList
 exports.create = (req, res) => {
+if(guardToken.guardToken(req,res)) return  false
+
 	const news = new News({
 		category: req.body.category,
 		title: req.body.title,
@@ -24,6 +27,7 @@ exports.create = (req, res) => {
 };
 
 exports.findByCategory = (req, res) => {
+
 	News.find({
 		category: req.body.idCategory,
 	}).populate('category')
@@ -82,6 +86,8 @@ exports.findAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
+	if(guardToken.guardToken(req,res)) return  false
+
 	if (!req.body) {
 		return res.status(400).send({
 			message: 'Data to update can not be empty!',
@@ -112,6 +118,8 @@ exports.update = (req, res) => {
 		});
 };
 exports.deleteNews = (req,res) => {
+	if(guardToken.guardToken(req,res)) return  false
+
     const id = req.body.id;
 
     News.findByIdAndRemove(id)
@@ -135,6 +143,7 @@ exports.deleteNews = (req,res) => {
 };
 
 exports.counter = (req, res) => {
+
 	console.log("id: ", req.body.id);
 	const id = req.body.id;
 	News.findByIdAndUpdate(req.body.id, {views: req.body.views})
@@ -153,6 +162,7 @@ exports.counter = (req, res) => {
 },
 
 exports.findNews = (req, res) => {
+
 	News.find({
 		title:{ $regex : new RegExp(`${req.body.title}`, "i") }
 	})
@@ -167,6 +177,7 @@ exports.findNews = (req, res) => {
 };
 
 exports.findByStatus = (req, res) => {
+	
 	News.find({
 		isArchived: req.body.isArchived
 	})

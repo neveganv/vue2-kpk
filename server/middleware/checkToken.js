@@ -10,7 +10,6 @@ function checkToken(req, res, next) {
         }
         else {
             req.userId = decodedToken.userId;   // Add to req object
-            console.log(req.userId)
             next();
         }
     });

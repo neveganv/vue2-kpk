@@ -1,10 +1,11 @@
 const db = require("../models");
 const NewsCategory = db.newsCategory
+const guardToken = require("../middleware/guardToken")
 
 
 // Create a new optionsList
 exports.create = (req, res) => {
-    console.log("Категорія:",req.body.name)
+    if(guardToken.guardToken(req,res)) return  false
       const newsCategory = new NewsCategory({
           name: req.body.name
       });

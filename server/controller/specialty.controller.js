@@ -1,9 +1,12 @@
 const db = require("../models");
 const Specialty = db.specialty
+const guardToken = require("../middleware/guardToken")
 
 
 // Create a new specialty
 exports.create = (req, res) => {
+  if(guardToken.guardToken(req,res)) return  false
+
     console.log("req",req.body);
       const specialty = new Specialty({
           name: req.body.name,
@@ -40,6 +43,7 @@ exports.findAll = (req, res) => {
     });
 };
 exports.findById = (req, res) => {  
+
     Specialty.find({_id: req.body.id})
       .then(data => {
         res.send(data);
@@ -54,6 +58,8 @@ exports.findById = (req, res) => {
   };
 
 exports.update = (req, res) => {
+  if(guardToken.guardToken(req,res)) return  false
+
     if (!req.body) {
 		return res.status(400).send({
 			message: 'Data to update can not be empty!',
@@ -86,6 +92,7 @@ exports.update = (req, res) => {
 }
 
 exports.findSpecialty = (req, res) => {
+
 	Specialty.find({
 		name:{ $regex : new RegExp(`${req.body.title}`, "i") }
 	})
@@ -95,12 +102,14 @@ exports.findSpecialty = (req, res) => {
 		})
 		.catch(err => {
 			res.status(500).send({
-				message: 'Не вдалось отримати новини.',
+				message: 'Не вдалось отримати спеціальність.',
 			});
 		});
 };
 
 exports.deleteSpecialty = (req, res) => {
+  if(guardToken.guardToken(req,res)) return  false
+
   const id = req.body.id;
 
     Specialty.findByIdAndRemove(id)
