@@ -15,9 +15,7 @@ app.use(express.json({
     limit: '15mb',
 }));
 
-app.use(cors({
-    origin: '*',
-}))
+app.use(cors())
 
 // SPA
 app.get("*", (req, res) => {
@@ -55,7 +53,7 @@ function start() {
     });
 
     //Port
-    app.listen(8080, () => {
+    app.listen(8000, () => {
         console.log("Server running on http://localhost:8000");
     });
 }

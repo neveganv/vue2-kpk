@@ -23,7 +23,12 @@ export default {
 	watch: {
 		$route: {
 			handler(e) {
-				window.scrollTo(0, 0)
+				// if (location.protocol !== 'https:' && location.host === 'kpk-lp.com.ua') {
+				// 	location.replace(
+				// 		`https:${location.href.substring(location.protocol.length)}`
+				// 	);
+				// }
+				// window.scrollTo(0, 0);
 				// console.log(e);
 				if (e.name !== 'admin-login') {
 					if (e.path.includes('/admin')) {
@@ -31,7 +36,7 @@ export default {
 					} else {
 						this.isAdminWrap = false;
 					}
-				}else{
+				} else {
 					this.isAdminWrap = false;
 				}
 			},
@@ -41,7 +46,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 html,
 body {
 	font-weight: 400;
