@@ -5,10 +5,21 @@ const guardToken = require("../middleware/guardToken")
 
 // Create a new optionsList
 exports.create = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
-      const newsCategory = new NewsCategory({
-          name: req.body.name
-      });
+    if (guardToken.guardToken(req, res)) return false
+
+    if (!req.body.name) {
+        return res.status(400).send({
+            status: 400,
+            error: {
+                type: "Validation error",
+                message: "Name is required"
+            }
+        });
+    }
+
+    const newsCategory = new NewsCategory({
+        name: req.body.name
+    });
 
     // Save optionsList in the database
     newsCategory
@@ -25,15 +36,15 @@ exports.create = (req, res) => {
 
 };
 
-exports.findAll = (req,res) => {
+exports.findAll = (req, res) => {
     NewsCategory.find()
-    .then(data => {
-        res.send(data);
-    })
-    .catch(err => {
-        res.status(500).send({
-            message:
-                err.message || "Some error occurred while retrieving blogs."
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving blogs."
+            });
         });
-    });
 };

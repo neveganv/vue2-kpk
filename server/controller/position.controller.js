@@ -6,6 +6,27 @@ const guardToken = require("../middleware/guardToken")
 // Create a new position
 exports.create = (req, res) => {
     if(guardToken.guardToken(req,res)) return  false
+
+    let validateError = {
+        status: 400,
+        error: {
+          type: "Validation error",
+          message: "",
+        }
+      };
+      if (!req.body) {
+        validateError.error.message = "Data to update can not be empty!";
+        return res.status(400).send(validateError);
+      }
+      if (!req.body.title) {
+        validateError.error.message = "Title is required";
+        return res.status(400).send(validateError);
+      }
+      if (!req.body.type) {
+        validateError.error.message = "Type is required";
+        return res.status(400).send(validateError);
+      }
+
     const position = new Position({
         title: req.body.title,
         type: req.body.type,

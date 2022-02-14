@@ -4,7 +4,16 @@ const guardToken = require("../middleware/guardToken")
 
 // Create a new page
 exports.create = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+    if (guardToken.guardToken(req, res)) return false
+    if (!req.body.name) {
+        return res.status(400).send({
+            status: 400,
+            error: {
+                type: "Validation error",
+                message: "Name is required"
+            }
+        });
+    }
 
     const page = new Page({
         name: req.body.name,
@@ -56,7 +65,7 @@ exports.findById = (req, res) => {
 
 //delete pdf file 
 exports.deletePdf = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+    if (guardToken.guardToken(req, res)) return false
 
     if (!req.body) {
         return res.status(400).send({
@@ -67,10 +76,10 @@ exports.deletePdf = (req, res) => {
     const id = req.params.id;
 
     Page.updateOne(
-        
+
         { _id: id },
         {
-            $pull: { files: { id: req.body.idPdf }}
+            $pull: { files: { id: req.body.idPdf } }
         },
     ).then(data => {
         if (!data) {
@@ -88,7 +97,7 @@ exports.deletePdf = (req, res) => {
 
 // Update a page by the id in the request
 exports.update = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+    if (guardToken.guardToken(req, res)) return false
 
     if (!req.body) {
         return res.status(400).send({
@@ -124,7 +133,7 @@ exports.update = (req, res) => {
 
 // Delete a page by id
 exports.delete = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+    if (guardToken.guardToken(req, res)) return false
 
     const id = req.params.id;
 
@@ -149,9 +158,9 @@ exports.delete = (req, res) => {
 };
 
 exports.findPage = (req, res) => {
-    
+
     Page.find({
-        name:{ $regex : new RegExp(`${req.body.title}`, "i") }
+        name: { $regex: new RegExp(`${req.body.title}`, "i") }
     })
         .then(data => {
             res.send(data);
