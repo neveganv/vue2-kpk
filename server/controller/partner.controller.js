@@ -102,10 +102,6 @@ exports.update = (req, res) => {
         validateError.error.message = "Link is required";
         return res.status(400).send(validateError);
     }
-    else if (!req.body.partner_name) {
-        validateError.error.message = "Name is required";
-        return res.status(400).send(validateError);
-    }
     else {
         const id = req.body.id;
         Partner.findByIdAndUpdate(
