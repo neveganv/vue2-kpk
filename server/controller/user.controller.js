@@ -10,7 +10,7 @@ const guardToken = require("../middleware/guardToken")
 
 // Create a new User
 exports.create = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+    if(guardToken.guardToken(req,res)) return  
 	// generate pass
 	let pass = password.generate();
 
