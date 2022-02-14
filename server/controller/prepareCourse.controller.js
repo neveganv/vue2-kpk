@@ -8,6 +8,13 @@ exports.create = (req, res) => {
     if (guardToken.guardToken(req, res)) return false
 
     if (req.body) {
+        let validateError = {
+            status: 400,
+            error: {
+                type: "Validation error",
+                message: "",
+            }
+        };
         if (!req.body.name) {
             validateError.error.message = "Name is required";
             return res.status(400).send(validateError);
