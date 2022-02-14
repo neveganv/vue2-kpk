@@ -18,6 +18,10 @@ exports.create = (req, res) => {
     validateError.error.message = "Data to update can not be empty!";
     return res.status(400).send(validateError);
   }
+  if (!req.body.name) {
+    validateError.error.message = "Name is required";
+    return res.status(400).send(validateError);
+  }
   if (!req.body.img) {
     validateError.error.message = "Image is required";
     return res.status(400).send(validateError);
@@ -88,6 +92,10 @@ exports.update = (req, res) => {
 
   if (!req.body) {
     validateError.error.message = "Data to update can not be empty!";
+    return res.status(400).send(validateError);
+  }
+  if (!req.body.name) {
+    validateError.error.message = "Name is required";
     return res.status(400).send(validateError);
   }
   if (!req.body.img) {
