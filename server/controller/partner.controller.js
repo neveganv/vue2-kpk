@@ -8,6 +8,24 @@ const guardToken = require("../middleware/guardToken")
 exports.create = (req, res) => {
     if (guardToken.guardToken(req, res)) return false
     if (req.body) {
+        if(!req.body.path_img){ 
+            res.status(500).send({
+                message: "Image is required"
+            });
+            return false
+         }
+         if(!req.body.path_link){ 
+            res.status(500).send({
+                message: "Link is required"
+            });
+            return false
+         }
+         if(!req.body.partner_name){ 
+            res.status(500).send({
+                message: "Name is required"
+            });
+            return false
+         }
         const partner = new Partner({
             path_img: req.body.path_img,
             path_link: req.body.path_link,
