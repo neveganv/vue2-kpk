@@ -87,44 +87,49 @@ exports.update = (req, res) => {
             message: 'Data to update can not be empty!',
         });
     }
+    let validateError = {
+        status: 400,
+        error: {
+            type: "Validation error",
+            message: "",
+        }
+    };
     if (!req.body.path_img) {
-        return res.status(400).send({
-            message: "Image is required"
-        });
+        validateError.error.message = "Img is required";
+        return res.status(400).send(validateError);
     }
-    if (!req.body.path_link) {
-        return res.status(400).send({
-            message: "Link is required"
-        });
-
+    else if (!req.body.path_link) {
+        validateError.error.message = "Link is required";
+        return res.status(400).send(validateError);
     }
-    if (!req.body.partner_name) {
-        return res.status(400).send({
-            message: "Name is required"
-        });
+    else if (!req.body.partner_name) {
+        validateError.error.message = "Name is required";
+        return res.status(400).send(validateError);
     }
-    const id = req.body.id;
-    Partner.findByIdAndUpdate(
-        id,
-        {
-            path_img: req.body.path_img,
-            path_link: req.body.path_link,
-            partner_name: req.body.partner_name,
-        },
-        { useFindAndModify: false }
-    )
-        .then(data => {
-            if (!data) {
-                res.status(404).send({
-                    message: `Cannot update news with id=${id}.`,
+    else {
+        const id = req.body.id;
+        Partner.findByIdAndUpdate(
+            id,
+            {
+                path_img: req.body.path_img,
+                path_link: req.body.path_link,
+                partner_name: req.body.partner_name,
+            },
+            { useFindAndModify: false }
+        )
+            .then(data => {
+                if (!data) {
+                    res.status(404).send({
+                        message: `Cannot update news with id=${id}.`,
+                    });
+                } else res.send({ message: 'News was updated successfully.' });
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message: 'Error updating News with id=' + id,
                 });
-            } else res.send({ message: 'News was updated successfully.' });
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: 'Error updating News with id=' + id,
             });
-        });
+    }
 };
 exports.deletePartner = (req, res) => {
     if (guardToken.guardToken(req, res)) return false

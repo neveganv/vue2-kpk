@@ -8,36 +8,29 @@ exports.create = (req, res) => {
     if (guardToken.guardToken(req, res)) return false
 
     if (req.body) {
-
         if (!req.body.name) {
-            return res.status(400).send({
-                message: "Name is required"
-            });
+            validateError.error.message = "Name is required";
+            return res.status(400).send(validateError);
         }
         if (!req.body.surname) {
-            return res.status(400).send({
-                message: "Surname is required"
-            });
+            validateError.error.message = "Surname is required";
+            return res.status(400).send(validateError);
         }
         if (!req.body.middle_name) {
-            return res.status(400).send({
-                message: "Middle name is required"
-            });
+            validateError.error.message = "Middle name is required";
+            return res.status(400).send(validateError);
         }
         if (!req.body.parent_phone) {
-            return res.status(400).send({
-                message: "Parent phone is required"
-            });
+            validateError.error.message = "Parent phone is required";
+            return res.status(400).send(validateError);
         }
         if (!req.body.student_phone) {
-            return res.status(400).send({
-                message: "Student phone is required"
-            });
+            validateError.error.message = "Student phone is required";
+            return res.status(400).send(validateError);
         }
         if (!req.body.pass_id) {
-            return res.status(400).send({
-                message: "Pass id is required"
-            });
+            validateError.error.message = "Pass id is required";
+            return res.status(400).send(validateError);
         }
 
         const prepareCourse = new PrepareCourse({
@@ -85,40 +78,41 @@ exports.findPrepareCourseById = (req, res) => {
 exports.update = (req, res) => {
     if (guardToken.guardToken(req, res)) return false
 
+    let validateError = {
+        status: 400,
+        error: {
+            type: "Validation error",
+            message: "",
+        }
+    };
+
     if (!req.body) {
-        return res.status(400).send({
-            message: 'Data to update can not be empty!',
-        });
+        validateError.error.message = "Data to update can not be empty!";
+        return res.status(400).send(validateError);
     }
     if (!req.body.name) {
-        return res.status(400).send({
-            message: "Name is required"
-        });
+        validateError.error.message = "Name is required";
+        return res.status(400).send(validateError);
     }
     if (!req.body.surname) {
-        return res.status(400).send({
-            message: "Surname is required"
-        });
+        validateError.error.message = "Surname is required";
+        return res.status(400).send(validateError);
     }
     if (!req.body.middle_name) {
-        return res.status(400).send({
-            message: "Middle name is required"
-        });
+        validateError.error.message = "Middle name is required";
+        return res.status(400).send(validateError);
     }
     if (!req.body.parent_phone) {
-        return res.status(400).send({
-            message: "Parent phone is required"
-        });
+        validateError.error.message = "Parent phone is required";
+        return res.status(400).send(validateError);
     }
     if (!req.body.student_phone) {
-        return res.status(400).send({
-            message: "Student phone is required"
-        });
+        validateError.error.message = "Student phone is required";
+        return res.status(400).send(validateError);
     }
     if (!req.body.pass_id) {
-        return res.status(400).send({
-            message: "Pass id is required"
-        });
+        validateError.error.message = "Pass id is required";
+        return res.status(400).send(validateError);
     }
 
     const id = req.body.id;
