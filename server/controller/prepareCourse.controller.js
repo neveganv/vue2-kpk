@@ -5,26 +5,66 @@ const guardToken = require("../middleware/guardToken")
 
 // Create a new optionsList
 exports.create = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+    if (guardToken.guardToken(req, res)) return false
 
-    const prepareCourse = new PrepareCourse({
-        name: req.body.name,
-        surname: req.body.surname,
-        middle_name: req.body.middle_name,
-        parent_phone: req.body.parent_phone,
-        student_phone: req.body.student_phone,
-        pass_id: req.body.pass_id,
-    });
-    prepareCourse
-        .save(prepareCourse)
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || 'Some error occurred while creating the preparing course.',
+    if (req.body) {
+
+        if (!req.body.name) {
+            return res.status(400).send({
+                message: "Name is required"
             });
+        }
+        if (!req.body.surname) {
+            return res.status(400).send({
+                message: "Surname is required"
+            });
+        }
+        if (!req.body.middle_name) {
+            return res.status(400).send({
+                message: "Middle name is required"
+            });
+        }
+        if (!req.body.parent_phone) {
+            return res.status(400).send({
+                message: "Parent phone is required"
+            });
+        }
+        if (!req.body.student_phone) {
+            return res.status(400).send({
+                message: "Student phone is required"
+            });
+        }
+        if (!req.body.pass_id) {
+            return res.status(400).send({
+                message: "Pass id is required"
+            });
+        }
+
+        const prepareCourse = new PrepareCourse({
+            name: req.body.name,
+            surname: req.body.surname,
+            middle_name: req.body.middle_name,
+            parent_phone: req.body.parent_phone,
+            student_phone: req.body.student_phone,
+            pass_id: req.body.pass_id,
         });
+        prepareCourse
+            .save(prepareCourse)
+            .then(data => {
+                res.send(data);
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message: err.message || 'Some error occurred while creating the preparing course.',
+                });
+            });
+    }
+    else {
+        return res.status(400).send({
+            message: "Name , surname, middle name , parant phone, student phone , pass id is required"
+        })
+    }
+
 };
 
 exports.findPrepareCourseById = (req, res) => {
@@ -43,13 +83,44 @@ exports.findPrepareCourseById = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+    if (guardToken.guardToken(req, res)) return false
 
     if (!req.body) {
         return res.status(400).send({
             message: 'Data to update can not be empty!',
         });
     }
+    if (!req.body.name) {
+        return res.status(400).send({
+            message: "Name is required"
+        });
+    }
+    if (!req.body.surname) {
+        return res.status(400).send({
+            message: "Surname is required"
+        });
+    }
+    if (!req.body.middle_name) {
+        return res.status(400).send({
+            message: "Middle name is required"
+        });
+    }
+    if (!req.body.parent_phone) {
+        return res.status(400).send({
+            message: "Parent phone is required"
+        });
+    }
+    if (!req.body.student_phone) {
+        return res.status(400).send({
+            message: "Student phone is required"
+        });
+    }
+    if (!req.body.pass_id) {
+        return res.status(400).send({
+            message: "Pass id is required"
+        });
+    }
+
     const id = req.body.id;
     PrepareCourse.findByIdAndUpdate(
         id,
@@ -60,7 +131,7 @@ exports.update = (req, res) => {
             parent_phone: req.body.parent_phone,
             student_phone: req.body.student_phone,
             pass_id: req.body.pass_id,
-            status:req.body.status
+            status: req.body.status
         },
         { useFindAndModify: false }
     )
@@ -79,14 +150,14 @@ exports.update = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
-	PrepareCourse.find().sort({ 'created': 'desc' })
-		.then(data => {
-			res.send(data);
-		})
-		.catch(err => {
-			res.status(500).send({
-				message: err.message || 'Some error occurred while retrieving blogs.',
-			});
-		});
+    if (guardToken.guardToken(req, res)) return false
+    PrepareCourse.find().sort({ 'created': 'desc' })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || 'Some error occurred while retrieving blogs.',
+            });
+        });
 };
