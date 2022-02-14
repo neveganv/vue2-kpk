@@ -15,7 +15,7 @@ exports.create = (req, res) => {
         }
       };
       if (!req.body) {
-        validateError.error.message = "Data to update can not be empty!";
+        validateError.error.message = "Data to create can not be empty!";
         return res.status(400).send(validateError);
       }
       if (!req.body.title) {

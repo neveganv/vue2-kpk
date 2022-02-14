@@ -7,6 +7,16 @@ const guardToken = require("../middleware/guardToken")
 exports.create = (req, res) => {
     if(guardToken.guardToken(req,res)) return  false
 
+    if (!req.body.name) {
+        return res.status(400).send({
+            status: 400,
+            error: {
+                type: "Validation error",
+                message: "Name is required"
+            }
+        });
+    }
+    
     const folder = new Folder({
         name: req.body.name,
     });

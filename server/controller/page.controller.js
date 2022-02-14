@@ -104,7 +104,15 @@ exports.update = (req, res) => {
             message: "Data to update can not be empty!"
         });
     }
-
+    if (!req.body.name) {
+        return res.status(400).send({
+            status: 400,
+            error: {
+                type: "Validation error",
+                message: "Name is required"
+            }
+        });
+    }
     const id = req.params.id;
 
     Page.updateOne(

@@ -5,7 +5,17 @@ const guardToken = require("../middleware/guardToken")
 
 // Create a new optionsList
 exports.create = (req, res) => {
-if(guardToken.guardToken(req,res)) return  false
+	if (guardToken.guardToken(req, res)) return false
+
+	if (!req.body.title) {
+        return res.status(400).send({
+            status: 400,
+            error: {
+                type: "Validation error",
+                message: "Title is required"
+            }
+        });
+    }
 
 	const news = new News({
 		category: req.body.category,
@@ -60,7 +70,7 @@ exports.findAll = (req, res) => {
 	let skip = 0
 	let limit = 0
 	if (req.body.category) {
-		search = {category : req.body.category}
+		search = { category: req.body.category }
 	}
 	if (req.body.page && req.body.limit) {
 		skip = req.body.limit * (req.body.page - 1)
@@ -86,13 +96,22 @@ exports.findAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
-	if(guardToken.guardToken(req,res)) return  false
+	if (guardToken.guardToken(req, res)) return false
 
 	if (!req.body) {
 		return res.status(400).send({
 			message: 'Data to update can not be empty!',
 		});
 	}
+	if (!req.body.title) {
+        return res.status(400).send({
+            status: 400,
+            error: {
+                type: "Validation error",
+                message: "Title is required"
+            }
+        });
+    }
 	const id = req.body.id;
 	News.findByIdAndUpdate(
 		id,
@@ -100,7 +119,7 @@ exports.update = (req, res) => {
 			title: req.body.title,
 			category: new ObjectId(req.body.category),
 			main_img: req.body.main_img,
-     	    content: req.body.content,
+			content: req.body.content,
 		},
 		{ useFindAndModify: false }
 	)
@@ -117,28 +136,28 @@ exports.update = (req, res) => {
 			});
 		});
 };
-exports.deleteNews = (req,res) => {
-	if(guardToken.guardToken(req,res)) return  false
+exports.deleteNews = (req, res) => {
+	if (guardToken.guardToken(req, res)) return false
 
-    const id = req.body.id;
+	const id = req.body.id;
 
-    News.findByIdAndRemove(id)
-      .then(data => {
-        if (!data) {
-          res.status(404).send({
-            message: `Cannot delete news with id=${id}.`
-          });
-        } else {
-          res.send({
-            message: "News was deleted successfully!"
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Could not delete news with id=" + id
-        });
-      });
+	News.findByIdAndRemove(id)
+		.then(data => {
+			if (!data) {
+				res.status(404).send({
+					message: `Cannot delete news with id=${id}.`
+				});
+			} else {
+				res.send({
+					message: "News was deleted successfully!"
+				});
+			}
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: "Could not delete news with id=" + id
+			});
+		});
 
 };
 
@@ -146,38 +165,38 @@ exports.counter = (req, res) => {
 
 	console.log("id: ", req.body.id);
 	const id = req.body.id;
-	News.findByIdAndUpdate(req.body.id, {views: req.body.views})
-	.then(data => {
-		if (!data) {
-			res.status(404).send({
-				message: `Cannot update newsViews with id=${id}.`,
-			});
-		} else res.send({ message: 'newsViews was updated successfully.' });
-	})
-	.catch(err => {
-		res.status(500).send({
-			message: 'Error updating newsViews with id=' + id,
-		});
-	});
-},
-
-exports.findNews = (req, res) => {
-
-	News.find({
-		title:{ $regex : new RegExp(`${req.body.title}`, "i") }
-	})
+	News.findByIdAndUpdate(req.body.id, { views: req.body.views })
 		.then(data => {
-			res.send(data);
+			if (!data) {
+				res.status(404).send({
+					message: `Cannot update newsViews with id=${id}.`,
+				});
+			} else res.send({ message: 'newsViews was updated successfully.' });
 		})
 		.catch(err => {
 			res.status(500).send({
-				message: 'Не вдалось отримати новини.',
+				message: 'Error updating newsViews with id=' + id,
 			});
 		});
-};
+},
+
+	exports.findNews = (req, res) => {
+
+		News.find({
+			title: { $regex: new RegExp(`${req.body.title}`, "i") }
+		})
+			.then(data => {
+				res.send(data);
+			})
+			.catch(err => {
+				res.status(500).send({
+					message: 'Не вдалось отримати новини.',
+				});
+			});
+	};
 
 exports.findByStatus = (req, res) => {
-	
+
 	News.find({
 		isArchived: req.body.isArchived
 	})
