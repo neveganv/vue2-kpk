@@ -66,7 +66,6 @@ export default {
 			deep:true,
 			handler(e){
 				if(e && this.folders.length === 0 && !this.sceletonLoader){
-					console.log(this.sceletonLoader)
 					this.getFolders()
 				}
 			}

@@ -6,7 +6,9 @@
 		class="overflow-hidden"
 		mobile-breakpoint="1626"
 		:persistant="$vuetify.breakpoint.mdAndDown"
-		:style="onActiveHeader ? 'padding-top:62px; transition:.4s' : 'transition:.4s'"
+		:style="
+			onActiveHeader ? 'padding-top:62px; transition:.4s' : 'transition:.4s'
+		"
 	>
 		<div class="navigation">
 			<v-sheet>
@@ -125,7 +127,6 @@
 			</v-sheet>
 		</div>
 	</v-navigation-drawer>
-
 </template>
 
 <script>
@@ -180,7 +181,8 @@ export default {
 			try {
 				this.isLoadingSponsor = true;
 				this.sponsors = await partnersService.getAll();
-				this.isDraw = this.$vuetify.breakpoint.mdAndDown ? false : true;
+
+				this.isDraw = this.$vuetify.breakpoint.width <= 1626 ? false : true;
 				this.isLoadingSponsor = false;
 			} catch (e) {
 				this.isLoadingSponsor = false;

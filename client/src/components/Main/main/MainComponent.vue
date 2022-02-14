@@ -141,6 +141,7 @@ export default {
 		isShowNews: false,
 		isShowAbout: false,
 		isSpecialities: false,
+		globalRightNavigation: '',
 	}),
 	components: {
 		MyHeader,
@@ -165,6 +166,10 @@ export default {
 		},
 	},
 	mounted() {
+		this.globalRightNavigation = this.$vuetify.breakpoint.width <= 1626
+			? false
+			: true;
+			console.log(this.$vuetify.breakpoint)
 		window.addEventListener('scroll', this.onScroll);
 		if (this.$vuetify.breakpoint.mdAndDown) {
 			this.navigationRight = false;
@@ -195,10 +200,10 @@ export default {
 			this.windowTop = e.target.documentElement.scrollTop;
 		},
 		onIntersect(entries, observer) {
-			if (!this.$vuetify.breakpoint.mdAndDown) {
+			if (!this.$vuetify.breakpoint.mdAndDown && this.globalRightNavigation) {
 				this.navigationRight = !entries[0].isIntersecting;
-				this.isShowAbout = entries[0].isIntersecting;
 			}
+			this.isShowAbout = entries[0].isIntersecting;
 		},
 		onIntersectFooter(entries, observer) {
 			this.isShowFooter = entries[0].isIntersecting;
@@ -216,8 +221,9 @@ export default {
 			this.navigationRight = e;
 		},
 		loadedMain() {},
-		onBurger() {
+		onBurger(e) {
 			this.navigationRight = !this.navigationRight;
+			this.globalRightNavigation = !this.globalRightNavigation;
 		},
 	},
 };

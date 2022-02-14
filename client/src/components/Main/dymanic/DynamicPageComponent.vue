@@ -41,7 +41,10 @@
 						:sceletonLoader="anotherSceletonLoader"
 					/>
 				</VCol>
-				<footer-component />
+				<footer-component
+					:isShowFooter="isShowFooter"
+					v-intersect="onIntersectFooter"
+				/>
 			</VRow>
 		</div>
 		<div class="main-navigation-right">
@@ -70,11 +73,13 @@ export default {
 		PageDeleted: false,
 		navigationRight: '',
 		anotherSceletonLoader: false,
+		isShowFooter: false,
 	}),
 	watch: {
 		$route: {
 			deep: true,
 			handler(e) {
+				window.scrollTo(0, 0);
 				this.getPage();
 			},
 		},
@@ -91,6 +96,9 @@ export default {
 		this.getNews();
 	},
 	methods: {
+		onIntersectFooter(entries, observer) {
+			this.isShowFooter = entries[0].isIntersecting;
+		},
 		onBurgerNav(e) {
 			this.navigationRight = e;
 		},
