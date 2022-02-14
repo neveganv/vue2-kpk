@@ -8,24 +8,22 @@ const guardToken = require("../middleware/guardToken")
 exports.create = (req, res) => {
     if (guardToken.guardToken(req, res)) return false
     if (req.body) {
-        if(!req.body.path_img){ 
-            res.status(500).send({
+        if (!req.body.path_img) {
+            return res.status(400).send({
                 message: "Image is required"
             });
-            return false
-         }
-         if(!req.body.path_link){ 
-            res.status(500).send({
+        }
+        if (!req.body.path_link) {
+            return res.status(400).send({
                 message: "Link is required"
             });
-            return false
-         }
-         if(!req.body.partner_name){ 
-            res.status(500).send({
+
+        }
+        if (!req.body.partner_name) {
+            return res.status(400).send({
                 message: "Name is required"
             });
-            return false
-         }
+        }
         const partner = new Partner({
             path_img: req.body.path_img,
             path_link: req.body.path_link,
@@ -43,7 +41,7 @@ exports.create = (req, res) => {
             });
     }
     else {
-        res.status(500).send({
+        return res.status(400).send({
             message: "Image,link and partner name is required"
         });
     }
@@ -82,6 +80,22 @@ exports.update = (req, res) => {
     if (!req.body) {
         return res.status(400).send({
             message: 'Data to update can not be empty!',
+        });
+    }
+    if (!req.body.path_img) {
+        return res.status(400).send({
+            message: "Image is required"
+        });
+    }
+    if (!req.body.path_link) {
+        return res.status(400).send({
+            message: "Link is required"
+        });
+
+    }
+    if (!req.body.partner_name) {
+        return res.status(400).send({
+            message: "Name is required"
         });
     }
     const id = req.body.id;
