@@ -17,4 +17,15 @@ function uploadFile(name, image) {
     return status
 }
 
-module.exports = { uploadFile }
+function deleteFile(url) {
+    const splits = url.split('/')
+
+    var pathImage = path.join(__dirname, "../public/uploads/")
+    let fullPath = pathImage + splits[4]
+    if (fs.existsSync(fullPath)) {
+        fs.unlinkSync(fullPath)
+    }
+
+}
+
+module.exports = { uploadFile, deleteFile }

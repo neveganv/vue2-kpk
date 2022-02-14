@@ -18,26 +18,8 @@ exports.create = (req, res) => {
 			}
 		});
 	}
-	else if (!req.body.category) {
-		return res.status(400).send({
-			status: 400,
-			error: {
-				type: "Validation error",
-				message: "Category is required"
-			}
-		});
-	}
-	else if (!req.body.main_img) {
-		return res.status(400).send({
-			status: 400,
-			error: {
-				type: "Validation error",
-				message: "Main image is required"
-			}
-		});
-	}
 
-	let name = "news" + code.generate() + '.jpg';
+	let name = "news " + code.generate() + '.jpg';
 	let status = uploadImage.uploadFile(name, req.body.main_img)	
 	if (status == 500) {
 		return res.status(400).send({
@@ -196,7 +178,7 @@ exports.deleteNews = (req, res) => {
 					message: `Cannot delete news with id=${id}.`
 				});
 			} else {
-				console.log(data)
+				uploadImage.deleteFile(data.main_img)	
 				res.send({
 					message: "News was deleted successfully!"
 				});
