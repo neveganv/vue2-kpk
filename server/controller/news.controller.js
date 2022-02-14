@@ -196,6 +196,7 @@ exports.deleteNews = (req, res) => {
 					message: `Cannot delete news with id=${id}.`
 				});
 			} else {
+				console.log(data)
 				res.send({
 					message: "News was deleted successfully!"
 				});
