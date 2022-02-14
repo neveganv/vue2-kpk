@@ -130,7 +130,7 @@ exports.update = (req, res) => {
 	const id = req.body.id;
 
 	if (req.body.main_img && !req.body.main_img.startsWith(req.protocol + '://' + req.get('host') + '/uploads/')) {
-	let name = "news" + code.generate() + '.jpg';
+	let name = "news-" + code.generate() + '.jpg';
 	let status = uploadImage.uploadFile(name, req.body.main_img)	
 	if (status == 500) {
 		return res.status(400).send({
