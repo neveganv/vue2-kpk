@@ -22,6 +22,8 @@ app.get("*", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
 
+app.use('/uploads', express.static(__dirname + '/public/uploads'));
+
 //routes
 app.use('/api/news', require('./routes/api/news'))
 app.use('/api/user', require('./routes/api/user'))

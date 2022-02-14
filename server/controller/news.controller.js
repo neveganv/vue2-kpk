@@ -2,26 +2,58 @@ const db = require('../models');
 const News = db.news;
 const { ObjectId } = require('bson');
 const guardToken = require("../middleware/guardToken")
+const code = require('../generator/passwordGenerator');
+const uploadImage = require('../uploader/uploader');
 
 // Create a new optionsList
 exports.create = (req, res) => {
 	if (guardToken.guardToken(req, res)) return false
 
 	if (!req.body.title) {
-        return res.status(400).send({
-            status: 400,
-            error: {
-                type: "Validation error",
-                message: "Title is required"
-            }
-        });
-    }
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Validation error",
+				message: "Title is required"
+			}
+		});
+	}
+	else if (!req.body.category) {
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Validation error",
+				message: "Category is required"
+			}
+		});
+	}
+	else if (!req.body.main_img) {
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Validation error",
+				message: "Main image is required"
+			}
+		});
+	}
+
+	let name = "news" + code.generate() + '.jpg';
+	let status = uploadImage.uploadFile(name, req.body.main_img)	
+	if (status == 500) {
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Image error",
+				message: "Error with uploading image"
+			}
+		});
+	}
 
 	const news = new News({
 		category: req.body.category,
 		title: req.body.title,
 		content: req.body.content,
-		main_img: req.body.main_img,
+		main_img: req.protocol + '://' + req.get('host') + '/uploads/' + name,
 		created_time: req.body.created_time,
 	});
 	news
@@ -104,15 +136,31 @@ exports.update = (req, res) => {
 		});
 	}
 	if (!req.body.title) {
-        return res.status(400).send({
-            status: 400,
-            error: {
-                type: "Validation error",
-                message: "Title is required"
-            }
-        });
-    }
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Validation error",
+				message: "Title is required"
+			}
+		});
+	}
+
 	const id = req.body.id;
+
+	if (req.body.main_img && !req.body.main_img.startsWith(req.protocol + '://' + req.get('host') + '/uploads/')) {
+	let name = "news" + code.generate() + '.jpg';
+	let status = uploadImage.uploadFile(name, req.body.main_img)	
+	if (status == 500) {
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Image error",
+				message: "Error with uploading image"
+			}
+		});
+	}
+	req.body.main_img = req.protocol + '://' + req.get('host') + '/uploads/' + name
+}
 	News.findByIdAndUpdate(
 		id,
 		{
