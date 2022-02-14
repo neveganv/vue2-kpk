@@ -37,7 +37,7 @@
 				<VCol cols="12" xl="4" lg="4" md="4" sm="12">
 					<AnotherSpecialitiesList
 						:specialities="specialities"
-						:sceletonLoader="sceletonLoader"
+						:sceletonLoader="anotherSceletonLoader"
 					/>
 				</VCol>
 			</VRow>
@@ -64,6 +64,7 @@ export default {
 		specialities: [],
 		sceletonLoader: false,
 		navigationRight: '',
+		anotherSceletonLoader:false
 	}),
 	components: {
 		MyHeader,
@@ -82,6 +83,7 @@ export default {
 	},
 	mounted() {
 		this.getSpeciality();
+		this.getSpecialities();
 	},
 	methods: {
 		onBurgerNav(e) {
@@ -97,20 +99,20 @@ export default {
 				id: this.$route.params.id,
 			});
 			this.specialitie = newSpeciality;
-			this.getSpecialities();
+			this.sceletonLoader = false;
 		},
 		async getSpecialities() {
+			this.anotherSceletonLoader = true;
 			this.specialities = await specialityService.getAllSpecialty();
 			this.specialities = this.specialities.filter(
 				e => e._id != this.specialitie._id
 			);
 			this.specialities = this.specialities.splice(0, 4);
 
-			this.sceletonLoader = false;
+			this.anotherSceletonLoader = false;
 		},
 	},
 };
 </script>
 
-<style>
-</style>
+<style></style>

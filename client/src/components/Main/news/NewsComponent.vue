@@ -31,7 +31,7 @@
 					<NewsInner :newItem="newItem" :sceletonLoader="sceletonLoader" />
 				</VCol>
 				<VCol cols="12" xl="4" lg="4" md="4" sm="12">
-					<AnotherNewsList :news="news" :sceletonLoader="sceletonLoader" />
+					<AnotherNewsList :news="news" :sceletonLoader="anotherSceletonLoader" />
 				</VCol>
 			</VRow>
 		</div>
@@ -57,7 +57,8 @@ export default {
 		newItem: [],
 		news: [],
 		sceletonLoader: false,
-		navigationRight:'',
+		navigationRight: '',
+		anotherSceletonLoader:false
 	}),
 	components: {
 		MyHeader,
@@ -76,6 +77,7 @@ export default {
 	},
 	mounted() {
 		this.getNewItem();
+		this.getNews();
 	},
 	methods: {
 		onBurgerNav(e) {
@@ -86,13 +88,20 @@ export default {
 		},
 		async getNews() {
 			try {
-				await newsService.getAllNews().then(res => {
-					this.news = res.result;
-					this.news = this.news.filter(e => e._id !== this.$route.params.id);
-					this.news.sort((a, b) => b.views - a.views);
-					this.sceletonLoader = false;
-				});
+				this.anotherSceletonLoader = true
+				await newsService
+					.getAllNews({
+						limit: 4,
+						page: 1,
+					})
+					.then(res => {
+						this.news = res.result;
+						this.news = this.news.filter(e => e._id !== this.$route.params.id);
+						this.news.sort((a, b) => b.views - a.views);
+					});
+						this.anotherSceletonLoader = false
 			} catch (e) {
+				this.anotherSceletonLoader = false
 				alert(e);
 			}
 		},
@@ -102,9 +111,9 @@ export default {
 				this.newItem = await newsService.getSimpleNewsById({
 					id: this.$route.params.id,
 				});
-				console.log(this.newItem);
-				this.getNews();
+				this.sceletonLoader = false;
 			} catch (e) {
+				this.sceletonLoader = false;
 				alert(e);
 			}
 		},

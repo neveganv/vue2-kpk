@@ -98,8 +98,21 @@ import collegeInfoServices from '@/request/collegeInfo/collegeInfoServices';
 
 export default {
 	components: { aboutDialog },
-	mounted() {
-		this.getAllImages();
+	mounted() {},
+	props: {
+		isShowAbout: {
+			require: true,
+		},
+	},
+	watch: {
+		isShowAbout: {
+			deep: true,
+			handler(e) {
+				if (e && this.images === 0 ) {
+					this.getAllImages();
+				}
+			},
+		},
 	},
 	methods: {
 		async getAllImages() {

@@ -36,7 +36,10 @@
 				</VCol>
 
 				<VCol cols="12" xl="4" lg="4" md="4" sm="12">
-					<AnotherNewsList :news="news" :sceletonLoader="sceletonLoader" />
+					<AnotherNewsList
+						:news="news"
+						:sceletonLoader="anotherSceletonLoader"
+					/>
 				</VCol>
 				<footer-component />
 			</VRow>
@@ -65,7 +68,8 @@ export default {
 		sceletonLoader: false,
 		news: [],
 		PageDeleted: false,
-		navigationRight:'',
+		navigationRight: '',
+		anotherSceletonLoader: false,
 	}),
 	watch: {
 		$route: {
@@ -84,6 +88,7 @@ export default {
 	},
 	mounted() {
 		this.getPage();
+		this.getNews();
 	},
 	methods: {
 		onBurgerNav(e) {
@@ -102,17 +107,24 @@ export default {
 				this.PageDeleted = true;
 				this.sceletonLoader = false;
 			}
-			this.getNews();
+			this.sceletonLoader = false;
 		},
 		async getNews() {
 			try {
-				await newsService.getAllNews().then(res => {
-					this.news = res.result;
-					this.news = this.news.filter(e => e._id !== this.$route.params.id);
-					this.news.sort((a, b) => b.views - a.views);
-					this.sceletonLoader = false;
-				});
+				this.anotherSceletonLoader = true;
+				await newsService
+					.getAllNews({
+						limit: 4,
+						page: 1,
+					})
+					.then(res => {
+						this.news = res.result;
+						this.news = this.news.filter(e => e._id !== this.$route.params.id);
+						this.news.sort((a, b) => b.views - a.views);
+						this.anotherSceletonLoader = false;
+					});
 			} catch (e) {
+				this.anotherSceletonLoader = false;
 				alert(e);
 			}
 		},
@@ -120,6 +132,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

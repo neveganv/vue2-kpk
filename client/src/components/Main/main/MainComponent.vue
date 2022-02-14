@@ -55,7 +55,7 @@
 				<CoolNews />
 			</div>
 			<!-- specialities  -->
-			<div class="my-container">
+			<div class="my-container" v-intersect="onIntersectSpecialities">
 				<VRow
 					align="center"
 					justify="space-between"
@@ -86,24 +86,26 @@
 						програмами (ОПП)
 					</VCol>
 				</VRow>
-				<SpecialitiesList />
+				<SpecialitiesList :isSpecialities="isSpecialities" />
 			</div>
 			<div class="my-10" id="AboutComponent" v-intersect="onIntersect">
-				<about-component />
+				<about-component :isShowAbout="isShowAbout" />
 			</div>
 			<!-- news list -->
 			<div
 				class="my-container"
+				v-intersect="onIntersectNews"
 				:class="{ 'mt-5': $vuetify.breakpoint.mdAndDown }"
 			>
-				<MainNewsList />
+				<MainNewsList :isShowNews="isShowNews" />
 			</div>
 			<div
+				v-intersect="onIntersectFooter"
 				class="my-container"
 				style="margin-top: 120px"
 				id="InformationComponent"
 			>
-				<FooterComponent />
+				<FooterComponent :isShowFooter="isShowFooter" />
 			</div>
 			<div class="my-4">
 				<my-header menu="true" @onBurger="onBurger" />
@@ -135,6 +137,10 @@ export default {
 		windowTop: 0,
 		oldValueTop: 0,
 		onActiveHeader: false,
+		isShowFooter: false,
+		isShowNews: false,
+		isShowAbout: false,
+		isSpecialities: false,
 	}),
 	components: {
 		MyHeader,
@@ -152,7 +158,7 @@ export default {
 	watch: {
 		windowTop(e) {
 			if (this.oldValueTop > e && e > 0) {
-				this.onActiveHeader = true
+				this.onActiveHeader = true;
 			} else {
 				this.onActiveHeader = false;
 			}
@@ -191,7 +197,17 @@ export default {
 		onIntersect(entries, observer) {
 			if (!this.$vuetify.breakpoint.mdAndDown) {
 				this.navigationRight = !entries[0].isIntersecting;
+				this.isShowAbout = entries[0].isIntersecting;
 			}
+		},
+		onIntersectFooter(entries, observer) {
+			this.isShowFooter = entries[0].isIntersecting;
+		},
+		onIntersectNews(entries, observer) {
+			this.isShowNews = entries[0].isIntersecting;
+		},
+		onIntersectSpecialities(entries, observer) {
+			this.isSpecialities = entries[0].isIntersecting;
 		},
 		onCloseNavigation() {
 			this.navigationRight = false;
@@ -199,8 +215,7 @@ export default {
 		onBurgerNav(e) {
 			this.navigationRight = e;
 		},
-		loadedMain() {
-		},
+		loadedMain() {},
 		onBurger() {
 			this.navigationRight = !this.navigationRight;
 		},

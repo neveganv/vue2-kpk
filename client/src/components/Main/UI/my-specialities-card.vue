@@ -4,7 +4,7 @@
 		<v-slide-x-transition>
 			<div class="card__title" v-if="!sceletonLoader">
 				<div class="title__number">{{ '0' + indexSpecialitie || '--' }}</div>
-				<div class="title__text" :class="{'edit' : edit}">
+				<div class="title__text text-truncate" :class="{'edit' : edit}">
 					{{ specialitie.name || '--' }} ({{ specialitie.number || '--' }})
 				</div>
 			</div>
@@ -96,7 +96,7 @@ export default {
 			padding-top: 7px;
 			max-width: 250px;
 			width: 100%;
-			height: 65px;
+			height: 45px;
 			font-weight: 600;
 			font-size: 15px;
 			line-height: 15px;
@@ -121,7 +121,7 @@ export default {
 		content: '';
 		position: absolute;
 		width: 2px;
-		height: 300px;
+		height: 280px;
 		left: 0;
 		top: 0;
 		background: #b0a8b9;

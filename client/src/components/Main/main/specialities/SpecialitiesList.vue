@@ -19,8 +19,8 @@
 					:indexSpecialitie="index + 1"
 				/>
 			</VCol>
-			<VRow no-gutters class="w-100 mt-5" v-if="isLoadMore" >
-				<VCol cols="12" class="text-center" >
+			<VRow no-gutters class="w-100 mt-5" v-if="isLoadMore">
+				<VCol cols="12" class="text-center">
 					<VBtn outlined color="#EF876D" rounded @click="onEmitPage">
 						Показати більше
 					</VBtn>
@@ -35,7 +35,12 @@
 			justify-sm="space-around"
 			justify-md="space-around"
 		>
-			<VCol v-for="index in this.$vuetify.breakpoint.smAndDown ? 2 : 6" :key="index" cols="auto" class="mt-5 mx-auto">
+			<VCol
+				v-for="index in this.$vuetify.breakpoint.smAndDown ? 2 : 6"
+				:key="index"
+				cols="auto"
+				class="mt-5 mx-auto"
+			>
 				<MySpecialitiesCard :sceletonLoader="SceletonLoader" />
 			</VCol>
 		</VRow>
@@ -56,8 +61,20 @@ export default {
 	components: {
 		MySpecialitiesCard,
 	},
-	mounted() {
-		this.getSpecialities();
+	props: {
+		isSpecialities: {
+			require: true,
+		},
+	},
+	watch: {
+		isSpecialities: {
+			deep: true,
+			handler(e) {
+				if (e && this.specialities.length === 0 && !this.SceletonLoader) {
+					this.getSpecialities();
+				}
+			},
+		},
 	},
 	methods: {
 		onEmitPage() {
@@ -75,22 +92,21 @@ export default {
 		getPaginateSpeciality() {
 			this.isLoadMore = this.specialities.length > this.page * this.limit;
 			const newSpecialities = [...this.specialities].splice(
-				 0 ,
+				0,
 				this.limit * this.page
 			);
 
-				this.specialitiesCopy = newSpecialities;
+			this.specialitiesCopy = newSpecialities;
 
 			return this.specialitiesCopy;
 		},
-		limit(){
-			if(this.$vuetify.breakpoint.smAndDown){
-				return 2
-			}else{
-				return 6
+		limit() {
+			if (this.$vuetify.breakpoint.smAndDown) {
+				return 2;
+			} else {
+				return 6;
 			}
-		}
-
+		},
 	},
 };
 </script>

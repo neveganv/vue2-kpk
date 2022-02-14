@@ -53,13 +53,26 @@ export default {
 		changeNews: [],
 		categories: [],
 	}),
+	props: {
+		isShowNews: {
+			require: true,
+		},
+	},
+	watch: {
+		isShowNews: {
+			deep: true,
+			handler(e) {
+				if (e && this.news.length === 0 && !this.sceletonLoader) {
+					this.getNews();
+				}
+			},
+		},
+	},
 	components: {
 		MainNewsCategoryList,
 		NewsList,
 	},
-	mounted() {
-		this.getNews();
-	},
+	mounted() {},
 	methods: {
 		changePage(e) {
 			if (this.recentPage != e) {

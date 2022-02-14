@@ -51,12 +51,28 @@ import pageService from '@/request/page/pageService';
 export default {
 	components: { myDivider },
 	mounted() {
-		this.getFolders();
 	},
 	data: () => ({
 		folders: [],
 		sceletonLoader: false,
 	}),
+	props:{
+		isShowFooter:{
+			require:true
+		}
+	},
+	watch:{
+		isShowFooter:{
+			deep:true,
+			handler(e){
+				if(e && this.folders.length === 0 && !this.sceletonLoader){
+					console.log(this.sceletonLoader)
+					this.getFolders()
+				}
+			}
+		}
+
+	},
 	methods: {
 		onClickPage(e) {
 			this.$router.push({ path: `/page/${e}` });
