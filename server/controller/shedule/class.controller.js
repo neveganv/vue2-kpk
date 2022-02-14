@@ -5,6 +5,23 @@ const guardToken = require("../../middleware/guardToken")
 // Create a new optionsList
 exports.create = (req, res) => {
     if(guardToken.guardToken(req,res)) return  false
+
+    let validateError = {
+        status: 400,
+        error: {
+            type: "Validation error",
+            message: "",
+        }
+    };
+    if (!req.body.name) {
+        validateError.error.message = "Name is required";
+        return res.status(400).send(validateError);
+    }
+    else if (!req.body.color) {
+        validateError.error.message = "Color is required";
+        return res.status(400).send(validateError);
+    }
+
       const classes = new Classes({
           name: req.body.name,
           color: req.body.color

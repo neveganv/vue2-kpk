@@ -8,6 +8,30 @@ const guardToken = require("../../middleware/guardToken")
 exports.create = (req, res) => {
 	if(guardToken.guardToken(req,res)) return  false
 
+	let validateError = {
+        status: 400,
+        error: {
+            type: "Validation error",
+            message: "",
+        }
+    };
+    if (!req.body.name) {
+        validateError.error.message = "Name is required";
+        return res.status(400).send(validateError);
+    }
+    else if (!req.body.color) {
+        validateError.error.message = "Color is required";
+        return res.status(400).send(validateError);
+    }
+	else if (!req.body.start) {
+        validateError.error.message = "Start time is required";
+        return res.status(400).send(validateError);
+    }
+	else if (!req.body.end) {
+        validateError.error.message = "End time is required";
+        return res.status(400).send(validateError);
+    }
+
 	const event = new Event({
 		name: req.body.class,
 		group: req.body.group,
