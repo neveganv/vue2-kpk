@@ -57,6 +57,15 @@ exports.create = async(req, res) => {
 };
 
 exports.findByGroup = (req, res) => {
+	if (!req.body.group) {
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Validation error",
+				message: "Group is required"
+			}
+		});
+	}
 	Event.find({
 		group: req.body.group,
 	})
@@ -75,6 +84,15 @@ exports.findByGroup = (req, res) => {
 };
 
 exports.findEventById = (req, res) => {
+	if (!req.body.id) {
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Validation error",
+				message: "ID is required"
+			}
+		});
+	}
 	Event.find({
 		_id: req.body.id,
 	})

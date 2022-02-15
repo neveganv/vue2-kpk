@@ -133,6 +133,15 @@ exports.deleteCoolNews = async(req, res) => {
 };
 
 exports.findCoolNews = (req, res) => {
+	if (!req.body.title) {
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Validation error",
+				message: "Title is required"
+			}
+		});
+	}
 	CoolNews.find({
 		title: { $regex: new RegExp(`${req.body.title}`, 'i') },
 	})

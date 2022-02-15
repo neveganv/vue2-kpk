@@ -6,7 +6,7 @@ const code = require('../generator/passwordGenerator');
 const uploadImage = require('../uploader/uploader');
 
 // Create a new optionsList
-exports.create = async(req, res) => {
+exports.create = async (req, res) => {
 	if (await guardToken.guardToken(req, res)) return false
 
 	if (!req.body.title) {
@@ -20,7 +20,7 @@ exports.create = async(req, res) => {
 	}
 
 	let name = "news-" + code.generate() + '.jpg';
-	let status = uploadImage.uploadFile(name, req.body.main_img)	
+	let status = uploadImage.uploadFile(name, req.body.main_img)
 	if (status == 500) {
 		return res.status(400).send({
 			status: 400,
@@ -109,7 +109,7 @@ exports.findAll = (req, res) => {
 		});
 };
 
-exports.update = async(req, res) => {
+exports.update = async (req, res) => {
 	if (await guardToken.guardToken(req, res)) return false
 
 	if (!req.body) {
@@ -130,19 +130,19 @@ exports.update = async(req, res) => {
 	const id = req.body.id;
 
 	if (req.body.main_img && !req.body.main_img.startsWith(req.protocol + '://' + req.get('host') + '/uploads/')) {
-	let name = "news-" + code.generate() + '.jpg';
-	let status = uploadImage.uploadFile(name, req.body.main_img)	
-	if (status == 500) {
-		return res.status(400).send({
-			status: 400,
-			error: {
-				type: "Image error",
-				message: "Error with uploading image"
-			}
-		});
+		let name = "news-" + code.generate() + '.jpg';
+		let status = uploadImage.uploadFile(name, req.body.main_img)
+		if (status == 500) {
+			return res.status(400).send({
+				status: 400,
+				error: {
+					type: "Image error",
+					message: "Error with uploading image"
+				}
+			});
+		}
+		req.body.main_img = req.protocol + '://' + req.get('host') + '/uploads/' + name
 	}
-	req.body.main_img = req.protocol + '://' + req.get('host') + '/uploads/' + name
-}
 	News.findByIdAndUpdate(
 		id,
 		{
@@ -166,7 +166,7 @@ exports.update = async(req, res) => {
 			});
 		});
 };
-exports.deleteNews = async(req, res) => {
+exports.deleteNews = async (req, res) => {
 	if (await guardToken.guardToken(req, res)) return false
 
 	const id = req.body.id;
@@ -178,7 +178,7 @@ exports.deleteNews = async(req, res) => {
 					message: `Cannot delete news with id=${id}.`
 				});
 			} else {
-				uploadImage.deleteFile(data.main_img)	
+				uploadImage.deleteFile(data.main_img)
 				res.send({
 					message: "News was deleted successfully!"
 				});
@@ -211,6 +211,15 @@ exports.counter = (req, res) => {
 
 	exports.findNews = (req, res) => {
 
+		if (!req.body.title) {
+			return res.status(400).send({
+				status: 400,
+				error: {
+					type: "Validation error",
+					message: "Title is required"
+				}
+			});
+		}
 		News.find({
 			title: { $regex: new RegExp(`${req.body.title}`, "i") }
 		})
