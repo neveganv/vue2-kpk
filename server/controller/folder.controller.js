@@ -63,6 +63,15 @@ exports.findAll = (req, res) => {
 };
 
 exports.findById = (req, res) => {
+    if (!req.body._id) {
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Validation error",
+				message: "Field _id is required"
+			}
+		});
+	}
     Page.find({ _id: req.body._id })
         .then(data => {
             res.send(data);
