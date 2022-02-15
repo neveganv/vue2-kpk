@@ -16,8 +16,8 @@ exports.findAll = (req, res) => {
 };
 
 // update entrant info by id
-exports.update = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+exports.update = async(req, res) => {
+    if(await guardToken.guardToken(req,res)) return  false
 
     if (!req.body) {
         return res.status(400).send({

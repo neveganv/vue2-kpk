@@ -3,8 +3,8 @@ const CoolNews = db.coolNews;
 const guardToken = require('../../middleware/guardToken');
 
 // Create a new news
-exports.create = (req, res) => {
-	if (guardToken.guardToken(req, res)) return false;
+exports.create = async(req, res) => {
+	if (await guardToken.guardToken(req, res)) return false;
 
 	if (!req.body.title) {
         return res.status(400).send({
@@ -50,7 +50,6 @@ exports.findCoolNewsById = (req, res) => {
 
 exports.findAll = (req, res) => {
 	let search = {};
-	console.log(req.body.status);
 	if (req.body.status == 'available') {
 		search = { isArchived: 0 };
 	} else if (req.body.status == 'archived') {
@@ -68,8 +67,8 @@ exports.findAll = (req, res) => {
 		});
 };
 
-exports.updateCoolNews = (req, res) => {
-	if(guardToken.guardToken(req,res)) return  false
+exports.updateCoolNews = async(req, res) => {
+	if(await guardToken.guardToken(req,res)) return  false
 
 	if (!req.body) {
 		return res.status(400).send({
@@ -109,8 +108,8 @@ exports.updateCoolNews = (req, res) => {
 			});
 		});
 };
-exports.deleteCoolNews = (req, res) => {
-	if(guardToken.guardToken(req,res)) return  false
+exports.deleteCoolNews = async(req, res) => {
+	if(await guardToken.guardToken(req,res)) return  false
 
 	const id = req.body.id;
 
@@ -147,10 +146,9 @@ exports.findCoolNews = (req, res) => {
 		});
 };
 
-exports.findByStatus = (req, res) => {
-	console.log(req.body.isArchived);
+exports.findByStatus = async(req, res) => {
 	if(req.body.isArchived != 0){
-		if(guardToken.guardToken(req,res)) return  false
+		if(await guardToken.guardToken(req,res)) return  false
 	}
 	CoolNews.find({
 		isArchived: req.body.isArchived,

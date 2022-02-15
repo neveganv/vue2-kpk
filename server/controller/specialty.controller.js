@@ -4,8 +4,8 @@ const guardToken = require("../middleware/guardToken")
 
 
 // Create a new specialty
-exports.create = (req, res) => {
-  if (guardToken.guardToken(req, res)) return false
+exports.create = async(req, res) => {
+  if (await guardToken.guardToken(req, res)) return false
 
   let validateError = {
     status: 400,
@@ -80,8 +80,8 @@ exports.findById = (req, res) => {
 
 };
 
-exports.update = (req, res) => {
-  if (guardToken.guardToken(req, res)) return false
+exports.update = async(req, res) => {
+  if (await guardToken.guardToken(req, res)) return false
   let validateError = {
     status: 400,
     error: {
@@ -148,8 +148,8 @@ exports.findSpecialty = (req, res) => {
     });
 };
 
-exports.deleteSpecialty = (req, res) => {
-  if (guardToken.guardToken(req, res)) return false
+exports.deleteSpecialty = async(req, res) => {
+  if (await guardToken.guardToken(req, res)) return false
 
   const id = req.body.id;
 

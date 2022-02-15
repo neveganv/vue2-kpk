@@ -6,8 +6,8 @@ const code = require('../generator/passwordGenerator');
 const uploadImage = require('../uploader/uploader');
 
 // Create a new optionsList
-exports.create = (req, res) => {
-	if (guardToken.guardToken(req, res)) return false
+exports.create = async(req, res) => {
+	if (await guardToken.guardToken(req, res)) return false
 
 	if (!req.body.title) {
 		return res.status(400).send({
@@ -109,8 +109,8 @@ exports.findAll = (req, res) => {
 		});
 };
 
-exports.update = (req, res) => {
-	if (guardToken.guardToken(req, res)) return false
+exports.update = async(req, res) => {
+	if (await guardToken.guardToken(req, res)) return false
 
 	if (!req.body) {
 		return res.status(400).send({
@@ -166,8 +166,8 @@ exports.update = (req, res) => {
 			});
 		});
 };
-exports.deleteNews = (req, res) => {
-	if (guardToken.guardToken(req, res)) return false
+exports.deleteNews = async(req, res) => {
+	if (await guardToken.guardToken(req, res)) return false
 
 	const id = req.body.id;
 
@@ -193,8 +193,6 @@ exports.deleteNews = (req, res) => {
 };
 
 exports.counter = (req, res) => {
-
-	console.log("id: ", req.body.id);
 	const id = req.body.id;
 	News.findByIdAndUpdate(req.body.id, { views: req.body.views })
 		.then(data => {

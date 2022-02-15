@@ -4,8 +4,8 @@ const guardToken = require("../middleware/guardToken")
 
 
 // Create a new position
-exports.create = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+exports.create = async(req, res) => {
+    if(await guardToken.guardToken(req,res)) return  false
 
     let validateError = {
         status: 400,
@@ -45,8 +45,8 @@ exports.create = (req, res) => {
 };
 
 // find all positions
-exports.findAll = (req, res) => {
-    if(guardToken.guardToken(req,res)) return false
+exports.findAll = async(req, res) => {
+    if(await guardToken.guardToken(req,res)) return false
     Position.find()
         .then(data => {
             res.send(data);

@@ -16,8 +16,8 @@ exports.findAll = (req, res) => {
     });
 };
 
-exports.create = (req, res) => {
-  if (guardToken.guardToken(req, res)) return false
+exports.create = async(req, res) => {
+  if (await guardToken.guardToken(req, res)) return false
 
   if (!req.body.img) {
     return res.status(400).send({
@@ -44,8 +44,8 @@ exports.create = (req, res) => {
     });
 };
 
-exports.delete = (req, res) => {
-  if (guardToken.guardToken(req, res)) return false
+exports.delete = async(req, res) => {
+  if (await guardToken.guardToken(req, res)) return false
 
   const id = req.body.id;
 

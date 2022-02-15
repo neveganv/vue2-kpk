@@ -2,10 +2,10 @@ import axios from 'axios';
 import store from '@/store';
 import router from '@/router';
 
-// const API_ENDPOINT = 'http://localhost:8000'
+const API_ENDPOINT = 'http://localhost:8000'
 // const API_ENDPOINT = 'http://3.66.167.5'
 // const API_ENDPOINT = 'https://www.api-kpkdev.tk'
-const API_ENDPOINT = 'http://3.69.239.163'
+// const API_ENDPOINT = 'http://3.69.239.163'
 
 
 const TOKEN_NAME = 'token';

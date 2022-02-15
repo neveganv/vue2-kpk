@@ -3,8 +3,8 @@ const Group = db.group
 const guardToken = require("../../middleware/guardToken")
 
 // Create a new optionsList
-exports.createGroup = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+exports.createGroup = async(req, res) => {
+    if(await guardToken.guardToken(req,res)) return  false
     
     if (!req.body.name) {
         return res.status(400).send({

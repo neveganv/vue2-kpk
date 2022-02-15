@@ -9,8 +9,8 @@ require('dotenv').config();
 const guardToken = require("../middleware/guardToken")
 
 // Create a new User
-exports.create = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  
+exports.create = async(req, res) => {
+	if(await guardToken.guardToken(req,res))return
 	// generate pass
 	let pass = password.generate();
 
@@ -78,8 +78,8 @@ exports.login = (req, res) => {
 	});
 };
 // get All Users
-exports.findAll = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+exports.findAll = async(req, res) => {
+    if(await guardToken.guardToken(req,res)) return  false
 
 	User.find()
 		.populate('position')
@@ -94,8 +94,9 @@ exports.findAll = (req, res) => {
 };
 
 //get by token
-exports.getUser = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+exports.getUser = async(req, res) => {
+
+    if(await guardToken.guardToken(req,res)) return  false
 	User.findOne({ _id: req.userId }, function (err, user) {
 		if (user === null) {
 			return res.status(400).send({
@@ -107,8 +108,8 @@ exports.getUser = (req, res) => {
 	}).populate('position');
 };
 
-exports.update = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+exports.update = async(req, res) => {
+    if(await guardToken.guardToken(req,res)) return  false
     
 	if (!req.body) {
 		return res.status(400).send({
@@ -142,8 +143,8 @@ exports.update = (req, res) => {
 		});
 };
 
-(exports.changePassword = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+(exports.changePassword = async(req, res) => {
+    if(await guardToken.guardToken(req,res)) return  false
 	id = req.body.id;
 	User.findOne({ _id: id }, function (err, user) {
 		if (user === null) {
@@ -185,8 +186,8 @@ exports.update = (req, res) => {
 		}
 	});
 }),
-	(exports.deleteUser = (req, res) => {
-        if(guardToken.guardToken(req,res)) return  false
+	(exports.deleteUser = async(req, res) => {
+        if(await guardToken.guardToken(req,res)) return  false
 		const id = req.body.id;
 
 		User.findByIdAndRemove(id)
@@ -208,8 +209,8 @@ exports.update = (req, res) => {
 			});
 	}),
 	//Find user by Id
-	(exports.findUserById = (req, res) => {
-        if(guardToken.guardToken(req,res)) return  false
+	(exports.findUserById = async(req, res) => {
+        if(await guardToken.guardToken(req,res)) return  false
 		User.find({
 			_id: req.body.id,
 		})

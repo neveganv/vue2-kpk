@@ -4,8 +4,8 @@ const prepareСourse = require('../models/prepareСourse');
 const guardToken = require("../middleware/guardToken")
 
 // Create a new optionsList
-exports.create = (req, res) => {
-    if (guardToken.guardToken(req, res)) return false
+exports.create = async(req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
 
     if (req.body) {
         let validateError = {
@@ -82,8 +82,8 @@ exports.findPrepareCourseById = (req, res) => {
         });
 };
 
-exports.update = (req, res) => {
-    if (guardToken.guardToken(req, res)) return false
+exports.update = async(req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
 
     let validateError = {
         status: 400,
@@ -150,8 +150,8 @@ exports.update = (req, res) => {
         });
 };
 
-exports.findAll = (req, res) => {
-    if (guardToken.guardToken(req, res)) return false
+exports.findAll = async(req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
     PrepareCourse.find().sort({ 'created': 'desc' })
         .then(data => {
             res.send(data);

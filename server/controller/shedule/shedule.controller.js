@@ -5,8 +5,8 @@ const { classes } = require('../../models');
 const guardToken = require("../../middleware/guardToken")
 
 // Create a new Event
-exports.create = (req, res) => {
-	if(guardToken.guardToken(req,res)) return  false
+exports.create = async(req, res) => {
+	if(await guardToken.guardToken(req,res)) return  false
 
 	let validateError = {
         status: 400,
@@ -88,8 +88,8 @@ exports.findEventById = (req, res) => {
 		});
 };
 
-exports.updateEvent = (req, res) => {
-	if(guardToken.guardToken(req,res)) return  false
+exports.updateEvent = async(req, res) => {
+	if(await guardToken.guardToken(req,res)) return  false
 
 	if (!req.body) {
 		return res.status(400).send({

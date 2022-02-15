@@ -15,7 +15,18 @@ app.use(express.json({
     limit: '15mb',
 }));
 
-app.use(cors())
+var allowedOrigins = ['http://localhost:8080'];
+app.use(cors({
+  origin: function(origin, callback){
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      var msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 // SPA
 app.get("*", (req, res) => {

@@ -3,8 +3,8 @@ const Page = db.page
 const guardToken = require("../middleware/guardToken")
 
 // Create a new page
-exports.create = (req, res) => {
-    if (guardToken.guardToken(req, res)) return false
+exports.create = async(req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
     if (!req.body.name) {
         return res.status(400).send({
             status: 400,
@@ -64,8 +64,8 @@ exports.findById = (req, res) => {
 };
 
 //delete pdf file 
-exports.deletePdf = (req, res) => {
-    if (guardToken.guardToken(req, res)) return false
+exports.deletePdf = async(req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
 
     if (!req.body) {
         return res.status(400).send({
@@ -96,8 +96,8 @@ exports.deletePdf = (req, res) => {
 };
 
 // Update a page by the id in the request
-exports.update = (req, res) => {
-    if (guardToken.guardToken(req, res)) return false
+exports.update = async(req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
 
     if (!req.body) {
         return res.status(400).send({
@@ -140,8 +140,8 @@ exports.update = (req, res) => {
 };
 
 // Delete a page by id
-exports.delete = (req, res) => {
-    if (guardToken.guardToken(req, res)) return false
+exports.delete = async(req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
 
     const id = req.params.id;
 

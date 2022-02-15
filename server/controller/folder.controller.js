@@ -4,8 +4,8 @@ const Page = db.page
 const guardToken = require("../middleware/guardToken")
 
 // Create a new page
-exports.create = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+exports.create = async (req, res) => {
+    if(await guardToken.guardToken(req,res)) return  false
 
     if (!req.body.name) {
         return res.status(400).send({
@@ -77,8 +77,8 @@ exports.findById = (req, res) => {
 };
 
 // Update a folder by the id in the request
-exports.update = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+exports.update = async(req, res) => {
+    if(await guardToken.guardToken(req,res)) return  false
 
     if (!req.body) {
         return res.status(400).send({
@@ -104,8 +104,8 @@ exports.update = (req, res) => {
 };
 
 // Delete a folder by id
-exports.delete = (req, res) => {
-    if(guardToken.guardToken(req,res)) return  false
+exports.delete = async(req, res) => {
+    if(await guardToken.guardToken(req,res)) return  false
     
     const id = req.params.id;
     Page.deleteMany({ folder: id }).then(() => {

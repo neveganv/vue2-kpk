@@ -5,8 +5,8 @@ const guardToken = require("../middleware/guardToken")
 
 
 // Create a partner 
-exports.create = (req, res) => {
-    if (guardToken.guardToken(req, res)) return false
+exports.create = async(req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
     if (req.body) {
         let validateError = {
             status: 400,
@@ -52,8 +52,8 @@ exports.create = (req, res) => {
     }
 };
 
-exports.findPartnerById = (req, res) => {
-    if (guardToken.guardToken(req, res)) return false
+exports.findPartnerById = async(req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
     Partner.find({
         _id: req.body.id,
 
@@ -80,8 +80,8 @@ exports.findAll = (req, res) => {
         });
 };
 
-exports.update = (req, res) => {
-    if (guardToken.guardToken(req, res)) return false
+exports.update = async(req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
     if (!req.body) {
         return res.status(400).send({
             message: 'Data to update can not be empty!',
@@ -127,8 +127,8 @@ exports.update = (req, res) => {
             });
     }
 };
-exports.deletePartner = (req, res) => {
-    if (guardToken.guardToken(req, res)) return false
+exports.deletePartner = async(req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
     const id = req.params.id;
 
     Partner.findByIdAndRemove(id)

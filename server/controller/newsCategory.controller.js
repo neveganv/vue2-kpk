@@ -4,8 +4,8 @@ const guardToken = require("../middleware/guardToken")
 
 
 // Create a new optionsList
-exports.create = (req, res) => {
-    if (guardToken.guardToken(req, res)) return false
+exports.create = async(req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
 
     if (!req.body.name) {
         return res.status(400).send({
