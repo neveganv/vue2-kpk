@@ -5,7 +5,7 @@ const guardToken = require("../middleware/guardToken")
 
 
 // Create a partner 
-exports.create = async(req, res) => {
+exports.create = async (req, res) => {
     if (await guardToken.guardToken(req, res)) return false
     if (req.body) {
         let validateError = {
@@ -52,7 +52,7 @@ exports.create = async(req, res) => {
     }
 };
 
-exports.findPartnerById = async(req, res) => {
+exports.findPartnerById = async (req, res) => {
     if (await guardToken.guardToken(req, res)) return false
     Partner.find({
         _id: req.body.id,
@@ -80,12 +80,21 @@ exports.findAll = (req, res) => {
         });
 };
 
-exports.update = async(req, res) => {
+exports.update = async (req, res) => {
     if (await guardToken.guardToken(req, res)) return false
     if (!req.body) {
         return res.status(400).send({
             message: 'Data to update can not be empty!',
         });
+    }
+    let response = {
+        status: "Success",
+        error: {
+            type: null,
+            message: null,
+        },
+        result: null,
+        message: null
     }
     let validateError = {
         status: 400,
@@ -115,10 +124,15 @@ exports.update = async(req, res) => {
         )
             .then(data => {
                 if (!data) {
-                    res.status(404).send({
-                        message: `Cannot update news with id=${id}.`,
-                    });
-                } else res.send({ message: 'News was updated successfully.' });
+                    response.status = "Error";
+                    response.error.type = "Xz";
+                    response.error.message = `Cannot update news with id=${id}.`;
+                    response.message = "Not found"
+                    return res.status(404).send(response);
+                } else {
+                    response.message = "News was updated successfully."
+                    res.send(response);
+                }
             })
             .catch(err => {
                 res.status(500).send({
@@ -127,7 +141,7 @@ exports.update = async(req, res) => {
             });
     }
 };
-exports.deletePartner = async(req, res) => {
+exports.deletePartner = async (req, res) => {
     if (await guardToken.guardToken(req, res)) return false
     const id = req.params.id;
 
