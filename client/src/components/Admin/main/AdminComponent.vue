@@ -174,7 +174,8 @@ export default {
 		async getPartners() {
 			try {
 				this.setLoading(true);
-				this.partners = await partnersService.getAll();
+				let response = await partnersService.getAll();
+				this.partners = response.result;
 				this.setLoading(false);
 			} catch (e) {
 				alert(e);
