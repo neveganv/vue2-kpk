@@ -333,7 +333,8 @@ export default {
 		},
 		async getCategories() {
 			try {
-				this.categories = await newsService.getSimpleNewsCategories();
+				let response = await newsService.getSimpleNewsCategories();
+				this.categories = response.result;
 			} catch (e) {
 				alert(e);
 			}

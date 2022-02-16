@@ -2,9 +2,15 @@ const db = require("../models");
 const NewsCategory = db.newsCategory
 const guardToken = require("../middleware/guardToken")
 
+let response = {
+    status: 200,
+    result: null,
+    message: null,
+    length: 0
+}
 
 // Create a new optionsList
-exports.create = async(req, res) => {
+exports.create = async (req, res) => {
     if (await guardToken.guardToken(req, res)) return false
 
     if (!req.body.name) {
@@ -25,13 +31,17 @@ exports.create = async(req, res) => {
     newsCategory
         .save(newsCategory)
         .then(data => {
-            res.send(data);
+            response.length = 1;
+            response.result = data;
+            response.message = "Success create news category"
+            res.send(response);
         })
         .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the order."
-            });
+            response.status = 500;
+            response.message = "Some error occurred while creating the news category.";
+            response.error.type = "";
+            response.error.message = err.message || "Some error occurred while creating the news category.";
+            res.status(response.status).send(response);
         });
 
 };
@@ -39,12 +49,16 @@ exports.create = async(req, res) => {
 exports.findAll = (req, res) => {
     NewsCategory.find()
         .then(data => {
-            res.send(data);
+            response.length = data.length;
+            response.result = data;
+            response.message = "Success get all news categorys"
+            res.send(response);
         })
         .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving blogs."
-            });
+            response.status = 500;
+            response.message = "Some error occurred while retrieving specialty.";
+            response.error.type = "";
+            response.error.message = err.message || "Some error occurred while retrieving news category.";
+            res.status(response.status).send(response);
         });
 };
