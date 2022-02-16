@@ -331,12 +331,12 @@ export default {
 				this.isLoading = true;
 				const res = await specialityService.getById({ id: this.specialityId });
 				// this.specialities = res[0]
-				this.specialities.name = res.name;
-				this.specialities.number = res.number;
-				this.specialities.img = res.img;
-				this.specialities.content = res.content;
-				if (res.courses) {
-					this.specialities.courses = res.courses;
+				this.specialities.name = res.result.name;
+				this.specialities.number = res.result.number;
+				this.specialities.img = res.result.img;
+				this.specialities.content = res.result.content;
+				if (res.result.courses) {
+					this.specialities.courses = res.result.courses;
 				}
 				console.log(res);
 				this.isLoading = false;
