@@ -3,8 +3,15 @@ const PrepareCourse = db.prepareCourse;
 const prepareСourse = require('../models/prepareСourse');
 const guardToken = require("../middleware/guardToken")
 
+let response = {
+    status: 200,
+    result: null,
+    message: null,
+    length: 0
+}
+
 // Create a new optionsList
-exports.create = async(req, res) => {
+exports.create = async (req, res) => {
     if (await guardToken.guardToken(req, res)) return false
 
     if (req.body) {
@@ -51,18 +58,25 @@ exports.create = async(req, res) => {
         prepareCourse
             .save(prepareCourse)
             .then(data => {
-                res.send(data);
+                response.length = 1;
+                response.result = data;
+                response.message = "Success create prepare course"
+                res.send(response);
             })
             .catch(err => {
-                res.status(500).send({
-                    message: err.message || 'Some error occurred while creating the preparing course.',
-                });
+                response.status = 500;
+                response.message = "Some error occurred while creating the preparing course.";
+                response.error.type = "";
+                response.error.message = err.message || "Some error occurred while creating the preparing course.";
+                res.status(response.status).send(response);
             });
     }
     else {
-        return res.status(400).send({
-            message: "Name , surname, middle name , parant phone, student phone , pass id is required"
-        })
+        response.status = 400;
+        response.message = "Validation error";
+        response.error.type = "Validation error";
+        response.error.message = "Name , surname, middle name , parant phone, student phone , pass id is required";
+        res.status(response.status).send(response);
     }
 
 };
@@ -73,16 +87,21 @@ exports.findPrepareCourseById = (req, res) => {
 
     })
         .then(data => {
-            res.send(data);
+            response.length = 1;
+            response.message = "Success find prepare course";
+            response.result = data;
+            res.send(response);
         })
         .catch(err => {
-            res.status(500).send({
-                message: 'Не вдалось отримати заявку за вибраним ід.',
-            });
+            response.status = 500;
+            response.message = "Some error occurred while find the prepare course.";
+            response.error.type = "";
+            response.error.message = "Не вдалось отримати заявку за вибраним ід.";
+            return res.status(response.status).send(response);
         });
 };
 
-exports.update = async(req, res) => {
+exports.update = async (req, res) => {
     if (await guardToken.guardToken(req, res)) return false
 
     let validateError = {
@@ -138,27 +157,41 @@ exports.update = async(req, res) => {
     )
         .then(data => {
             if (!data) {
-                res.status(404).send({
-                    message: `Cannot update prepare course with id=${id}.`,
-                });
-            } else res.send({ message: 'Prepare course was updated successfully.' });
+                response.status = 404;
+                response.error.type = "Invalid data";
+                response.error.message = `Cannot update prepare course with id=${id}.`;
+                response.message = "Invalid data"
+                return res.status(response.status).send(response);
+            } else {
+                response.length = 1;
+                response.message = "Prepare course was updated successfully.";
+                response.result = data;
+                res.send(response);
+            }
         })
         .catch(err => {
-            res.status(500).send({
-                message: 'Error updating Prepare course with id=' + id,
-            });
+            response.status = 500;
+            response.error.type = "Invalid data";
+            response.error.message = `Error updating Prepare course with id=${id}.`;
+            response.message = "Invalid data"
+            return res.status(response.status).send(response);
         });
 };
 
-exports.findAll = async(req, res) => {
+exports.findAll = async (req, res) => {
     if (await guardToken.guardToken(req, res)) return false
     PrepareCourse.find().sort({ 'created': 'desc' })
         .then(data => {
-            res.send(data);
+            response.length = data.lenght;
+            response.message = "Success find all prepare course";
+            response.result = data;
+            res.send(response);
         })
         .catch(err => {
-            res.status(500).send({
-                message: err.message || 'Some error occurred while retrieving blogs.',
-            });
+            response.status = 500;
+            response.message = "Some error occurred while find the prepare course.";
+            response.error.type = "";
+            response.error.message = "Some error occurred while find the prepare course.";
+            return res.status(response.status).send(response);
         });
 };

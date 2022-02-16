@@ -188,7 +188,7 @@ exports.update = async (req, res) => {
             .catch(err => {
                 response.status = 500;
                 response.error.type = "Invalid data";
-                response.error.message = `Error updating News with id==${id}.`;
+                response.error.message = `Error updating partner with id==${id}.`;
                 response.message = "Invalid data"
                 return res.status(response.status).send(response);
             });

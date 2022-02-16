@@ -207,7 +207,8 @@ export default {
 		},
 		async getPositions() {
 			try {
-				this.categories = await positionService.getAll();
+				let response = await positionService.getAll();
+				this.categories = response.result;
 			} catch (e) {
 				alert(e);
 			}

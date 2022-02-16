@@ -125,7 +125,7 @@ export default {
 		async getAllPrepareUser() {
 			this.setLoading(true);
 			const newItems = await prepareCourseService.getAllPrepare();
-			this.studentsList = newItems;
+			this.studentsList = newItems.result;
 			this.setLoading(false);
 		},
 	},
