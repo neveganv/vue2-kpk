@@ -4,6 +4,7 @@ const CollegePhoto = db.collegePhoto;
 const guardToken = require("../middleware/guardToken")
 const code = require('../generator/passwordGenerator');
 const uploadImage = require('../uploader/uploader');
+const { response } = require('express');
 
 // find all
 exports.findAll = (req, res) => {

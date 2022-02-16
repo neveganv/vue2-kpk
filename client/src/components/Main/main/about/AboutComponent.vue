@@ -108,7 +108,7 @@ export default {
 		isShowAbout: {
 			deep: true,
 			handler(e) {
-				if (e && this.images === 0 ) {
+				if (e && this.images.length === 0 ) {
 					this.getAllImages();
 				}
 			},
@@ -119,7 +119,7 @@ export default {
 			try {
 				this.loading = true;
 				const newItem = await collegeInfoServices.getPhotos();
-				this.images = newItem.reverse();
+				this.images = newItem.result.reverse();
 				this.loading = false;
 			} catch (e) {
 				alert(e);

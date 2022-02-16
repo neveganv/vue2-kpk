@@ -87,7 +87,7 @@ export default {
 			try {
 				this.loading = true;
 				const newItem = await collegeInfoServices.getPhotos()
-				this.images = newItem.reverse()
+				this.images = newItem.result.reverse()
 				this.loading = false;
 			} catch (e) {
 				alert(e);
@@ -116,7 +116,7 @@ export default {
 						img: this.newImage,
 					})
 					.then(e => {
-						this.images.unshift(e);
+						this.getAllImages()
 						this.$refs.imageInput.value = '';
 
 					});

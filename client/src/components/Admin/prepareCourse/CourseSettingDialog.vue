@@ -68,8 +68,7 @@ export default {
 	methods: {
 		async getEntrantInfo(){
 			let settings = await entrantInfoService.getAll()
-			this.settings = settings[0]
-			console.log(this.settings)
+			this.settings = settings.result
 		},
 		async onUpdate() {
 			try {

@@ -16,7 +16,7 @@
 			<MainNewsCategoryList
 				@clickCategory="clickCategory"
 				:activeCategory="activeCategory"
-				:sceletonLoader="sceletonLoader"
+				:sceletonLoader="sceletonCategory"
 				:categories="categories"
 			/>
 		</div>
@@ -52,6 +52,7 @@ export default {
 		news: [],
 		changeNews: [],
 		categories: [],
+		sceletonCategory:false
 	}),
 	props: {
 		isShowNews: {
@@ -64,6 +65,7 @@ export default {
 			handler(e) {
 				if (e && this.news.length === 0 && !this.sceletonLoader) {
 					this.getNews();
+					this.getCategories();
 				}
 			},
 		},
@@ -101,16 +103,18 @@ export default {
 					this.newsLength = Math.ceil(res.length / params.limit);
 				});
 				this.changeNews = this.news;
-				this.getCategories();
+				this.sceletonLoader = false
 			} catch (e) {
 				alert(e);
 			}
 		},
 		async getCategories() {
 			try {
-				this.categories = await newsService.getSimpleNewsCategories();
+				this.sceletonCategory = true;
+				const newCategorie = await newsService.getSimpleNewsCategories();
+				this.categories = newCategorie.result
 				this.categories.unshift({ name: 'Всі', _id: 'all' });
-				this.sceletonLoader = false;
+				this.sceletonCategory = false;
 			} catch (e) {
 				alert(e);
 			}

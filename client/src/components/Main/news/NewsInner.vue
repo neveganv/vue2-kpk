@@ -31,7 +31,7 @@
 		<myDivider class="mt-10 mb-3" :height="1" />
 
 		<VRow no-gutters v-if="!sceletonLoader">
-			<div class="main-img">
+			<div class="main-img" :class="{sm : $vuetify.breakpoint.sm,xs : $vuetify.breakpoint.xs}">
 				<img :src="newItem.main_img" alt="" />
 			</div>
 		</VRow>
@@ -89,6 +89,12 @@ export default {
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
+		}
+		&.sm{
+			height: 50%;
+		}
+		&.xs{
+			height: 30%;
 		}
 	}
 	.content {

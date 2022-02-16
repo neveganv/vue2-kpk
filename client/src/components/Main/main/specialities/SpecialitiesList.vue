@@ -83,7 +83,8 @@ export default {
 		async getSpecialities() {
 			this.SceletonLoader = true;
 			const newItem = await specialityService.getAllSpecialty();
-			this.specialities = newItem;
+			console.log(newItem)
+			this.specialities = newItem.result;
 			this.specialitiesCopy = this.specialities;
 			this.SceletonLoader = false;
 		},

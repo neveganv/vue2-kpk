@@ -23,13 +23,12 @@ export default {
 	watch: {
 		$route: {
 			handler(e) {
-				// if (location.protocol !== 'https:' && location.host === 'kpk-lp.com.ua') {
-				// 	location.replace(
-				// 		`https:${location.href.substring(location.protocol.length)}`
-				// 	);
-				// }
-				// window.scrollTo(0, 0);
-				// console.log(e);
+				if (location.protocol !== 'https:' && location.host === 'kpk-lp.com.ua') {
+					location.replace(
+						`https:${location.href.substring(location.protocol.length)}`
+					);
+				}
+				window.scrollTo(0, 0);
 				if (e.name !== 'admin-login') {
 					if (e.path.includes('/admin')) {
 						this.isAdminWrap = true;

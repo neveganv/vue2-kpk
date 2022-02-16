@@ -1,17 +1,15 @@
 <template>
 	<div>
-					<v-slide-x-transition>
-		<VRow
-			no-gutters
-			justify="center"
-			class="category__wrapper mb-10"
-			
-			v-if="!sceletonLoader"
-			:class="{
-				xs: $vuetify.breakpoint.xs,
-			}"
-		>
-
+		<v-slide-x-transition>
+			<VRow
+				no-gutters
+				justify="center"
+				class="category__wrapper mb-10"
+				v-if="!sceletonLoader"
+				:class="{
+					xs: $vuetify.breakpoint.xs,
+				}"
+			>
 				<VCol
 					cols="12"
 					xl="auto"
@@ -25,10 +23,19 @@
 				>
 					{{ categorie.name }}
 				</VCol>
-		</VRow>
-			</v-slide-x-transition>
-		<VRow v-if="sceletonLoader" no-gutters justify="center" class="category__wrapper m-auto">
-			<div class="category__inner mb-10" v-for="item in  $vuetify.breakpoint.smAndDown ? 1 : 4" :key="item">
+			</VRow>
+		</v-slide-x-transition>
+		<VRow
+			v-if="sceletonLoader"
+			no-gutters
+			justify="center"
+			class="category__wrapper m-auto"
+		>
+			<div
+				class="category__inner mb-10"
+				v-for="item in $vuetify.breakpoint.smAndDown ? 1 : 4"
+				:key="item"
+			>
 				<v-skeleton-loader
 					type="chip"
 					style="padding: 15px"
@@ -52,8 +59,7 @@ export default {
 		},
 	},
 
-	mounted() {
-	},
+	mounted() {},
 	methods: {
 		changeNews(e) {
 			this.$emit('clickCategory', e);

@@ -49,7 +49,7 @@ export default {
 		try {
 			this.loading = true;
 			const newItem = await collegeInfoServices.getAll();
-			this.collegeInfo = newItem.info;
+			this.collegeInfo = newItem.result.info;
 			this.loading = false;
 		} catch (e) {
 			alert(e);
