@@ -96,7 +96,7 @@ exports.findById = (req, res) => {
   Specialty.find({ _id: req.body.id })
     .then(data => {
       response.length = 1;
-      response.result = data;
+      response.result = data[0];
       response.message = "Success find specialty"
       res.send(response);
     })
