@@ -4,8 +4,17 @@ const guardToken = require("../middleware/guardToken")
 const code = require('../generator/passwordGenerator');
 const uploadImage = require('../uploader/uploader');
 
+
+let response = {
+  status: 200,
+  result: null,
+  message: null,
+  length: 0
+}
+
+
 // Create a new specialty
-exports.create = async(req, res) => {
+exports.create = async (req, res) => {
   if (await guardToken.guardToken(req, res)) return false
 
   let validateError = {
@@ -29,16 +38,16 @@ exports.create = async(req, res) => {
   }
 
   let name = "speciality-" + code.generate() + '.jpg';
-	let status = uploadImage.uploadFile(name, req.body.img)
-	if (status == 500) {
-		return res.status(400).send({
-			status: 400,
-			error: {
-				type: "Image error",
-				message: "Error with uploading image"
-			}
-		});
-	}
+  let status = uploadImage.uploadFile(name, req.body.img)
+  if (status == 500) {
+    return res.status(400).send({
+      status: 400,
+      error: {
+        type: "Image error",
+        message: "Error with uploading image"
+      }
+    });
+  }
 
   const specialty = new Specialty({
     name: req.body.name,
@@ -51,13 +60,17 @@ exports.create = async(req, res) => {
   specialty
     .save(specialty)
     .then(data => {
-      res.send(data);
+      response.length = 1;
+      response.result = data;
+      response.message = "Success create specialty"
+      res.send(response);
     })
     .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the specialty."
-      });
+      response.status = 500;
+      response.message = "Some error occurred while creating the specialty.";
+      response.error.type = "";
+      response.error.message = err.message || "Some error occurred while creating the specialty.";
+      res.status(response.status).send(response);
     });
 
 };
@@ -65,31 +78,39 @@ exports.create = async(req, res) => {
 exports.findAll = (req, res) => {
   Specialty.find()
     .then(data => {
-      res.send(data);
+      response.length = data.length;
+      response.result = data;
+      response.message = "Success get all specialtys"
+      console.log(data);
+      res.send(response);
     })
     .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the specialty."
-      });
+      response.status = 500;
+      response.message = "Some error occurred while retrieving specialty.";
+      response.error.type = "";
+      response.error.message = err.message || "Some error occurred while retrieving specialty.";
+      res.status(response.status).send(response);
     });
 };
 exports.findById = (req, res) => {
 
   Specialty.find({ _id: req.body.id })
     .then(data => {
-      res.send(data);
+      response.length = 1;
+      response.result = data;
+      response.message = "Success find specialty"
+      res.send(response);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving blogs."
+          err.message || "Some error occurred while retrieving specialty"
       });
     });
 
 };
 
-exports.update = async(req, res) => {
+exports.update = async (req, res) => {
   if (await guardToken.guardToken(req, res)) return false
   let validateError = {
     status: 400,
@@ -114,23 +135,23 @@ exports.update = async(req, res) => {
   const id = req.body.id;
 
   if (req.body.img && !req.body.img.startsWith(req.protocol + '://' + req.get('host') + '/uploads/')) {
-		let name = "speciality-" + code.generate() + '.jpg';
-		let status = uploadImage.uploadFile(name, req.body.img)
-		if (status == 500) {
-			return res.status(400).send({
-				status: 400,
-				error: {
-					type: "Image error",
-					message: "Error with uploading image"
-				}
-			});
-		}
-		req.body.img = req.protocol + '://' + req.get('host') + '/uploads/' + name
+    let name = "speciality-" + code.generate() + '.jpg';
+    let status = uploadImage.uploadFile(name, req.body.img)
+    if (status == 500) {
+      return res.status(400).send({
+        status: 400,
+        error: {
+          type: "Image error",
+          message: "Error with uploading image"
+        }
+      });
+    }
+    req.body.img = req.protocol + '://' + req.get('host') + '/uploads/' + name
 
-    Specialty.findOne({_id: id}).select('img').then(image => {
-			uploadImage.deleteFile(image.img)
-		})
-	}
+    Specialty.findOne({ _id: id }).select('img').then(image => {
+      uploadImage.deleteFile(image.img)
+    })
+  }
 
   Specialty.findByIdAndUpdate(
     id,
@@ -145,15 +166,24 @@ exports.update = async(req, res) => {
   )
     .then(data => {
       if (!data) {
-        res.status(404).send({
-          message: `Cannot update specialty with id=${id}.`,
-        });
-      } else res.send({ message: 'Specialty was updated successfully.' });
+        response.status = 404;
+        response.error.type = "Invalid data";
+        response.error.message = `Cannot update specialty with id=${id}.`;
+        response.message = "Invalid data"
+        return res.status(response.status).send(response);
+      } else {
+        response.length = 1;
+        response.message = "Specialty was updated successfully.";
+        response.result = data;
+        res.send(response);
+      }
     })
     .catch(err => {
-      res.status(500).send({
-        message: 'Error updating specialty with id=' + id,
-      });
+      response.status = 500;
+      response.error.type = "Invalid data";
+      response.error.message = `Error updating specialty with id==${id}.`;
+      response.message = "Invalid data"
+      return res.status(response.status).send(response);
     });
 }
 
@@ -162,18 +192,22 @@ exports.findSpecialty = (req, res) => {
   Specialty.find({
     name: { $regex: new RegExp(`${req.body.title}`, "i") }
   })
-    .then(data1 => {
-      const data = data1;
-      res.send(data);
+    .then(data => {
+      response.length = data.lenght;
+      response.message = "Success search specialty";
+      response.result = data;
+      res.send(response);
     })
     .catch(err => {
-      res.status(500).send({
-        message: 'Не вдалось отримати спеціальність.',
-      });
+      response.status = 500;
+      response.message = "Some error occurred while search the specialty.";
+      response.error.type = "";
+      response.error.message = "Не вдалось отримати спеціальність.";
+      res.status(response.status).send(response);
     });
 };
 
-exports.deleteSpecialty = async(req, res) => {
+exports.deleteSpecialty = async (req, res) => {
   if (await guardToken.guardToken(req, res)) return false
 
   const id = req.body.id;
@@ -181,19 +215,22 @@ exports.deleteSpecialty = async(req, res) => {
   Specialty.findByIdAndRemove(id)
     .then(data => {
       if (!data) {
-        res.status(404).send({
-          message: `Cannot delete specialty with id=${id}.`
-        });
+        response.message = `Cannot delete specialty with id=${id}.`
+        response.status = 404
+        response.error.type = "Invalid id"
+        response.error.message = `Cannot delete specialty with id=${id}.`
+        res.status(response.status).send(response);
       } else {
         uploadImage.deleteFile(data.img)
-        res.send({
-          message: "Specialty was deleted successfully!"
-        });
+        response.message = "Partner was deleted successfully!"
+        res.send(response);
       }
     })
     .catch(err => {
-      res.status(500).send({
-        message: "Could not delete specialty with id=" + id
-      });
+      response.message = `Could not delete specialty with id=${id}`
+      response.status = 500
+      response.error.type = "Invalid id"
+      response.error.message = `Could not delete specialty with id=${id}`
+      res.status(response.status).send(response);
     });
 }

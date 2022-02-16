@@ -8,7 +8,7 @@ let response = {
   message: null,
   length: 0
 }
-
+ 
 // Create a new position
 exports.create = async (req, res) => {
   if (await guardToken.guardToken(req, res)) return false
@@ -70,9 +70,5 @@ exports.findAll = async (req, res) => {
       response.error.type = "";
       response.error.message = err.message || "Some error occurred while retrieving positions.";
       res.status(response.status).send(response);
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving blogs."
-      });
     });
 };

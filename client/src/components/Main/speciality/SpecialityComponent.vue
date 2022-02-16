@@ -98,12 +98,13 @@ export default {
 			const newSpeciality = await specialityService.getById({
 				id: this.$route.params.id,
 			});
-			this.specialitie = newSpeciality;
+			this.specialitie = newSpeciality.result;
 			this.sceletonLoader = false;
 		},
 		async getSpecialities() {
 			this.anotherSceletonLoader = true;
-			this.specialities = await specialityService.getAllSpecialty();
+			let response = await specialityService.getAllSpecialty();
+			this.specialities = response.result;
 			this.specialities = this.specialities.filter(
 				e => e._id != this.specialitie._id
 			);

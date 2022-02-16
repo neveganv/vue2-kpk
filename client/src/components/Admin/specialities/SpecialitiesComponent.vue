@@ -87,7 +87,7 @@ export default {
 			try {
 				this.setLoading(true);
 				const newItem = await specialityService.getAllSpecialty();
-				this.specialities = newItem
+				this.specialities = newItem.result;
 				this.setLoading(false);
 			} catch (e) {
 				this.setLoading(false);
