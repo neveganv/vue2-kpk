@@ -81,7 +81,6 @@ exports.findAll = (req, res) => {
       response.length = data.length;
       response.result = data;
       response.message = "Success get all specialtys"
-      console.log(data);
       res.send(response);
     })
     .catch(err => {

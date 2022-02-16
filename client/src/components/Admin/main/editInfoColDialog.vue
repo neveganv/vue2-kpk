@@ -81,8 +81,9 @@ export default {
 		async getInfo() {
 			try {
 				this.isLoading = true;
-				const newItem = await collegeInfoServices.getAll();
-				this.collegeInfo = newItem;
+				let newItem = await collegeInfoServices.getAll();
+				console.log("response", newItem);
+				this.collegeInfo = newItem.result;
 				this.infoCopy = {
 					...this.collegeInfo,
 				};
