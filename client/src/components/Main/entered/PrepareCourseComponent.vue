@@ -372,7 +372,7 @@ export default {
 		},
 		async getEntrantInfo() {
 			let settings = await entrantInfoService.getAll();
-			this.settings = settings[0];
+			this.settings = settings.result;
 			console.log(this.settings);
 		},
 		async onClickSend() {
