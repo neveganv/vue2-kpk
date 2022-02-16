@@ -2,6 +2,8 @@ const db = require('../models');
 const collegePhoto = require('../models/collegePhoto');
 const CollegePhoto = db.collegePhoto;
 const guardToken = require("../middleware/guardToken")
+const code = require('../generator/passwordGenerator');
+const uploadImage = require('../uploader/uploader');
 
 // find all
 exports.findAll = (req, res) => {
@@ -29,8 +31,21 @@ exports.create = async(req, res) => {
     });
   }
 
+  
+	let name = "collegePhoto-" + code.generate() + '.jpg';
+	let status = uploadImage.uploadFile(name, req.body.img)
+	if (status == 500) {
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Image error",
+				message: "Error with uploading image"
+			}
+		});
+	}
+
   const collegePhoto = new CollegePhoto({
-    img: req.body.img
+    img: req.protocol + '://' + req.get('host') + '/uploads/' + name
   });
   collegePhoto
     .save(collegePhoto)
@@ -56,6 +71,7 @@ exports.delete = async(req, res) => {
           message: `Cannot delete college photo with id=${id}.`
         });
       } else {
+        uploadImage.deleteFile(data.img)
         res.send({
           message: "College photo was deleted successfully!"
         });
