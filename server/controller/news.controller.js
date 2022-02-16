@@ -142,6 +142,10 @@ exports.update = async (req, res) => {
 			});
 		}
 		req.body.main_img = req.protocol + '://' + req.get('host') + '/uploads/' + name
+
+		News.findOne({_id: id}).select('main_img').then(image => {
+			uploadImage.deleteFile(image.main_img)
+		})
 	}
 	
 	News.findByIdAndUpdate(
