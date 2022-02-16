@@ -15,7 +15,7 @@ app.use(express.json({
     limit: '15mb',
 }));
 
-var allowedOrigins = ['http://localhost:8080'];
+var allowedOrigins = ['https://kpk-lp.com.ua','http://localhost:8080'];
 app.use(cors({
   origin: function(origin, callback){
     if(!origin) return callback(null, true);

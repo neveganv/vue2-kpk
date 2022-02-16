@@ -40,8 +40,9 @@ function alarm(req,type){
 	const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	console.log('--------------------------------------')
 	console.log('/\n/\n/\n/\n/\n/\n/\n/\n/\n/\n/\n-ip-',ip,'\n');
-	console.log('-userAGENT-',req.headers['user-agent'],'\n');
-	console.log('-type-',type,'\n/\n/\n/\n/\n/\n/\n/\n/\n/\n/\n');
+	console.log('-userAGENT-',req.headers,'\n');
+	console.log('-type-',type,'\n');
+	console.log('-request-',req.originalUrl,'\n/\n/\n/\n/\n/\n/\n/\n/\n/\n/\n');
 	console.log('--------------------------------------')
 }
 module.exports = { guardToken };
