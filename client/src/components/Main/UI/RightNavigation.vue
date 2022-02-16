@@ -180,7 +180,8 @@ export default {
 		async getPartners() {
 			try {
 				this.isLoadingSponsor = true;
-				this.sponsors = await partnersService.getAll();
+				let response = await partnersService.getAll();
+				this.sponsors = response.result;
 
 				this.isDraw = this.$vuetify.breakpoint.width <= 1626 ? false : true;
 				this.isLoadingSponsor = false;
