@@ -143,6 +143,7 @@ exports.update = async (req, res) => {
 		}
 		req.body.main_img = req.protocol + '://' + req.get('host') + '/uploads/' + name
 	}
+	
 	News.findByIdAndUpdate(
 		id,
 		{
@@ -168,7 +169,6 @@ exports.update = async (req, res) => {
 };
 exports.deleteNews = async (req, res) => {
 	if (await guardToken.guardToken(req, res)) return false
-
 	const id = req.body.id;
 
 	News.findByIdAndRemove(id)

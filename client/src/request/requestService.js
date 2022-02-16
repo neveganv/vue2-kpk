@@ -2,8 +2,8 @@ import axios from 'axios';
 import store from '@/store';
 import router from '@/router';
 
-const API_ENDPOINT = 'http://localhost:8000'
-// const API_ENDPOINT = 'https://www.api-kpkdev.ml'
+// const API_ENDPOINT = 'http://localhost:8000'
+const API_ENDPOINT = 'https://www.api-kpkdev.ml'
 // const API_ENDPOINT = process.env;
 
 

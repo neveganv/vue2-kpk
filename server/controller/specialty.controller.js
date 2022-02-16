@@ -1,7 +1,8 @@
 const db = require("../models");
 const Specialty = db.specialty
 const guardToken = require("../middleware/guardToken")
-
+const code = require('../generator/passwordGenerator');
+const uploadImage = require('../uploader/uploader');
 
 // Create a new specialty
 exports.create = async(req, res) => {
@@ -26,14 +27,22 @@ exports.create = async(req, res) => {
     validateError.error.message = "Image is required";
     return res.status(400).send(validateError);
   }
-  if (!req.body.content) {
-    validateError.error.message = "Content is required";
-    return res.status(400).send(validateError);
-  }
+
+  let name = "speciality-" + code.generate() + '.jpg';
+	let status = uploadImage.uploadFile(name, req.body.img)
+	if (status == 500) {
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Image error",
+				message: "Error with uploading image"
+			}
+		});
+	}
 
   const specialty = new Specialty({
     name: req.body.name,
-    img: req.body.img,
+    img: req.protocol + '://' + req.get('host') + '/uploads/' + name,
     content: req.body.content,
     courses: req.body.courses,
     number: req.body.number
@@ -102,11 +111,23 @@ exports.update = async(req, res) => {
     validateError.error.message = "Image is required";
     return res.status(400).send(validateError);
   }
-  if (!req.body.content) {
-    validateError.error.message = "Content is required";
-    return res.status(400).send(validateError);
-  }
   const id = req.body.id;
+
+  if (req.body.img && !req.body.img.startsWith(req.protocol + '://' + req.get('host') + '/uploads/')) {
+		let name = "speciality-" + code.generate() + '.jpg';
+		let status = uploadImage.uploadFile(name, req.body.img)
+		if (status == 500) {
+			return res.status(400).send({
+				status: 400,
+				error: {
+					type: "Image error",
+					message: "Error with uploading image"
+				}
+			});
+		}
+		req.body.img = req.protocol + '://' + req.get('host') + '/uploads/' + name
+	}
+
   Specialty.findByIdAndUpdate(
     id,
     {
@@ -160,6 +181,7 @@ exports.deleteSpecialty = async(req, res) => {
           message: `Cannot delete specialty with id=${id}.`
         });
       } else {
+        uploadImage.deleteFile(data.img)
         res.send({
           message: "Specialty was deleted successfully!"
         });
