@@ -95,6 +95,9 @@ exports.findAll = (req, res) => {
 
 exports.update = async(req, res) => {
     if (await guardToken.guardToken(req, res)) return false
+    
+    const id = req.body.id;
+
     if (!req.body) {
         return res.status(400).send({
             message: 'Data to update can not be empty!',
@@ -130,9 +133,12 @@ exports.update = async(req, res) => {
 			});
 		}
 		req.body.path_img = req.protocol + '://' + req.get('host') + '/uploads/' + name
+
+        Partner.findOne({_id: id}).select('path_img').then(image => {
+			uploadImage.deleteFile(image.path_img)
+		})
 	}
 
-        const id = req.body.id;
         Partner.findByIdAndUpdate(
             id,
             {

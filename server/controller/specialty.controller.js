@@ -126,6 +126,10 @@ exports.update = async(req, res) => {
 			});
 		}
 		req.body.img = req.protocol + '://' + req.get('host') + '/uploads/' + name
+
+    Specialty.findOne({_id: id}).select('img').then(image => {
+			uploadImage.deleteFile(image.img)
+		})
 	}
 
   Specialty.findByIdAndUpdate(

@@ -84,6 +84,8 @@ exports.findAll = (req, res) => {
 exports.updateCoolNews = async(req, res) => {
 	if(await guardToken.guardToken(req,res)) return  false
 
+	const id = req.body.id;
+
 	if (!req.body) {
 		return res.status(400).send({
 			message: 'Data to update can not be empty!',
@@ -111,8 +113,11 @@ exports.updateCoolNews = async(req, res) => {
 			});
 		}
 		req.body.img = req.protocol + '://' + req.get('host') + '/uploads/' + name
+
+		CoolNews.findOne({_id: id}).select('img').then(image => {
+			uploadImage.deleteFile(image.img)
+		})
 	}
-	const id = req.body.id;
 	CoolNews.findByIdAndUpdate(
 		id,
 		{
