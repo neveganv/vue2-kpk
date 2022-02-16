@@ -1,6 +1,8 @@
 const db = require('../../models');
 const CoolNews = db.coolNews;
 const guardToken = require('../../middleware/guardToken');
+const code = require('../../generator/passwordGenerator');
+const uploadImage = require('../../uploader/uploader');
 
 // Create a new news
 exports.create = async(req, res) => {
@@ -16,9 +18,21 @@ exports.create = async(req, res) => {
         });
     }
 
+	let name = "coolNews-" + code.generate() + '.jpg';
+	let status = uploadImage.uploadFile(name, req.body.img)
+	if (status == 500) {
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Image error",
+				message: "Error with uploading image"
+			}
+		});
+	}
+
 	const coolNews = new CoolNews({
 		title: req.body.title,
-		img: req.body.img,
+		img: req.protocol + '://' + req.get('host') + '/uploads/' + name,
 		created_time: req.body.created_time,
 		content: req.body.content,
 	});
@@ -70,6 +84,8 @@ exports.findAll = (req, res) => {
 exports.updateCoolNews = async(req, res) => {
 	if(await guardToken.guardToken(req,res)) return  false
 
+	const id = req.body.id;
+
 	if (!req.body) {
 		return res.status(400).send({
 			message: 'Data to update can not be empty!',
@@ -84,7 +100,24 @@ exports.updateCoolNews = async(req, res) => {
             }
         });
     }
-	const id = req.body.id;
+	if (req.body.img && !req.body.img.startsWith(req.protocol + '://' + req.get('host') + '/uploads/')) {
+		let name = "coolNews-" + code.generate() + '.jpg';
+		let status = uploadImage.uploadFile(name, req.body.img)
+		if (status == 500) {
+			return res.status(400).send({
+				status: 400,
+				error: {
+					type: "Image error",
+					message: "Error with uploading image"
+				}
+			});
+		}
+		req.body.img = req.protocol + '://' + req.get('host') + '/uploads/' + name
+
+		CoolNews.findOne({_id: id}).select('img').then(image => {
+			uploadImage.deleteFile(image.img)
+		})
+	}
 	CoolNews.findByIdAndUpdate(
 		id,
 		{
@@ -120,6 +153,7 @@ exports.deleteCoolNews = async(req, res) => {
 					message: `Cannot delete news with id=${id}.`,
 				});
 			} else {
+				uploadImage.deleteFile(data.img)
 				res.send({
 					message: 'News was deleted successfully!',
 				});

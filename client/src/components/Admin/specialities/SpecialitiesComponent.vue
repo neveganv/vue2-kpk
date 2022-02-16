@@ -57,7 +57,7 @@ export default {
 					id: this.specialityId,
 				});
 				this.close(true);
-				this.specialities.shift(this.specialityId);
+				this.specialities.pop(this.specialityId);
 			} catch (e) {
 				alert(e);
 			}
@@ -80,7 +80,7 @@ export default {
 		},
 		addSpeciality(e) {
 			this.visible = false;
-			this.specialities.unshift(e);
+			this.specialities.push(e);
 			// this.getSpecialities();
 		},
 		async getSpecialities() {

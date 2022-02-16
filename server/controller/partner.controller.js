@@ -2,7 +2,8 @@ const db = require('../models');
 const Partner = db.partner;
 const partner = require('../models/partner');
 const guardToken = require("../middleware/guardToken")
-
+const code = require('../generator/passwordGenerator');
+const uploadImage = require('../uploader/uploader')
 
 // Create a partner 
 exports.create = async (req, res) => {
@@ -27,9 +28,21 @@ exports.create = async (req, res) => {
             validateError.error.message = "Name is required";
             return res.status(400).send(validateError);
         }
+        let name = "partner-" + code.generate() + '.jpg';
+        let status = uploadImage.uploadFile(name, req.body.path_img)
+        if (status == 500) {
+            return res.status(400).send({
+                status: 400,
+                error: {
+                    type: "Image error",
+                    message: "Error with uploading image"
+                }
+            });
+        }
+
         else {
             const partner = new Partner({
-                path_img: req.body.path_img,
+                path_img: req.protocol + '://' + req.get('host') + '/uploads/' + name,
                 path_link: req.body.path_link,
                 partner_name: req.body.partner_name,
             });
@@ -82,6 +95,9 @@ exports.findAll = (req, res) => {
 
 exports.update = async (req, res) => {
     if (await guardToken.guardToken(req, res)) return false
+    
+    const id = req.body.id;
+
     if (!req.body) {
         return res.status(400).send({
             message: 'Data to update can not be empty!',
@@ -112,7 +128,26 @@ exports.update = async (req, res) => {
         return res.status(400).send(validateError);
     }
     else {
-        const id = req.body.id;
+
+	if (req.body.path_img && !req.body.path_img.startsWith(req.protocol + '://' + req.get('host') + '/uploads/')) {
+		let name = "partner-" + code.generate() + '.jpg';
+		let status = uploadImage.uploadFile(name, req.body.path_img)
+		if (status == 500) {
+			return res.status(400).send({
+				status: 400,
+				error: {
+					type: "Image error",
+					message: "Error with uploading image"
+				}
+			});
+		}
+		req.body.path_img = req.protocol + '://' + req.get('host') + '/uploads/' + name
+
+        Partner.findOne({_id: id}).select('path_img').then(image => {
+			uploadImage.deleteFile(image.path_img)
+		})
+	}
+
         Partner.findByIdAndUpdate(
             id,
             {
@@ -152,6 +187,7 @@ exports.deletePartner = async (req, res) => {
                     message: `Cannot delete partner with id=${id}.`
                 });
             } else {
+                uploadImage.deleteFile(data.path_img)
                 res.send({
                     message: "Partner was deleted successfully!"
                 });
