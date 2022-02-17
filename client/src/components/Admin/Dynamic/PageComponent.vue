@@ -257,8 +257,8 @@ export default {
 		async getPage() {
 			this.setLoading(true);
 			const newPage = await pageService.getOne({ _id: this.$route.params.id });
-			this.page = newPage[0];
-			this.oldPage = { ...newPage[0] };
+			this.page = newPage.result[0];
+			this.oldPage = { ...newPage.result[0] };
 			this.cancelDisabled = false;
 			for (let i = 0; i < this.page.files.length; i++) {
 				this.page.files[i]['active'] = false;

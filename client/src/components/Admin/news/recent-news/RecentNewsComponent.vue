@@ -112,7 +112,8 @@ export default {
 		async getNews(params = {}) {
 			try {
 				this.loading = true;
-				this.news = await newsService.getCoolNews({ ...params });
+				let response = await newsService.getCoolNews({ ...params });
+				this.news = response.result;
 				console.log('news', this.news);
 				this.loading = false;
 			} catch (e) {

@@ -231,9 +231,9 @@ export default {
 						const newFolder = await folderService.getFolders({
 							position: this.getUser.positionUUID,
 						});
-						this.folders = newFolder;
+						this.folders = newFolder.result;
 						this.folders.forEach(item => {
-							item.pages = newPage.filter(e => e.folder._id == item._id);
+							item.pages = newPage.result.filter(e => e.folder._id == item._id);
 						});
 					}
 				}

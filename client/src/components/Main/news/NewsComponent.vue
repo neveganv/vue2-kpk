@@ -111,6 +111,7 @@ export default {
 				this.newItem = await newsService.getSimpleNewsById({
 					id: this.$route.params.id,
 				});
+				this.newItem = this.newItem.result;
 				this.sceletonLoader = false;
 			} catch (e) {
 				this.sceletonLoader = false;

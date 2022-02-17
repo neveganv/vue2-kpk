@@ -124,7 +124,9 @@ export default {
 		},
 		async getCategories() {
 			try {
-				this.categories = await newsService.getSimpleNewsCategories();
+				await newsService.getSimpleNewsCategories().then((res) => {
+					this.categories = res.result
+				});
 			} catch (e) {
 				alert(e);
 			}

@@ -126,10 +126,7 @@ exports.getUser = async (req, res) => {
 			response.error.message = `Користувача не знайдено.`;
 			return res.status(response.status).send(response);
 		} else {
-			response.length = 1;
-			response.message = "Find user successfully!"
-			response.result = data;
-			res.send(response);
+			res.send(user);
 		}
 	}).populate('position');
 };

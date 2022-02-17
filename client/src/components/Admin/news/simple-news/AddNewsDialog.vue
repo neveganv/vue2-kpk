@@ -254,8 +254,9 @@ export default {
 					const newNews = await newsService.getSimpleNewsById({
 						id: this.chosenNews,
 					});
+					console.log("new News: ",newNews);
 					this.$v.$touch();
-					this.news = newNews;
+					this.news = newNews.result;
 				} catch (e) {
 					alert(e);
 				}

@@ -235,7 +235,8 @@ export default {
 				this.setLoading(true);
 				const params = [];
 				params.group = e;
-				this.events = await sheduleService.getEvent({ ...params });
+				let response = await sheduleService.getEvent({ ...params });
+				this.events = response.result;
 				 console.log(this.events)
 				this.setLoading(false);
 			} catch (e) {
@@ -258,7 +259,8 @@ export default {
 		async getGroups() {
 			try {
 				this.setLoading(true);
-				this.groups = await groupService.getAllGroups();
+				let response = await groupService.getAllGroups();
+				this.groups = response.result;
 				if (this.groups[0]) {
 					this.changeGroup(this.groups[0]._id);
 					this.chosenGroup = this.groups[0]._id;

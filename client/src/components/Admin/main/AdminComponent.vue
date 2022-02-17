@@ -161,7 +161,8 @@ export default {
 		async getUser() {
 			try {
 				this.setLoading(true);
-				this.users = await usersService.getAll();
+				let response = await usersService.getAll();
+				this.users = response.result;
 				console.log(this.users);
 				this.users = this.users.filter(
 					user => user.token !== JSON.parse(localStorage.token)
