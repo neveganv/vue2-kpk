@@ -233,7 +233,8 @@ export default {
 		async getGroups() {
 			try {
 				this.loading = true;
-				this.groups = await groupService.getAllGroups();
+				let response = await groupService.getAllGroups();
+				this.groups = response.result;
 
 				const lsGroup = window.localStorage.getItem('kpkChosenGroup');
 				if (lsGroup) {
@@ -255,7 +256,8 @@ export default {
 				const params = [];
 				params.group = e;
 				window.localStorage.setItem('kpkChosenGroup', e);
-				this.events = await sheduleService.getEvent({ ...params });
+				let response = await sheduleService.getEvent({ ...params });
+				this.events = response.result;
 				this.loading = false;
 			} catch (e) {
 				this.loading = false;

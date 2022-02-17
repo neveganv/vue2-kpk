@@ -99,7 +99,7 @@ export default {
 			let params = []
 			params.status = "available"
 			this.news = await newsService.getCoolNews({...params});
-			this.news = this.news
+			this.news = this.news.result;
 			this.sceleton = false;
 			this.activeNew = this.news[0];
 			this.copyActiveNew = {...this.activeNew}

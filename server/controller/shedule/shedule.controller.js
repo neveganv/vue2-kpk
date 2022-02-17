@@ -4,6 +4,13 @@ const { ObjectId } = require('bson');
 const { classes } = require('../../models');
 const guardToken = require("../../middleware/guardToken")
 
+let response = {
+    status: 200,
+    result: null,
+    message: null,
+    length: 0
+}
+
 // Create a new Event
 exports.create = async (req, res) => {
 	if (await guardToken.guardToken(req, res)) return false

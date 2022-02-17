@@ -2,6 +2,13 @@ const db = require("../../models");
 const Group = db.group
 const guardToken = require("../../middleware/guardToken")
 
+let response = {
+    status: 200,
+    result: null,
+    message: null,
+    length: 0
+}
+
 // Create a new optionsList
 exports.createGroup = async(req, res) => {
     if(await guardToken.guardToken(req,res)) return  false

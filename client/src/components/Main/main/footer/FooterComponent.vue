@@ -81,9 +81,9 @@ export default {
 				this.sceletonLoader = true;
 				const newPage = await pageService.getPages();
 				const newFolder = await folderService.getFolders();
-				this.folders = newFolder;
+				this.folders = newFolder.result;
 				this.folders.forEach(item => {
-					item.pages = newPage.filter(e => e.folder._id == item._id);
+					item.pages = newPage.result.filter(e => e.folder._id == item._id);
 				});
 				this.sceletonLoader = false;
 
