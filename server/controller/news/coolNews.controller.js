@@ -53,7 +53,7 @@ exports.create = async (req, res) => {
 		})
 		.catch(err => {
 			response.status = 500;
-			response.message = "Some error occurred while creating the news category.";
+			response.message = "Some error occurred while creating the news.";
 			response.error.type = "";
 			response.error.message = err.message || "Some error occurred while creating the news.";
 			res.status(response.status).send(response);
@@ -112,7 +112,7 @@ exports.updateCoolNews = async (req, res) => {
 	const id = req.body.id;
 
 	if (!req.body) {
-		response.status = 500;
+		response.status = 400;
 		response.message = "Invalid data";
 		response.error.type = "invalid data";
 		response.error.message = "Data to update can not be empty!";

@@ -6,11 +6,18 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const { ObjectId } = require('bson');
 require('dotenv').config();
-const guardToken = require("../middleware/guardToken")
+const guardToken = require("../middleware/guardToken");
+
+let response = {
+    status: 200,
+    result: null,
+    message: null,
+    length: 0
+}
 
 // Create a new User
-exports.create = async(req, res) => {
-	if(await guardToken.guardToken(req,res))return
+exports.create = async (req, res) => {
+	if (await guardToken.guardToken(req, res)) return
 	// generate pass
 	let pass = password.generate();
 
@@ -37,12 +44,17 @@ exports.create = async(req, res) => {
 	user
 		.save(user)
 		.then(data => {
-			res.send(data);
+			response.length = 1;
+			response.result = data;
+			response.message = "Success create user"
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: err.message || 'Some error occurred while creating the order.',
-			});
+			response.status = 500;
+			response.message = "Some error occurred while creating the user.";
+			response.error.type = "";
+			response.error.message = err.message || "Some error occurred while creating the user.";
+			res.status(response.status).send(response);
 		});
 };
 
@@ -50,9 +62,11 @@ exports.create = async(req, res) => {
 exports.login = (req, res) => {
 	User.findOne({ email: req.body.email }, function (err, user) {
 		if (user === null) {
-			return res.status(400).send({
-				message: 'Користувача не знайдено.',
-			});
+			response.status = 400;
+			response.message = "Invalid email";
+			response.error.type = "invalid email";
+			response.error.message = `Користувача не знайдено.`;
+			return res.status(response.status).send(response);
 		} else {
 			var hash = crypto
 				.pbkdf2Sync(req.body.password, user.salt, 1000, 64, `sha512`)
@@ -70,51 +84,65 @@ exports.login = (req, res) => {
 
 				return res.status(201).send(user.token);
 			} else {
-				return res.status(400).send({
-					message: 'Неправильний пароль',
-				});
+				response.status = 400;
+				response.message = "Invalid password";
+				response.error.type = "invalid password";
+				response.error.message = `Неправильний пароль.`;
+				return res.status(response.status).send(response);
 			}
 		}
 	});
 };
 // get All Users
-exports.findAll = async(req, res) => {
-    if(await guardToken.guardToken(req,res)) return  false
+exports.findAll = async (req, res) => {
+	if (await guardToken.guardToken(req, res)) return false
 
 	User.find()
 		.populate('position')
 		.then(data => {
-			res.send(data);
+			response.length = data.length;
+			response.result = data;
+			response.message = "Success get all users"
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: err.message || 'Some error occurred while getting users.',
-			});
+			response.status = 500;
+			response.message = "Some error occurred while retrieving users.";
+			response.error.type = "";
+			response.error.message = err.message || "Some error occurred while retrieving users.";
+			res.status(response.status).send(response);
 		});
 };
 
 //get by token
-exports.getUser = async(req, res) => {
+exports.getUser = async (req, res) => {
 
-    if(await guardToken.guardToken(req,res)) return  false
+	if (await guardToken.guardToken(req, res)) return false
 	User.findOne({ _id: req.userId }, function (err, user) {
 		if (user === null) {
-			return res.status(400).send({
-				message: 'Користувача не знайдено.',
-			});
+			response.status = 400;
+			response.message = "Invalid id";
+			response.error.type = "invalid id";
+			response.error.message = `Користувача не знайдено.`;
+			return res.status(response.status).send(response);
 		} else {
-			res.send(user);
+			response.length = 1;
+			response.message = "Find user successfully!"
+			response.result = data;
+			res.send(response);
 		}
 	}).populate('position');
 };
 
-exports.update = async(req, res) => {
-    if(await guardToken.guardToken(req,res)) return  false
-    
+exports.update = async (req, res) => {
+	if (await guardToken.guardToken(req, res)) return false
+
 	if (!req.body) {
-		return res.status(400).send({
-			message: 'Data to update can not be empty!',
-		});
+		response.status = 400;
+		response.message = "Invalid data";
+		response.error.type = "invalid data";
+		response.error.message = "Data to update can not be empty!";
+		res.status(response.status).send(response);
 	}
 	const id = req.body.uuid;
 
@@ -130,27 +158,37 @@ exports.update = async(req, res) => {
 	)
 		.then(data => {
 			if (!data) {
-				res.status(404).send({
-					message: `Cannot update user with id=${id}.`,
-				});
-			} else
-				res.send({ message: 'User was updated successfully.', info: data });
+				response.status = 404;
+				response.message = "Not found";
+				response.error.type = "Not found";
+				response.error.message = `Cannot update user with id=${id}.`;
+				res.status(response.status).send(response);
+			} else {
+				response.message = 'User was updated successfully.';
+				response.result = data;
+				response.length = 1;
+				res.send(response)
+			}
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: 'Error updating user with id=' + id,
-			});
+			response.status = 500;
+			response.message = "Invalid id";
+			response.error.type = "invalid id";
+			response.error.message = `Error updating User with id=${id}.`;
+			res.status(response.status).send(response);
 		});
 };
 
-(exports.changePassword = async(req, res) => {
-    if(await guardToken.guardToken(req,res)) return  false
+(exports.changePassword = async (req, res) => {
+	if (await guardToken.guardToken(req, res)) return false
 	id = req.body.id;
 	User.findOne({ _id: id }, function (err, user) {
 		if (user === null) {
-			return res.status(400).send({
-				message: 'Користувача не знайдено.',
-			});
+			response.status = 400;
+			response.message = "Invalid id";
+			response.error.type = "invalid id";
+			response.error.message = `Користувача не знайдено.`;
+			return res.status(response.status).send(response);
 		} else {
 			const oldPassword = req.body.oldPassword;
 			var oldHash = crypto
@@ -168,58 +206,79 @@ exports.update = async(req, res) => {
 				)
 					.then(data => {
 						if (!data) {
-							res.status(404).send({
-								message: `Cannot update user with id=${id}.`,
-							});
-						} else res.send({ message: 'User was updated successfully.' });
+							response.status = 404;
+							response.message = "Not found";
+							response.error.type = "Not found";
+							response.error.message = `Cannot update user with id=${id}.`;
+							res.status(response.status).send(response);
+						} else {
+							response.message = 'User was updated successfully.';
+							response.result = data;
+							response.length = 1;
+							res.send(response)
+						}
 					})
 					.catch(err => {
-						res.status(500).send({
-							message: 'Error updating user with id=' + id,
-						});
+						response.status = 500;
+						response.message = "Invalid id";
+						response.error.type = "invalid id";
+						response.error.message = `Error updating user with id=${id}.`;
+						res.status(response.status).send(response);
 					});
 			} else {
-				return res.status(400).send({
-					message: 'Неправильний пароль',
-				});
+				response.status = 400;
+				response.message = "Invalid password";
+				response.error.type = "invalid password";
+				response.error.message = `Неправильний пароль.`;
+				return res.status(response.status).send(response);
 			}
 		}
 	});
 }),
-	(exports.deleteUser = async(req, res) => {
-        if(await guardToken.guardToken(req,res)) return  false
+	(exports.deleteUser = async (req, res) => {
+		if (await guardToken.guardToken(req, res)) return false
 		const id = req.body.id;
 
 		User.findByIdAndRemove(id)
-			.then(data => {
-				if (!data) {
-					res.status(404).send({
-						message: `Cannot delete user with id=${id}.`,
-					});
-				} else {
-					res.send({
-						message: 'user was deleted successfully!',
-					});
-				}
-			})
-			.catch(err => {
-				res.status(500).send({
-					message: 'Could not delete dish with id=' + id,
-				});
-			});
+		.then(data => {
+			if (!data) {
+				response.status = 404;
+				response.message = "Not found";
+				response.error.type = "Not found";
+				response.error.message = `Cannot delete user with id=${id}. Maybe user was not found!`;
+				res.status(response.status).send(response);
+			} else {
+				response.message = 'User was deleted successfully!';
+				response.length = 1;
+				response.result = data;
+				res.send(response);
+			}
+		})
+		.catch(err => {
+			response.status = 500;
+			response.message = "Invalid id";
+			response.error.type = "invalid id";
+			response.error.message = `Could not delete user with id=${id}.`;
+			res.status(response.status).send(response);
+		});
 	}),
 	//Find user by Id
-	(exports.findUserById = async(req, res) => {
-        if(await guardToken.guardToken(req,res)) return  false
+	(exports.findUserById = async (req, res) => {
+		if (await guardToken.guardToken(req, res)) return false
 		User.find({
 			_id: req.body.id,
 		})
-			.then(data => {
-				res.send(data);
-			})
-			.catch(err => {
-				res.status(500).send({
-					message: err.message || 'Some error occurred while retrieving blogs.',
-				});
-			});
+		.then(data => {
+            response.length = 1;
+            response.result = data;
+            response.message = "Success find user by id"
+            res.send(response);
+        })
+        .catch(err => {
+            response.status = 500;
+            response.message = "Some error occurred while retrieving user.";
+            response.error.type = "Invalid id";
+            response.error.message = "Some error occurred while retrieving user.";
+            res.status(response.status).send(response);
+        });
 	});

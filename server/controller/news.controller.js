@@ -5,6 +5,13 @@ const guardToken = require("../middleware/guardToken")
 const code = require('../generator/passwordGenerator');
 const uploadImage = require('../uploader/uploader');
 
+let response = {
+	status: 200,
+	result: null,
+	message: null,
+	length: 0
+}
+
 // Create a new optionsList
 exports.create = async (req, res) => {
 	if (await guardToken.guardToken(req, res)) return false
@@ -41,12 +48,17 @@ exports.create = async (req, res) => {
 	news
 		.save(news)
 		.then(data => {
-			res.send(data);
+			response.length = 1;
+			response.result = data;
+			response.message = "Success create news"
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: err.message || 'Some error occurred while creating the news.',
-			});
+			response.status = 500;
+			response.message = "Some error occurred while creating the news.";
+			response.error.type = "";
+			response.error.message = err.message || "Some error occurred while creating the news.";
+			res.status(response.status).send(response);
 		});
 };
 
@@ -56,12 +68,17 @@ exports.findByCategory = (req, res) => {
 		category: req.body.idCategory,
 	}).populate('category')
 		.then(data => {
-			res.send(data);
+			response.length = data.length;
+			response.result = data;
+			response.message = "Success find news by category"
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: 'Не вдалось отримати новини за вибраною категорією.',
-			});
+			response.status = 500;
+			response.message = "Invalid category id.";
+			response.error.type = "Invalid category id";
+			response.error.message = "Не вдалось отримати новини за вибраною категорією.";
+			res.status(response.status).send(response);
 		});
 };
 exports.findNewsById = (req, res) => {
@@ -70,9 +87,17 @@ exports.findNewsById = (req, res) => {
 
 	})
 		.then(data => {
-			res.send(data);
+			response.length = 1;
+			response.result = data;
+			response.message = "Success find news by id"
+			res.send(response);
 		})
 		.catch(err => {
+			response.status = 500;
+			response.message = "Some error occurred while retrieving news.";
+			response.error.type = "Invalid id";
+			response.error.message = "Не вдалось отримати новини за вибраним ід.";
+			res.status(response.status).send(response);
 			res.status(500).send({
 				message: 'Не вдалось отримати новини за вибраним ід.',
 			});
@@ -97,15 +122,17 @@ exports.findAll = (req, res) => {
 	News.find(search).limit(limit).skip(skip)
 		.populate('category').sort({ 'created_time': 'desc' })
 		.then(data => {
-			let body = {}
-			body.result = data
-			body.length = countNews
-			res.send(body);
+			response.length = countNews;
+			response.result = data;
+			response.message = "Success get all news"
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: err.message || 'Some error occurred while retrieving blogs.',
-			});
+			response.status = 500;
+			response.message = "Some error occurred while retrieving news.";
+			response.error.type = "";
+			response.error.message = err.message || "Some error occurred while retrieving news.";
+			res.status(response.status).send(response);
 		});
 };
 
@@ -113,9 +140,11 @@ exports.update = async (req, res) => {
 	if (await guardToken.guardToken(req, res)) return false
 
 	if (!req.body) {
-		return res.status(400).send({
-			message: 'Data to update can not be empty!',
-		});
+		response.status = 500;
+		response.message = "Invalid data";
+		response.error.type = "invalid data";
+		response.error.message = "Data to update can not be empty!";
+		res.status(response.status).send(response);
 	}
 	if (!req.body.title) {
 		return res.status(400).send({
@@ -143,11 +172,11 @@ exports.update = async (req, res) => {
 		}
 		req.body.main_img = req.protocol + '://' + req.get('host') + '/uploads/' + name
 
-		News.findOne({_id: id}).select('main_img').then(image => {
+		News.findOne({ _id: id }).select('main_img').then(image => {
 			uploadImage.deleteFile(image.main_img)
 		})
 	}
-	
+
 	News.findByIdAndUpdate(
 		id,
 		{
@@ -160,15 +189,24 @@ exports.update = async (req, res) => {
 	)
 		.then(data => {
 			if (!data) {
-				res.status(404).send({
-					message: `Cannot update news with id=${id}.`,
-				});
-			} else res.send({ message: 'News was updated successfully.' });
+				response.status = 404;
+				response.message = "Invalid id";
+				response.error.type = "invalid id";
+				response.error.message = `Cannot update news with id=${id}.`;
+				res.status(response.status).send(response);
+			} else {
+				response.message = 'News was updated successfully.';
+				response.result = data;
+				response.length = 1;
+				res.send(response)
+			}
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: 'Error updating News with id=' + id,
-			});
+			response.status = 500;
+			response.message = "Invalid id";
+			response.error.type = "invalid id";
+			response.error.message = `Error updating News with id=${id}.`;
+			res.status(response.status).send(response);
 		});
 };
 exports.deleteNews = async (req, res) => {
@@ -178,20 +216,25 @@ exports.deleteNews = async (req, res) => {
 	News.findByIdAndRemove(id)
 		.then(data => {
 			if (!data) {
-				res.status(404).send({
-					message: `Cannot delete news with id=${id}.`
-				});
+				response.status = 404;
+				response.message = "Invalid id";
+				response.error.type = "invalid id";
+				response.error.message = `Cannot delete news with id=${id}.`;
+				res.status(response.status).send(response);
 			} else {
-				uploadImage.deleteFile(data.main_img)
-				res.send({
-					message: "News was deleted successfully!"
-				});
+				uploadImage.deleteFile(data.img)
+				response.message = 'News was deleted successfully!';
+				response.length = 1;
+				response.result = data;
+				res.send(response);
 			}
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: "Could not delete news with id=" + id
-			});
+			response.status = 500;
+			response.message = "Invalid id";
+			response.error.type = "invalid id";
+			response.error.message = `Could not delete news with id=${id}.`;
+			res.status(response.status).send(response);
 		});
 
 };
@@ -201,15 +244,24 @@ exports.counter = (req, res) => {
 	News.findByIdAndUpdate(req.body.id, { views: req.body.views })
 		.then(data => {
 			if (!data) {
-				res.status(404).send({
-					message: `Cannot update newsViews with id=${id}.`,
-				});
-			} else res.send({ message: 'newsViews was updated successfully.' });
+				response.status = 404;
+				response.message = "Invalid id";
+				response.error.type = "invalid id";
+				response.error.message = `Cannot update newsViews with id=${id}.`;
+				res.status(response.status).send(response);
+			} else {
+				response.message = 'NewsViews was updated successfully';
+				response.result = data;
+				response.length = 1;
+				res.send(response);
+			}
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: 'Error updating newsViews with id=' + id,
-			});
+			response.status = 500;
+			response.message = "Invalid id";
+			response.error.type = "invalid id";
+			response.error.message = `Error updating NewsViews with id=${id}.`;
+			res.status(response.status).send(response);
 		});
 },
 
@@ -228,12 +280,17 @@ exports.counter = (req, res) => {
 			title: { $regex: new RegExp(`${req.body.title}`, "i") }
 		})
 			.then(data => {
-				res.send(data);
+				response.message = "Find news successfully!";
+				response.result = data;
+				response.length = data.length;
+				res.send(response);
 			})
 			.catch(err => {
-				res.status(500).send({
-					message: 'Не вдалось отримати новини.',
-				});
+				response.status = 500;
+				response.message = "Not found";
+				response.error.type = "Not found";
+				response.error.message = `Не вдалось отримати новини.`;
+				res.status(response.status).send(response);
 			});
 	};
 
@@ -243,12 +300,17 @@ exports.findByStatus = (req, res) => {
 		isArchived: req.body.isArchived
 	})
 		.then(data => {
-			res.send(data);
+			response.message = "Find news by status successfully!";
+			response.result = data;
+			response.length = data.length;
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: 'Не вдалось отримати новини.',
-			});
+			response.status = 500;
+			response.message = "Not found";
+			response.error.type = "Not found";
+			response.error.message = `Не вдалось отримати новини.`;
+			res.status(response.status).send(response);
 		});
 }
 
