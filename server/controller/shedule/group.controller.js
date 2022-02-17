@@ -24,13 +24,17 @@ exports.createGroup = async(req, res) => {
     group
         .save(group)
         .then(data => {
-            res.send(data);
+            response.length = 1;
+            response.result = data;
+            response.message = "Success create group"
+            res.send(response);
         })
         .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the order."
-            });
+            response.status = 500;
+            response.message = "Some error occurred while creating the group.";
+            response.error.type = "";
+            response.error.message = err.message || "Some error occurred while creating the group.";
+            res.status(response.status).send(response);
         });
 
 };
@@ -38,12 +42,16 @@ exports.createGroup = async(req, res) => {
 exports.findAll = (req,res) => {
     Group.find()
     .then(data => {
-        res.send(data);
+        response.length = data.length;
+        response.result = data;
+        response.message = "Success get all gruops"
+        res.send(response);
     })
     .catch(err => {
-        res.status(500).send({
-            message:
-                err.message || "Some error occurred while retrieving blogs."
-        });
+        response.status = 500;
+        response.message = "Some error occurred while retrieving gruops.";
+        response.error.type = "";
+        response.error.message = err.message || "Some error occurred while retrieving gruops.";
+        res.status(response.status).send(response);
     });
 };

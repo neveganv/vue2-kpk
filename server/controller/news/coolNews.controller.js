@@ -4,19 +4,26 @@ const guardToken = require('../../middleware/guardToken');
 const code = require('../../generator/passwordGenerator');
 const uploadImage = require('../../uploader/uploader');
 
+let response = {
+	status: 200,
+	result: null,
+	message: null,
+	length: 0
+}
+
 // Create a new news
-exports.create = async(req, res) => {
+exports.create = async (req, res) => {
 	if (await guardToken.guardToken(req, res)) return false;
 
 	if (!req.body.title) {
-        return res.status(400).send({
-            status: 400,
-            error: {
-                type: "Validation error",
-                message: "Title is required"
-            }
-        });
-    }
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Validation error",
+				message: "Title is required"
+			}
+		});
+	}
 
 	let name = "coolNews-" + code.generate() + '.jpg';
 	let status = uploadImage.uploadFile(name, req.body.img)
@@ -39,12 +46,17 @@ exports.create = async(req, res) => {
 	coolNews
 		.save(coolNews)
 		.then(data => {
-			res.send(data);
+			response.length = 1;
+			response.result = data;
+			response.message = "Success create news"
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: err.message || 'Some error occurred while creating the news.',
-			});
+			response.status = 500;
+			response.message = "Some error occurred while creating the news category.";
+			response.error.type = "";
+			response.error.message = err.message || "Some error occurred while creating the news.";
+			res.status(response.status).send(response);
 		});
 };
 
@@ -53,9 +65,17 @@ exports.findCoolNewsById = (req, res) => {
 		_id: req.body.id,
 	})
 		.then(data => {
-			res.send(data);
+			response.length = 1;
+			response.result = data;
+			response.message = "Success find news by id"
+			res.send(response);
 		})
 		.catch(err => {
+			response.status = 500;
+			response.message = "Some error occurred while retrieving news.";
+			response.error.type = "Invalid id";
+			response.error.message = "Не вдалось отримати новини за вибраним ід.";
+			res.status(response.status).send(response);
 			res.status(500).send({
 				message: 'Не вдалось отримати новини за вибраним ід.',
 			});
@@ -72,34 +92,41 @@ exports.findAll = (req, res) => {
 	CoolNews.find(search)
 		.sort({ created_time: 'desc' })
 		.then(data => {
-			res.send(data);
+			response.length = data.length;
+			response.result = data;
+			response.message = "Success get all news"
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: err.message || 'Some error occurred while retrieving blogs.',
-			});
+			response.status = 500;
+			response.message = "Some error occurred while retrieving news.";
+			response.error.type = "";
+			response.error.message = err.message || "Some error occurred while retrieving news.";
+			res.status(response.status).send(response);
 		});
 };
 
-exports.updateCoolNews = async(req, res) => {
-	if(await guardToken.guardToken(req,res)) return  false
+exports.updateCoolNews = async (req, res) => {
+	if (await guardToken.guardToken(req, res)) return false
 
 	const id = req.body.id;
 
 	if (!req.body) {
-		return res.status(400).send({
-			message: 'Data to update can not be empty!',
-		});
+		response.status = 500;
+		response.message = "Invalid data";
+		response.error.type = "invalid data";
+		response.error.message = "Data to update can not be empty!";
+		res.status(response.status).send(response);
 	}
 	if (!req.body.title) {
-        return res.status(400).send({
-            status: 400,
-            error: {
-                type: "Validation error",
-                message: "Title is required"
-            }
-        });
-    }
+		return res.status(400).send({
+			status: 400,
+			error: {
+				type: "Validation error",
+				message: "Title is required"
+			}
+		});
+	}
 	if (req.body.img && !req.body.img.startsWith(req.protocol + '://' + req.get('host') + '/uploads/')) {
 		let name = "coolNews-" + code.generate() + '.jpg';
 		let status = uploadImage.uploadFile(name, req.body.img)
@@ -114,7 +141,7 @@ exports.updateCoolNews = async(req, res) => {
 		}
 		req.body.img = req.protocol + '://' + req.get('host') + '/uploads/' + name
 
-		CoolNews.findOne({_id: id}).select('img').then(image => {
+		CoolNews.findOne({ _id: id }).select('img').then(image => {
 			uploadImage.deleteFile(image.img)
 		})
 	}
@@ -130,39 +157,53 @@ exports.updateCoolNews = async(req, res) => {
 	)
 		.then(data => {
 			if (!data) {
-				res.status(404).send({
-					message: `Cannot update news with id=${id}.`,
-				});
-			} else res.send({ message: 'News was updated successfully.' });
+				response.status = 404;
+				response.message = "Invalid id";
+				response.error.type = "invalid id";
+				response.error.message = `Cannot update news with id=${id}.`;
+				res.status(response.status).send(response);
+			} else {
+				response.message = 'News was updated successfully.';
+				response.result = data;
+				response.length = 1;
+				res.send(response)
+			}
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: 'Error updating News with id=' + id,
-			});
+			response.status = 500;
+			response.message = "Invalid id";
+			response.error.type = "invalid id";
+			response.error.message = `Error updating News with id=${id}.`;
+			res.status(response.status).send(response);
 		});
 };
-exports.deleteCoolNews = async(req, res) => {
-	if(await guardToken.guardToken(req,res)) return  false
+exports.deleteCoolNews = async (req, res) => {
+	if (await guardToken.guardToken(req, res)) return false
 
 	const id = req.body.id;
 
 	CoolNews.findByIdAndRemove(id)
 		.then(data => {
 			if (!data) {
-				res.status(404).send({
-					message: `Cannot delete news with id=${id}.`,
-				});
+				response.status = 404;
+				response.message = "Invalid id";
+				response.error.type = "invalid id";
+				response.error.message = `Cannot delete news with id=${id}.`;
+				res.status(response.status).send(response);
 			} else {
 				uploadImage.deleteFile(data.img)
-				res.send({
-					message: 'News was deleted successfully!',
-				});
+				response.message = 'News was deleted successfully!';
+				response.length = 1;
+				response.result = data;
+				res.send(response);
 			}
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: 'Could not delete news with id=' + id,
-			});
+			response.status = 500;
+			response.message = "Invalid id";
+			response.error.type = "invalid id";
+			response.error.message = `Could not delete news with id=${id}.`;
+			res.status(response.status).send(response);
 		});
 };
 
@@ -180,28 +221,38 @@ exports.findCoolNews = (req, res) => {
 		title: { $regex: new RegExp(`${req.body.title}`, 'i') },
 	})
 		.then(data => {
-			res.send(data);
+			response.message = "Find news successfully!";
+			response.result = data;
+			response.length = data.length;
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: 'Не вдалось отримати новини.',
-			});
+			response.status = 500;
+			response.message = "Not found";
+			response.error.type = "Not found";
+			response.error.message = `Не вдалось отримати новини.`;
+			res.status(response.status).send(response);
 		});
 };
 
-exports.findByStatus = async(req, res) => {
-	if(req.body.isArchived != 0){
-		if(await guardToken.guardToken(req,res)) return  false
+exports.findByStatus = async (req, res) => {
+	if (req.body.isArchived != 0) {
+		if (await guardToken.guardToken(req, res)) return false
 	}
 	CoolNews.find({
 		isArchived: req.body.isArchived,
 	})
 		.then(data => {
-			res.send(data);
+			response.message = "Find news by status successfully!";
+			response.result = data;
+			response.length = data.length;
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: 'Не вдалось отримати новини.',
-			});
+			response.status = 500;
+			response.message = "Not found";
+			response.error.type = "Not found";
+			response.error.message = `Не вдалось отримати новини.`;
+			res.status(response.status).send(response);
 		});
 };

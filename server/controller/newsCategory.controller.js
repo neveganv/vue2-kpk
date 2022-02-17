@@ -56,7 +56,7 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             response.status = 500;
-            response.message = "Some error occurred while retrieving specialty.";
+            response.message = "Some error occurred while retrieving news category.";
             response.error.type = "";
             response.error.message = err.message || "Some error occurred while retrieving news category.";
             res.status(response.status).send(response);

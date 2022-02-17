@@ -5,32 +5,32 @@ const { classes } = require('../../models');
 const guardToken = require("../../middleware/guardToken")
 
 // Create a new Event
-exports.create = async(req, res) => {
-	if(await guardToken.guardToken(req,res)) return  false
+exports.create = async (req, res) => {
+	if (await guardToken.guardToken(req, res)) return false
 
 	let validateError = {
-        status: 400,
-        error: {
-            type: "Validation error",
-            message: "",
-        }
-    };
-    if (!req.body.name) {
-        validateError.error.message = "Name is required";
-        return res.status(400).send(validateError);
-    }
-    else if (!req.body.color) {
-        validateError.error.message = "Color is required";
-        return res.status(400).send(validateError);
-    }
+		status: 400,
+		error: {
+			type: "Validation error",
+			message: "",
+		}
+	};
+	if (!req.body.name) {
+		validateError.error.message = "Name is required";
+		return res.status(400).send(validateError);
+	}
+	else if (!req.body.color) {
+		validateError.error.message = "Color is required";
+		return res.status(400).send(validateError);
+	}
 	else if (!req.body.start) {
-        validateError.error.message = "Start time is required";
-        return res.status(400).send(validateError);
-    }
+		validateError.error.message = "Start time is required";
+		return res.status(400).send(validateError);
+	}
 	else if (!req.body.end) {
-        validateError.error.message = "End time is required";
-        return res.status(400).send(validateError);
-    }
+		validateError.error.message = "End time is required";
+		return res.status(400).send(validateError);
+	}
 
 	const event = new Event({
 		name: req.body.class,
@@ -47,12 +47,17 @@ exports.create = async(req, res) => {
 	event
 		.save(event)
 		.then(data => {
-			res.send(data);
+			response.length = 1;
+			response.result = data;
+			response.message = "Success create shedule"
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: err.message || 'Some error occurred while creating the order.',
-			});
+			response.status = 500;
+			response.message = "Some error occurred while creating the shudule.";
+			response.error.type = "";
+			response.error.message = err.message || "Some error occurred while creating the shedule.";
+			res.status(response.status).send(response);
 		});
 };
 
@@ -73,13 +78,17 @@ exports.findByGroup = (req, res) => {
 		.populate('classes')
 
 		.then(data => {
-			res.send(data);
-			console.log(data);
+			response.length = data.length;
+			response.result = data;
+			response.message = "Success get shedule of gruops"
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: err.message || 'Some error occurred while retrieving blogs.',
-			});
+			response.status = 500;
+			response.message = "Some error occurred while retrieving blogs.";
+			response.error.type = "";
+			response.error.message = err.message || "Some error occurred while retrieving blogs.";
+			res.status(response.status).send(response);
 		});
 };
 
@@ -97,17 +106,22 @@ exports.findEventById = (req, res) => {
 		_id: req.body.id,
 	})
 		.then(data => {
-			res.send(data);
+			response.length = 1;
+			response.result = data;
+			response.message = "Success find event by id"
+			res.send(response);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: 'Не вдалось отримати пару за вибраним ід.',
-			});
+			response.status = 500;
+			response.message = "Invalid id";
+			response.error.type = "Invalid id";
+			response.error.message = "Не вдалось отримати пару за вибраним ід.";
+			res.status(response.status).send(response);
 		});
 };
 
-exports.updateEvent = async(req, res) => {
-	if(await guardToken.guardToken(req,res)) return  false
+exports.updateEvent = async (req, res) => {
+	if (await guardToken.guardToken(req, res)) return false
 
 	if (!req.body) {
 		return res.status(400).send({
@@ -118,7 +132,8 @@ exports.updateEvent = async(req, res) => {
 	const event = req.body;
 	Event.findByIdAndUpdate(
 		id,
-		{ event, 
+		{
+			event,
 			group: new ObjectId(req.body.group),
 			name: req.body.class,
 			link: req.body.link,
@@ -128,19 +143,28 @@ exports.updateEvent = async(req, res) => {
 			content: req.body.content,
 			classes: new ObjectId(req.body.classId),
 
-		 },
+		},
 		{ useFindAndModify: false }
 	)
 		.then(data => {
 			if (!data) {
-				res.status(404).send({
-					message: `Cannot update event with id=${id}.`,
-				});
-			} else res.send({ message: 'Event was updated successfully.' });
+				response.status = 404;
+				response.message = "Invalid id";
+				response.error.type = "invalid id";
+				response.error.message = `Cannot updateevent with id=${id}.`;
+				res.status(response.status).send(response);
+			} else {
+				response.message = 'Event was updated successfully.';
+				response.result = data;
+				response.length = 1;
+				res.send(response)
+			}
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: 'Error updating event with id=' + id,
-			});
+			response.status = 500;
+			response.message = "Invalid id";
+			response.error.type = "invalid id";
+			response.error.message = `Error updating Event with id=${id}.`;
+			res.status(response.status).send(response);
 		});
 };
