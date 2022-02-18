@@ -3,6 +3,7 @@ const Specialty = db.specialty
 const guardToken = require("../middleware/guardToken")
 const code = require('../generator/passwordGenerator');
 const uploadImage = require('../uploader/uploader');
+const api_end_point = process.env.API_ENDPOINT;
 
 
 let response = {
@@ -51,7 +52,7 @@ exports.create = async (req, res) => {
 
   const specialty = new Specialty({
     name: req.body.name,
-    img: req.protocol + '://' + req.get('host') + '/uploads/' + name,
+    img: api_end_point + '/uploads/' + name,
     content: req.body.content,
     courses: req.body.courses,
     number: req.body.number
@@ -145,7 +146,7 @@ exports.update = async (req, res) => {
         }
       });
     }
-    req.body.img = req.protocol + '://' + req.get('host') + '/uploads/' + name
+    req.body.img = api_end_point + '/uploads/' + name
 
     Specialty.findOne({ _id: id }).select('img').then(image => {
       uploadImage.deleteFile(image.img)

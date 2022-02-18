@@ -4,6 +4,7 @@ const { ObjectId } = require('bson');
 const guardToken = require("../middleware/guardToken")
 const code = require('../generator/passwordGenerator');
 const uploadImage = require('../uploader/uploader');
+const api_end_point = process.env.API_ENDPOINT;
 
 let response = {
 	status: 200,
@@ -37,12 +38,12 @@ exports.create = async (req, res) => {
 			}
 		});
 	}
-
+console.log(api_end_point)
 	const news = new News({
 		category: req.body.category,
 		title: req.body.title,
 		content: req.body.content,
-		main_img: req.protocol + '://' + req.get('host') + '/uploads/' + name,
+		main_img: api_end_point + '/uploads/' + name,
 		created_time: req.body.created_time,
 	});
 	news
@@ -170,7 +171,7 @@ exports.update = async (req, res) => {
 				}
 			});
 		}
-		req.body.main_img = req.protocol + '://' + req.get('host') + '/uploads/' + name
+		req.body.main_img = api_end_point + '/uploads/' + name
 
 		News.findOne({ _id: id }).select('main_img').then(image => {
 			uploadImage.deleteFile(image.main_img)

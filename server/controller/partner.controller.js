@@ -4,6 +4,7 @@ const partner = require('../models/partner');
 const guardToken = require("../middleware/guardToken")
 const code = require('../generator/passwordGenerator');
 const uploadImage = require('../uploader/uploader')
+const api_end_point = process.env.API_ENDPOINT;
 
 let response = {
     status: 200,
@@ -49,7 +50,7 @@ exports.create = async (req, res) => {
 
         else {
             const partner = new Partner({
-                path_img: req.protocol + '://' + req.get('host') + '/uploads/' + name,
+                path_img: api_end_point + '/uploads/' + name,
                 path_link: req.body.path_link,
                 partner_name: req.body.partner_name,
             });

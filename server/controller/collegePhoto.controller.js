@@ -5,6 +5,7 @@ const guardToken = require("../middleware/guardToken")
 const code = require('../generator/passwordGenerator');
 const uploadImage = require('../uploader/uploader');
 const { response } = require('express');
+const api_end_point = process.env.API_ENDPOINT;
 
 // find all
 exports.findAll = (req, res) => {
@@ -51,7 +52,7 @@ exports.create = async (req, res) => {
   }
 
   const collegePhoto = new CollegePhoto({
-    img: req.protocol + '://' + req.get('host') + '/uploads/' + name
+    img: api_end_point + '/uploads/' + name
   });
   collegePhoto
     .save(collegePhoto)

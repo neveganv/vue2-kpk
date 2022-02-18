@@ -3,6 +3,7 @@ const CoolNews = db.coolNews;
 const guardToken = require('../../middleware/guardToken');
 const code = require('../../generator/passwordGenerator');
 const uploadImage = require('../../uploader/uploader');
+const api_end_point = process.env.API_ENDPOINT;
 
 let response = {
 	status: 200,
@@ -39,7 +40,7 @@ exports.create = async (req, res) => {
 
 	const coolNews = new CoolNews({
 		title: req.body.title,
-		img: req.protocol + '://' + req.get('host') + '/uploads/' + name,
+		img: api_end_point + '/uploads/' + name,
 		created_time: req.body.created_time,
 		content: req.body.content,
 	});
@@ -139,7 +140,7 @@ exports.updateCoolNews = async (req, res) => {
 				}
 			});
 		}
-		req.body.img = req.protocol + '://' + req.get('host') + '/uploads/' + name
+		req.body.img = api_end_point + '/uploads/' + name
 
 		CoolNews.findOne({ _id: id }).select('img').then(image => {
 			uploadImage.deleteFile(image.img)
