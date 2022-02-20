@@ -54,9 +54,10 @@ import specialityService from '@/request/specialty/specialtyService';
 export default {
 	data: () => ({
 		specialities: [],
-		SceletonLoader: false,
+		SceletonLoader: true,
 		page: 1,
 		isLoadMore: false,
+		isIntersectFirst:false
 	}),
 	components: {
 		MySpecialitiesCard,
@@ -70,7 +71,7 @@ export default {
 		isSpecialities: {
 			deep: true,
 			handler(e) {
-				if (e && this.specialities.length === 0 && !this.SceletonLoader) {
+				if (e && this.specialities.length === 0 && !this.isIntersectFirst) {
 					this.getSpecialities();
 				}
 			},
@@ -82,6 +83,7 @@ export default {
 		},
 		async getSpecialities() {
 			this.SceletonLoader = true;
+			this.isIntersectFirst = true;
 			const newItem = await specialityService.getAllSpecialty();
 			console.log(newItem)
 			this.specialities = newItem.result;

@@ -1,11 +1,26 @@
 <template>
-	<VCard class="another-card" ripple @click="onClick" :class="{'slider' : slider}">
-		<div no-gutters>
-			<img
-				class="another-card-img unselectable"
+	<VCard
+		class="another-card"
+		ripple
+		@click="onClick"
+		:class="{ slider: slider }"
+	>
+		<div no-gutters class="unselectable">
+			<v-img
+				class="another-card-img"
 				:src="newItem.main_img"
-				alt=""
-			/>
+				draggable="false"
+				:lazy-src="newItem.main_img"
+			>
+				<template v-slot:placeholder>
+					<v-row class="fill-height ma-0" align="center" justify="center">
+						<v-progress-circular
+							indeterminate
+							color="#EF876D"
+						></v-progress-circular>
+					</v-row>
+				</template>
+			</v-img>
 		</div>
 		<VCardActions>
 			<div class="another-card-title unselectable">
@@ -22,9 +37,9 @@
 <script>
 export default {
 	props: {
-		slider:{
-			require:false,
-			default:false
+		slider: {
+			require: false,
+			default: false,
 		},
 		newItem: {
 			type: Object,
@@ -58,18 +73,17 @@ export default {
 		object-fit: cover;
 	}
 	&-title {
-
 		width: 100%;
 		max-height: 20px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		font-size: 12px;
 		text-align: center;
-        text-align: left;
+		text-align: left;
 		white-space: nowrap;
 		font-weight: 500;
 	}
-	&.slider{
+	&.slider {
 		width: 100%;
 	}
 }

@@ -43,10 +43,10 @@
 			</v-card-text>
 			<v-card-actions>
 				<v-col>
-					<v-btn :to="{ path: '/' }" text color="secondary"
+					<!-- <v-btn :to="{ path: '/' }" text color="secondary"
 						><VIcon left>mdi-arrow-left</VIcon>
 						назад
-					</v-btn>
+					</v-btn> -->
 				</v-col>
 				<v-spacer></v-spacer>
 				<v-col>

@@ -1,12 +1,13 @@
 <template>
-	<VCard class="another-card" :class="{'slider' : slider}"  @click="onClick">
+	<VCard class="another-card" :class="{ slider: slider }" @click="onClick">
 		<div no-gutters>
 			<img
-			draggable="false"
+				draggable="false"
 				class="another-card-img unselectable"
 				:src="specialitie.img"
 				alt=""
 			/>
+			
 		</div>
 		<VCardActions>
 			<div class="another-card-title unselectable text-truncate">
@@ -64,7 +65,7 @@ export default {
 		text-align: center;
 		font-weight: 500;
 	}
-	&.slider{
+	&.slider {
 		width: 100%;
 	}
 }

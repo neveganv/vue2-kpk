@@ -45,14 +45,15 @@ import NewsList from './NewsList';
 export default {
 	data: () => ({
 		activeCategory: 'all',
-		sceletonLoader: false,
+		sceletonLoader: true,
 		newsLength: 0,
 		recentPage: 1,
 		page: 1,
 		news: [],
 		changeNews: [],
 		categories: [],
-		sceletonCategory:false
+		sceletonCategory:false,
+		isIntersectFirst:false
 	}),
 	props: {
 		isShowNews: {
@@ -63,7 +64,7 @@ export default {
 		isShowNews: {
 			deep: true,
 			handler(e) {
-				if (e && this.news.length === 0 && !this.sceletonLoader) {
+				if (e && this.news.length === 0 && !this.isIntersectFirst) {
 					this.getNews();
 					this.getCategories();
 				}
@@ -92,6 +93,7 @@ export default {
 		async getNews() {
 			try {
 				this.sceletonLoader = true;
+				this.isIntersectFirst = true;
 				let params = [];
 				params.limit = this.$vuetify.breakpoint.smAndDown ? 2 : 4; // ліміт потім треба буде оголосити в компутеді
 				params.page = this.page;
@@ -111,6 +113,7 @@ export default {
 		async getCategories() {
 			try {
 				this.sceletonCategory = true;
+				this.isIntersectFirst = true;
 				const newCategorie = await newsService.getSimpleNewsCategories();
 				this.categories = newCategorie.result
 				this.categories.unshift({ name: 'Всі', _id: 'all' });

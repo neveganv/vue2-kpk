@@ -5,7 +5,7 @@
 				<VAppBarNavIcon @click="mini = !mini"></VAppBarNavIcon>
 				<div class="admin-logo ml-4">
 					<VBadge color="error" overlap right bottom text content="beta">
-						<img :src="require('@/assets/img/logo-admin.svg')" alt="" />
+						<img :src="require('@/assets/img/admin_logo.png')" alt="" />
 					</VBadge>
 				</div>
 				<VSpacer></VSpacer>
@@ -27,7 +27,7 @@
 			:class="{ fixed: fixed }"
 		>
 			<VDivider />
-			<VList dense shaped class="pl-0">
+			<VList dense  nav>
 				<VListItemGroup color="primary">
 					<VListItem :to="{ path: '/admin' }" v-if="permissions.owner">
 						<VListItemIcon>

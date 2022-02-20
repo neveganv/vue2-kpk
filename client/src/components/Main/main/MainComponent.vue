@@ -38,11 +38,15 @@
 					></v-img>
 
 					<div class="main-glass unselectable">
-						<img
+						<!-- <img
 							draggable="false"
 							:src="require('@/assets/img/main_text.svg')"
 							alt=""
-						/>
+						/> -->
+						<div class="title_text">
+							<div>КОЛОМИЙСЬКИЙ ПОЛІТЕХНІЧНИЙ</div>
+							<div>ФАХОВИЙ КОЛЕДЖ</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -166,16 +170,16 @@ export default {
 		},
 	},
 	mounted() {
-		this.globalRightNavigation = this.$vuetify.breakpoint.width <= 1626
-			? false
-			: true;
-			console.log(this.$vuetify.breakpoint)
+		this.globalRightNavigation =
+			this.$vuetify.breakpoint.width <= 1626 ? false : true;
+		console.log(this.$vuetify.breakpoint);
 		window.addEventListener('scroll', this.onScroll);
 		if (this.$vuetify.breakpoint.mdAndDown) {
 			this.navigationRight = false;
 		} else {
 			this.navigationRight = true;
 		}
+
 		setTimeout(() => {
 			let AboutComponent = document.querySelector('#AboutComponent');
 
@@ -184,6 +188,7 @@ export default {
 				window.scrollTo(0, AboutComponent.offsetTop);
 			}
 		}, 500);
+
 		setTimeout(() => {
 			let InformationComponent = document.querySelector(
 				'#InformationComponent'
@@ -259,6 +264,9 @@ export default {
 			padding: 20px 30px;
 			border-radius: 10px;
 			top: -8%;
+			.title_text {
+				font-size: 22px;
+			}
 		}
 	}
 	&.sm {
@@ -277,6 +285,9 @@ export default {
 			padding: 20px 30px;
 			border-radius: 10px;
 			top: -10%;
+			.title_text {
+				font-size: 100%;
+			}
 		}
 	}
 	&.xs {
@@ -295,8 +306,8 @@ export default {
 			padding: 20px 10px;
 			border-radius: 5px;
 			top: -20%;
-			img {
-				width: 95%;
+			.title_text {
+				font-size: 7px;
 			}
 		}
 	}
@@ -366,36 +377,41 @@ export default {
 }
 .main-glass {
 	transition: 0.5s ease;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	max-width: 769.57px;
+	max-width: 780px;
 	width: 100%;
-	height: 217.49px;
+	height: 220px;
 	border-radius: 20px;
 	top: -15%;
 	z-index: 1;
 	position: absolute !important;
-
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	border: 1px solid rgba(227, 227, 227, 0.4);
 	background: rgba(255, 254, 254, 0.772);
 	overflow: hidden;
-	img {
-		position: absolute;
-		width: 85%;
+	.title_text {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		font-size: 35px;
+		font-weight: bold;
+		font-family: 'Montserrat', sans-serif;
+		color: #4b4453;
 	}
 
-	&::before {
-		content: '';
-		background: inherit;
-		z-index: -1;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
-		filter: blur(10px);
-		margin: -20px;
-	}
+	// &::before {
+	// 	content: '';
+	// 	background: inherit;
+	// 	z-index: -1;
+	// 	top: 0;
+	// 	left: 0;
+	// 	right: 0;
+	// 	bottom: 0;
+	// 	box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
+	// 	filter: blur(10px);
+	// 	margin: -20px;
+	// }
 }
 </style>

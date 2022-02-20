@@ -54,7 +54,8 @@ export default {
 	},
 	data: () => ({
 		folders: [],
-		sceletonLoader: false,
+		sceletonLoader: true,
+		isIntersectFirst: false
 	}),
 	props:{
 		isShowFooter:{
@@ -65,7 +66,7 @@ export default {
 		isShowFooter:{
 			deep:true,
 			handler(e){
-				if(e && this.folders.length === 0 && !this.sceletonLoader){
+				if(e && this.folders.length === 0 && !this.isIntersectFirst) {
 					this.getFolders()
 				}
 			}
@@ -79,6 +80,7 @@ export default {
 		async getFolders() {
 			try {
 				this.sceletonLoader = true;
+				this.isIntersectFirst = true;
 				const newPage = await pageService.getPages();
 				const newFolder = await folderService.getFolders();
 				this.folders = newFolder.result;

@@ -35,13 +35,24 @@
 		</div>
 
 		<div class="my-new__img" v-if="!sceletonLoader">
-			<img :src="newItem.main_img" draggable="false" />
+			<v-img
+				:src="newItem.main_img"
+				draggable="false"
+				:lazy-src="newItem.main_img"
+			>
+				<template v-slot:placeholder>
+					<v-row class="fill-height ma-0" align="center" justify="center">
+						<v-progress-circular
+							indeterminate
+							color="#EF876D"
+						></v-progress-circular>
+					</v-row>
+				</template>
+			</v-img>
 		</div>
 
 		<div class="my-new__img" v-if="sceletonLoader">
-			<v-skeleton-loader
-				type="image"
-			></v-skeleton-loader>
+			<v-skeleton-loader type="image"></v-skeleton-loader>
 		</div>
 	</div>
 </template>
@@ -134,7 +145,7 @@ export default {
 	}
 	&__img {
 		transition: 0.4s ease;
-		height:70%;
+		height: 70%;
 		max-width: 510px;
 		width: 100%;
 
@@ -158,6 +169,9 @@ export default {
 	}
 	&:active {
 		transform: scale(0.95);
+	}
+	.v-image{
+		height: 100%!important;
 	}
 }
 .slide-fade-enter-active {

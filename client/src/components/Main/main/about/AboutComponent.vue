@@ -63,7 +63,16 @@
 						:lazy-src="image.img"
 						draggable="false"
 						:src="image.img"
-					/>
+					>
+						<template v-slot:placeholder>
+							<v-row class="fill-height ma-0" align="center" justify="center">
+								<v-progress-circular
+									indeterminate
+									color="white"
+								></v-progress-circular>
+							</v-row>
+						</template>
+					</v-img>
 					<div slot="viewport" class="flicking-pagination"></div>
 				</flicking>
 			</VSlideXReverseTransition>
@@ -108,7 +117,7 @@ export default {
 		isShowAbout: {
 			deep: true,
 			handler(e) {
-				if (e && this.images.length === 0 ) {
+				if (e && this.images.length === 0 && !this.intersectFirst) {
 					this.getAllImages();
 				}
 			},
@@ -118,6 +127,7 @@ export default {
 		async getAllImages() {
 			try {
 				this.loading = true;
+				this.intersectFirst = true;
 				const newItem = await collegeInfoServices.getPhotos();
 				this.images = newItem.result.reverse();
 				this.loading = false;
@@ -131,6 +141,7 @@ export default {
 		isVisible: false,
 		loading: false,
 		plugins: [new Pagination({ type: 'bullet' })],
+		intersectFirst: false,
 	}),
 };
 </script>

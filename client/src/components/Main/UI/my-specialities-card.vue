@@ -1,37 +1,49 @@
 <template>
-	<div class="specialities-card mt-5 mx-1"  :class="{'edit' : edit}" >
+	<div class="specialities-card mt-5 mx-1" :class="{ edit: edit }">
 		<div @click="onClick">
-		<v-slide-x-transition>
-			<div class="card__title" v-if="!sceletonLoader">
-				<div class="title__number">{{ '0' + indexSpecialitie || '--' }}</div>
-				<div class="title__text text-truncate" :class="{'edit' : edit}">
-					{{ specialitie.name || '--' }} ({{ specialitie.number || '--' }})
+			<v-slide-x-transition>
+				<div class="card__title" v-if="!sceletonLoader">
+					<div class="title__number">{{ '0' + indexSpecialitie || '--' }}</div>
+					<div class="title__text text-truncate" :class="{ edit: edit }">
+						{{ specialitie.name || '--' }} ({{ specialitie.number || '--' }})
+					</div>
 				</div>
+			</v-slide-x-transition>
+			<div class="card__title" v-if="sceletonLoader">
+				<v-skeleton-loader type="chip"></v-skeleton-loader>
 			</div>
-		</v-slide-x-transition>
-		<div class="card__title" v-if="sceletonLoader">
-			<v-skeleton-loader type="chip"></v-skeleton-loader>
-		</div>
-		<v-slide-x-transition>
-			<div class="card__img" v-if="!sceletonLoader">
-				<img :src="specialitie.img" />
+			<v-slide-x-transition>
+				<div class="card__img" v-if="!sceletonLoader">
+					<v-img
+						:src="specialitie.img"
+						draggable="false"
+						:lazy-src="specialitie.img"
+					>
+						<template v-slot:placeholder>
+							<v-row class="fill-height ma-0" align="center" justify="center">
+								<v-progress-circular
+									indeterminate
+									color="#EF876D"
+								></v-progress-circular>
+							</v-row>
+						</template>
+					</v-img>
+				</div>
+			</v-slide-x-transition>
+			<div v-if="sceletonLoader">
+				<v-skeleton-loader
+					type="card"
+					class="mt-5"
+					height="250"
+				></v-skeleton-loader>
 			</div>
-		</v-slide-x-transition>
-		<div v-if="sceletonLoader">
-			<v-skeleton-loader
-				type="card"
-				class="mt-5"
-				height="250"
-			></v-skeleton-loader>
-		</div>
 		</div>
 		<div class="card__arrow" v-if="!edit">
 			<VIcon>mdi-arrow-bottom-left</VIcon>
 		</div>
 
 		<div class="card__arrow" v-else @click="onClick">
-
-				<VIcon color="primary">mdi-square-edit-outline</VIcon>
+			<VIcon color="primary">mdi-square-edit-outline</VIcon>
 		</div>
 	</div>
 </template>
@@ -56,16 +68,16 @@ export default {
 	},
 	methods: {
 		onClick() {
-			if(!this.edit){
+			if (!this.edit) {
 				this.$router.push({
 					name: 'main-speciality-page',
-				params: { id: this.specialitie._id },
-			});
-		}else{
-			if(!this.sceletonLoader){
-				this.$emit('edit', this.specialitie._id)
+					params: { id: this.specialitie._id },
+				});
+			} else {
+				if (!this.sceletonLoader) {
+					this.$emit('edit', this.specialitie._id);
+				}
 			}
-		}
 		},
 	},
 };
@@ -100,7 +112,7 @@ export default {
 			font-weight: 600;
 			font-size: 15px;
 			line-height: 15px;
-			&.edit{
+			&.edit {
 				max-width: 230px;
 			}
 		}
@@ -110,6 +122,9 @@ export default {
 		max-width: 350px;
 		height: 250px;
 		width: 100%;
+		.v-image{
+			height: 100%!important;
+		}
 
 		img {
 			object-fit: cover;

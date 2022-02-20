@@ -32,7 +32,20 @@
 
 		<VRow no-gutters v-if="!sceletonLoader">
 			<div class="main-img" :class="{sm : $vuetify.breakpoint.sm,xs : $vuetify.breakpoint.xs}">
-				<img :src="newItem.main_img" alt="" />
+					<v-img
+						:src="newItem.main_img"
+						draggable="false"
+						:lazy-src="newItem.main_img"
+					>
+						<template v-slot:placeholder>
+							<v-row class="fill-height ma-0" align="center" justify="center">
+								<v-progress-circular
+									indeterminate
+									color="#EF876D"
+								></v-progress-circular>
+							</v-row>
+						</template>
+					</v-img>
 			</div>
 		</VRow>
 		<VRow no-gutters v-else>
@@ -95,6 +108,9 @@ export default {
 		}
 		&.xs{
 			height: 30%;
+		}
+		.v-image{
+			height: 100%!important;
 		}
 	}
 	.content {
