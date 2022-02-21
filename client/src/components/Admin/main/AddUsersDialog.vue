@@ -194,7 +194,7 @@ export default {
 					const newUser = await usersService.findUserById({
 						id: this.chosenUser,
 					})
-					this.user = newUser.result[0]
+					this.user = newUser.result
 					console.log(this.user);
 				} catch (e) {
 					alert(e);

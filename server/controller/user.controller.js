@@ -267,7 +267,7 @@ exports.update = async (req, res) => {
 		})
 		.then(data => {
             response.length = 1;
-            response.result = data;
+            response.result = data[0];
             response.message = "Success find user by id"
             res.send(response);
         })
