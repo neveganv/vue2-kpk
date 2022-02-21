@@ -274,6 +274,7 @@ export default {
 		async onCreate() {
 			const params = [];
 			params.html = this.page.html;
+			params.name = this.page.name;
 			try {
 				await pageService.update(this.$route.params.id, { ...params });
 				this.oldPage = { ...this.page };
