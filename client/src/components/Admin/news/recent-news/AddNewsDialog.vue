@@ -242,7 +242,9 @@ export default {
 				const params = [];
 				params.id = this.news._id;
 				params.title = this.news.title;
-				params.img = this.base64image || this.news.img;
+				if( this.base64image || this.news.img){
+					params.img = this.base64image || this.news.img;
+				}
 				params.content = this.news.content;
 				params.isArchived = this.isArchived;
 				this.$v.$reset();
