@@ -240,7 +240,7 @@ export default {
 				this.foldersLoader = false;
 			} catch (e) {
 				this.foldersLoader = false;
-				console.log(e);
+				console.error(e);
 			}
 		},
 	},

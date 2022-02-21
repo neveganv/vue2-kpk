@@ -135,7 +135,6 @@ export default {
 		updateUser() {
 			this.getUser();
 			this.visibleUser = false;
-			console.log(123);
 			this.chosenId = null;
 		},
 		async deleteUser(e) {
@@ -169,7 +168,7 @@ export default {
 				);
 				this.setLoading(false);
 			} catch (e) {
-				alert(e);
+				console.error(e)
 			}
 		},
 		async getPartners() {
