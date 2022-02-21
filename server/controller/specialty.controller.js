@@ -33,10 +33,10 @@ exports.create = async (req, res) => {
     validateError.error.message = "Name is required";
     return res.status(400).send(validateError);
   }
-  if (!req.body.img) {
-    validateError.error.message = "Image is required";
-    return res.status(400).send(validateError);
-  }
+  // if (!req.body.img) {
+  //   validateError.error.message = "Image is required";
+  //   return res.status(400).send(validateError);
+  // }
 
   let name = "speciality-" + code.generate() + '.jpg';
   let status = uploadImage.uploadFile(name, req.body.img)
@@ -128,10 +128,10 @@ exports.update = async (req, res) => {
     validateError.error.message = "Name is required";
     return res.status(400).send(validateError);
   }
-  if (!req.body.img) {
-    validateError.error.message = "Image is required";
-    return res.status(400).send(validateError);
-  }
+  // if (!req.body.img) {
+  //   validateError.error.message = "Image is required";
+  //   return res.status(400).send(validateError);
+  // }
   const id = req.body.id;
 
   if (req.body.img && !req.body.img.startsWith(req.protocol + '://' + req.get('host') + '/uploads/')) {

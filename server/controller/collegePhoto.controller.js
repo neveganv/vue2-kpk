@@ -28,15 +28,15 @@ exports.findAll = (req, res) => {
 exports.create = async (req, res) => {
   if (await guardToken.guardToken(req, res)) return false
 
-  if (!req.body.img) {
-    return res.status(400).send({
-      status: 400,
-      error: {
-        type: "Validation error",
-        message: "Img is required"
-      }
-    });
-  }
+  // if (!req.body.img) {
+  //   return res.status(400).send({
+  //     status: 400,
+  //     error: {
+  //       type: "Validation error",
+  //       message: "Img is required"
+  //     }
+  //   });
+  // }
 
 
   let name = "collegePhoto-" + code.generate() + '.jpg';

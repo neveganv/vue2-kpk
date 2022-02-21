@@ -135,11 +135,11 @@ exports.update = async (req, res) => {
             message: "",
         }
     };
-    if (!req.body.path_img) {
-        validateError.error.message = "Img is required";
-        return res.status(400).send(validateError);
-    }
-    else if (!req.body.path_link) {
+    // if (!req.body.path_img) {
+    //     validateError.error.message = "Img is required";
+    //     return res.status(400).send(validateError);
+    // }
+    if (!req.body.path_link) {
         validateError.error.message = "Link is required";
         return res.status(400).send(validateError);
     }

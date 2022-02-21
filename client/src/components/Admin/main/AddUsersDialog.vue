@@ -189,13 +189,12 @@ export default {
 	methods: {
 		async getChosenUser() {
 			if (this.chosenUser) {
-				console.log(this.chosenUser);
 				try {
 					this.edit = true;
 					const newUser = await usersService.findUserById({
 						id: this.chosenUser,
-					});
-					this.user = newUser;
+					})
+					this.user = newUser.result[0]
 					console.log(this.user);
 				} catch (e) {
 					alert(e);
