@@ -187,26 +187,6 @@ exports.update = async (req, res) => {
     });
 }
 
-exports.findSpecialty = (req, res) => {
-
-  Specialty.find({
-    name: { $regex: new RegExp(`${req.body.title}`, "i") }
-  })
-    .then(data => {
-      response.length = data.lenght;
-      response.message = "Success search specialty";
-      response.result = data;
-      res.send(response);
-    })
-    .catch(err => {
-      response.status = 500;
-      response.message = "Some error occurred while search the specialty.";
-      response.error.type = "";
-      response.error.message = "Не вдалось отримати спеціальність.";
-      res.status(response.status).send(response);
-    });
-};
-
 exports.deleteSpecialty = async (req, res) => {
   if (await guardToken.guardToken(req, res)) return false
 

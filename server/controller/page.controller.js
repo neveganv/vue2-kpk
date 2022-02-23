@@ -209,23 +209,3 @@ exports.delete = async (req, res) => {
         });
 
 };
-
-exports.findPage = (req, res) => {
-
-    Page.find({
-        name: { $regex: new RegExp(`${req.body.title}`, "i") }
-    })
-        .then(data => {
-            response.message = "Find pages successfully!";
-            response.result = data;
-            response.length = data.length;
-            res.send(response);
-        })
-        .catch(err => {
-            response.status = 500;
-            response.message = "Not found";
-            response.error.type = "Not found";
-            response.error.message = `Не вдалось отримати сторінки.`;
-            res.status(response.status).send(response);
-        });
-};

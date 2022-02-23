@@ -56,10 +56,6 @@ export default {
 		const response = await requestService.post(`${prefix3}/getAllCoolNews`, params)
 		return response?.data
 	},
-	async searchCoolNews(params){
-		const response = await requestService.post(`${prefix3}/searchNews`, params)
-		return response?.data
-	},
 	async getCoolNewsById(params){
 		const response = await requestService.post(`${prefix3}/getCoolNewsById`, params)
 		return response?.data

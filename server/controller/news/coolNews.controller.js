@@ -208,34 +208,6 @@ exports.deleteCoolNews = async (req, res) => {
 		});
 };
 
-exports.findCoolNews = (req, res) => {
-	if (!req.body.title) {
-		return res.status(400).send({
-			status: 400,
-			error: {
-				type: "Validation error",
-				message: "Title is required"
-			}
-		});
-	}
-	CoolNews.find({
-		title: { $regex: new RegExp(`${req.body.title}`, 'i') },
-	})
-		.then(data => {
-			response.message = "Find news successfully!";
-			response.result = data;
-			response.length = data.length;
-			res.send(response);
-		})
-		.catch(err => {
-			response.status = 500;
-			response.message = "Not found";
-			response.error.type = "Not found";
-			response.error.message = `Не вдалось отримати новини.`;
-			res.status(response.status).send(response);
-		});
-};
-
 exports.findByStatus = async (req, res) => {
 	if (req.body.isArchived != 0) {
 		if (await guardToken.guardToken(req, res)) return false
