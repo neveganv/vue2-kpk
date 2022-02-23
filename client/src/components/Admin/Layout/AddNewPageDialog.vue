@@ -121,7 +121,7 @@
 					:disable="isLoading"
 					:loading="isLoading"
 				>
-					РЕдагувати папку
+					Редагувати папку
 				</VBtn>
 				<VBtn
 					color="primary"
@@ -231,7 +231,7 @@ export default {
 		async getPositions() {
 			try {
 				const newItems = await positionService.getAll();
-				this.categories = newItems.filter(
+				this.categories = newItems.result.filter(
 					e => e._id !== this.getUser.positionUUID
 				);
 			} catch (e) {

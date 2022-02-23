@@ -49,9 +49,9 @@
 								>
 									<v-list-item-title v-text="item.text"></v-list-item-title>
 
-									<v-list-item-icon>
+									<!-- <v-list-item-icon>
 										<v-icon small v-text="item.icon"></v-icon>
-									</v-list-item-icon>
+									</v-list-item-icon> -->
 								</v-list-item>
 							</v-list-group>
 							<v-list-group no-action sub-group color="#7E60BC">
@@ -67,10 +67,14 @@
 									:to="{ name: item.link }"
 								>
 									<v-list-item-title v-text="item.text"></v-list-item-title>
-
-									<v-list-item-icon>
-										<v-icon small v-text="item.icon"></v-icon>
-									</v-list-item-icon>
+								</v-list-item>
+								<v-list-item
+									:href="'http://dn.khnu.km.ua/kpk/default.aspx'"
+									target="_blank"
+								>
+									<v-list-item-title
+										v-text="'Віртуальне середовище'"
+									></v-list-item-title>
 								</v-list-item>
 							</v-list-group>
 							<v-list-item @click="onClickInformation">
@@ -132,8 +136,10 @@
 <script>
 import partnersService from '@/request/partners/partnersService';
 import loader from '@/mixins/loader';
+import icons from '@/mixins/icons';
+
 export default {
-	mixins: [loader],
+	mixins: [loader, icons],
 	methods: {
 		onClickAboutCol() {
 			let AboutComponent = document.querySelector('#AboutComponent');

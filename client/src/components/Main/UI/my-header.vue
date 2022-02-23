@@ -1,8 +1,10 @@
 <template>
-	<div class="header "
+	<div
+		class="header"
 		:class="{
-						small: $vuetify.breakpoint.smAndDown,
-					}">
+			small: $vuetify.breakpoint.smAndDown,
+		}"
+	>
 		<v-fade-transition>
 			<div
 				no-gutters
@@ -30,7 +32,7 @@
 										sm: $vuetify.breakpoint.sm,
 										md: $vuetify.breakpoint.md,
 										xs: $vuetify.breakpoint.xs,
-										 'logo_active-header': onActiveHeader 
+										'logo_active-header': onActiveHeader,
 									}"
 									style="cursor: pointer"
 								/>
@@ -53,7 +55,7 @@
 											Студентові
 										</div>
 									</template>
-									<VSheet :min-width="200" :max-width="400">
+									<VSheet :min-width="280" :max-width="400">
 										<v-list dense>
 											<v-list-item-group color="purple">
 												<div v-for="(item, i) in studentsPage" :key="i">
@@ -69,6 +71,27 @@
 																	<v-icon v-text="item.icon" dense></v-icon>
 																</VCol>
 																<VCol cols="9" v-text="item.text"></VCol>
+															</VRow>
+														</v-list-item-content>
+													</v-list-item>
+												</div>
+												<VDivider class="mx-5"/>
+												<div>
+													<v-list-item
+														:href="'http://dn.khnu.km.ua/kpk/default.aspx'"
+														target="_blank"
+													>
+														<v-list-item-content>
+															<VRow
+																no-gutters
+																align="center"
+																justify="space-around"
+															>
+																<VCol cols="3">
+																	<v-icon dense v-text="virtual_environment">
+																	</v-icon>
+																</VCol>
+																<VCol cols="9"> Віртуальне середовище</VCol>
 															</VRow>
 														</v-list-item-content>
 													</v-list-item>
@@ -166,7 +189,10 @@
 </template>
 
 <script>
+import icons from '@/mixins/icons';
+
 export default {
+	mixins: [icons],
 	data: () => ({
 		searchShow: true,
 		search: '',
@@ -246,7 +272,6 @@ export default {
 
 <style lang="scss" scoped>
 .not-active {
-
 }
 .active-header {
 	background: white;
@@ -256,9 +281,9 @@ export default {
 	margin: auto;
 	z-index: 100;
 	box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.247);
-	transition: .4s;
-	transform:translateY(-100%);
-	transform:translateY(0);
+	transition: 0.4s;
+	transform: translateY(-100%);
+	transform: translateY(0);
 }
 .header {
 	height: 128px;
@@ -271,8 +296,8 @@ export default {
 }
 .logo {
 	transition: 0.4s ease;
-	&_active-header{
-			transition: 0s ease;
+	&_active-header {
+		transition: 0s ease;
 	}
 	&.md {
 		width: 170px;
