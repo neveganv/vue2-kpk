@@ -15,21 +15,15 @@
     </div>
     <div v-else>
       <VCol>
-        <h3 v-if="filter.news.length > 0 || filter.news1.length > 0">Новини</h3>
-        <VCol v-for="news in filter.news" :key="news._id">
+        <h3 v-if="searchResult.length > 0">Новини</h3>
+        <VCol v-for="info in searchResult" :key="info.info._id">
           <VCard
-            @click="
-              $router.push({
-                name: 'main-news-page',
-                params: { id: news._id },
-              })
-            "
           >
-            <VCardTitle>{{ news.title }}</VCardTitle>
+            <VCardTitle>{{ info.type  }}</VCardTitle>
             <VCardText></VCardText>
           </VCard>
         </VCol>
-        <VCol v-for="news in filter.news1" :key="news._id">
+        <!--VCol v-for="news in filter.news1" :key="news._id">
           <VCard
             @click="
               $router.push({
@@ -69,7 +63,7 @@
             <VCardTitle>{{ page.name }}</VCardTitle>
             <VCardText></VCardText>
           </VCard>
-        </VCol>
+        </VCol-->
       </VCol>
       <VCol v-if="!searchResult">
         <h2>Нічого не знайдено</h2>
@@ -97,8 +91,9 @@ export default {
       const params = [];
       params.title = this.$route.params.query;
       await newsService.searchSimpleNews({ ...params }).then((res) => {
-        this.searchResult = res;
+        this.searchResult = res.result;
       });
+      console.log(this.searchResult);
       this.loading = false;
     },
   },

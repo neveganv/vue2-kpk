@@ -288,26 +288,26 @@ exports.counter = (req, res) => {
 				title: { $regex: new RegExp(`${req.body.title}`, "i") }
 			})
 				.then(data => {
-					data.forEach((d)=> result.push(d));
+					data.forEach((d)=> result.push({type: "News",info: d}));
 					
 				})
 			await CoolNews.find({
 				title: { $regex: new RegExp(`${req.body.title}`, "i") }
 			})
 				.then(data => {
-					data.forEach((d)=> result.push(d));
+					data.forEach((d)=> result.push({type: "coolNews",info: d}));
 				})
 			await Page.find({
 				name: { $regex: new RegExp(`${req.body.title}`, "i") }
 			})
 				.then(data => {
-					data.forEach((d)=> result.push(d));
+					data.forEach((d)=> result.push({type: "Page",info: d}));
 				})
 			await Specialty.find({
 				name: { $regex: new RegExp(`${req.body.title}`, "i") }
 			})
 				.then(data => {
-					data.forEach((d)=> result.push(d));
+					data.forEach((d)=> result.push({type: "Specialty",info: d}));
 				})
 			response.message = "Find news successfully!";
 			response.result = result;
