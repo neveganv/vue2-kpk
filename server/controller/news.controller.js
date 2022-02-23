@@ -1,5 +1,8 @@
 const db = require('../models');
 const News = db.news;
+const CoolNews = db.coolNews;
+const Page = db.page;
+const Specialty = db.specialty;
 const { ObjectId } = require('bson');
 const guardToken = require("../middleware/guardToken")
 const code = require('../generator/passwordGenerator');
@@ -38,7 +41,7 @@ exports.create = async (req, res) => {
 			}
 		});
 	}
-console.log(api_end_point)
+	console.log(api_end_point)
 	const news = new News({
 		category: req.body.category,
 		title: req.body.title,
@@ -266,7 +269,7 @@ exports.counter = (req, res) => {
 		});
 },
 
-	exports.findNews = (req, res) => {
+	exports.findNews = async (req, res) => {
 
 		if (!req.body.title) {
 			return res.status(400).send({
@@ -277,22 +280,46 @@ exports.counter = (req, res) => {
 				}
 			});
 		}
-		News.find({
-			title: { $regex: new RegExp(`${req.body.title}`, "i") }
-		})
-			.then(data => {
-				response.message = "Find news successfully!";
-				response.result = data;
-				response.length = data.length;
-				res.send(response);
+
+		let result = [];
+
+		try {
+			await News.find({
+				title: { $regex: new RegExp(`${req.body.title}`, "i") }
 			})
-			.catch(err => {
-				response.status = 500;
-				response.message = "Not found";
-				response.error.type = "Not found";
-				response.error.message = `Не вдалось отримати новини.`;
-				res.status(response.status).send(response);
-			});
+				.then(data => {
+					data.forEach((d)=> result.push(d));
+					
+				})
+			await CoolNews.find({
+				title: { $regex: new RegExp(`${req.body.title}`, "i") }
+			})
+				.then(data => {
+					data.forEach((d)=> result.push(d));
+				})
+			await Page.find({
+				name: { $regex: new RegExp(`${req.body.title}`, "i") }
+			})
+				.then(data => {
+					data.forEach((d)=> result.push(d));
+				})
+			await Specialty.find({
+				name: { $regex: new RegExp(`${req.body.title}`, "i") }
+			})
+				.then(data => {
+					data.forEach((d)=> result.push(d));
+				})
+			response.message = "Find news successfully!";
+			response.result = result;
+			response.length = result.length;
+			res.send(response);
+		}
+		catch (err) {
+			response.status = 500;
+			response.message = "Not found";
+			response.error.type = "Not found";
+			response.error.message = `Не вдалось отримати новини.`;
+			res.status(response.status).send(response);}
 	};
 
 exports.findByStatus = (req, res) => {
