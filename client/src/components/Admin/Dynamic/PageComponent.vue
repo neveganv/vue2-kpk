@@ -56,7 +56,7 @@
 				<ckeditor
 					:editor="editor"
 					v-model="page.html"
-					class="editor"
+					:config="editorConfig"
 				></ckeditor>
 			</VCol>
 		</VRow>
@@ -143,11 +143,19 @@ import pageService from '@/request/page/pageService';
 import loader from '@/mixins/loader';
 import VuePdfApp from 'vue-pdf-app';
 import 'vue-pdf-app/dist/icons/main.css';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Editor from '../../../../ckeditor5/build/ckeditor';
+// import Editor from 'ckeditor5/build/ckeditor';
+
+// import EssentialsPlugin from '@ckeditor/ckeditor5-essentials/src/essentials';
+// import BoldPlugin from '@ckeditor/ckeditor5-basic-styles/src/bold';
+// import ItalicPlugin from '@ckeditor/ckeditor5-basic-styles/src/italic';
+// import LinkPlugin from '@ckeditor/ckeditor5-link/src/link';
+// import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph';
+
 import user from '@/mixins/user';
 
 export default {
-	mixins: [loader,user],
+	mixins: [loader, user],
 	components: {
 		VueEditor,
 		AddNewPageDialog,
@@ -155,7 +163,6 @@ export default {
 		VuePdfApp,
 	},
 	data: () => ({
-		editor: ClassicEditor,
 		page: [],
 		oldPage: [],
 		cancelDisabled: false,
@@ -170,7 +177,10 @@ export default {
 		idPdf: 0,
 		pdfVisible: false,
 		numPages: undefined,
-
+		editor: Editor,
+		editorConfig: {
+			// The configuration of the editor.
+		},
 	}),
 	watch: {
 		$route: {
@@ -199,6 +209,7 @@ export default {
 	},
 
 	mounted() {
+		console.log(Editor);
 		this.getPage();
 	},
 	methods: {
