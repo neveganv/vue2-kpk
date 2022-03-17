@@ -255,13 +255,14 @@ export default {
 				console.log(this.event);
 				this.isLoading = false;
 			} catch (e) {
+					this.isLoading = false;
 				alert(e);
 			}
 		},
 		async getClasses() {
 			try {
 				const newclasses = await classService.getAllClasses();
-				this.classes = newclasses;
+				this.classes = newclasses.result;
 			} catch (e) {
 				alert(e);
 			}

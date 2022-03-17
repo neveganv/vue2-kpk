@@ -343,6 +343,7 @@ export default {
 					this.event = [];
 					this.isLoading = false;
 				} catch (e) {
+					this.isLoading = false
 					alert(e);
 				}
 			}
@@ -364,7 +365,8 @@ export default {
 		async getClasses() {
 			try {
 				const newclasses = await classService.getAllClasses();
-				this.classes = newclasses;
+				console.log(newclasses)
+				this.classes = newclasses.result;
 			} catch (e) {
 				alert(e);
 			}

@@ -18,7 +18,7 @@
 						dense
 						:color="colorClass"
 						v-model="className"
-						:hide-details="!NameError.length"
+						hide-details="auto"
 						:error-messages="NameError"
 					>
 						<template slot="append" >
@@ -36,6 +36,8 @@
 			</VCardText>
 			<VCardActions>
 				<VSpacer />
+				<span v-text="ColorError[0]" v-if="ColorError" class="error--text mr-3">
+				</span>
 				<VBtn color="primary" @click="onCreate" :loading="isLoading" :disabled="isLoading">Додати пару</VBtn>
 			</VCardActions>
 		</VCard>
@@ -52,6 +54,9 @@ export default {
 	mixins: [validationMixin],
 	validations: {
 		className: {
+			required,
+		},
+		colorClass: {
 			required,
 		},
 	},
@@ -81,6 +86,7 @@ export default {
 					this.className = '';
 						this.isLoading = false
 				} catch (e) {
+						this.isLoading = false
 					alert(e);
 				}
 			}
@@ -102,6 +108,15 @@ export default {
 			}
 			!this.$v.className.required &&
 				errors.push('Назва пари обов`язкове поле для заповнення');
+			return errors;
+		},
+		ColorError() {
+			const errors = [];
+			if (!this.$v.colorClass.$dirty) {
+				return errors;
+			}
+			!this.$v.colorClass.required &&
+				errors.push('Виберіть колір пари');
 			return errors;
 		},
 		visibility: {

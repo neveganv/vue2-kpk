@@ -22,8 +22,8 @@ exports.create = async (req, res) => {
 			message: "",
 		}
 	};
-	if (!req.body.name) {
-		validateError.error.message = "Name is required";
+	if (!req.body.class) {
+		validateError.error.message = "Class is required";
 		return res.status(400).send(validateError);
 	}
 	else if (!req.body.color) {

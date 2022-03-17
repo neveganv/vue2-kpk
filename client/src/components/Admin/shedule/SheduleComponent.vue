@@ -253,7 +253,7 @@ export default {
 		addEvent(e,group) {
 			this.visible = false;
 			this.chosenGroup = group;
-			this.events.push(e)
+			this.changeGroup (this.chosenGroup)
 			console.log(e)
 		},
 		async getGroups() {
