@@ -53,11 +53,11 @@ export default {
 		return response?.data
 	},
 	async getCoolNews(params){
-		const response = await requestService.get(`${prefix3}/getAllCoolNews`, params)
+		const response = await requestService.get(`${prefix3}/getAllCoolNews?status=` + params.status)
 		return response?.data
 	},
 	async getCoolNewsById(params){
-		const response = await requestService.get(`${prefix3}/getCoolNewsById`, params)
+		const response = await requestService.get(`${prefix3}/getCoolNewsById?id=` + params.id)
 		return response?.data
 	},
 	async updateCoolNews(params){

@@ -63,7 +63,7 @@ exports.create = async (req, res) => {
 
 exports.findCoolNewsById = (req, res) => {
 	CoolNews.find({
-		_id: req.body.id,
+		_id: req.query.id,
 	})
 		.then(data => {
 			response.length = 1;
@@ -85,9 +85,9 @@ exports.findCoolNewsById = (req, res) => {
 
 exports.findAll = (req, res) => {
 	let search = {};
-	if (req.body.status == 'available') {
+	if (req.query.status == 'available') {
 		search = { isArchived: 0 };
-	} else if (req.body.status == 'archived') {
+	} else if (req.query.status == 'archived') {
 		search = { isArchived: 1 };
 	}
 	CoolNews.find(search)
