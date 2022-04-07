@@ -64,7 +64,8 @@ exports.findAll = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-    Page.find({ _id: req.body._id })
+    console.log(req.query._id)
+    Page.find({ _id: req.query._id })
         .populate('folder')
         .then(data => {
             response.length = 1;
