@@ -7,10 +7,10 @@ const coolNews = require("../../../controller/news/coolNews.controller");
 router.post("/addCoolNews", coolNews.create);
 
 //Find all news
-router.post("/getAllCoolNews", coolNews.findAll);
+router.get("/getAllCoolNews", coolNews.findAll);
 
 //Find news by id
-router.post("/getCoolNewsById", coolNews.findCoolNewsById)
+router.get("/getCoolNewsById", coolNews.findCoolNewsById)
 
 //Update news
 router.post("/updateCoolNews", coolNews.updateCoolNews);
@@ -19,6 +19,6 @@ router.post("/updateCoolNews", coolNews.updateCoolNews);
 router.post("/deleteCoolNews", coolNews.deleteCoolNews);
 
 //findByStatus
-router.post("/findByStatus", coolNews.findByStatus);
+router.get("/findByStatus", coolNews.findByStatus);
 
 module.exports = router

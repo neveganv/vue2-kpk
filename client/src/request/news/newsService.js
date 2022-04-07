@@ -53,11 +53,11 @@ export default {
 		return response?.data
 	},
 	async getCoolNews(params){
-		const response = await requestService.post(`${prefix3}/getAllCoolNews`, params)
+		const response = await requestService.get(`${prefix3}/getAllCoolNews`, params)
 		return response?.data
 	},
 	async getCoolNewsById(params){
-		const response = await requestService.post(`${prefix3}/getCoolNewsById`, params)
+		const response = await requestService.get(`${prefix3}/getCoolNewsById`, params)
 		return response?.data
 	},
 	async updateCoolNews(params){
@@ -69,7 +69,7 @@ export default {
 		return response?.data
 	},
 	async findByStatusCollNews(params){
-		const response = await requestService.post(`${prefix3}/findByStatus`, params)
+		const response = await requestService.get(`${prefix3}/findByStatus`, params)
 		return response?.data
 	}
 };
