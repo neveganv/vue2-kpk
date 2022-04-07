@@ -237,6 +237,7 @@ export default {
 					this.$v.$reset();
 					this.isLoading = false;
 				} catch (e) {
+					this.isLoading = false;
 					alert(e);
 				}
 			}

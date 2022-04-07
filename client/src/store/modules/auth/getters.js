@@ -9,12 +9,13 @@ export default {
 		const isNewsEditor = () => state?.user?.position === 'redaktor_novyn';
 		const isSheduleEditor = () => state?.user?.position === 'redaktor_rozkladu';
 		const isSpecialitiesEditor = () => state?.user?.position === 'redaktor_spetsialnostei';
+		const isPrepareCourseEditor = () => state?.user?.position === 'redaktor_pidhotovchykh_kursiv';
 		return {
 			owner: isOwner(),
 			can_edit_news: isNewsEditor() || isOwner(),
 			can_edit_shedule: isSheduleEditor() || isOwner(),
 			can_edit_specialities: isSpecialitiesEditor() || isOwner(),
-			can_edit_prepareCourse:  isOwner(),
+			can_edit_prepareCourse:  isOwner() || isPrepareCourseEditor()
 		};
 	},
 };

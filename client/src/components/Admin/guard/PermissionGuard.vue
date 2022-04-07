@@ -19,9 +19,14 @@ export default {
 				next({ name: 'admin-page-news' });
 			} else if (store.state.auth.user.position == 'redaktor_rozkladu') {
 				next({ name: 'admin-page-shedule' });
-			} else if (store.state.auth.user.position == 'redaktor_spetsialnostei') {
+			} 
+			else if (store.state.auth.user.position == 'redaktor_spetsialnostei') {
 				next({ name: 'admin-page-specialities' });
-			} else {
+			} 
+			else if (store.state.auth.user.position == 'redaktor_pidhotovchykh_kursiv') {
+				next({ name: 'admin-page-prepareCourse' });
+			} 
+			else {
 				next({ name: 'admin-page-profile' });
 			}
 		} else {

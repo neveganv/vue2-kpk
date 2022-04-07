@@ -37,6 +37,7 @@ exports.create = async (req, res) => {
 	});
 
 	// send email to institution
+	
 	if (req.body.email) {
 		email.sendEmail(req.body.email, pass, 'Ви зареєстровані на сайті КПК.');
 	}
@@ -52,8 +53,8 @@ exports.create = async (req, res) => {
 		.catch(err => {
 			response.status = 500;
 			response.message = "Some error occurred while creating the user.";
-			response.error.type = "";
-			response.error.message = err.message || "Some error occurred while creating the user.";
+			// response.error.type = "";
+			// response.error.message = err.message || "Some error occurred while creating the user.";
 			res.status(response.status).send(response);
 		});
 };
@@ -62,10 +63,11 @@ exports.create = async (req, res) => {
 exports.login = (req, res) => {
 	User.findOne({ email: req.body.email }, function (err, user) {
 		if (user === null) {
+			console.log(response);
 			response.status = 400;
 			response.message = "Invalid email";
-			response.error.type = "invalid email";
-			response.error.message = `Користувача не знайдено.`;
+			// response.error.type = "invalid email";
+			// response.error.message = `Користувача не знайдено.`;
 			return res.status(response.status).send(response);
 		} else {
 			var hash = crypto
@@ -84,11 +86,12 @@ exports.login = (req, res) => {
 
 				return res.status(201).send(user.token);
 			} else {
-				response.status = 400;
-				response.message = "Invalid password";
-				response.error.type = "invalid password";
-				response.error.message = `Неправильний пароль.`;
-				return res.status(response.status).send(response);
+				console.log(response)
+				// response.status = 400;
+				// response.message = "Invalid password";
+				// response.error.type = "invalid password";
+				// response.error.message = `Неправильний пароль.`;
+				// return res.status(response.status).send(response);
 			}
 		}
 	});
@@ -108,8 +111,8 @@ exports.findAll = async (req, res) => {
 		.catch(err => {
 			response.status = 500;
 			response.message = "Some error occurred while retrieving users.";
-			response.error.type = "";
-			response.error.message = err.message || "Some error occurred while retrieving users.";
+			// response.error.type = "";
+			// response.error.message = err.message || "Some error occurred while retrieving users.";
 			res.status(response.status).send(response);
 		});
 };
