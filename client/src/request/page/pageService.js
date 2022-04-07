@@ -9,11 +9,11 @@ export default {
 		return response?.data
 	},
 	async getPages(){
-		const response = await requestService.post(`${prefix}/getAllPage`)
+		const response = await requestService.get(`${prefix}/getAllPage`)
 		return response?.data
 	},
 	async getOne(params){
-		const response = await requestService.post(`${prefix}/getByIdPage`, params)
+		const response = await requestService.get(`${prefix}/getByIdPage`, params)
 		return response?.data
 	},
 	async update(id, params){

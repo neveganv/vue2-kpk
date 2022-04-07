@@ -7,10 +7,10 @@ const folder = require("../../controller/folder.controller");
 router.post("/", folder.create);
 
 //Find all folders
-router.post("/getAll", folder.findAll);
+router.get("/getAll", folder.findAll);
 
 //Find by value
-router.post("/getById", folder.findById);
+router.get("/getById", folder.findById);
 
 //delete a folder by id
 router.delete("/:id", folder.delete);

@@ -8,7 +8,7 @@ export default {
 		return response?.data
 	},
 	async getFolders(position){
-			const response = await requestService.post(`${prefix}/getAll`,position)
+			const response = await requestService.get(`${prefix}/getAll`,position)
 			return response?.data
 	},
 	async update(id, params){
