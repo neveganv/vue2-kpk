@@ -28,10 +28,6 @@ app.use(cors({
   }
 }));
 
-// SPA
-app.get("*", (req, res) => {
-    res.sendFile(__dirname + "/public/index.html");
-});
 
 app.use('/uploads', express.static(__dirname + '/public/uploads'));
 
@@ -52,6 +48,11 @@ app.use('/api/partner' , require('./routes/api/partner'))
 app.use('/api/entrantInfo' , require('./routes/api/entrantInfo'))
 app.use('/api/collegeInfo', require('./routes/api/collegeInfo'))
 app.use('/api/collegePhoto', require('./routes/api/collegePhoto'))
+
+// SPA
+app.get("*", (req, res) => {
+    res.sendFile(__dirname + "/public/index.html");
+});
 
 //DB
 function start() {

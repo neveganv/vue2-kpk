@@ -4,7 +4,7 @@ const prefix2 = '/api/collegePhoto';
 
 export default {
 	async getAll(){
-		const response = await requestService.post(`${prefix}`)
+		const response = await requestService.get(`${prefix}`)
 		return response?.data
 	},
 	async update(id,params){

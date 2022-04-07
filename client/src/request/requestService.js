@@ -4,7 +4,7 @@ import router from '@/router';
 
 //  const API_ENDPOINT = 'http://localhost:8000'
 // const API_ENDPOINT = 'https://dev.api-kpk.ml'
-const API_ENDPOINT = 'https://api-kpk.ml'
+const API_ENDPOINT = process.env.NODE_ENV == 'production' ? 'https://api-kpk.ml' : 'http://localhost:8000'
 
 
 const TOKEN_NAME = 'token';
@@ -39,13 +39,9 @@ axios.interceptors.response.use(
 );
 export default {
 
-    get(url, params = {}, headers = {}) {
+    get(url, headers = {}) {
       return axios.get(
-        API_ENDPOINT + url,
-        {
-          params,
-          headers,
-        },
+        API_ENDPOINT + url, headers
       );
     },
     post(url, body = {}, config = {}) {
