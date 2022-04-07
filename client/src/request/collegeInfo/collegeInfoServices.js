@@ -16,7 +16,7 @@ export default {
 		return response?.data
 	},
 	async getPhotos(){
-		const response = await requestService.post(`${prefix2}`)
+		const response = await requestService.get(`${prefix2}`)
 		return response?.data
 	},
 	async deletePhoto(params){

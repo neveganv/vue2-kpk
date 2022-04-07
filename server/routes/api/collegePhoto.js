@@ -4,7 +4,7 @@ const router = express.Router()
 const collegePhoto = require("../../controller/collegePhoto.controller");
 
 //Find all
-router.post("/", collegePhoto.findAll)
+router.get("/", collegePhoto.findAll)
 
 //New photo
 router.post("/createPhoto", collegePhoto.create);
