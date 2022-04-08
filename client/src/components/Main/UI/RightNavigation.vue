@@ -24,16 +24,16 @@
 										<v-list-item-title> Головна</v-list-item-title>
 									</v-list-item-content>
 								</v-list-item>
-								<v-list-item @click="onClickAboutCol">
-									<v-list-item-icon
+								<!-- <v-list-item @click="onClickAboutCol"> -->
+									<!-- <v-list-item-icon
 										style="margin-right: 15px; margin-left: 1px"
 									>
 										<v-icon dense>mdi-information-outline</v-icon>
-									</v-list-item-icon>
-									<v-list-item-content>
+									</v-list-item-icon> -->
+									<!-- <v-list-item-content>
 										<v-list-item-title> Про Коледж</v-list-item-title>
-									</v-list-item-content>
-								</v-list-item>
+									</v-list-item-content> -->
+								<!-- </v-list-item> -->
 							</v-list-item-group>
 							<v-list-group no-action sub-group color="#7E60BC">
 								<template v-slot:activator>
@@ -82,7 +82,7 @@
 									<v-icon dense>mdi-information-outline</v-icon>
 								</v-list-item-icon>
 								<v-list-item-content>
-									<v-list-item-title>Інформація</v-list-item-title>
+									<v-list-item-title>Освітні процеси</v-list-item-title>
 								</v-list-item-content>
 							</v-list-item>
 						</v-list>

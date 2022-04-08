@@ -237,9 +237,10 @@ export default {
 				params.group = e;
 				let response = await sheduleService.getEvent({ ...params });
 				this.events = response.result;
-				 console.log(this.events)
 				this.setLoading(false);
 			} catch (e) {
+				this.setLoading(false);
+				console.log(e)
 				alert(e);
 			}
 		},

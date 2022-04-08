@@ -90,7 +90,7 @@ export default {
 				this.sceletonLoader = false;
 
 			} catch (e) {
-				alert(e);
+				console.warn(e)
 			}
 		},
 	},

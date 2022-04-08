@@ -52,12 +52,11 @@ exports.create = async (req, res) => {
 
 // find all pages
 exports.findAll = (req, res) => {
-    console.log(req.query.position)
     let options = {}
-    if (req.query.position) {
+    if (req.body.position) {
         options = {
             positions: {
-                $in: [req.query.position]
+                $in: [req.body.position]
             }
         }
     }

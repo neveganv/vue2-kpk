@@ -41,9 +41,9 @@
 						<v-fade-transition>
 							<div class="nav" v-if="!$vuetify.breakpoint.mdAndDown">
 								<div class="nav__inner" @click="onClickMain">Головна</div>
-								<div class="nav__inner" @click="onClickAboutCol">
+								<!-- <div class="nav__inner" @click="onClickAboutCol">
 									Про коледж
-								</div>
+								</div> -->
 								<VMenu
 									offset-y
 									transition="slide-y-transition"
@@ -140,7 +140,7 @@
 									@click="onClickInformation"
 								>
 									<VIcon small> mdi-information-outline </VIcon>
-									Інформація
+									Освітні процеси
 								</div>
 							</div>
 						</v-fade-transition>
