@@ -5,10 +5,10 @@ const { classes } = require('../../models');
 const guardToken = require("../../middleware/guardToken")
 
 let response = {
-    status: 200,
-    result: null,
-    message: null,
-    length: 0
+	status: 200,
+	result: null,
+	message: null,
+	length: 0
 }
 
 // Create a new Event
@@ -126,6 +126,72 @@ exports.findEventById = (req, res) => {
 			res.status(response.status).send(response);
 		});
 };
+
+exports.copySchedule = async (req, res) => {
+
+	// var date1 = new Date(req.query.start);
+	// var date2 = new Date(req.query.end);
+	  
+	// // To calculate the time difference of two dates
+	// var difference_time = date2.getTime() - date1.getTime();
+	  
+	// // To calculate the no. of days between two dates
+	// var difference_days = difference_time / (1000 * 3600 * 24);
+	// console.log(difference_days)
+
+
+	Event.find({
+		group: req.query.group,
+		start: {
+			$gte: req.query.start + ' 00:00',
+			$lte: req.query.end + ' 23:59'
+		}
+	})
+		.populate('group')
+		.populate('classes')
+		.then((data) => {
+			let newEvents = []
+			for (let i = 0; i < data.length; i++) {
+				var time_start = data[i].start.split(' ')
+				var time_end = data[i].end.split(' ')
+
+				var date_start = new Date(time_start[0])
+				date_start.setDate(date_start.getDate() + 7)
+
+				var date_end = new Date(time_end[0])
+				date_end.setDate(date_end.getDate() + 7)
+
+				console.log(date_start.toISOString().slice(0, 10) + " " + time_start[1])
+				console.log(date_end.toISOString().slice(0, 10) + " " + time_end[1])
+
+				let event = new Event({
+					name: data[i].name,
+					group: data[i].group,
+					link: data[i].link,
+					start: date_start.toISOString().slice(0, 10) + " " + time_start[1],
+					color: data[i].color,
+					end: date_end.toISOString().slice(0, 10) + " " + time_end[1],
+					content: data[i].content,
+					classes: data[i].classes,
+				});
+
+				//Save copied events to database
+				event
+					.save(event)
+				newEvents.push(event)
+			}
+			response.length = newEvents.length;
+			response.result = newEvents;
+			response.message = "Successfully copied events"
+			res.send(response);
+		}).catch(err => {
+			response.status = 500;
+			response.message = "Server error";
+			response.error.type = "Server error";
+			response.error.message = "Server error";
+			res.status(response.status).send(response);
+		});
+}
 
 exports.updateEvent = async (req, res) => {
 	if (await guardToken.guardToken(req, res)) return false

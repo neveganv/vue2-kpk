@@ -16,4 +16,7 @@ router.post("/updateEvent", shedule.updateEvent);
 //Find Event by Id
 router.post("/findEventById", shedule.findEventById);
 
+// copy schedule 
+router.get('/copy', shedule.copySchedule)
+
 module.exports = router
