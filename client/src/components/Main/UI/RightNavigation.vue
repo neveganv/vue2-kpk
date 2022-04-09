@@ -82,7 +82,7 @@
 									<v-icon dense>mdi-information-outline</v-icon>
 								</v-list-item-icon>
 								<v-list-item-content>
-									<v-list-item-title>Освітні процеси</v-list-item-title>
+									<v-list-item-title>Oрганізація освітнього <br>процесу</v-list-item-title>
 								</v-list-item-content>
 							</v-list-item>
 						</v-list>

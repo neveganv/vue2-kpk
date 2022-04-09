@@ -18,5 +18,11 @@ export default {
 	async getEventById(params){
 		const response = await requestService.post(`${prefix}/findEventById`, params)
 		return response?.data.result[0]
+	},
+	async dublicateEvents(params){
+		const response = await requestService.get(`${prefix}/copy`, {
+			params:params
+		})
+		return response?.data
 	}
 };

@@ -20,7 +20,7 @@
 							<VCardText>
 								<VRow>
 									<VCol cols="6">
-										<v-select
+										<v-autocomplete
 											prepend-icon="mdi-account-multiple-plus"
 											:items="Object.values(groups)"
 											:item-value="'_id'"
@@ -39,7 +39,7 @@
 													(tmpGroup = item.name)
 												}}</v-chip>
 											</template>
-										</v-select>
+										</v-autocomplete>
 									</VCol>
 									<VCol cols="6">
 										<VBtn text color="primary" @click="visibleAddGroup = true">

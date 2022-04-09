@@ -11,7 +11,7 @@
 			<VCol cols="6">
 				<VRow no-gutters>
 					<VCol cols="5" sm="12" md="12" lg="5">
-						<v-select
+						<v-autocomplete
 							rounded
 							prepend-icon="mdi-account-multiple-plus"
 							:items="Object.values(groups)"
@@ -26,10 +26,11 @@
 							sm
 							ref="choseGroup"
 							hide-details
+							:menu-props="{ bottom: true, offsetY: true }"
 						>
 							<template #selection="{ item }">
 								<v-chip small color="primary">{{ item.name }}</v-chip>
-							</template></v-select
+							</template></v-autocomplete
 						>
 					</VCol>
 
@@ -118,13 +119,20 @@
 					</div>
 
 					<VBtn
-						rounded
 						outlined
 						color="primary"
 						@click="visible = true"
-						class="my-1"
+						class="my-1 left-corner-btn"
 					>
 						<v-icon left> mdi-calendar-plus </v-icon>Додати подію
+					</VBtn>
+					<VBtn
+						color="deep-purple lighten-1"
+						class="my-1 right-corner-btn"
+						elevation="0"
+						@click="visibleDublicateDialog = true"
+					>
+						<v-icon dense color="white"> mdi-content-copy </v-icon>
 					</VBtn>
 				</VRow>
 			</VCol>
@@ -175,6 +183,13 @@
 			:chosenEvent="chosenEvent"
 			v-if="visibleEditEvent"
 		/>
+		<dublicate-events-dialog
+			v-if="visibleDublicateDialog"
+			:visible="visibleDublicateDialog"
+			@close="visibleDublicateDialog = false"
+			:group="chosenGroup"
+			@dublicateEvents="dublicateEvents"
+		/>
 	</div>
 </template>
 
@@ -185,6 +200,7 @@ import SheduleInner from './SheduleInner.vue';
 import AddEventDialog from './AddEventDialog.vue';
 import EditEventDialog from './EditEventDialog.vue';
 import loader from '@/mixins/loader';
+import DublicateEventsDialog from './DublicateEventsDialog.vue';
 
 export default {
 	mixins: [loader],
@@ -192,6 +208,7 @@ export default {
 		SheduleInner,
 		AddEventDialog,
 		EditEventDialog,
+DublicateEventsDialog,
 	},
 	watch: {
 		type(e) {
@@ -216,6 +233,7 @@ export default {
 			week: 'Тиждень',
 			day: 'День',
 		},
+		visibleDublicateDialog:false
 	}),
 	watch: {
 		chosenGroup(e) {
@@ -223,6 +241,9 @@ export default {
 		},
 	},
 	methods: {
+		onShowDublicateDialog(){
+				
+		},
 		getDate(e) {
 			this.calendarTitle = e;
 		},
@@ -235,12 +256,14 @@ export default {
 				this.setLoading(true);
 				const params = [];
 				params.group = e;
-				let response = await sheduleService.getEvent({ ...params });
-				this.events = response.result;
+				if (e) {
+					let response = await sheduleService.getEvent({ ...params });
+					this.events = response.result;
+				}
 				this.setLoading(false);
 			} catch (e) {
 				this.setLoading(false);
-				console.log(e)
+				console.log(e);
 				alert(e);
 			}
 		},
@@ -251,11 +274,16 @@ export default {
 			this.visibleEditEvent = false;
 			this.changeGroup(e);
 		},
-		addEvent(e,group) {
+		dublicateEvents(e) {
+			this.visibleDublicateDialog = false;
+			this.changeGroup(e);
+		},
+
+		addEvent(e, group) {
 			this.visible = false;
 			this.chosenGroup = group;
-			this.changeGroup (this.chosenGroup)
-			console.log(e)
+			this.changeGroup(this.chosenGroup);
+			console.log(e);
 		},
 		async getGroups() {
 			try {
@@ -300,4 +328,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.left-corner-btn {
+	border-top-left-radius: 28px;
+	border-bottom-left-radius: 28px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.right-corner-btn {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-top-right-radius: 28px;
+	border-bottom-right-radius: 28px;
+}
+</style>

@@ -75,7 +75,7 @@
 														</v-list-item-content>
 													</v-list-item>
 												</div>
-												<VDivider class="mx-5"/>
+												<VDivider class="mx-5" />
 												<div>
 													<v-list-item
 														:href="'http://dn.khnu.km.ua/kpk/default.aspx'"
@@ -139,8 +139,10 @@
 									class="nav__inner d-flex align-center"
 									@click="onClickInformation"
 								>
-									<VIcon small> mdi-information-outline </VIcon>
-									Освітні процеси
+									<span style="text-align:center;line-height:normal">
+										Oрганізація освітнього<br />
+										процесу
+									</span>
 								</div>
 							</div>
 						</v-fade-transition>
