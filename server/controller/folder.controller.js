@@ -53,10 +53,10 @@ exports.create = async (req, res) => {
 // find all pages
 exports.findAll = (req, res) => {
     let options = {}
-    if (req.body.position) {
+    if (req.query.position) {
         options = {
             positions: {
-                $in: [req.body.position]
+                $in: [req.query.position]
             }
         }
     }
