@@ -91,7 +91,7 @@
 					</v-btn>
 
 					<div cols="2" class="mr-5 my-1" v-if="chosenGroup">
-						<v-menu bottom right>
+						<v-menu bottom right   :offset-y="true">
 							<template v-slot:activator="{ on, attrs }">
 								<v-btn
 									outlined
@@ -104,7 +104,7 @@
 									<v-icon right> mdi-menu-down </v-icon>
 								</v-btn>
 							</template>
-							<v-list rounded>
+							<v-list >
 								<v-list-item @click="type = 'week'">
 									<v-list-item-title>Тиждень</v-list-item-title>
 								</v-list-item>
@@ -120,7 +120,7 @@
 
 					<VBtn
 						outlined
-						color="primary"
+						color="deep-purple lighten-1"
 						@click="visible = true"
 						class="my-1 left-corner-btn"
 					>
