@@ -153,6 +153,7 @@ exports.update = async (req, res) => {
 			surname: req.body.surname,
 			phone: req.body.phone,
 			email: req.body.email,
+			position: req.body.position
 		},
 		{ useFindAndModify: false }
 	)
