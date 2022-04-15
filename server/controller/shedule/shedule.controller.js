@@ -139,7 +139,6 @@ exports.copySchedule = async (req, res) => {
 	// var difference_days = difference_time / (1000 * 3600 * 24);
 	// console.log(difference_days)
 
-
 	Event.find({
 		group: req.query.group,
 		start: {
@@ -161,6 +160,8 @@ exports.copySchedule = async (req, res) => {
 				var date_end = new Date(time_end[0])
 				date_end.setDate(date_end.getDate() + 7)
 
+				console.log(data[i]._id.toString())
+
 				console.log(date_start.toISOString().slice(0, 10) + " " + time_start[1])
 				console.log(date_end.toISOString().slice(0, 10) + " " + time_end[1])
 
@@ -175,9 +176,14 @@ exports.copySchedule = async (req, res) => {
 					classes: data[i].classes,
 				});
 
+				if (parseInt(req.query.save)) {
 				//Save copied events to database
-				event
-					.save(event)
+					event
+						.save(event)
+				}
+				if (parseInt(req.query.delete)) {
+					Event.find({_id : data[i]._id.toString()}).remove().exec()
+				}
 				newEvents.push(event)
 			}
 			response.length = newEvents.length;
