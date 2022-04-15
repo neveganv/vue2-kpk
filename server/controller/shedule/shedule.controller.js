@@ -131,10 +131,10 @@ exports.copySchedule = async (req, res) => {
 
 	// var date1 = new Date(req.query.start);
 	// var date2 = new Date(req.query.end);
-	  
+
 	// // To calculate the time difference of two dates
 	// var difference_time = date2.getTime() - date1.getTime();
-	  
+
 	// // To calculate the no. of days between two dates
 	// var difference_days = difference_time / (1000 * 3600 * 24);
 	// console.log(difference_days)
@@ -241,3 +241,36 @@ exports.updateEvent = async (req, res) => {
 			res.status(response.status).send(response);
 		});
 };
+
+
+// delete event by id
+exports.deleteEvent = async (req, res) => {
+	if (await guardToken.guardToken(req, res)) return false
+
+	const id = req.params.id;
+	Event.findByIdAndRemove(id)
+		.then(data => {
+			if (!data) {
+				response.status = 404;
+				response.message = "Not found";
+				response.error.type = "Not found";
+				response.error.message = `Cannot delete event with id=${id}. Maybe folder was not found!`;
+				res.status(response.status).send(response);
+			} else {
+				response.status = 200;
+				response.message = 'Event was deleted successfully!';
+				response.length = 1;
+				response.result = data;
+				res.send(response);
+			}
+		})
+		.catch(err => {
+			response.status = 500;
+			response.message = "Invalid id";
+			response.error.type = "invalid id";
+			response.error.message = `Could not delete event with id=${id}.`;
+			res.status(response.status).send(response);
+		});
+
+};
+
