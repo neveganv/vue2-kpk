@@ -14,12 +14,12 @@
 					@click="visibleSettingDialog = true"
 				>
 					<VIcon left>mdi-clipboard-edit-outline</VIcon>
-					Інформація 
+					Інформація
 				</VBtn></VCol
 			>
 		</VRow>
 		<VDivider />
-		<VRow no-gutters class="pa-3">
+		<VRow no-gutters class="pa-3 pb-0" align="center">
 			<!-- <VCol cols="3">
 				<VTextField
 					solo
@@ -30,6 +30,13 @@
 					prepend-inner-icon="mdi-magnify"
 				/>
 			</VCol> -->
+			<v-slide-x-reverse-transition>
+				<VCol class="mx-2" style="width: 50px" cols="auto">
+					<VBtn icon color="red" v-if="chosenItems.length" @click="onDelete">
+						<VIcon> mdi-delete-outline </VIcon>
+					</VBtn>
+				</VCol>
+			</v-slide-x-reverse-transition>
 			<VCol cols="3" class="ml-4">
 				<VSelect
 					solo
@@ -68,6 +75,7 @@
 			<prepare-course-list
 				:studentsList="getSortedList"
 				@clickUserInfo="clickUserInfo"
+				@onChoseItem="onChoseItem"
 			/>
 		</VRow>
 		<prepare-course-info-dialog
@@ -104,6 +112,7 @@ export default {
 		userActive: '',
 		visibleSettingDialog: false,
 		visibleDialog: false,
+		chosenItems: [],
 		statusList: [
 			{ id: 1, title: 'Новий' },
 			{ id: 2, title: 'В процесі' },
@@ -115,6 +124,15 @@ export default {
 		this.getAllPrepareUser();
 	},
 	methods: {
+		async onDelete() {
+			await prepareCourseService.deleteCourseList({
+				applications: JSON.stringify(this.chosenItems),
+			});
+			this.getAllPrepareUser();
+		},
+		onChoseItem(e) {
+			this.chosenItems = e;
+		},
 		updatedStatus() {
 			this.getAllPrepareUser();
 		},

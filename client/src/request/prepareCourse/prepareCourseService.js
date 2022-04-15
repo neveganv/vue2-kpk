@@ -19,4 +19,8 @@ export default {
 		const response = await requestService.post(`${prefix}/update`,params)
 		return response?.data
 	},
+	async deleteCourseList(params){
+		const response = await requestService.post(`${prefix}/delete`,params)
+		return response?.data
+	},
 };

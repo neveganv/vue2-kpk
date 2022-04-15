@@ -3,6 +3,9 @@
 		<VSimpleTable class="w-100" v-if="studentsList.length">
 			<thead>
 				<tr>
+					<th>
+						<v-checkbox v-model="checkAll" hide-details dense></v-checkbox>
+					</th>
 					<th>#</th>
 					<th>Ім'я</th>
 					<th>Прізвище</th>
@@ -15,6 +18,14 @@
 			</thead>
 			<tbody>
 				<tr v-for="(item, index) in studentsList" :key="item._id">
+					<th>
+						<v-checkbox
+							v-model="selectedItem"
+							:value="item._id"
+							hide-details
+							dense
+						></v-checkbox>
+					</th>
 					<th>{{ ++index }}</th>
 					<td>{{ item.name || '--' }}</td>
 					<td>{{ item.surname || '--' }}</td>
@@ -23,7 +34,7 @@
 					<td>{{ item.parent_phone || '--' }}</td>
 					<td class="text-center">
 						<VChip
-						small
+							small
 							:color="
 								item.status === 'Новий'
 									? 'info'
@@ -65,13 +76,43 @@ export default {
 			require: true,
 		},
 	},
-	data: () => ({}),
+	data: () => ({
+		checkAll: false,
+		selectedItem: [],
+	}),
+	watch: {
+		checkAll: {
+			deep: true,
+			handler(e) {
+				if (e) {
+					this.studentsList.forEach(item => {
+						this.selectedItem.push(item._id);
+					});
+				} else {
+					if (this.selectedItem.length >= this.studentsList.length) {
+						this.selectedItem = [];
+					}
+				}
+			},
+		},
+		selectedItem: {
+			deep: true,
+			handler(e) {
+				if (this.checkAll) {
+					if (this.selectedItem.length < this.studentsList.length) {
+						this.checkAll = false;
+					}
+				}
+				this.$emit('onChoseItem', this.selectedItem);
+			},
+		},
+	},
 	methods: {
 		onClickUser(e) {
 			this.$emit('clickUserInfo', e);
 		},
 	},
-}
+};
 </script>
 
 <style></style>

@@ -203,8 +203,8 @@ exports.deleteApplications = async (req, res) => {
 
     try {
         for (let i = 0; i < applications.length; i++) {
-            console.log(applications[i].id)
-            PrepareCourse.findByIdAndRemove(applications[i].id)
+            console.log(applications[i])
+            PrepareCourse.findByIdAndRemove(applications[i])
         }
         response.length = applications.length;
         response.message = "Successfully deleted";
