@@ -6,7 +6,7 @@
 					<VCol>
 						<span>Дублювання подій</span>
 					</VCol>
-<!-- choose dublicated period 7 days, 14 days etc.  -->
+					<!-- choose dublicated period 7 days, 14 days etc.  -->
 					<!-- <VCol cols="3"> 
 						<VSelect
 							:items="Object.values(dublicatePeriods)"
@@ -46,25 +46,46 @@
 							label="Діапазон подій"
 							prepend-inner-icon="mdi-calendar"
 							readonly
+							:loading="isLoadingSearch"
 						></v-text-field>
 						<VRow
 							justify="center"
 							align="center"
 							style="height: 100%"
-							v-if="dates.length <= 1"
+							v-if="dates.length <= 1 || isLoadingSearch"
 						>
 							<VCol class="text-center error--text">
 								Оберіть початкову та кінцеву дату
 							</VCol>
 						</VRow>
 						<div v-else>
-							<VRow>
-								<VSubheader> Події у цьому проміжку: </VSubheader>
+							<VRow align="center">
+								<VSubheader>
+									Події у цьому проміжку:
+									{{ chosenDates.length || 0 }}</VSubheader
+								>
+								<!-- <VBtn small color="purple lighten-1" class="white--text"
+									>Детальніше</VBtn
+								> -->
 							</VRow>
 							<VRow>
-									<ul>
-										<li><span>Поки це не працює :) <b><i>-x</i></b></span></li>
-									</ul>
+								<!-- <thead>
+										<tr>
+											<th>Назва</th>
+											<th class="text-center">День</th>
+										</tr>
+									</thead> -->
+								<!-- <tbody>
+										<tr
+											v-for="item in chosenDates"
+											:key="item.id"
+											class="white--text"
+											:style="{ 'background-color': item.color }"
+										>
+											<td>{{ item.name }}</td>
+											<td>{{ getDayTxt(item.start) }}</td>
+										</tr>
+									</tbody> -->
 							</VRow>
 						</div>
 					</VCol>
@@ -75,7 +96,6 @@
 				<VSwitch
 					inset
 					dense
-					disabled
 					v-model="isDeleteOldEvents"
 					label="Видалити події після копіюваня"
 				></VSwitch>
@@ -83,7 +103,7 @@
 				<VBtn color="error" text @click="onCancel"> Скасувати </VBtn>
 				<VBtn
 					color="primary"
-					@click="onDublicate"
+					@click="onDublicate()"
 					:disabled="isLoading"
 					:loading="isLoading"
 				>
@@ -96,8 +116,28 @@
 
 <script>
 import sheduleService from '@/request/shedule/sheduleService';
-
 export default {
+	watch: {
+		dates: {
+			deep: true,
+			handler(e) {
+				let [start_date, end_date] = e;
+				const start = new Date(start_date).getTime();
+				const end = new Date(end_date).getTime();
+
+				if (start_date && end_date) {
+					if (start > end) {
+						this.dates = [end_date, start_date];
+					}
+					this.onDublicate(true, 0);
+				}
+			},
+		},
+		chosenDates: {
+			deep: true,
+			handler(e) {},
+		},
+	},
 	props: {
 		visible: {
 			require: true,
@@ -110,25 +150,31 @@ export default {
 		isAutoUpdate: false,
 		isLoading: false,
 		dates: [],
-		isDeleteOldEvents: false,
+		isDeleteOldEvents: true,
 		isAutoUpdate: false,
 		amountDublicate: 7,
+		chosenDates: [],
 		dublicatePeriods: [
 			{
 				amount: 7,
 				title: 'Тиждень',
 			},
 		],
+		isLoadingSearch: false,
 	}),
 	methods: {
+		getDayTxt(data) {
+			return DAY[new Date(data).getUTCDay()];
+		},
 		onCancel() {},
 		async onCancel() {
 			this.dates = [];
 			this.$emit('close');
 		},
-		async onDublicate() {
+		async onDublicate(onPreview = false, saveEvents = 1) {
 			try {
-				this.isLoading = true;
+				this.isLoading = onPreview ? false : true;
+				this.isLoadingSearch = onPreview ? true : false;
 				const [start_date, end_date] = this.dates;
 				if (!start_date || !end_date) {
 					throw new Error('Виберіть початкову та кінцеву дату');
@@ -137,12 +183,21 @@ export default {
 					start: start_date,
 					end: end_date,
 					group: this.group,
+					delete: this.isDeleteOldEvents && !onPreview ? 1 : 0,
+					save: saveEvents,
 				});
-					// isDeleteOldEvents: this.isDeleteOldEvents,
-				this.$emit('dublicateEvents',this.group,);
+				if (!onPreview) {
+					this.$emit('dublicateEvents', this.group);
+				} else {
+					this.chosenDates = res.result;
+					console.log(this.chosenDates);
+				}
 				this.isLoading = false;
+				this.isLoadingSearch = false;
 			} catch (e) {
+				this.isLoadingSearch = false;
 				this.isLoading = false;
+
 				alert(e);
 			}
 		},

@@ -75,13 +75,28 @@
 						<v-icon left>mdi-calendar-clock</v-icon>
 					</div>
 					<div v-else>
-						<VBtn fab small color="white" class="mr-3">
-							<v-icon
-								:color="selectedEvent.color"
-								@click="OnEdit(selectedEvent._id)"
-								>mdi-pencil</v-icon
-							>
-						</VBtn>
+						<div class="d-flex">
+								<VBtn small color="white" class="mr-3 btn-sm">
+									<v-icon
+										small
+										:color="selectedEvent.color"
+										@click="OnEdit(selectedEvent._id)"
+										style="pointer-event:none"
+										>mdi-pencil</v-icon
+									>
+								</VBtn>
+
+
+								<VBtn small color="white" class="mr-3 btn-sm" @click="OnDelete(selectedEvent)">
+									<v-icon
+										small
+										color="red"
+										style="pointer-event:none"
+										>mdi-delete</v-icon
+									>
+								</VBtn>
+
+						</div>
 					</div>
 					<v-toolbar-title
 						class="text-truncate w-75"
@@ -196,6 +211,11 @@ export default {
 		isShowError: false,
 	}),
 	methods: {
+		OnDelete(e){
+			this.$emit('deleteEvent',e)
+			this.selectedOpen = false
+
+		},
 		onCopy() {
 			console.log('copy');
 			this.isShowCopied = true;
@@ -268,6 +288,11 @@ export default {
 </script>
 
 <style lang="scss">
+.btn-sm {
+	min-width: unset !important;
+	height: 30px !important;
+	width: 30px !important;
+}
 .v-calendar-daily__scroll-area {
 	&::-webkit-scrollbar {
 		width: 8px !important;

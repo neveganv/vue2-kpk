@@ -148,6 +148,7 @@
 					@editEvent="editEvent"
 					@getDate="getDate"
 					:setToday="setToday"
+					@deleteEvent="onDelete"
 				/>
 			</VCol>
 		</VRow>
@@ -241,11 +242,20 @@ DublicateEventsDialog,
 		},
 	},
 	methods: {
+		async onDelete(e){
+			await sheduleService.deleteEvent({
+				id:e._id
+			})
+			this.changeGroup(e.group._id)
+
+		},
 		onShowDublicateDialog(){
 				
 		},
 		getDate(e) {
-			this.calendarTitle = e;
+			this.calendarTitle = e
+
+
 		},
 		editEvent(e) {
 			this.visibleEditEvent = true;
