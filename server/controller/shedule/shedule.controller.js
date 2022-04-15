@@ -128,7 +128,7 @@ exports.findEventById = (req, res) => {
 };
 
 exports.copySchedule = async (req, res) => {
-
+	if (await guardToken.guardToken(req, res)) return false
 	// var date1 = new Date(req.query.start);
 	// var date2 = new Date(req.query.end);
 

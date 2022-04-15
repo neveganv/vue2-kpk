@@ -197,6 +197,7 @@ exports.findAll = async (req, res) => {
 };
 
 exports.deleteApplications = async (req, res) => {
+    if (await guardToken.guardToken(req, res)) return false
     let applications = JSON.parse(req.body.applications)
     console.log(applications)
 
