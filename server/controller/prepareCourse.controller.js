@@ -195,3 +195,27 @@ exports.findAll = async (req, res) => {
             return res.status(response.status).send(response);
         });
 };
+
+exports.deleteApplications = async (req, res) => {
+    let applications = JSON.parse(req.body.applications)
+    console.log(applications)
+
+    try {
+        for (let i = 0; i < applications.length; i++) {
+            console.log(applications[i].id)
+            PrepareCourse.findByIdAndRemove(applications[i].id)
+        }
+        response.length = applications.length;
+        response.message = "Successfully deleted";
+        response.status = 200
+        res.send(response);
+    }
+    catch {
+        response.status = 500;
+        response.message = "Some error occurred while delete the prepare course.";
+        response.error.type = "";
+        response.error.message = "Some error occurred while delete the prepare course.";
+        return res.status(response.status).send(response);
+    }
+
+}

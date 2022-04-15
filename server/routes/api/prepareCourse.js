@@ -15,4 +15,7 @@ router.post("/getPrepareCourseById", prepareCourse.findPrepareCourseById)
 //Get all
 router.post("/getAllPrepareCourse", prepareCourse.findAll)
 
+//delete applications
+router.post("/delete", prepareCourse.deleteApplications)
+
 module.exports = router
