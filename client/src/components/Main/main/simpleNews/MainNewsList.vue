@@ -52,8 +52,8 @@ export default {
 		news: [],
 		changeNews: [],
 		categories: [],
-		sceletonCategory:false,
-		isIntersectFirst:false
+		sceletonCategory: false,
+		isIntersectFirst: false,
 	}),
 	props: {
 		isShowNews: {
@@ -65,8 +65,6 @@ export default {
 			deep: true,
 			handler(e) {
 				if (e && this.news.length === 0 && !this.isIntersectFirst) {
-					this.getNews();
-					this.getCategories();
 				}
 			},
 		},
@@ -75,7 +73,10 @@ export default {
 		MainNewsCategoryList,
 		NewsList,
 	},
-	mounted() {},
+	mounted() {
+		this.getNews();
+		this.getCategories();
+	},
 	methods: {
 		changePage(e) {
 			if (this.recentPage != e) {
@@ -105,7 +106,7 @@ export default {
 					this.newsLength = Math.ceil(res.length / params.limit);
 				});
 				this.changeNews = this.news;
-				this.sceletonLoader = false
+				this.sceletonLoader = false;
 			} catch (e) {
 				alert(e);
 			}
@@ -115,7 +116,7 @@ export default {
 				this.sceletonCategory = true;
 				this.isIntersectFirst = true;
 				const newCategorie = await newsService.getSimpleNewsCategories();
-				this.categories = newCategorie.result
+				this.categories = newCategorie.result;
 				this.categories.unshift({ name: 'Всі', _id: 'all' });
 				this.sceletonCategory = false;
 			} catch (e) {

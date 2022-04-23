@@ -77,6 +77,9 @@ export default {
 			},
 		},
 	},
+	mounted(){
+		this.getSpecialities();
+	},
 	methods: {
 		onEmitPage() {
 			this.page += 1;

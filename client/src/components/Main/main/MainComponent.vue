@@ -11,6 +11,8 @@
 			/>
 			<!-- main image -->
 			<div
+				v-intersect="onIntersectTitle"
+				id="MainComponent"
 				class="first-screen my-container"
 				:class="{
 					md: $vuetify.breakpoint.md,
@@ -52,14 +54,20 @@
 			</div>
 			<!-- cool news -->
 			<div
+				v-intersect.q="onIntersectTitle"
 				class="my-container"
+				id="RecentNewsComponent"
 				style="margin-top: 150px; margin-bottom: 150px"
 				:class="{ 'my-10': $vuetify.breakpoint.mdAndDown }"
 			>
 				<CoolNews />
 			</div>
 			<!-- specialities  -->
-			<div class="my-container" v-intersect="onIntersectSpecialities">
+			<div
+				class="my-container"
+				v-intersect="onIntersectTitle"
+				id="SpecialitiesComponent"
+			>
 				<VRow
 					align="center"
 					justify="space-between"
@@ -98,20 +106,25 @@
 			<!-- news list -->
 			<div
 				class="my-container"
-				v-intersect="onIntersectNews"
+				v-intersect="onIntersectTitle"
 				:class="{ 'mt-5': $vuetify.breakpoint.mdAndDown }"
+				id="NewsComponent"
 			>
 				<MainNewsList :isShowNews="isShowNews" />
 			</div>
 			<div
-				v-intersect="onIntersectFooter"
+				v-intersect="onIntersectTitle"
 				class="my-container"
 				style="margin-top: 120px"
 				id="InformationComponent"
 			>
 				<FooterComponent :isShowFooter="isShowFooter" />
 			</div>
-			<div class="my-4">
+			<div
+				class="my-4"
+				v-intersect="onIntersectTitle"
+				id="InformationComponent"
+			>
 				<my-header menu="true" @onBurger="onBurger" />
 			</div>
 		</div>
@@ -120,6 +133,8 @@
 				@onBurgerNav="onBurgerNav"
 				:navigationRight="navigationRight"
 				:onActiveHeader="onActiveHeader"
+				:activeNavigator="activeNavigator"
+				@scrollTo="scrollTo"
 			/>
 		</div>
 	</div>
@@ -146,6 +161,7 @@ export default {
 		isShowAbout: false,
 		isSpecialities: false,
 		globalRightNavigation: '',
+		activeNavigator: 'MainComponent',
 	}),
 	components: {
 		MyHeader,
@@ -200,6 +216,10 @@ export default {
 		}, 500);
 	},
 	methods: {
+		scrollTo(id) {
+			window.scrollTo(0, document.getElementById(id).offsetTop);
+			this.activeNavigator = id;
+		},
 		onScroll(e) {
 			this.oldValueTop = this.windowTop;
 			this.windowTop = e.target.documentElement.scrollTop;
@@ -208,16 +228,14 @@ export default {
 			if (!this.$vuetify.breakpoint.mdAndDown && this.globalRightNavigation) {
 				this.navigationRight = !entries[0].isIntersecting;
 			}
-			this.isShowAbout = entries[0].isIntersecting;
+
+			// this.isShowAbout = entries[0].isIntersecting;
+			this.onIntersectTitle(entries);
 		},
-		onIntersectFooter(entries, observer) {
-			this.isShowFooter = entries[0].isIntersecting;
-		},
-		onIntersectNews(entries, observer) {
-			this.isShowNews = entries[0].isIntersecting;
-		},
-		onIntersectSpecialities(entries, observer) {
-			this.isSpecialities = entries[0].isIntersecting;
+		onIntersectTitle(entries) {
+			if (entries[0].isIntersecting) {
+				this.activeNavigator = entries[0].target.id;
+			}
 		},
 		onCloseNavigation() {
 			this.navigationRight = false;

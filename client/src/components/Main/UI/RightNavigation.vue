@@ -90,7 +90,7 @@
 					</div>
 
 					<VSubheader>Корисні посилання</VSubheader>
-					<div class="sponsor__wrapper">
+					<div class="sponsor__wrapper mb-5">
 						<div
 							class="sponsor__inner my-2"
 							v-for="sponsor in sponsors"
@@ -127,9 +127,12 @@
 							</div>
 						</div>
 					</div>
+					<VDivider  class="mb-5 mx-4"/>
+					<my-navigation-list :activeNavigator="activeNavigator" @scrollTo="scrollTo"/>
 				</v-container>
 			</v-sheet>
 		</div>
+
 	</v-navigation-drawer>
 </template>
 
@@ -137,10 +140,15 @@
 import partnersService from '@/request/partners/partnersService';
 import loader from '@/mixins/loader';
 import icons from '@/mixins/icons';
+import myNavigationList from './my-navigation-list.vue';
 
 export default {
+  components: { myNavigationList },
 	mixins: [loader, icons],
 	methods: {
+		scrollTo(id){
+			this.$emit('scrollTo',id)
+		},
 		onClickAboutCol() {
 			let AboutComponent = document.querySelector('#AboutComponent');
 			if (this.$route.name !== 'main-page') {
@@ -236,6 +244,9 @@ export default {
 	}),
 
 	props: {
+		activeNavigator:{
+			require:true
+		},
 		onActiveHeader: {
 			require: true,
 		},

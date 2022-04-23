@@ -118,10 +118,13 @@ export default {
 			deep: true,
 			handler(e) {
 				if (e && this.images.length === 0 && !this.intersectFirst) {
-					this.getAllImages();
+					
 				}
 			},
 		},
+	},
+	mounted(){
+this.getAllImages();
 	},
 	methods: {
 		async getAllImages() {

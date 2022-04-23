@@ -1,44 +1,50 @@
 <template>
-	<div class="my-footer"
-	:class="{
-							md: $vuetify.breakpoint.md,
-							sm: $vuetify.breakpoint.sm,
-							xs: $vuetify.breakpoint.xs,
-						}">
+	<div
+		class="my-footer"
+		:class="{
+			md: $vuetify.breakpoint.md,
+			sm: $vuetify.breakpoint.sm,
+			xs: $vuetify.breakpoint.xs,
+		}"
+	>
 		<my-divider class="my-3" :height="1" />
 		<v-slide-x-transition>
-		<VRow no-gutters class="my-footer__inner" v-if="folders.length > 0  && !sceletonLoader">
-			<VCol
-				cols="12"
-				xl="4"
-				md="4"
-				sm="4"
-				class="my-footer__col"
-				v-for="folder in folders"
-				:key="folder._id"
+			<VRow
+				no-gutters
+				class="my-footer__inner"
+				v-if="folders.length > 0 && !sceletonLoader"
 			>
-				<VCol class="my-footer__col-inner">
-					<VRow no-gutters class="my-footer__col-title">
-						<div class="mb-3">{{ folder.name || '--' }}</div>
-					</VRow>
-					<span
-						:class="{
-							'purple--text  font-weight-medium': page._id === $route.params.id,
-						}"
-						v-for="page in folder.pages"
-						:key="page._id"
-						@click="onClickPage(page._id)"
-						>{{ page.name || '--' }}</span
-					>
+				<VCol
+					cols="12"
+					xl="4"
+					md="4"
+					sm="4"
+					class="my-footer__col"
+					v-for="folder in folders"
+					:key="folder._id"
+				>
+					<VCol class="my-footer__col-inner">
+						<VRow no-gutters class="my-footer__col-title">
+							<div class="mb-3">{{ folder.name || '--' }}</div>
+						</VRow>
+						<span
+							:class="{
+								'purple--text  font-weight-medium':
+									page._id === $route.params.id,
+							}"
+							v-for="page in folder.pages"
+							:key="page._id"
+							@click="onClickPage(page._id)"
+							>{{ page.name || '--' }}</span
+						>
+					</VCol>
 				</VCol>
-			</VCol>
-		</VRow>
+			</VRow>
 		</v-slide-x-transition>
 		<VRow v-if="sceletonLoader" no-gutters>
 			<VCol cols="4" v-for="i in 6" :key="i">
 				<v-skeleton-loader type="article"></v-skeleton-loader>
 			</VCol>
-
 		</VRow>
 		<my-divider class="my-3" :height="1" />
 	</div>
@@ -50,28 +56,29 @@ import folderService from '@/request/folders/folderService';
 import pageService from '@/request/page/pageService';
 export default {
 	components: { myDivider },
-	mounted() {
-	},
+	mounted() {},
 	data: () => ({
 		folders: [],
 		sceletonLoader: true,
-		isIntersectFirst: false
+		isIntersectFirst: false,
 	}),
-	props:{
-		isShowFooter:{
-			require:true
-		}
+	props: {
+		isShowFooter: {
+			require: true,
+		},
 	},
-	watch:{
-		isShowFooter:{
-			deep:true,
-			handler(e){
-				if(e && this.folders.length === 0 && !this.isIntersectFirst) {
-					this.getFolders()
+	watch: {
+		isShowFooter: {
+			deep: true,
+			handler(e) {
+				if (e && this.folders.length === 0 && !this.isIntersectFirst) {
+					this.getFolders();
 				}
-			}
-		}
-
+			},
+		},
+	},
+	mounted() {
+		this.getFolders();
 	},
 	methods: {
 		onClickPage(e) {
@@ -88,9 +95,8 @@ export default {
 					item.pages = newPage.result.filter(e => e.folder._id == item._id);
 				});
 				this.sceletonLoader = false;
-
 			} catch (e) {
-				console.warn(e)
+				console.warn(e);
 			}
 		},
 	},
