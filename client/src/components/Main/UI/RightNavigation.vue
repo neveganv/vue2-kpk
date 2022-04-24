@@ -88,7 +88,8 @@
 						</v-list>
 						<VDivider class="mx-5" />
 					</div>
-
+					<my-navigation-list :activeNavigator="activeNavigator" @scrollTo="scrollTo" class="mt-4"/>
+					<VDivider  class="mt-5 mx-4"/>
 					<VSubheader>Корисні посилання</VSubheader>
 					<div class="sponsor__wrapper mb-5">
 						<div
@@ -127,8 +128,7 @@
 							</div>
 						</div>
 					</div>
-					<VDivider  class="mb-5 mx-4"/>
-					<my-navigation-list :activeNavigator="activeNavigator" @scrollTo="scrollTo"/>
+
 				</v-container>
 			</v-sheet>
 		</div>

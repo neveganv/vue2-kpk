@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h2 class="pb-3 pl-2">Навігація</h2>
+		<h3 class="pb-3 pl-2">Навігація</h3>
 		<ul>
 			<li
                 @click="scrollTo(item.value)"
@@ -78,6 +78,7 @@ li {
 	border-left: 2.5px solid #e5e5e5;
 	color: rgb(126, 126, 126);
 	cursor: pointer;
+	font-size: 14px;
 	&:hover {
 		color: rgb(77, 77, 77);
 	}
