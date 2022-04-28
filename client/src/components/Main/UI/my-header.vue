@@ -140,8 +140,7 @@
 									@click="onClickInformation"
 								>
 									<span style="text-align:center;line-height:normal">
-										Oрганізація освітнього<br />
-										процесу
+									Освітній процес
 									</span>
 								</div>
 							</div>
