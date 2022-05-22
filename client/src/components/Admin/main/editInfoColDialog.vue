@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility" scrollable>
-		<VCard width="700" :disable="isLoading" :loading="isLoading">
+		<VCard width="700" :disabled="isLoading" :loading="isLoading">
 			<VCardTitle>
 				Інформація про коледж
 				<VSpacer />
@@ -12,7 +12,7 @@
 			<VCardText class="mt-5">
 				<vue-editor
 					v-model="collegeInfo.info"
-					:disable="isLoading"
+					:disabled="isLoading"
 				></vue-editor>
 			</VCardText>
 			<VDivider class="mx-5" />

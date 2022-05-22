@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility" @click:outside="outsideClick">
-		<VCard width="700" :disable="isLoading" :loading="isLoading">
+		<VCard width="700" :disabled="isLoading" :loading="isLoading">
 			<v-stepper v-model="e1">
 				<v-stepper-header>
 					<v-stepper-step :complete="e1 > 1" step="1" v-if="!event.group">

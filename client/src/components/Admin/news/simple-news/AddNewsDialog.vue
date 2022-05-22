@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility" @click:outside="$v.$reset()" scrollable>
-		<VCard width="700" :disable="isLoading" :loading="isLoading">
+		<VCard width="700" :disabled="isLoading" :loading="isLoading">
 			<VCardTitle v-if="chosenNews">
 				<VRow align="center">
 					<VCol>Оновити новину</VCol>

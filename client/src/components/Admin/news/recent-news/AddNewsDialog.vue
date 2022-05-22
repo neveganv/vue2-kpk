@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility" @click:outside="$v.$reset()" scrollable>
-		<VCard width="700" :color="isArchived === 0 ? 'white' : 'grey lighten-3'" :disable="isLoading" :loading="isLoading">
+		<VCard width="700" :color="isArchived === 0 ? 'white' : 'grey lighten-3'" :disabled="isLoading" :loading="isLoading">
 			<VCardTitle v-if="chosenNews">
 				Оновити Нещодавну Новину
 				<VSpacer />

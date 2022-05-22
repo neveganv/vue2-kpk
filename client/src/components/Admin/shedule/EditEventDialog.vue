@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility">
-		<VCard :disable="isLoading" :loading="isLoading">
+		<VCard :disabled="isLoading" :loading="isLoading">
 			<VCardTitle> Оновлення Події </VCardTitle>
 			<VCardText>
 				<VRow>

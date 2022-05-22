@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility" width="600" content-class="c-dialog">
-		<VCard :disable="isLoading" :loading="isLoading">
+		<VCard :disabled="isLoading" :loading="isLoading">
 			<VCardTitle v-if="isEditFolder && !addPageVisibility">
 				Редагувати папку
 			</VCardTitle>
@@ -100,7 +100,7 @@
 					color="primary"
 					@click="onCreateFolder"
 					v-if="!addPageVisibility && !isEditFolder"
-					:disable="isLoading"
+					:disabled="isLoading"
 					:loading="isLoading"
 				>
 					Додати Папку
@@ -110,7 +110,7 @@
           text
 					@click="onDeleteFolder"
 					v-if="!addPageVisibility && isEditFolder"
-					:disable="isLoading"
+					:disabled="isLoading"
 				>
 					Видалити папку
 				</VBtn>
@@ -118,7 +118,7 @@
 					color="primary"
 					@click="onUpdateFolder"
 					v-if="!addPageVisibility && isEditFolder"
-					:disable="isLoading"
+					:disabled="isLoading"
 					:loading="isLoading"
 				>
 					Редагувати папку
@@ -127,7 +127,7 @@
 					color="primary"
 					@click="onCreatePage"
 					v-if="addPageVisibility"
-					:disable="isLoading"
+					:disabled="isLoading"
 					:loading="isLoading"
 				>
 					Додати Сторінку

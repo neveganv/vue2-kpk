@@ -17,7 +17,7 @@
 				>
 				<VIcon small>mdi-chevron-right</VIcon>
 				<VCol cols="auto"
-					><VBtn text color="primary" rounded v-if="page">
+					><VBtn text color="primary" rounded v-if="page" @click="onChangePage">
 						<VIcon left> mdi-file-edit-outline </VIcon>{{ page.name || '--' }}
 					</VBtn></VCol
 				>
@@ -126,6 +126,13 @@
 			:editFolder="page.folder"
 			@update="changedFolder"
 		/>
+		<edit-page-dialog
+			:editPage="page"
+			v-if="editPageVisible"
+			:visible="editPageVisible"
+			@close="editPageVisible = false"
+			@update="changedPage"
+		/>
 		<AddNewPdfDIalog
 			v-if="pdfVisible"
 			:visible="pdfVisible"
@@ -153,6 +160,7 @@ import Editor from '../../../../ckeditor5/build/ckeditor';
 // import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 
 import user from '@/mixins/user';
+import EditPageDialog from '../Layout/EditPageDialog.vue';
 
 export default {
 	mixins: [loader, user],
@@ -161,6 +169,7 @@ export default {
 		AddNewPageDialog,
 		AddNewPdfDIalog,
 		VuePdfApp,
+		EditPageDialog,
 	},
 	data: () => ({
 		page: [],
@@ -178,6 +187,7 @@ export default {
 		pdfVisible: false,
 		numPages: undefined,
 		editor: Editor,
+		editPageVisible:false,
 		editorConfig: {
 			// The configuration of the editor.
 		},
@@ -301,6 +311,14 @@ export default {
 			this.isEditFolder = true;
 			this.editFolderVisivle = true;
 		},
+		onChangePage(){
+			this.editPageVisible = true
+		},
+		changedPage(){
+			this.getPage();
+			this.editPageVisible = false;
+
+		},	
 		changedFolder() {
 			this.getPage();
 			this.editFolderVisivle = false;

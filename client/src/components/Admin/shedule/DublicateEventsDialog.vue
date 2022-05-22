@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility">
-		<VCard width="700" :disable="isLoading" :loading="isLoading">
+		<VCard width="700" :disabled="isLoading" :loading="isLoading">
 			<VCardTitle>
 				<VRow>
 					<VCol>

@@ -1,6 +1,6 @@
 <template>
 	<VDialog v-model="visibility" :persistent="edit">
-		<VCard width="700" :disable="isLoading" :loading="isLoading">
+		<VCard width="700" :disabled="isLoading" :loading="isLoading">
 			<VCardTitle v-if="edit"> Редагувати користувача </VCardTitle>
 			<VCardTitle v-else> Додати користувача </VCardTitle>
 			<VCardText>
