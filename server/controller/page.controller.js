@@ -46,7 +46,7 @@ exports.create = async (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    Page.find()
+    Page.find().select('_id folder name')
         .populate('folder')
         .then(data => {
             response.length = data.length;
