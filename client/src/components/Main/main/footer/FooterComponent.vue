@@ -112,7 +112,7 @@ export default {
 		font-family: Montserrat;
 
 		font-size: 17px;
-		font-weight: normal;
+		font-weight: 500;
 	}
 	span {
 		display: flex;
