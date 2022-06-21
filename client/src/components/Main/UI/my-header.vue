@@ -116,7 +116,7 @@
 											<v-list-item-group color="purple">
 												<div v-for="(item, i) in enteredPage" :key="i">
 													<VDivider v-if="i > 0" class="mx-5" />
-													<v-list-item :to="{ name: item.link }">
+													<v-list-item @click="onClickEntered(item)">
 														<v-list-item-content>
 															<VRow
 																no-gutters
@@ -210,6 +210,12 @@ export default {
 				icon: 'mdi-school',
 				link: 'main-entrant-prepare',
 			},
+			{
+				text: 'Приймальна комісія',
+				icon: 'mdi-account-multiple',
+				link: 'main-entrant-prepare',
+				value: 'scroll-to-bottom'
+			},
 		],
 	}),
 	props: {
@@ -229,6 +235,16 @@ export default {
 		},
 	},
 	methods: {
+		onClickEntered({link,value}){
+			if(value){
+
+				this.onClickInformation()
+			}
+			else{
+				this.$router.push({name:link})
+			}
+
+		},
 		onClickMain() {
 			if (this.$route.name === 'main-page') {
 				window.scrollTo(0, 0);

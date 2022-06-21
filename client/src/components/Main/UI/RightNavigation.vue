@@ -25,12 +25,12 @@
 									</v-list-item-content>
 								</v-list-item>
 								<!-- <v-list-item @click="onClickAboutCol"> -->
-									<!-- <v-list-item-icon
+								<!-- <v-list-item-icon
 										style="margin-right: 15px; margin-left: 1px"
 									>
 										<v-icon dense>mdi-information-outline</v-icon>
 									</v-list-item-icon> -->
-									<!-- <v-list-item-content>
+								<!-- <v-list-item-content>
 										<v-list-item-title> Про Коледж</v-list-item-title>
 									</v-list-item-content> -->
 								<!-- </v-list-item> -->
@@ -45,7 +45,7 @@
 								<v-list-item
 									v-for="(item, i) in entrantPage"
 									:key="i"
-									:to="{ name: item.link }"
+									@click="onClickEntered(item)"
 								>
 									<v-list-item-title v-text="item.text"></v-list-item-title>
 
@@ -88,8 +88,12 @@
 						</v-list>
 						<VDivider class="mx-5" />
 					</div>
-					<my-navigation-list :activeNavigator="activeNavigator" @scrollTo="scrollTo" class="mt-4"/>
-					<VDivider  class="mt-5 mx-4"/>
+					<my-navigation-list
+						:activeNavigator="activeNavigator"
+						@scrollTo="scrollTo"
+						class="mt-4"
+					/>
+					<VDivider class="mt-5 mx-4" />
 					<VSubheader>Корисні посилання</VSubheader>
 					<div class="sponsor__wrapper mb-5">
 						<div
@@ -128,11 +132,9 @@
 							</div>
 						</div>
 					</div>
-
 				</v-container>
 			</v-sheet>
 		</div>
-
 	</v-navigation-drawer>
 </template>
 
@@ -143,11 +145,18 @@ import icons from '@/mixins/icons';
 import myNavigationList from './my-navigation-list.vue';
 
 export default {
-  components: { myNavigationList },
+	components: { myNavigationList },
 	mixins: [loader, icons],
 	methods: {
-		scrollTo(id){
-			this.$emit('scrollTo',id)
+		onClickEntered({ link, value }) {
+			if (value) {
+				this.onClickInformation();
+			} else {
+				this.$router.push({ name: link });
+			}
+		},
+		scrollTo(id) {
+			this.$emit('scrollTo', id);
 		},
 		onClickAboutCol() {
 			let AboutComponent = document.querySelector('#AboutComponent');
@@ -240,12 +249,18 @@ export default {
 				icon: 'mdi-school',
 				link: 'main-entrant-prepare',
 			},
+			{
+				text: 'Приймальна комісія',
+				icon: 'mdi-account-multiple',
+				link: 'main-entrant-prepare',
+				value: 'scroll-to-bottom',
+			},
 		],
 	}),
 
 	props: {
-		activeNavigator:{
-			require:true
+		activeNavigator: {
+			require: true,
 		},
 		onActiveHeader: {
 			require: true,
