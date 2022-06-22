@@ -250,7 +250,7 @@ export default {
 				link: 'main-entrant-prepare',
 			},
 			{
-				text: 'Приймальна комісія',
+				text: 'Вступна кампанія',
 				icon: 'mdi-account-multiple',
 				link: 'main-entrant-prepare',
 				value: 'scroll-to-bottom',
