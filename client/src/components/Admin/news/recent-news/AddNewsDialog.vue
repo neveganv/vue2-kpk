@@ -112,7 +112,7 @@
 				</VRow> -->
 				<VRow>
 					<VCol>
-						<v-textarea
+						<!-- <v-textarea
 							append-icon="mdi-information"
 							v-model="news.content"
 							label="Інформація"
@@ -123,7 +123,9 @@
 							outlined
 							:error-messages="ContentError"
 							auto-grow
-						></v-textarea>
+						></v-textarea> -->
+					<vue-editor class="editor w-100 pl-2" v-model="news.content" />
+
 					</VCol>
 				</VRow>
 			</VCardText>
@@ -155,6 +157,8 @@
 </template>
 
 <script>
+import { VueEditor } from 'vue2-editor';
+
 import { validationMixin } from 'vuelidate';
 import { required, maxLength } from 'vuelidate/lib/validators';
 import moment from 'moment';
@@ -280,6 +284,9 @@ export default {
 				this.isArchived = this.news.isArchived;
 			},
 		},
+	},
+	components:{
+		VueEditor
 	},
 	computed: {
 		visibility: {

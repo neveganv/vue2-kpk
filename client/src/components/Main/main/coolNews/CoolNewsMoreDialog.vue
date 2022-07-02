@@ -26,8 +26,7 @@
 				<div class="img__wraper" :class="{ sm: $vuetify.breakpoint.smAndDown }">
 					<img :src="moreDialogContent.img" alt="" align="left" />
 				</div>
-				<p class="text">
-					{{ moreDialogContent.content || '--' }}
+				<p class="text" v-html="moreDialogContent.content">
 				</p>
 			</VCardText>
 		</VCard>

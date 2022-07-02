@@ -21,12 +21,9 @@
 							md: $vuetify.breakpoint.smAndDown,
 						}"
 					>
-						<div class="font-weight-bold news__title" :class="{'text-caption': $vuetify.breakpoint.smAndDown}">
-							{{ activeNew.title || '--' }}
+						<div class="font-weight-bold news__title" v-html="activeNew.title" :class="{'text-caption': $vuetify.breakpoint.smAndDown}">
 						</div>
-						<div :class="{'text-caption': $vuetify.breakpoint.smAndDown}">
-
-						{{ copyActiveNew.content || 'На жаль ця новина поки не заповнена' }}
+						<div :class="{'text-caption': $vuetify.breakpoint.smAndDown}" v-html=" copyActiveNew.content || 'На жаль ця новина поки не заповнена' ">
 						</div>
 
 						<VBtn
