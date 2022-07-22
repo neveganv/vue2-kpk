@@ -187,7 +187,7 @@ export default {
 		pdfVisible: false,
 		numPages: undefined,
 		editor: Editor,
-		editPageVisible:false,
+		editPageVisible: false,
 		editorConfig: {
 			// The configuration of the editor.
 		},
@@ -276,21 +276,28 @@ export default {
 			}
 		},
 		async getPage() {
-			this.setLoading(true);
-			const newPage = await pageService.getOne({ _id: this.$route.params.id });
-			this.page = newPage.result[0];
-			this.oldPage = { ...newPage.result[0] };
-			this.cancelDisabled = false;
-			for (let i = 0; i < this.page.files.length; i++) {
-				this.page.files[i]['active'] = false;
+			try {
+				this.setLoading(true);
+				const newPage = await pageService.getOne({
+					_id: this.$route.params.id,
+				});
+				this.page = newPage.result[0];
+				this.oldPage = { ...newPage.result[0] };
+				this.cancelDisabled = false;
+				for (let i = 0; i < this.page?.files?.length; i++) {
+					this.page.files[i]['active'] = false;
+				}
+				console.log(this.page);
+				if (!this.page) {
+					this.$router.push({ name: 'admin-permission-guard' });
+				} else {
+					this.folderName = this.page.folder.name;
+				}
+				this.setLoading(false);
+			} catch (e) {
+				console.log(e);
+				this.setLoading(false);
 			}
-			console.log(this.page);
-			if (!this.page) {
-				this.$router.push({ name: 'admin-permission-guard' });
-			} else {
-				this.folderName = this.page.folder.name;
-			}
-			this.setLoading(false);
 		},
 		async onCreate() {
 			const params = [];
@@ -311,14 +318,13 @@ export default {
 			this.isEditFolder = true;
 			this.editFolderVisivle = true;
 		},
-		onChangePage(){
-			this.editPageVisible = true
+		onChangePage() {
+			this.editPageVisible = true;
 		},
-		changedPage(){
+		changedPage() {
 			this.getPage();
 			this.editPageVisible = false;
-
-		},	
+		},
 		changedFolder() {
 			this.getPage();
 			this.editFolderVisivle = false;

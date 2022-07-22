@@ -77,8 +77,8 @@ export default {
 		rules: [
 			value =>
 				!value ||
-				value.size < 5e7 ||
-				'Розмір файлу повинен бути менше 50 MB!',
+				value.size < 2e6 ||
+				'Розмір файлу повинен бути менше 2 MB!',
 		],
 	}),
 	validations: {
