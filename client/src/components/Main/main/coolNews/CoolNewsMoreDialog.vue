@@ -26,7 +26,7 @@
 				<div class="img__wraper" :class="{ sm: $vuetify.breakpoint.smAndDown }">
 					<img :src="moreDialogContent.img" alt="" align="left" />
 				</div>
-				<p class="text" v-html="moreDialogContent.content">
+				<p class="text wrapper" v-html="moreDialogContent.content">
 				</p>
 			</VCardText>
 		</VCard>
@@ -57,6 +57,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wrapper{
+	max-width: 800px;
+	img{
+		max-height: 200px;
+		width: 100%;
+		height: 100%;
+	}
+}
 .img__wraper {
 	width: 50%;
 	height: 220px;

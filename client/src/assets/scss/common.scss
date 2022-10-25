@@ -119,12 +119,12 @@ html {
 ::-webkit-scrollbar {
 	width: 10px;
 	height: 10px;
-	background-color: rgb(245, 245, 244);
+	background-color: rgb(255, 255, 255);
 }
 /* ползунок скроллбара */
 ::-webkit-scrollbar-thumb {
 	background-color: rgb(113, 113, 113);
-	border: 2px solid rgb(245, 245, 244);
+	border: 2px solid rgb(255, 255, 255);
 	border-radius: 9em;
 }
 ::-webkit-scrollbar-thumb:hover {

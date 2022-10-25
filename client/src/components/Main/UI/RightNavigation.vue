@@ -89,11 +89,12 @@
 						<VDivider class="mx-5" />
 					</div>
 					<my-navigation-list
+						v-if="$route.name === 'main-page'"
 						:activeNavigator="activeNavigator"
 						@scrollTo="scrollTo"
 						class="mt-4"
 					/>
-					<VDivider class="mt-5 mx-4" />
+					<VDivider class="mt-5 mx-4" 	v-if="$route.name === 'main-page'"/>
 					<VSubheader>Корисні посилання</VSubheader>
 					<div class="sponsor__wrapper mb-5">
 						<div

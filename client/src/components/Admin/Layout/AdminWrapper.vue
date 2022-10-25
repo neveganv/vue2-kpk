@@ -4,9 +4,7 @@
 			<v-app-bar color="white" style="height: 65px; top: 0; z-index: 1">
 				<VAppBarNavIcon @click="mini = !mini"></VAppBarNavIcon>
 				<div class="admin-logo ml-4">
-					<VBadge color="error" overlap right bottom text content="beta">
 						<img :src="require('@/assets/img/admin_logo.png')" alt="" />
-					</VBadge>
 				</div>
 				<VSpacer></VSpacer>
 				<VBtn icon class="mr-5">

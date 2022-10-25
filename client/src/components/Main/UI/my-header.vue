@@ -20,7 +20,6 @@
 				>
 					<VRow no-gutters aling="center" justify="space-between" class="py-2">
 						<div :style="onActiveHeader ? 'width: 45px' : ' width:90px'">
-							<VBadge color="error" overlap right bottom text content="Beta">
 								<img
 									@click="$router.push({ path: '/' }).catch(err => err)"
 									:src="require('@/assets/img/main-logo.svg')"
@@ -36,7 +35,6 @@
 									}"
 									style="cursor: pointer"
 								/>
-							</VBadge>
 						</div>
 						<v-fade-transition>
 							<div class="nav" v-if="!$vuetify.breakpoint.mdAndDown">

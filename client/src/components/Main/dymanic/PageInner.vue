@@ -20,7 +20,7 @@
 			<VRow no-gutters v-if="page && !sceletonLoader" class="h-auto">
 				<div v-if="page.html" class="w-100">
 					<VCard>
-						<VCardText>
+						<VCardText style="overflow-y: scroll;">
 							<div v-html="page.html" class="editor w-100"></div>
 						</VCardText>
 					</VCard>
