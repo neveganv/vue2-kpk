@@ -12,8 +12,6 @@ let response = {
 
 // Create a new optionsList
 exports.create = async (req, res) => {
-    if (await guardToken.guardToken(req, res)) return false
-
     if (req.body) {
         let validateError = {
             status: 400,
