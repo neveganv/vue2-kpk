@@ -3,7 +3,7 @@
 		<h3 class="pb-3 pl-2">Навігація</h3>
 		<ul>
 			<li
-                @click="scrollTo(item.value)"
+                @click="scrollTo(item)"
 				v-for="item in navigateData"
 				:key="item.value"
 				:class="{ active: item.value === activeNavigator }"
@@ -55,11 +55,20 @@ export default {
 				text: 'Інформація',
 				value: 'InformationComponent',
 			},
+			{
+				text: 'ВИБОРИ ДИРЕКТОРА',
+				value: null,
+				link:"https://kpk-lp.com.ua/page/63a477e43052e64364e0de68"
+			},
 		],
 	}),
     methods:{
-        scrollTo(id){
-            this.$emit('scrollTo',id)
+        scrollTo({value,link}){
+			if(!value){
+     	 	window.open(link, "_blank");
+			}else{
+				this.$emit('scrollTo',value)
+			}
         }
     },
 	mounted() {
