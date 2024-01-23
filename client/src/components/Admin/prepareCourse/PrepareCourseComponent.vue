@@ -30,14 +30,13 @@
 					prepend-inner-icon="mdi-magnify"
 				/>
 			</VCol> -->
-			<v-slide-x-reverse-transition>
-				<VCol class="mx-2" style="width: 50px" cols="auto">
-					<VBtn icon color="red" v-if="chosenItems.length" @click="onDelete">
-						<VIcon> mdi-delete-outline </VIcon>
+				<VCol class="mx-2" cols="auto">
+					<VBtn  color="red" :disabled="!chosenItems.length" @click="onDelete" elevation="3"
+							>
+						<VIcon color="white"> mdi-delete-outline </VIcon>
 					</VBtn>
 				</VCol>
-			</v-slide-x-reverse-transition>
-			<VCol cols="3" class="ml-4">
+			<VCol cols="2" class="ml-4">
 				<VSelect
 					solo
 					dense
@@ -128,6 +127,7 @@ export default {
 			await prepareCourseService.deleteCourseList({
 				applications: JSON.stringify(this.chosenItems),
 			});
+			this.chosenItems = false,
 			this.getAllPrepareUser();
 		},
 		onChoseItem(e) {

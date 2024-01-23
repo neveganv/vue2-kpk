@@ -15,18 +15,20 @@ app.use(express.json({
     limit: '15mb',
 }));
 
-var allowedOrigins = ['https://kpk-lp.com.ua','http://localhost:8080','https://dev.kpk-lp.com.ua'];
-app.use(cors({
-  origin: function(origin, callback){
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
-      var msg = 'The CORS policy for this site does not ' +
-                'allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  }
-}));
+// var allowedOrigins = ['https://kpk-lp.com.ua','https://www.kpk-lp.com.ua','http://localhost:8080','https://dev.kpk-lp.com.ua',"*"];
+// app.use(cors({
+//   origin: function(origin, callback){
+//     if(!origin) return callback(null, true);
+//     if(allowedOrigins.indexOf(origin) === -1){
+//       var msg = 'The CORS policy for this site does not ' +
+//                 'allow access from the specified Origin.';
+//       return callback(new Error(msg), false);
+//     }
+//     return callback(null, true);
+//   }
+// }));
+app.use(cors())
+
 
 
 app.use('/uploads', express.static(__dirname + '/public/uploads'));

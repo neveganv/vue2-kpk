@@ -3,7 +3,7 @@ import store from '@/store';
 import router from '@/router';
 
 //  const API_ENDPOINT = 'http://localhost:8000'
-const API_ENDPOINT = 'https://api-kpk.ml'
+const API_ENDPOINT = 'https://api.kpk-lp.com.ua'
 
 // ростік ше раз поміняєш це - я тебе зарубаю
 // const API_ENDPOINT = process.env.NODE_ENV == 'production' ? 'https://api-kpk.ml' : 'http://localhost:8000'

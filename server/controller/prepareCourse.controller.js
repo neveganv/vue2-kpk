@@ -110,34 +110,34 @@ exports.update = async (req, res) => {
         }
     };
 
-    if (!req.body) {
-        validateError.error.message = "Data to update can not be empty!";
-        return res.status(400).send(validateError);
-    }
-    if (!req.body.name) {
-        validateError.error.message = "Name is required";
-        return res.status(400).send(validateError);
-    }
-    if (!req.body.surname) {
-        validateError.error.message = "Surname is required";
-        return res.status(400).send(validateError);
-    }
-    if (!req.body.middle_name) {
-        validateError.error.message = "Middle name is required";
-        return res.status(400).send(validateError);
-    }
-    if (!req.body.parent_phone) {
-        validateError.error.message = "Parent phone is required";
-        return res.status(400).send(validateError);
-    }
-    if (!req.body.student_phone) {
-        validateError.error.message = "Student phone is required";
-        return res.status(400).send(validateError);
-    }
-    if (!req.body.pass_id) {
-        validateError.error.message = "Pass id is required";
-        return res.status(400).send(validateError);
-    }
+    // if (!req.body) {
+    //     validateError.error.message = "Data to update can not be empty!";
+    //     return res.status(400).send(validateError);
+    // }
+    // if (!req.body.name) {
+    //     validateError.error.message = "Name is required";
+    //     return res.status(400).send(validateError);
+    // }
+    // if (!req.body.surname) {
+    //     validateError.error.message = "Surname is required";
+    //     return res.status(400).send(validateError);
+    // }
+    // if (!req.body.middle_name) {
+    //     validateError.error.message = "Middle name is required";
+    //     return res.status(400).send(validateError);
+    // }
+    // if (!req.body.parent_phone) {
+    //     validateError.error.message = "Parent phone is required";
+    //     return res.status(400).send(validateError);
+    // }
+    // if (!req.body.student_phone) {
+    //     validateError.error.message = "Student phone is required";
+    //     return res.status(400).send(validateError);
+    // }
+    // if (!req.body.pass_id) {
+    //     validateError.error.message = "Pass id is required";
+    //     return res.status(400).send(validateError);
+    // }
 
     const id = req.body.id;
     PrepareCourse.findByIdAndUpdate(

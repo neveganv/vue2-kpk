@@ -3,10 +3,11 @@
 		<VSimpleTable class="w-100" v-if="studentsList.length">
 			<thead>
 				<tr>
-					<th>
+					<th class="pl-6">
 						<v-checkbox v-model="checkAll" hide-details dense></v-checkbox>
 					</th>
 					<th>#</th>
+					<th>Дата</th>
 					<th>Ім'я</th>
 					<th>Прізвище</th>
 					<th>По батькові</th>
@@ -18,7 +19,7 @@
 			</thead>
 			<tbody>
 				<tr v-for="(item, index) in studentsList" :key="item._id">
-					<th>
+					<th class="pl-6">
 						<v-checkbox
 							v-model="selectedItem"
 							:value="item._id"
@@ -27,6 +28,11 @@
 						></v-checkbox>
 					</th>
 					<th>{{ ++index }}</th>
+					<td>
+						{{
+							moment(item.created).subtract(10, 'days').calendar() || '--'
+						}}
+					</td>
 					<td>{{ item.name || '--' }}</td>
 					<td>{{ item.surname || '--' }}</td>
 					<td>{{ item.middle_name || '--' }}</td>
